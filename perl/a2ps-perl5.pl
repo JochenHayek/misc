@@ -6,7 +6,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.35 1995/06/24 15:12:21 jh Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.36 1995/06/24 15:13:11 jh Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -437,8 +437,8 @@ sub _euc2jis {
 }
 
 sub print_header {
-    # use POSIX; # perl5
-    require('ctime.pl'); # perl4
+    use POSIX; # perl5
+    # require('ctime.pl'); # perl4
     return if $header_is_printed++;
 
     chop(local($date) = &ctime(time));
