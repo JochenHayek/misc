@@ -6,7 +6,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.39 1997/01/14 17:49:53 jhayek Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.40 1997/07/10 13:30:28 jh Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -540,7 +540,7 @@ sub print_header {
       }
     else
       {
-	if (1)
+	if (0)
 	  {
 	    print "[{\n";
 	    print "%%BeginFeature: *Duplex None\n\n";
