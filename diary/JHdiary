@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 19:32:06 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 21:02:54 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.48 1998/01/30 19:54:47 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 19:54:47 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.49 1998/01/30 21:04:23 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 21:04:23 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -68,6 +68,9 @@ sub main
     $main::options{echo_the_source_p}		= 1;
 
     $main::options{this_year}			= 'yyyy';
+
+    $main::options{from}			= '0000-00-00';
+    $main::options{to}				= '9999-99-99';
   }
 
   my($result) =
@@ -86,6 +89,9 @@ sub main
        ,'tag=s'			# used by --job_tag_match
 
        ,'this_year|year=s'	# used by --job_yearly_events
+
+       ,'from=s'
+       ,'to=s'
        );
   $result || die 'GetMain::Options failed';
 
@@ -226,18 +232,22 @@ sub job_work_at
   # within this loop quite some `local'-s are being used,
   # because this procedure was originally written in perl4;
 
+  my($date) = '    -  -  ';
+
   while (<>)
     {
       chop;
 
       my($other_tags);
 
-      if (m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
+      if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
 	{
 	  $this_day     = $_;
 	  $day_of_month = $1;
 	  $month        = $month_name2no{$2};
 	  $year         = $3;
+
+	  $date = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
 
 	  if (0 && $main::options{debug})
 	    {
@@ -253,7 +263,27 @@ sub job_work_at
 	  &work_at::set_day;
 	}
 
-      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
+      if(   $main::options{from} le $date
+	 && $date le $main::options{to}
+	)
+	{
+	  printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+	    ,'$main::options{from}',$main::options{from}
+	    ,'$date',$date
+	    ,'$main::options{to}',$main::options{to}
+	    if 0;
+	}
+      else
+	{
+	  printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+	    ,'$main::options{from}',$main::options{from}
+	    ,'$date',$date
+	    ,'$main::options{to}',$main::options{to}
+	    if 0;
+	  next;
+	}
+
+      if(m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
 	{
 	  local($start_hh,$start_mm) = ( $1, $2); local($start_min) = $start_hh * 60 + $start_mm;
 	  local($end_hh  ,$end_mm  ) = ( $3, $4); local($end_min  ) = $end_hh   * 60 + $end_mm;
@@ -337,7 +367,7 @@ sub job_work_at
 	  $::total_work__min += $work_min;
 
 	  &work_at::proc_entry
-	    ( 'year' => $year , 'month' => $month , 'day_of_month' => $day_of_month
+	    ( 'date' => $date
 
 	    , 'start_hh' => $start_hh , 'start_mm' => $start_mm
 	    ,   'end_hh' =>   $end_hh ,   'end_mm' =>   $end_mm
@@ -591,7 +621,7 @@ sub initialise
   $::fh_tbl0 = new FileHandle ">$ENV{'HOME'}/diary.month-tbl" ||
     die "cannot open month tbl: $! -";
 
-  $::fh_tbl1 = new FileHandle ">$ENV{'HOME'}/diary.month-tbl-1" ||
+  $::fh_csv0 = new FileHandle ">$ENV{'HOME'}/diary.work_at.csv" ||
     die "cannot open month tbl #1: $! -";
 
   $day_separator = '';
@@ -648,27 +678,27 @@ sub terminalise
       {
 	# the header line
 
-	$::fh_tbl1->print("\t,");	# the column title for the row titles
-	$::fh_tbl1->print( join( ','
+	$::fh_csv0->print("\t,");	# the column title for the row titles
+	$::fh_csv0->print( join( ','
 			       , map { "^$_" }
 				     (sort keys %{ $::t{days} })
 			       ) );
-	$::fh_tbl1->print(",^*\n");
+	$::fh_csv0->print(",^*\n");
       }
 
       my     ($tag);
       foreach $tag (sort keys %{ $::t{tags} })
 	{
-	  $::fh_tbl1->print("'$tag\t,");
+	  $::fh_csv0->print("'$tag\t,");
 
-	  $::fh_tbl1->print( join( ','
+	  $::fh_csv0->print( join( ','
 				 , map {
 				         sprintf "%6.2f", ( $::t{days}{$_}{$tag}{work_min} / 60 )
 				       }
 				       (sort keys %{ $::t{days} })
 				 ) );
 
-	  $::fh_tbl1->print( ','
+	  $::fh_csv0->print( ','
 			   , ( sprintf "%6.2f", ( $::t{tags}{$tag}{work_min} / 60 ) )
 			   , "\n"
 			   );
@@ -677,21 +707,21 @@ sub terminalise
       {
 	# the footer line with all the sums
 
-	$::fh_tbl1->print("'*\t,");	# the column title for the row titles
-	$::fh_tbl1->print( join( ','
+	$::fh_csv0->print("'*\t,");	# the column title for the row titles
+	$::fh_csv0->print( join( ','
 			       , map {
 				       sprintf "%6.2f", ( $::t{days}{$_}{work_min} / 60 )
 				     }
 				     (sort keys %{ $::t{days} })
 			       ) );
-	$::fh_tbl1->print( ','
+	$::fh_csv0->print( ','
 			 , ( sprintf "%6.2f", ( $::t{work_min} / 60 ) )
 			 ,"\n");
       }
     }
 
   $::fh_tbl0->close;
-  $::fh_tbl1->close;
+  $::fh_csv0->close;
 
   printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
@@ -735,21 +765,19 @@ sub proc_entry
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  my($date ) = sprintf "%04.4d-%02.2d-%02.2d",$param{year},$param{month},$param{day_of_month};
-
   my($start) = sprintf "%02.2d:%02.2d",$param{start_hh},$param{start_mm};
   my(  $end) = sprintf "%02.2d:%02.2d",$param{  end_hh},$param{  end_mm};
   my($break) = sprintf "%02.2d:%02.2d",$param{break_hh},$param{break_mm};
 
-  push( @{ $::t{days}{ $date }{ $param{other_tags} }{blocks} }
+  push( @{ $::t{days}{ $param{date} }{ $param{other_tags} }{blocks} }
       , { 'start' => $start , 'end' => $end , 'break' => $break
 	, 'work_min' => $param{work_min}
 	}
       );
-  $::t{days}{ $date }{ $param{other_tags} }{work_min}  = $param{work_min_today};
-  $::t                                     {work_min} += $param{work_min_today};
-  $::t{days}{ $date }                      {work_min} += $param{work_min_today};
-  $::t{tags}         { $param{other_tags} }{work_min} += $param{work_min_today};
+  $::t{days}{ $param{date} }{ $param{other_tags} }{work_min}  = $param{work_min_today};
+  $::t                                            {work_min} += $param{work_min_today};
+  $::t{days}{ $param{date} }                      {work_min} += $param{work_min_today};
+  $::t{tags}                { $param{other_tags} }{work_min} += $param{work_min_today};
 
   printf STDERR
     ( "%s|%s|%s"
@@ -758,7 +786,7 @@ sub proc_entry
      ."|%s%s%s\n"
      )
 
-    ,$date,$start,$end
+    ,$param{date},$start,$end
 
     ,&aux::min_2_hh_mm($param{total_min      })
     ,&aux::min_2_hh_mm($param{total_min_today})
@@ -780,7 +808,7 @@ sub proc_entry
     . "|%s|%s|%4.4d"
     . "%s%s\n"
 
-    ,$date,$start,$end
+    ,$param{date},$start,$end
     
     ,&aux::min_2_hh_mm($param{total_min      })
     ,&aux::min_2_hh_mm($param{total_min_today})
