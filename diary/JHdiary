@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 10:14:34 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 11:23:30 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.34 1998/01/30 10:15:45 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 10:15:45 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.35 1998/01/30 11:24:07 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 11:24:07 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -206,19 +206,19 @@ sub job_work_at
   my($pure_company_tag);
 
   %month_name2no =
-    ('Jan'  =>  1
-     ,'Feb' =>  2
-     ,'Mar' =>  3
-     ,'Apr' =>  4
-     ,'May' =>  5
-     ,'Jun' =>  6
-     ,'Jul' =>  7
-     ,'Aug' =>  8
-     ,'Sep' =>  9
-     ,'Oct' => 10
-     ,'Nov' => 11
-     ,'Dec' => 12
-     );
+    ('Jan' =>  1
+    ,'Feb' =>  2
+    ,'Mar' =>  3
+    ,'Apr' =>  4
+    ,'May' =>  5
+    ,'Jun' =>  6
+    ,'Jul' =>  7
+    ,'Aug' =>  8
+    ,'Sep' =>  9
+    ,'Oct' => 10
+    ,'Nov' => 11
+    ,'Dec' => 12
+    );
 
   $total_work::min = 0;
 
@@ -355,17 +355,35 @@ sub job_work_at
 
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 
-	    ,&min_2_hh_mm($total_min)
-	    ,&min_2_hh_mm($total_min_today)
+	    ,&aux::min_2_hh_mm($total_min)
+	    ,&aux::min_2_hh_mm($total_min_today)
 
-	    ,&min_2_hh_mm($work_min)
-	    ,&min_2_hh_mm($work_min_today)
+	    ,&aux::min_2_hh_mm($work_min)
+	    ,&aux::min_2_hh_mm($work_min_today)
 	    ,$work_min
 
 	    ,$this_day
 	    ,$other_tags_alt_separator
 	    ,$other_tags
 	    ;
+
+	  &diary_work_at::proc_entry
+	    ( 'fh_tbl' => \*TBL
+
+	    , 'year' => $year , 'month' => $month , 'day_of_month' => $day_of_month
+
+	    , 'start_hh' => $start_hh , 'start_mm' => $start_mm
+	    ,   'end_hh' =>   $end_hh ,   'end_mm' =>   $end_mm
+
+	    , 'total_min'       => $total_min
+	    , 'total_min_today' => $total_min_today
+
+	    ,  'work_min'       =>  $work_min
+	    ,  'work_min_today' =>  $work_min_today
+
+	    , 'other_tags_alt_separator' => $other_tags_alt_separator
+	    , 'other_tags'               => $other_tags
+	    ) if 1;
 
 	  printf TBL
 	    ( "%04.4d-%02.2d-%02.2d"
@@ -379,24 +397,24 @@ sub job_work_at
 
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 
-	    ,&min_2_hh_mm($total_min)
-	    ,&min_2_hh_mm($total_min_today)
+	    ,&aux::min_2_hh_mm($total_min)
+	    ,&aux::min_2_hh_mm($total_min_today)
 
-	    ,&min_2_hh_mm($work_min)
-	    ,&min_2_hh_mm($work_min_today)
+	    ,&aux::min_2_hh_mm($work_min)
+	    ,&aux::min_2_hh_mm($work_min_today)
 	    ,$work_min
 
 	    ,$other_tags_alt_separator
 	    ,$other_tags
-	    ;
+	    if 0;
 
 	  printf
 	    "\t%02.2d:%02.2d .. %02.2d:%02.2d=%s=%s+%02.2d:%02.2d--S:%s(%s) [%s%s]\n"
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
-	    ,&min_2_hh_mm($total_min)
-	    ,&min_2_hh_mm($work_min)
+	    ,&aux::min_2_hh_mm($total_min)
+	    ,&aux::min_2_hh_mm($work_min)
 	    ,$break_hh,$break_mm
-	    ,&min_2_hhh_mm($total_work::min)
+	    ,&aux::min_2_hhh_mm($total_work::min)
 	    ,$target_hhh
 	    ,"work\@${pure_company_tag}"
 	    ,$other_tags_dummy
@@ -429,18 +447,18 @@ sub job_work_at
     {
       printf STDERR "=%d: %s=>%04.4d,%s=>%s\n",__LINE__
 	,'$total_work::min',$total_work::min
-	,'$total_work::{hh,mm}' ,&min_2_hhh_mm($total_work::min)
+	,'$total_work::{hh,mm}' ,&aux::min_2_hhh_mm($total_work::min)
 	;
       printf TBL
 	"=\n|||||%s|%s|%4.4d\n"
-	,&min_2_hh_mm($total_work::min)
-	,&min_2_hh_mm($total_work::min)
+	,&aux::min_2_hh_mm($total_work::min)
+	,&aux::min_2_hh_mm($total_work::min)
 	,$total_work::min
 	;
       printf TBL ".\\\" =%d: %s=>%04.4d,%s=>%s // %s\n",__LINE__
 	,'$total_work::min',$total_work::min
-	,'$total_work::{hh,mm}',&min_2_hhh_mm($total_work::min)
-	,&min_2_hhh_mm($total_work::min)
+	,'$total_work::{hh,mm}',&aux::min_2_hhh_mm($total_work::min)
+	,&aux::min_2_hhh_mm($total_work::min)
 	if 0;
     }
 
@@ -624,11 +642,11 @@ sub job_old_work_at
 
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 
-	    ,&min_2_hh_mm($total_min)
-	    ,&min_2_hh_mm($total_min_today)
+	    ,&aux::min_2_hh_mm($total_min)
+	    ,&aux::min_2_hh_mm($total_min_today)
 
-	    ,&min_2_hh_mm($work_min)
-	    ,&min_2_hh_mm($work_min_today)
+	    ,&aux::min_2_hh_mm($work_min)
+	    ,&aux::min_2_hh_mm($work_min_today)
 	    ,$work_min
 
 	    ,$this_day
@@ -648,11 +666,11 @@ sub job_old_work_at
 
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 
-	    ,&min_2_hh_mm($total_min)
-	    ,&min_2_hh_mm($total_min_today)
+	    ,&aux::min_2_hh_mm($total_min)
+	    ,&aux::min_2_hh_mm($total_min_today)
 
-	    ,&min_2_hh_mm($work_min)
-	    ,&min_2_hh_mm($work_min_today)
+	    ,&aux::min_2_hh_mm($work_min)
+	    ,&aux::min_2_hh_mm($work_min_today)
 	    ,$work_min
 
 	    ,$other_tags_alt_separator
@@ -662,10 +680,10 @@ sub job_old_work_at
 	  printf
 	    "\t%02.2d:%02.2d .. %02.2d:%02.2d=%s=%s+%02.2d:%02.2d--S:%s(%s) [%s%s]\n"
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
-	    ,&min_2_hh_mm($total_min)
-	    ,&min_2_hh_mm($work_min)
+	    ,&aux::min_2_hh_mm($total_min)
+	    ,&aux::min_2_hh_mm($work_min)
 	    ,$break_hh,$break_mm
-	    ,&min_2_hhh_mm($total_work::min)
+	    ,&aux::min_2_hhh_mm($total_work::min)
 	    ,$target_hhh
 	    ,"work\@${pure_company_tag}"
 	    ,$other_tags_dummy
@@ -698,18 +716,18 @@ sub job_old_work_at
     {
       printf STDERR "=%d: %s=>%04.4d,%s=>%s\n",__LINE__
 	,'$total_work::min',$total_work::min
-	,'$total_work::{hh,mm}' ,&min_2_hhh_mm($total_work::min)
+	,'$total_work::{hh,mm}' ,&aux::min_2_hhh_mm($total_work::min)
 	;
       printf TBL
 	"=\n|||||%s|%s|%4.4d\n"
-	,&min_2_hh_mm($total_work::min)
-	,&min_2_hh_mm($total_work::min)
+	,&aux::min_2_hh_mm($total_work::min)
+	,&aux::min_2_hh_mm($total_work::min)
 	,$total_work::min
 	;
       printf TBL ".\\\" =%d: %s=>%04.4d,%s=>%s // %s\n",__LINE__
 	,'$total_work::min',$total_work::min
-	,'$total_work::{hh,mm}',&min_2_hhh_mm($total_work::min)
-	,&min_2_hhh_mm($total_work::min)
+	,'$total_work::{hh,mm}',&aux::min_2_hhh_mm($total_work::min)
+	,&aux::min_2_hhh_mm($total_work::min)
 	if 0;
     }
 
@@ -810,6 +828,8 @@ sub job_yearly_events
   return $return_value;
 }
 #
+package aux;
+
 sub min_2_hhh_mm
 {
   my($package,$filename,$line,$proc_name) = caller(0);
@@ -868,6 +888,55 @@ sub min_2_hh_mm
   return $return_value;
 }
 #
+package diary_work_at;
+
+sub proc_entry
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  my($fh) = $param{fh_tbl};
+  my($format)
+    = "%04.4d-%02.2d-%02.2d"
+    . "|%02.2d:%02.2d|%02.2d:%02.2d"
+    . "|%s|%s"
+    . "|%s|%s|%4.4d"
+    . "%s%s\n"
+    ;
+
+  printf $fh $format
+
+    ,$param{year},$param{month},$param{day_of_month}
+    
+    ,$param{start_hh},$param{start_mm}
+    ,$param{  end_hh},$param{  end_mm}
+    
+    ,&aux::min_2_hh_mm($param{total_min      })
+    ,&aux::min_2_hh_mm($param{total_min_today})
+    
+    ,&aux::min_2_hh_mm($param{work_min      })
+    ,&aux::min_2_hh_mm($param{work_min_today})
+    ,                  $param{work_min      }
+    
+    ,$param{other_tags_alt_separator}
+    ,$param{other_tags}
+    ;
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+package local_templates;
+
 sub aux_
 {
   my($package,$filename,$line,$proc_name) = caller(0);
