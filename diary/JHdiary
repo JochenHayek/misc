@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 11:23:42 jh48501>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 12:12:48 jh48501>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.31 1997/11/20 11:25:08 jh48501 Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 11:25:08 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.32 1997/11/20 12:13:24 jh48501 Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 12:13:24 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: jh48501 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -63,8 +63,11 @@ sub main
 
     $main::options{job_tag_match}              = 0;
     $main::options{job_work_at}                = 0;
+    $main::options{job_yearly_events}          = 0;
 
-    $main::options{echo_the_source_p} = 1;
+    $main::options{echo_the_source_p}		= 1;
+
+    $main::options{this_year}			= 'yyyy';
   }
 
   my($result) =
@@ -73,6 +76,7 @@ sub main
      ##,'job_xxx|jxxx!'
        ,'job_tag_match!'
        ,'job_work_at!'
+       ,'job_yearly_events!'
 
        ,'dry_run!'
        ,'version!'
@@ -80,6 +84,8 @@ sub main
        ,'company_tag=s'		# used by --job_work_at
 
        ,'tag=s'			# used by --job_tag_match
+
+       ,'this_year|year=s'	# used by --job_yearly_events
        );
   $result || die 'GetMain::Options failed';
 
@@ -90,6 +96,12 @@ sub main
   # JHdiary --job_tag_match --tag=travel
   #
   # JHdiary --job_work_at --company_tag=sbi.com 2>/dev/console
+  #
+  ##################################################
+  # `--job_yearly_events' may only be applied to the region within diary,
+  # where we find the yearly events;
+  ##################################################
+  # JHdiary --job_yearly_events --this_year=1997
 
   if($main::options{version})
     {
@@ -101,8 +113,9 @@ sub main
 	 ;
     }
 
-  if   ($main::options{job_tag_match}) { &job_tag_match; }
-  elsif($main::options{job_work_at  }) { &job_work_at  ; }
+  if   ($main::options{job_tag_match	}) { &job_tag_match    ; }
+  elsif($main::options{job_work_at  	}) { &job_work_at      ; }
+  elsif($main::options{job_yearly_events}) { &job_yearly_events; }
   else
     {
       die "You did not give me a job.";
@@ -428,6 +441,92 @@ sub job_work_at
     }
 
   close(TBL);
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_yearly_events
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  ##################################################
+  # may only be applied to the region within diary,
+  # where we find the yearly events;
+  ##################################################
+
+  @short_month_names =
+    ( 'Jan','Feb','Mar','Apr','May','Jun'
+     ,'Jul','Aug','Sep','Oct','Nov','Dec'
+     );
+  unshift(@short_month_names,''); # in order to have an easier mapping `no : name`
+
+  %month_names__long2short =
+    ( 'January'   => 'Jan'
+     ,'February'  => 'Feb'
+     ,'March'     => 'Mar'
+     ,'April'     => 'Apr'
+     ,'May'       => 'May'
+     ,'June'      => 'Jun'
+     ,'July'      => 'Jul'
+     ,'August'    => 'Aug'
+     ,'September' => 'Sep'
+     ,'October'   => 'Oct'
+     ,'November'  => 'Nov'
+     ,'December'  => 'Dec'
+     );
+
+  while(<>)
+    {
+      chomp;
+
+      my($year,$month,$day,$text);
+      my($long_month_name);
+
+      if(($day,$month,$year,$text) = m/^%%\(diary-anniversary\s+(\d+)\s+(\d+)\s+(\d+)\)\s*(.*)$/)
+	{
+	  my($short_month_name) = $short_month_names[$month];
+
+	  $text =~ s/\s*:\s*/: /;
+
+	  printf "%02.2d %s %s\n\thh:mm %s\n"
+	    ,$day
+	    ,$short_month_name
+	    ,$options{this_year}
+	    ,$text
+	    ;
+	}
+      elsif(m/^\s*$/)
+	{
+	}
+      elsif(($day,$long_month_name,$text) = m/^(\d+)\s+(\S+)\s+(.+)$/)
+	{
+	  $text =~ s/\s*:\s*/: /;
+
+	  printf "%02.2d %s %s\n\thh:mm %s\n"
+	    ,$day
+	    , $month_names__long2short{$long_month_name}
+	    ,$options{this_year}
+	    ,$text
+	    ;
+	}
+      else
+	{
+	  warn;
+	}
+    }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
