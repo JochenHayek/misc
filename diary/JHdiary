@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 
-# $Id: JHdiary 1.17 1997/08/18 21:31:57 jh48501 Exp $
+# $Id: JHdiary 1.18 1997/08/18 21:32:16 jh48501 Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <97/08/18 22:29:05 jh48501>
+# Time-stamp: <97/08/18 22:32:11 jh48501>
 
 # Usage: 
 
@@ -220,7 +220,9 @@
 	    ,$other_tags_alt_separator
 	    ,$other_tags
 	    ;
-	  printf        "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%02.2d:%02.2d+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) [%s%s]\n"
+
+	  printf
+	    "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%02.2d:%02.2d+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) [%s%s]\n"
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 	    ,$ctotal_hh,$ctotal_mm,$cwork_hh,$cwork_mm
 	    ,$break_hh,$break_mm
