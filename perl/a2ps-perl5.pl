@@ -6,7 +6,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.33 1995/05/22 19:35:11 hayek Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.34 1995/05/22 19:45:55 hayek Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -26,7 +26,6 @@
 ;# Please change the next line to specify the default paper.
 ;# ('us' for US letter size, 'a4' for A4 size, 'b4' for B4 size)
 ;#
-;;	$default_paper = 'a4';
 $default_paper = 'a4';
 ;#
 ;# Change the next line to specify the default action of JIS code
@@ -35,7 +34,6 @@ $default_paper = 'a4';
 ;# converting program like nkf first.  If failed to exec these
 ;# programs, a2ps does converting work by itself.
 ;#
-;;	$jisconvert = 1;
 $jisconvert = 0;
 ;#
 ;# WISH LIST
@@ -300,8 +298,7 @@ sub print_file {
 		if ($l[$[] =~ s/^9//) { &half_line_forw; next; }
 		$w = $esc;
 	    }
-	    #$show_width = $rest & ~$kanji;
-	    $show_width = $rest;
+	    $show_width = $rest; # $show_width = $rest & ~$kanji;
 	    if ($show_width < length($w)) {
 		($w, $folded) = unpack("a$show_width a*", $w);
 	    }
@@ -440,8 +437,7 @@ sub _euc2jis {
 }
 
 sub print_header {
-    use POSIX;
-    #require('ctime.pl');
+    use POSIX; # require('ctime.pl');
     return if $header_is_printed++;
 
     chop(local($date) = &ctime(time));
