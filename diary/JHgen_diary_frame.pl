@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.12 2001/12/28 00:13:08 johayek Exp $
+# $Id: JHgen_diary_frame.pl 1.13 2001/12/28 00:29:35 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 {
@@ -80,23 +80,32 @@
 	      print "\n";
 	    }
 	}
-      elsif ($wday == 4)
-	{
-	  printf "%02.2d %s %d %s\n"
-	    , $mday
-	    , $month_names[$mon]
-	    , 1900 + $year
-	    , $week_day_names[$wday]
-	    unless $debug;
-	}
       else
 	{
-	  printf "%02.2d %s %d %s\n"
-	    , $mday
-	    , $month_names[$mon]
-	    , 1900 + $year
-	    , $week_day_names[$wday]
-	    unless $debug;
+	  if (($mon==0) && ($mday==1))
+	    {
+	      $cal_week = 1;
+	      $old_year = $year;
+	      printf "%02.2d %s %d %s"
+		, $mday
+		, $month_names[$mon]
+		, 1900 + $year
+		, $week_day_names[$wday]
+		;
+	      printf " (week# %02.2d) // correct previous week no.!!!"
+		, $cal_week
+		;
+	      print "\n";
+	    }
+	  else
+	    {
+	      printf "%02.2d %s %d %s\n"
+		, $mday
+		, $month_names[$mon]
+		, 1900 + $year
+		, $week_day_names[$wday]
+		unless $debug;
+	    }
 	}
     }
 }
