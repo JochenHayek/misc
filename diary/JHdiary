@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 
-# $Id: JHdiary 1.18 1997/08/18 21:32:16 jh48501 Exp $
+# $Id: JHdiary 1.19 1997/08/18 21:47:59 jh48501 Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <97/08/18 22:32:11 jh48501>
+# Time-stamp: <97/08/18 22:47:57 jh48501>
 
 # Usage: 
 
@@ -167,9 +167,6 @@
 
 	  local($work_min) = $work_min__computed;
 
-	  local($cwork_mm) =  $work_min              % 60;
-	  local($cwork_hh) = ($work_min - $cwork_mm) / 60;
-
 	  $total_work::min += $work_min;
 	  $total_work::mm =  $total_work::min                    % 60;
 	  $total_work::hh = ($total_work::min - $total_work::mm) / 60;
@@ -177,7 +174,8 @@
 	  printf STDERR
 	    ( "%04.4d-%02.2d-%02.2d"
 	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
-	     ."|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d"
+	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
+	     ."|%s|%s|%4.4d"
 	     ."|%s%s%s\n"
 	     )
 
@@ -188,8 +186,8 @@
 	    ,$ctotal_hh,$ctotal_mm
 	    ,$ctotal_hh,$ctotal_mm
 
-	    ,$cwork_hh,$cwork_mm
-	    ,$cwork_hh,$cwork_mm
+	    ,&min_2_hh_mm($work_min)
+	    ,&min_2_hh_mm($work_min)
 	    ,$work_min
 
 	    ,$this_day
@@ -201,8 +199,7 @@
 	    ( "%04.4d-%02.2d-%02.2d"
 	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
 	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
-	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
-	     ."|%4.4d"
+	     ."|%s|%s|%4.4d"
 	     ."%s%s\n"
 	     )
 
@@ -213,8 +210,8 @@
 	    ,$ctotal_hh,$ctotal_mm
 	    ,$ctotal_hh,$ctotal_mm
 
-	    ,$cwork_hh,$cwork_mm
-	    ,$cwork_hh,$cwork_mm
+	    ,&min_2_hh_mm($work_min)
+	    ,&min_2_hh_mm($work_min)
 	    ,$work_min
 
 	    ,$other_tags_alt_separator
@@ -222,9 +219,10 @@
 	    ;
 
 	  printf
-	    "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%02.2d:%02.2d+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) [%s%s]\n"
+	    "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%s+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) [%s%s]\n"
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
-	    ,$ctotal_hh,$ctotal_mm,$cwork_hh,$cwork_mm
+	    ,$ctotal_hh,$ctotal_mm
+	    ,&min_2_hh_mm($work_min)
 	    ,$break_hh,$break_mm
 	    ,$total_work::hh,$total_work::mm
 	    ,$target_hhh
@@ -275,4 +273,56 @@
     }
 
   close(TBL);
+}
+#
+sub min_2_hh_mm
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  #my(%param) = @_;
+  my($min) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$file_name',$file_name
+      if 0 && $main::options{debug};
+
+  &discard_unused_variables($file_name) if 0;
+
+  my($mm) =  $min        % 60;
+  my($hh) = ($min - $mm) / 60;
+
+  $return_value = sprintf "%02.2d:%02.2d",$hh,$mm;
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub aux_
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$file_name',$file_name
+      if 0 && $main::options{debug};
+
+  &discard_unused_variables($file_name) if 0;
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
 }
