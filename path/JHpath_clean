@@ -1,8 +1,8 @@
 #!/usr/bin/perl
 
-# $Id: JHpath_clean 1.6 1996/05/04 19:30:37 jh Exp $
+# $Id: JHpath_clean 1.7 1999/08/12 15:29:33 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/path/RCS/JHpath_clean $
-# Time-stamp: <96/05/04 21:26:17 jh>
+# Time-stamp: <1999-08-12 17:29:20 johayek>
 
 # Usage: JHpath_clean path_value
 
@@ -27,9 +27,15 @@
   local($elem);
   foreach $elem (split(/:/,$ARGV[0]))
     {
+    ##if($elem eq '.')
+    ##  {
+    ##    # don't imply allowance to find files for execution in the currend working directory!
+    ##    next;
+    ##  }
+
       @stat = stat($elem);
 	
-      if (-d _)
+      if(-d _)
 	{
 	  if    (defined($set_of_dir{$elem}))
 	    {
