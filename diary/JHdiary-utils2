@@ -1,10 +1,10 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2002-08-28 00:23:04 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2002-08-28 01:02:55 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.5 2002/08/27 22:26:41 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2002/08/27 22:26:41 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.6 2002/08/27 23:05:42 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2002/08/27 23:05:42 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
@@ -380,9 +380,63 @@ sub job_merge
   my($left_line );
   my($right_line);
 
+  # the  "left file" contains a frame with an entry for every single day of the resp. year.
+  # the "right file" contains entries for holidays.
+  # both files are sorted.
+  # both files are strictly monotous, i.e. every day appears only once.
+
+  $right_line = <$right_fh> ;
+  chomp($right_line);
+
   for(;;)
     {
-      $right_line = <$right_fh> ;
+      $left_line = <$left_fh> ;
+
+      if(!defined($left_line))
+	{
+	  last; # according to our pre-conditions there are no more lines left in the right file.
+	}
+      elsif($left_line =~ m/^${right_line}/)
+	{
+	  print $left_line;
+
+	  # yes, forget this right line,
+	  # but print all entries of that day of the right file!
+
+	  for(;;)
+	    {
+	      $right_line = <$right_fh> ;
+
+	      if(!defined($right_line))
+		{
+		  # print the remainder of the left file.
+
+		  for(;;)
+		    {
+		      $left_line = <$left_fh> ;
+
+		      defined($left_line) || last;
+
+		      print $left_line;
+		    }
+
+		  last;
+		}
+
+
+	      if($right_line =~ m/^\S/)
+		{
+		  chomp($right_line);
+		  last;
+		}
+
+	      print $right_line;
+	    }
+	}
+      else
+	{
+	  print $left_line;
+	}
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
