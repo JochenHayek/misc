@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 14:32:10 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 14:35:05 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.40 1998/01/30 14:34:03 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 14:34:03 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.41 1998/01/30 14:35:43 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 14:35:43 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -221,7 +221,7 @@ sub job_work_at
   my($total_min_today) = 0;
   my( $work_min_today) = 0;
 
-  &diary_work_at::initialise;
+  &work_at::initialise;
 
   # within this loop quite some `local'-s are being used,
   # because this procedure was originally written in perl4;
@@ -250,7 +250,7 @@ sub job_work_at
 	  $total_min_today = 0;
 	  $work_min_today  = 0;
 
-	  &diary_work_at::set_day;
+	  &work_at::set_day;
 	}
 
       elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
@@ -336,7 +336,7 @@ sub job_work_at
 
 	  $::total_work__min += $work_min;
 
-	  &diary_work_at::proc_entry
+	  &work_at::proc_entry
 	    ( 'year' => $year , 'month' => $month , 'day_of_month' => $day_of_month
 
 	    , 'start_hh' => $start_hh , 'start_mm' => $start_mm
@@ -380,7 +380,7 @@ sub job_work_at
 	}
     }
 
-  &diary_work_at::terminalise;
+  &work_at::terminalise;
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
@@ -537,7 +537,7 @@ sub min_2_hh_mm
   return $return_value;
 }
 #
-package diary_work_at;
+package work_at;
 
 sub initialise
 {
