@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 13:17:49 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 14:31:08 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.38 1998/01/30 13:18:35 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 13:18:35 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.39 1998/01/30 14:31:42 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 14:31:42 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -218,11 +218,10 @@ sub job_work_at
 
   $::total_work__min = 0;
 
-  open(TBL,">$ENV{'HOME'}/diary.month-tbl") || die "cannot open month tbl: $! -";
-
   my($total_min_today) = 0;
   my( $work_min_today) = 0;
-  my($day_separator) = '';
+
+  &diary_work_at::initialise;
 
   # within this loop quite some `local'-s are being used,
   # because this procedure was originally written in perl4;
@@ -248,12 +247,10 @@ sub job_work_at
 		;
 	    }
 
-	  print $_,"\n" if $main::options{echo_the_source_p};
-
 	  $total_min_today = 0;
 	  $work_min_today  = 0;
-	  print TBL $day_separator;
-	  $day_separator = "_\n";
+
+	  &diary_work_at::set_day;
 	}
 
       elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
@@ -340,9 +337,7 @@ sub job_work_at
 	  $::total_work__min += $work_min;
 
 	  &diary_work_at::proc_entry
-	    ( 'fh_tbl' => \*TBL
-
-	    , 'year' => $year , 'month' => $month , 'day_of_month' => $day_of_month
+	    ( 'year' => $year , 'month' => $month , 'day_of_month' => $day_of_month
 
 	    , 'start_hh' => $start_hh , 'start_mm' => $start_mm
 	    ,   'end_hh' =>   $end_hh ,   'end_mm' =>   $end_mm
@@ -385,26 +380,7 @@ sub job_work_at
 	}
     }
 
-  if (1)
-    {
-      printf STDERR "=%d: %s=>%04.4d,%s=>%s\n",__LINE__
-	,'$::total_work__min',$::total_work__min
-	,'$::total_work__{hh,mm}' ,&aux::min_2_hhh_mm($::total_work__min)
-	;
-      printf TBL
-	"=\n|||||%s|%s|%4.4d\n"
-	,&aux::min_2_hh_mm($::total_work__min)
-	,&aux::min_2_hh_mm($::total_work__min)
-	,$::total_work__min
-	;
-      printf TBL ".\\\" =%d: %s=>%04.4d,%s=>%s // %s\n",__LINE__
-	,'$::total_work__min',$::total_work__min
-	,'$::total_work__{hh,mm}',&aux::min_2_hhh_mm($::total_work__min)
-	,&aux::min_2_hhh_mm($::total_work__min)
-	if 0;
-    }
-
-  close(TBL);
+  &diary_work_at::terminalise;
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
@@ -563,6 +539,96 @@ sub min_2_hh_mm
 #
 package diary_work_at;
 
+sub initialise
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  $::fh_tbl = new FileHandle ">$ENV{'HOME'}/diary.month-tbl" ||
+    die "cannot open month tbl: $! -";
+
+  $day_separator = '';
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub terminalise
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if (1)
+    {
+      printf STDERR "=%d: %s=>%04.4d,%s=>%s\n",__LINE__
+	,'$::total_work__min',$::total_work__min
+	,'$::total_work__{hh,mm}' ,&aux::min_2_hhh_mm($::total_work__min)
+	;
+      printf $::fh_tbl
+	 "=\n|||||%s|%s|%4.4d\n"
+	,&aux::min_2_hh_mm($::total_work__min)
+	,&aux::min_2_hh_mm($::total_work__min)
+	,$::total_work__min
+	;
+      printf $::fh_tbl
+	 ".\\\" =%d: %s=>%04.4d,%s=>%s // %s\n",__LINE__
+	,'$::total_work__min',$::total_work__min
+	,'$::total_work__{hh,mm}',&aux::min_2_hhh_mm($::total_work__min)
+	,&aux::min_2_hhh_mm($::total_work__min)
+	if 0;
+    }
+
+  $::fh_tbl->close;
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub set_day
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  print $_,"\n" if $main::options{echo_the_source_p};
+
+  my($fh_tbl) = $::fh_tbl;
+  print 
+    $fh_tbl			# perl5 does not allow me to replace this by $param{fh_tbl}
+    $day_separator;
+
+  $day_separator = "_\n";
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
 sub proc_entry
 {
   my($package,$filename,$line,$proc_name) = caller(0);
@@ -600,7 +666,7 @@ sub proc_entry
     ,$param{other_tags}
     ;
 
-  my($fh_tbl) = $param{fh_tbl};
+  my($fh_tbl) = $::fh_tbl;
   printf
      $fh_tbl			# perl5 does not allow me to replace this by $param{fh_tbl}
 
