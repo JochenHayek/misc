@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.11 2000/12/01 10:51:03 johayek Exp $
+# $Id: JHgen_diary_frame.pl 1.12 2001/12/28 00:13:08 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 {
@@ -46,7 +46,7 @@
 	  , $mday
 	  ;
 
-      last if($date__YYYY_MM_DD gt '2001-99-99');
+      last if($date__YYYY_MM_DD gt '2002-99-99');
 
       print
       ##$i,' ',
