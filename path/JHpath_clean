@@ -1,8 +1,8 @@
 #!/usr/bin/perl
 
-# $Id: JHpath_clean 1.5 1995/05/22 06:43:20 hayek Exp $
+# $Id: JHpath_clean 1.6 1996/05/04 19:30:37 jh Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/path/RCS/JHpath_clean $
-# Time-stamp: <95/05/22 08:43:11 hayek>
+# Time-stamp: <96/05/04 21:26:17 jh>
 
 # Usage: JHpath_clean path_value
 
@@ -12,6 +12,7 @@
 
 # out:
 #   eliminated duplicates
+#       (identical names, or just a path name pointing to the same i-node)
 #   and non-{,existing }directories;
 
 # requirements:
@@ -21,18 +22,29 @@
   
   local(@splitted_path_value);
   local(%set_of_dir);
+  local(%set_of_id);
 
   local($elem);
   foreach $elem (split(/:/,$ARGV[0]))
     {
-      if (defined($set_of_dir{$elem}))
+      @stat = stat($elem);
+	
+      if (-d _)
 	{
-	  # eliminate duplicates
-	}
-      elsif (-d $elem)
-	{
-	  $set_of_dir{$elem} = 1;
-	  push(@splitted_path_value,$elem);
+	  if    (defined($set_of_dir{$elem}))
+	    {
+	      # eliminate duplicates (identical names)
+	    }
+	  elsif (defined($set_of_id{ "@stat[0..1]" }))
+	    {
+	      # eliminate duplicates (identical `dev,i-node' pairs)
+	    }
+	  else
+	    {
+	      $set_of_id{ "@stat[0..1]" } = 1;
+	      $set_of_dir{$elem} = 1;
+	      push(@splitted_path_value,$elem);
+	    }
 	}
       else
 	{
