@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 #!/usr/columbus/users32/hayek/usr/local/perl5/bin/perl
 
-# $Id: JHdiary 1.9 1996/11/28 21:27:54 jhayek Exp $
+# $Id: JHdiary 1.10 1997/02/19 09:23:36 jhayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <96/11/28 22:27:51 jhayek>
+# Time-stamp: <97/02/19 10:22:29 jhayek>
 
 # Usage: 
 
@@ -76,7 +76,7 @@
 	  print $_,"\n" if $p_echo_the_source;
 	}
 
-      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[work\@${company_tag}(,.+)?\]$/)
+      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[work\@$company_tag(,.+)?\]$/)
 	{
 	  $start_hh   = $1; $start_mm = $2; $start_min = $start_hh * 60 + $start_mm;
 	  $end_hh     = $3; $end_mm   = $4; $end_min   = $end_hh   * 60 + $end_mm;
@@ -172,12 +172,12 @@
 	    if $p_echo_the_source;
 	}
 
-      elsif (m/^\t\w\w:\w\w \.\. \w\w:\w\w=(\w\w):(\w\w)=(\w\w):(\w\w)\+\d\d:\d\d--S:\w\w\w:\m\m\(\w\w\w\) \[work\@${company_tag}(,.+)?\]$/)
+      elsif (m/^\t\w\w:\w\w \.\. \w\w:\w\w=(\w\w):(\w\w)=(\w\w):(\w\w)\+\d\d:\d\d--S:\w\w\w:\m\m\(\w\w\w\) \[work\@$company_tag(,.+)?\]$/)
 	{
 	  print $_,"\n" if $p_echo_the_source;
 	}
 
-      elsif (m/work\@${company_tag}/)
+      elsif (m/work\@$company_tag/)
 	{
 	  printf STDERR "=%d: %s=>%d,%s=>'%s' // %s\n",__LINE__
 	    ,'$.',$.
@@ -194,12 +194,9 @@
 
   if (1)
     {
-      printf STDERR "=%d: %s=>%04.4d,%s=>%03.3d,%s=>%02.2d // %03.3d:%02.2d\n",__LINE__
+      printf STDERR "=%d: %s=>%04.4d,%s=>%03.3d:%02.2d\n",__LINE__
 	,'$total_work_min',$total_work_min
-	,'$total_work_hh' ,$total_work_hh
-	,'$total_work_mm' ,$total_work_mm
-	,$total_work_hh
-	,$total_work_mm
+	,'$total_work_{hh,mm}' ,$total_work_hh,$total_work_mm
 	;
       printf TBL
 	"=\n*||||%02.2d:%02.2d|%4.4d|*\n"
