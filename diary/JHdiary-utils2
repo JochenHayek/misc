@@ -1,0 +1,176 @@
+#! /usr/bin/perl -w
+#! /dvlp/gnu/SunOS5/bin/perl -w
+
+($emacs_Time_stamp) = 'Time-stamp: <2000-03-06 12:11:20 johayek>' =~ m/<(.*)>/;
+
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.1 2000/03/06 11:11:36 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2000/03/06 11:11:36 $'))[1..2])));
+#     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
+#	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
+#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
+
+# usage: 
+#
+#     ...
+
+# purpose:
+#
+#     job_...
+
+# in:
+
+# out:
+
+# requirements:
+
+# restrictions:
+#
+#     ...
+
+{
+  use English;
+  use FileHandle;
+  use strict;
+
+  ##use Date::Calc qw(Add_Delta_Days Today Day_of_Week Day_of_Week_to_Text);
+  ##use Date::Calc qw(Today Add_Delta_Days);
+
+  ##use File::Basename;
+
+  &main;
+}
+#
+sub main
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  # described in:
+  #	camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
+
+  use Getopt::Long;
+  %options = ();
+
+  $main::options{debug} = 1;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$rcs_Id',$rcs_Id
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$emacs_Time_stamp',$emacs_Time_stamp
+    if 0 && $main::options{debug};
+
+  {
+    # defaults for the main::options;
+    
+    $main::options{verbose}			= 0;
+    $main::options{dry_run}		       	= 0;
+    $main::options{version}		       	= 0;
+
+    $main::options{help}			= 0;
+
+    $main::options{job____}	= 0;
+  }
+
+  # a problem I found find GetOptions:
+  # you cannot abbreviate aliases and abbreviations of boolean options;
+
+  my($result) =
+    &GetOptions
+      (\%main::options
+       ,'job____!'
+
+       ,'left_operand=s'
+       ,'right_operand|operand=s'
+
+       ,'value_to_be_matched=s@'
+
+       ,'summit_report=s'	# 'fx', 'inv'
+
+       ,'dry_run!'
+       ,'version!'
+       ,'debug!'
+       ,'verbose!'
+       ,'help!'
+
+       # some shortcuts:
+
+     ##,'product=s'
+       );
+  $result || die 'GetMain::Options failed';
+
+  #
+  # example
+  # =======
+  #
+  # PROG --verbose --job____
+
+  if($main::options{version})
+    {
+       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	 ,'$rcs_Id',$rcs_Id
+	 ;
+       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	 ,'$emacs_Time_stamp',$emacs_Time_stamp
+	 ;
+    }
+
+  if   ($main::options{help               }) { &help                                ; }
+  elsif($main::options{job____})
+    {                 &job____; }
+  else
+    {
+      die "You did not give me a job.";
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+}
+#
+#################################################################################
+#   job____
+#################################################################################
+sub job____
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+  my(%param) = @_;
+  $return_value = 0;
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  return $return_value;
+}
+#
+sub dummy
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
