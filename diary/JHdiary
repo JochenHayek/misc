@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 
-# $Id: JHdiary 1.23 1997/10/07 11:43:07 jh48501 Exp $
+# $Id: JHdiary 1.24 1997/10/07 12:27:10 jh48501 Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <97/10/07 12:37:19 jh48501>
+# Time-stamp: <97/10/07 13:24:36 jh48501>
 
 # Usage: 
 
@@ -97,7 +97,7 @@
 	  $day_separator = "_\n";
 	}
 
-      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[work\@$company_tag((,)(.+))?\]$/)
+      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
 	{
 	  local($start_hh,$start_mm) = ( $1, $2); local($start_min) = $start_hh * 60 + $start_mm;
 	  local($end_hh  ,$end_mm  ) = ( $3, $4); local($end_min  ) = $end_hh   * 60 + $end_mm;
@@ -105,8 +105,12 @@
 	  local($work_hh ,$work_mm ) = ( $7, $8);
 	  local($break_hh,$break_mm) = ( $9,$10);
 	  local($target_hhh        ) = ($11    );
-	  local($other_tags_dummy,$other_tags_separator,$other_tags) = ($12,$13,$14);
-	  local($other_tags_alt_separator);
+	  local($work_AT           ) = ($12);
+
+	  my($other_tags_dummy,$other_tags_separator);
+
+	  ($other_tags_dummy,$other_tags_separator,$other_tags) =
+	    $work_AT =~ m/^work\@[^,]+((,)(.+))?$/;
 
 	  if(defined($other_tags_dummy))
 	    {
@@ -117,7 +121,6 @@
 	    {
 	      $other_tags_dummy         = '';
 	      $other_tags_alt_separator = '';
-	      $other_tags_separator 	= '';
 	      $other_tags           	= '';
 	    }
 
