@@ -1,11 +1,13 @@
 :
 
-time_stamp='Time-stamp: <2002-10-24 19:53:34 johayek>'
-      rcs_Id='$Id: path.sh 1.1 2002/10/24 17:53:39 johayek Exp $'
+time_stamp='Time-stamp: <2002-10-25 05:32:10 johayek>'
+      rcs_Id='$Id: path.sh 1.2 2002/10/25 03:33:06 johayek Exp $'
  rcs_RCSfile=$(echo '$RCSfile: path.sh $'|cut -d ' ' -f 2)
   rcs_Source=$(echo '$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/path/RCS/path.sh $'|cut -d ' ' -f 2)
   rcs_Locker=$(echo '$Locker:  $'|cut -d ' ' -f 2)
-rcs_Revision=$(echo '$Revision: 1.1 $'|cut -d ' ' -f 2)
+rcs_Revision=$(echo '$Revision: 1.2 $'|cut -d ' ' -f 2)
+
+config=$($HOME_JoHa/comp.lang.shell/config.guess)
 
 path_append()
 {
