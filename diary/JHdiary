@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-02-04 13:00:22 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-02-26 22:21:04 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.52 1998/02/04 13:17:12 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/02/04 13:17:12 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.53 1998/03/17 11:21:09 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/03/17 11:21:09 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -114,9 +114,9 @@ sub main
   # example
   # =======
   #
-  # JHdiary --job_tag_match --tag=travel
+  # JHdiary --from=1998-01 --to=1998-01-99 --job_tag_match --tag=travel
   #
-  # JHdiary --job_work_at --company_tag=derwent.co.uk 2>/dev/console
+  # JHdiary --from=1998-01 --to=1998-01-99 --job_work_at --company_tag=derwent.co.uk 2>/dev/console
   #
   ##################################################
   # `--job_yearly_events' may only be applied to the region within diary,
