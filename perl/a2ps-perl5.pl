@@ -6,7 +6,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.38 1995/11/07 23:51:02 jh Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.39 1997/01/14 17:49:53 jhayek Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -62,6 +62,8 @@ sub paper {
 $pixels_inch = 72;
 $selfconvert = 0;
 $numbering = 0;
+$duplex = 0;
+$tumble = 1;
 $folding = 1;
 $restart = 1;
 $visualize = 1;
@@ -94,7 +96,12 @@ while ($_ = $ARGV[0], s/^-(.+)$/$1/ && shift) {
     next if $_ eq '';
     if (s/^help$//)		{&usage;				next;}
     if (s/^basename$//)		{$basename++;				next;}
+
     if (s/^(us|a4|b4|a4_ff)$//i){&paper($paper="\L$1");			next;}
+
+    if (s/^(n?)D//)		{$duplex   	= !$1;			redo;}
+    if (s/^(n?)T//)		{$tumble   	= !$1;			redo;}
+
     if (s/^l(.*)$//)		{defined($label=$1||shift)||&usage;	next;}
     if (s/^L(.*)$//)		{defined($sublabel=$1||shift)||&usage;	next;}
     if (s/^toc$//)		{defined($toc=shift)||&usage;		next;}
@@ -507,6 +514,41 @@ sub print_header {
 
     printf("/docsave save def\n");
     printf("startdoc\n");
+
+    if ($duplex)
+      {
+	if ($tumble)
+	  {
+	    # print on both sides - for turning over the `short side'
+
+	    print "[{\n";
+	    print "%%BeginFeature: *Duplex DuplexTumble\n\n";
+	    print "\t<</Duplex true /Tumble true>> setpagedevice\n";
+	    print "%%EndFeature\n";
+	    print "} stopped cleartomark\n";
+	  }
+	else
+	  {
+	    # print on both sides - for turning over the `long side'
+
+	    print "[{\n";
+	    print "%%BeginFeature: *Duplex DuplexNoTumble\n\n";
+	    print "\t<</Duplex true /Tumble false>> setpagedevice\n";
+	    print "%%EndFeature\n";
+	    print "} stopped cleartomark\n";
+	  }
+      }
+    else
+      {
+	if (1)
+	  {
+	    print "[{\n";
+	    print "%%BeginFeature: *Duplex None\n\n";
+	    print "\t<</Duplex false /Tumble false>> setpagedevice\n";
+	    print "%%EndFeature\n";
+	    print "} stopped cleartomark\n";
+	  }
+      }
 
     print "%%EndProlog\n\n";
 }
