@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 10:49:26 jh48501>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 10:54:52 jh48501>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.27 1997/11/20 10:50:10 jh48501 Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 10:50:10 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.28 1997/11/20 10:56:25 jh48501 Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 10:56:25 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: jh48501 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -83,7 +83,7 @@ sub main
   # example
   # =======
   #
-  # PROG ...
+  # JHdiary --job_work_at --company_tag=sbi.com 2>/dev/console
 
   if($main::options{version})
     {
