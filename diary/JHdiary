@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2000-03-24 00:23:22 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2000-05-06 00:51:11 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.74 2000/03/23 23:24:44 johayek Exp $' =~
+    '$Id: JHdiary 1.75 2000/05/05 22:54:06 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -740,14 +740,13 @@ sub initialise
 	, 'training'                    => '128'
 	, 'user account administration' => '129'
 	, 'user account modelling'      => '130'
+	, 'other activities'            => '131'
         );
       %::CoBa__project2code =
-        ( 'GL&TL Tasks'                       => '101'
-      ##, 'OTC Panorama'    		      => '???'
-      ##, 'WARP'            		      => '???'
-	, 'controlling'                       => '102'
-	, 'resources planning'                => '103'
-	, 'business contingency & continuity' => '104'
+	( 'business contingency & continuity' => '101'
+        , 'GL&TL Tasks'                       => '102'
+	, 'controlling'                       => '103'
+	, 'resources planning'                => '104'
 	, 'business process'                  => '105'
 	, 'integration process'               => '106'
 	, 'central documentation'             => '107'
@@ -760,11 +759,11 @@ sub initialise
 	, 'unix client'                       => '114'
 	, 'Win NT support production'         => '115'
 	, 'Win NT support ZGO'                => '116'
-	, '"Auftragsformular" ZFO'            => '117'
+	, 'Auftragsformular ZFO'              => '117'
 	, 'logical network'                   => '118'
-	, 'physikal network'                  => '119'
+	, 'physical network'                  => '119'
 	, 'telecommunication'                 => '120'
-	, 'interfaces & middelware'           => '121'
+	, 'interfaces & middleware'           => '121'
 	, 'Bloomberg'                         => '122'
 	, 'CARS'                              => '123'
 	, 'Cedel Connect'                     => '124'
@@ -797,7 +796,7 @@ sub initialise
 	, 'Swiskey'                           => '151'
 	, 'Sybase'                            => '152'
 	, 'user account modelling'            => '153'
-	, 'Xetra'                             => '154'
+	, 'XETRA'                             => '154'
 	, 'ZBS'                               => '155'
 	, 'ZGB'                               => '156'
 	, 'ZGE'                               => '157'
@@ -806,7 +805,16 @@ sub initialise
 	, 'ZRC reporting'                     => '160'
 	, 'ZRev'                              => '161'
 	, 'ZTD'                               => '162'
-	, 'holiday'                           => '199'
+	, 'WTS'                               => '163'
+	, 'Login'                             => '164'
+	, 'back office / risk applications'   => '165'
+	, 'projects in PDF'                   => '166'
+	, 'quality management'                => '167'
+	, 'application development & cust'    => '168'
+	, 'backup & archiving'                => '169'
+	, 'Oracle'                            => '170'
+	, 'EMC disk usage assessment'         => '171'
+	, 'holiday'                           => '172'
         );
     }
   else
