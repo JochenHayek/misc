@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2002-05-17 03:52:00 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2002-05-29 00:38:57 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.86 2002/05/17 01:52:12 johayek Exp $' =~
+    '$Id: JHdiary 1.87 2002/05/29 00:34:15 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -281,6 +281,7 @@ sub job_work_at
 
   $::total_work__min = 0;
 
+  my($break_min_today) = 0;
   my($total_min_today) = 0;
   my( $work_min_today) = 0;
 
@@ -314,6 +315,7 @@ sub job_work_at
 		;
 	    }
 
+	  $break_min_today = 0;
 	  $total_min_today = 0;
 	  $work_min_today  = 0;
 
@@ -390,6 +392,7 @@ sub job_work_at
 	  $total_min_today += $total_min;
 
 	  local($break_min)  = $break_hh  * 60 + $break_mm;
+	  $break_min_today += $break_min;
 
 	  local($work_min__computed) = $total_min__computed - $break_min;
 
@@ -425,7 +428,9 @@ sub job_work_at
 
 	    , 'start_hh' => $start_hh , 'start_mm' => $start_mm
 	    ,   'end_hh' =>   $end_hh ,   'end_mm' =>   $end_mm
-	    , 'break_hh' => $break_hh , 'break_mm' => $break_mm
+
+	    , 'break_hh'  => $break_hh  , 'break_mm'        => $break_mm
+	    , 'break_min' => $break_min , 'break_min_today' => $break_min_today
 
 	    , 'total_min' => $total_min , 'total_min_today' => $total_min_today
 	    ,  'work_min' =>  $work_min ,  'work_min_today' =>  $work_min_today
@@ -916,7 +921,7 @@ sub terminalise
 	,'$::total_work__{hh,mm}' ,&aux::min_2_hhh_mm($::total_work__min)
 	;
       printf $::fh_tbl0
-	 "=\n|||||%s|%s|%4.4d\n"
+	 "=\n|||||||%s|%s|%4.4d\n"
 	,&aux::min_2_hh_mm($::total_work__min)
 	,&aux::min_2_hh_mm($::total_work__min)
 	,$::total_work__min
@@ -1046,12 +1051,16 @@ sub proc_entry
 
   printf STDERR
     ( "%s|%s|%s"
+     ."|%s|%s"		# breaks
      ."|%s|%s"		# total
      ."|%s|%s|%4.4d"	# worked
      ."|%s%s%s\n"
      )
 
     ,$param{date},$start,$end
+
+    ,&aux::min_2_hh_mm($param{break_min      })
+    ,&aux::min_2_hh_mm($param{break_min_today})
 
     ,&aux::min_2_hh_mm($param{total_min      })
     ,&aux::min_2_hh_mm($param{total_min_today})
@@ -1070,10 +1079,14 @@ sub proc_entry
 
       "%s|%s|%s"
     . "|%s|%s"
+    . "|%s|%s"
     . "|%s|%s|%4.4d"
     . "%s%s\n"
 
     ,$param{date},$start,$end
+
+    ,&aux::min_2_hh_mm($param{break_min      })
+    ,&aux::min_2_hh_mm($param{break_min_today})
     
     ,&aux::min_2_hh_mm($param{total_min      })
     ,&aux::min_2_hh_mm($param{total_min_today})
