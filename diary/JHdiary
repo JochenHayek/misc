@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 
-# $Id: JHdiary 1.11 1997/02/19 09:43:23 jhayek Exp $
+# $Id: JHdiary 1.12 1997/02/19 10:24:27 jhayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <97/02/19 10:37:17 jhayek>
+# Time-stamp: <97/02/19 11:22:59 jhayek>
 
 # Usage: 
 
@@ -49,7 +49,9 @@
      ,'Oct',10,'Nov',11,'Dec',12
      );
 
-  $total_work_min = 0;
+  local($total_work_min) = 0;
+  local($total_work_mm);
+  local($total_work_hh);
 
   open(TBL,">$ENV{'HOME'}/diary.month-tbl") || die "cannot open month tbl: $! -";
 
@@ -79,24 +81,35 @@
 
       elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[work\@$company_tag((,)(.+))?\]$/)
 	{
-	  $start_hh   = $1; $start_mm = $2; $start_min = $start_hh * 60 + $start_mm;
-	  $end_hh     = $3; $end_mm   = $4; $end_min   = $end_hh   * 60 + $end_mm;
-	  $total_hh   = $5; $total_mm = $6;
-	  $work_hh    = $7; $work_mm  = $8;
-	  $break_hh   = $9; $break_mm = $10;
-	  $target_hhh = $11;
-	  $other_tags_dummy = $12; $other_tags_separator = $13; $other_tags = $14;
+	  local($start_hh,$start_mm) = ( $1, $2); local($start_min) = $start_hh * 60 + $start_mm;
+	  local($end_hh  ,$end_mm  ) = ( $3, $4); local($end_min  ) = $end_hh   * 60 + $end_mm;
+	  local($total_hh,$total_mm) = ( $5, $6);
+	  local($work_hh ,$work_mm ) = ( $7, $8);
+	  local($break_hh,$break_mm) = ( $9,$10);
+	  local($target_hhh        ) = ($11    );
+	  local($other_tags_dummy,$other_tags_separator,$other_tags) = ($12,$13,$14);
+	  local($other_tags_alt_separator);
 
-	  warn '' if 0 && defined($other_tags_dummy);
+	  if(defined($other_tags_dummy))
+	    {
+	      $other_tags_alt_separator = '|';
+	    }
+	  else
+	    {
+	      $other_tags_dummy         = '';
+	      $other_tags_alt_separator = '';
+	      $other_tags_separator 	= '';
+	      $other_tags           	= '';
+	    }
 
-	  $total_min__computed = $end_min - $start_min;
+	  local($total_min__computed) = $end_min - $start_min;
 
 	  if ("$total_hh:$total_mm" eq 'hh:mm') # concerns `total' time
 	    {
 	    }
 	  else
 	    {
-	      $total_min = $total_hh * 60 + $total_mm;
+	      local($total_min) = $total_hh * 60 + $total_mm;
 
 	      if ($total_min__computed != $total_min)
 		{
@@ -109,21 +122,21 @@
 		}
 	    }
 
-	  $total_min = $total_min__computed;
+	  local($total_min) = $total_min__computed;
 
-	  $total_mm =  $total_min              % 60;
-	  $total_hh = ($total_min - $total_mm) / 60;
+	  local($ctotal_mm) =  $total_min               % 60;
+	  local($ctotal_hh) = ($total_min - $ctotal_mm) / 60;
 
-	  $break_min  = $break_hh  * 60 + $break_mm;
+	  local($break_min)  = $break_hh  * 60 + $break_mm;
 
-	  $work_min__computed = $total_min__computed - $break_min;
+	  local($work_min__computed) = $total_min__computed - $break_min;
 
 	  if ("$work_hh:$work_mm" eq 'hh:mm') # concerns `work' time
 	    {
 	    }
 	  else
 	    {
-	      $work_min   = $work_hh   * 60 + $work_mm ;
+	      local($work_min)   = $work_hh   * 60 + $work_mm ;
 
 	      if  (($work_min+$break_min) != $total_min)
 		{
@@ -137,42 +150,43 @@
 		}
 	    }
 
-	  $work_min = $work_min__computed;
+	  local($work_min) = $work_min__computed;
 
-	  $work_mm =  $work_min             % 60;
-	  $work_hh = ($work_min - $work_mm) / 60;
+	  local($cwork_mm) =  $work_min             % 60;
+	  local($cwork_hh) = ($work_min - $cwork_mm) / 60;
 
 	  $total_work_min += $work_min;
 	  $total_work_mm =  $total_work_min                   % 60;
 	  $total_work_hh = ($total_work_min - $total_work_mm) / 60;
 
 	  printf STDERR
-	    "%04.4d-%02.2d-%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s|%s\n"
+	    "%04.4d-%02.2d-%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s%s%s\n"
 	    ,$year,$month,$day_of_month
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
-	    ,$total_hh,$total_mm
-	    ,$work_hh,$work_mm,$work_min
+	    ,$ctotal_hh,$ctotal_mm
+	    ,$cwork_hh,$cwork_mm,$work_min
 	    ,$this_day
+	    ,$other_tags_alt_separator
 	    ,$other_tags
 	    ;
 
 	  printf TBL
-	    "%04.4d-%02.2d-%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s\n"
+	    "%04.4d-%02.2d-%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d%s%s\n"
 	    ,$year,$month,$day_of_month
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
-	    ,$total_hh,$total_mm
-	    ,$work_hh,$work_mm,$work_min
+	    ,$ctotal_hh,$ctotal_mm
+	    ,$cwork_hh,$cwork_mm,$work_min
+	    ,$other_tags_alt_separator
 	    ,$other_tags
 	    ;
-	  printf        "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%02.2d:%02.2d+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) [%s%s%s]\n"
+	  printf        "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%02.2d:%02.2d+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) [%s%s]\n"
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
-	    ,$total_hh,$total_mm,$work_hh,$work_mm
+	    ,$ctotal_hh,$ctotal_mm,$cwork_hh,$cwork_mm
 	    ,$break_hh,$break_mm
 	    ,$total_work_hh,$total_work_mm
 	    ,$target_hhh
 	    ,"work\@${company_tag}"
-	    ,$other_tags_separator
-	    ,$other_tags
+	    ,$other_tags_dummy
 	    if $p_echo_the_source;
 	}
 
