@@ -1,0 +1,17 @@
+:
+# $Id: JHpath_clean 1.1 1995/05/22 05:48:04 hayek Exp $
+# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/path/RCS/JHpath_clean $
+# Time-stamp: <95/05/22 07:47:26 hayek>
+
+# Usage: JHpath_clean path_value
+#     where `path_value' is any value like $PATH,
+#     that is of the form `a:b:c'
+
+# in:
+
+# out:
+
+# requirements:
+
+{
+}
