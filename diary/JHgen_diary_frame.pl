@@ -1,12 +1,20 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.5 1996/10/06 21:43:18 jhayek Exp $
+# $Id: JHgen_diary_frame.pl 1.6 1996/10/06 21:46:33 jhayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 {
   $debug = 0;
   @month_names = ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
-  @week_day_names = ('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+  @week_day_names =
+    ( '   Sunday'
+     ,'   Monday'
+     ,'  Tuesday'
+     ,'Wednesday'
+     ,' Thursday'
+     ,'   Friday'
+     ,' Saturday'
+     );
 
   for ($i=0,$cal_week=0,$old_year=-1; $i < 946857600 ; $i += 24*60*60 )
     {
