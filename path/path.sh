@@ -1,11 +1,11 @@
 :
 
-time_stamp='Time-stamp: <2002-10-25 05:32:10 johayek>'
-      rcs_Id='$Id: path.sh 1.2 2002/10/25 03:33:06 johayek Exp $'
+time_stamp='Time-stamp: <2002-10-28 16:07:02 johayek>'
+      rcs_Id='$Id: path.sh 1.3 2002/10/28 15:07:10 johayek Exp $'
  rcs_RCSfile=$(echo '$RCSfile: path.sh $'|cut -d ' ' -f 2)
   rcs_Source=$(echo '$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/path/RCS/path.sh $'|cut -d ' ' -f 2)
   rcs_Locker=$(echo '$Locker:  $'|cut -d ' ' -f 2)
-rcs_Revision=$(echo '$Revision: 1.2 $'|cut -d ' ' -f 2)
+rcs_Revision=$(echo '$Revision: 1.3 $'|cut -d ' ' -f 2)
 
 config=$($HOME_JoHa/comp.lang.shell/config.guess)
 
@@ -19,6 +19,7 @@ path_append()
     esac
 
     export                       PATH=$PATH:${dir}bin
+    test -n "$config" &&
     export                       PATH=$PATH:${dir}$config
     export                 MANPATH=$MANPATH:${dir}man
     export               INFOPATH=$INFOPATH:${dir}info
@@ -44,6 +45,7 @@ path_prepend()
     esac
 
     export            PATH=${dir}bin:$PATH
+    test -n "$config" &&
     export            PATH=${dir}$config:$PATH
     export LD_LIBRARY_PATH=${dir}lib:$LD_LIBRARY_PATH
     export         MANPATH=${dir}man:$MANPATH
