@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 
-# $Id: JHdiary 1.16 1997/06/19 06:24:12 chkjoha Exp $
+# $Id: JHdiary 1.17 1997/08/18 21:31:57 jh48501 Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <97/06/19 08:22:51 chkjoha>
+# Time-stamp: <97/08/18 22:29:05 jh48501>
 
 # Usage: 
 
@@ -175,22 +175,48 @@
 	  $total_work::hh = ($total_work::min - $total_work::mm) / 60;
 
 	  printf STDERR
-	    "%04.4d-%02.2d-%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s%s%s\n"
+	    ( "%04.4d-%02.2d-%02.2d"
+	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
+	     ."|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d"
+	     ."|%s%s%s\n"
+	     )
+
 	    ,$year,$month,$day_of_month
+
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
+
 	    ,$ctotal_hh,$ctotal_mm
-	    ,$cwork_hh,$cwork_mm,$work_min
+	    ,$ctotal_hh,$ctotal_mm
+
+	    ,$cwork_hh,$cwork_mm
+	    ,$cwork_hh,$cwork_mm
+	    ,$work_min
+
 	    ,$this_day
 	    ,$other_tags_alt_separator
 	    ,$other_tags
 	    ;
 
 	  printf TBL
-	    "%04.4d-%02.2d-%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d%s%s\n"
+	    ( "%04.4d-%02.2d-%02.2d"
+	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
+	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
+	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
+	     ."|%4.4d"
+	     ."%s%s\n"
+	     )
+
 	    ,$year,$month,$day_of_month
+
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
+
 	    ,$ctotal_hh,$ctotal_mm
-	    ,$cwork_hh,$cwork_mm,$work_min
+	    ,$ctotal_hh,$ctotal_mm
+
+	    ,$cwork_hh,$cwork_mm
+	    ,$cwork_hh,$cwork_mm
+	    ,$work_min
+
 	    ,$other_tags_alt_separator
 	    ,$other_tags
 	    ;
@@ -232,8 +258,10 @@
 	,'$total_work::{hh,mm}' ,$total_work::hh,$total_work::mm
 	;
       printf TBL
-	"=\n*||||%02.2d:%02.2d|%4.4d|*\n"
-	,$total_work::hh,$total_work::mm,$total_work::min
+	"=\n|||||%02.2d:%02.2d|%02.2d:%02.2d|%4.4d\n"
+	,$total_work::hh,$total_work::mm
+	,$total_work::hh,$total_work::mm
+	,$total_work::min
 	;
       printf TBL ".\\\" =%d: %s=>%04.4d,%s=>%03.3d,%s=>%02.2d // %03.3d:%02.2d\n",__LINE__
 	,'$total_work::min',$total_work::min
