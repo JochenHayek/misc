@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 
-# $Id: JHdiary 1.14 1997/04/22 08:32:50 chkjoha Exp $
+# $Id: JHdiary 1.15 1997/05/06 12:56:49 chkjoha Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <97/04/22 10:32:02 chkjoha>
+# Time-stamp: <97/05/06 14:56:11 chkjoha>
 
 # Usage: 
 
@@ -122,15 +122,16 @@
 	    {
 	      local($total_min) = $total_hh * 60 + $total_mm;
 
-	      if ($total_min__computed != $total_min)
+	      if(   $main::options{compain_about_manual_computing}
+		 && ($total_min__computed != $total_min)
+		 )
 		{
 		  printf STDERR "=%d: %s=>%d,%s=>%d,%s=>%d\n",__LINE__
 		    ,'$.',$.
 		    ,'$total_min__computed',$total_min__computed
 		    ,'$total_min'          ,$total_min
 		    ;
-		  warn "manual computing is not that easy ... - sum"
-		    if $main::options{compain_about_manual_computing};
+		  warn "manual computing is not that easy ... - sum";
 		}
 	    }
 
