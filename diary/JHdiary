@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2002-06-12 03:28:58 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2002-10-31 09:03:22 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.88 2002/06/12 01:29:03 johayek Exp $' =~
+    '$Id: JHdiary 1.89 2002/10/31 08:08:31 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -1140,7 +1140,7 @@ sub proc_entry
       ,exists($::CoBa__project2code { $project }) ? $::CoBa__project2code { $project } : "{$project ???}"
 
       ,defined($other_tags[2]) ? $other_tags[2] : ''
-      ;
+      if 0;
   }
 
   printf "\t%s .. %s=%s=%s+%s--S:%s(%s) [%s%s]\n"
