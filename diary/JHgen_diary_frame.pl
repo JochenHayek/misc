@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.7 1997/05/05 18:31:39 chkjoha Exp $
+# $Id: JHgen_diary_frame.pl 1.8 1999/06/03 09:59:34 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 {
@@ -16,7 +16,7 @@
      ,' Saturday'
      );
 
-  for ($i=0,$cal_week=0,$old_year=-1; $i < 946857600 ; $i += 24*60*60 )
+  for ($i=0,$cal_week=1,$old_year=-1; $i < 946857600 ; $i += 24*60*60 )
     {
       ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = gmtime($i);
 
@@ -32,11 +32,11 @@
 	{
 	  if ($old_year eq $year)
 	    {
-	      $cal_week++;	# this is actually wrong for the last week of the year ...
+	      $cal_week++;	# this is actually wrong for the last week of the year ... (really???)
 	    }
 	  else
 	    {
-	      $cal_week = 2;
+	      $cal_week = 1;
 	      $old_year = $year;
 	    }
 	  if($debug)
