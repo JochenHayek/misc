@@ -1,10 +1,20 @@
 #!/usr/bin/perl -w
 
-# $Id: JHdiary 1.26 1997/11/20 10:23:32 jh48501 Exp $
-# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <1997-11-20 10:23:15 jh48501>
+($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 10:49:26 jh48501>' =~ m/<(.*)>/;
 
-# Usage: 
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.27 1997/11/20 10:50:10 jh48501 Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 10:50:10 $'))[1..2])));
+#     $rcs_Author=(join(' ',((split(/\s/,'$Author: jh48501 $'))[1])));
+#	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
+#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
+
+# usage: 
+#
+#     ...
+
+# purpose:
+#
+#     job_...
 
 # in:
 
@@ -13,46 +23,105 @@
 # requirements:
 
 {
-  $debug   = 1;
-  # $p_do_it = 1;
-  $p_echo_the_source = 1;
+  use English;
+  use FileHandle;
+  use strict;
 
-  die "I need at least the company tag." if $#ARGV < 0;
+  &main;
+}
+#
+sub main
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
 
-  local($company_tag) = shift;
-  my($pure_company_tag);
+  my(%param) = @_;
 
-  if (0)
+  $return_value = 0;
+
+  # described in:
+  #	camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
+
+  use Getopt::Long;
+  %options = ();
+
+  $main::options{debug} = 1;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$rcs_Id',$rcs_Id
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$emacs_Time_stamp',$emacs_Time_stamp
+    if 0 && $main::options{debug};
+
+  {
+    # defaults for the main::options;
+    
+    $main::options{dry_run}		       = 0;
+    $main::options{version}		       = 0;
+
+    $main::options{job_work_at}                = 1;
+
+    $main::options{echo_the_source_p} = 1;
+  }
+
+  my($result) =
+    &GetOptions
+      (\%main::options
+     ##,'job_xxx|jxxx!'
+       ,'job_work_at!'
+
+       ,'dry_run!'
+       ,'version!'
+
+       ,'company_tag=s'
+       );
+  $result || die 'GetMain::Options failed';
+
+  #
+  # example
+  # =======
+  #
+  # PROG ...
+
+  if($main::options{version})
     {
-      # described in:
-      #		camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
-
-      use Getopt::Long;
-      %options = ();
-
-      {
-	# defaults for the main::options;
-	
-	$main::options{dry_run}		       = 0;
-	$main::options{version}		       = 0;
-
-	$main::options{compain_about_manual_computing} = 0;
-
-	$main::options{job_xxx}                    = 1;
-      }
-
-      local($result) =
-	&GetOptions
-	  (\%options
-	   ,'columns=i'			# 1..3
-	   ,'landscape','portrait'	# 
-	   ,'font_size=i'		# 6,12,24
-	   ,'no_header'			# pr(1)'s `-t'
-	   ,'offset=i'			# pr(1)'s `-o'
-	   );
-
-      $result || die 'GetOptions failed';
+       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	 ,'$rcs_Id',$rcs_Id
+	 ;
+       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	 ,'$emacs_Time_stamp',$emacs_Time_stamp
+	 ;
     }
+
+  $main::options{job_work_at}      && &job_work_at;
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+}
+#
+sub job_work_at
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(!exists($main::options{company_tag}))
+    {
+      die "I need at least the company tag.";
+    }
+
+  local($company_tag) = $main::options{company_tag};
+  my($pure_company_tag);
 
   %month_name2no =
     ('Jan'  =>  1
@@ -90,7 +159,7 @@
 	  $month        = $month_name2no{$2};
 	  $year         = $3;
 
-	  if (0 && $debug)
+	  if (0 && $main::options{debug})
 	    {
 	      printf STDERR "=%d: %s=>'%s',%s=>%d\n",__LINE__
 		,'$this_day',$this_day
@@ -98,7 +167,7 @@
 		;
 	    }
 
-	  print $_,"\n" if $p_echo_the_source;
+	  print $_,"\n" if $main::options{echo_the_source_p};
 
 	  $total_min_today = 0;
 	  $work_min_today  = 0;
@@ -142,7 +211,7 @@
 	    {
 	      local($total_min) = $total_hh * 60 + $total_mm;
 
-	      if(   $main::options{compain_about_manual_computing}
+	      if(   $main::options{complain_about_manual_computing}
 		 && ($total_min__computed != $total_min)
 		 )
 		{
@@ -170,7 +239,7 @@
 	      local($work_min)   = $work_hh   * 60 + $work_mm ;
 
 	      if  (   (($work_min+$break_min) != $total_min)
-		   && $main::options{compain_about_manual_computing}
+		   && $main::options{complain_about_manual_computing}
 		   )
 		{
 		  printf STDERR "=%d: %s=>%d,%s=>%d,%s=>%d,%s=>%d\n",__LINE__
@@ -246,14 +315,14 @@
 	    ,$target_hhh
 	    ,"work\@${pure_company_tag}"
 	    ,$other_tags_dummy
-	    if $p_echo_the_source;
+	    if $main::options{echo_the_source_p};
 	}
 
       # when does this match???
 
       elsif (m/^\t\w\w:\w\w \.\. \w\w:\w\w=(\w\w):(\w\w)=(\w\w):(\w\w)\+\d\d:\d\d--S:\w\w\w:\m\m\(\w\w\w\) \[work\@$company_tag(,.+)?\]$/)
 	{
-	  print $_,"\n" if $p_echo_the_source;
+	  print $_,"\n" if $main::options{echo_the_source_p};
 	}
 
       elsif (m/work\@$company_tag/)
@@ -263,11 +332,11 @@
 	    ,'$_',$_
 	    ,"mysteriously matching [work\@${company_tag}]"
 	    ;
-	  print $_,"\n" if $p_echo_the_source;
+	  print $_,"\n" if $main::options{echo_the_source_p};
 	}
       else
 	{
-	  print $_,"\n" if $p_echo_the_source;
+	  print $_,"\n" if $main::options{echo_the_source_p};
 	}
     }
 
@@ -291,6 +360,14 @@
     }
 
   close(TBL);
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
 }
 #
 sub min_2_hhh_mm
