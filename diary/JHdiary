@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2002-05-29 00:38:57 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2002-06-12 03:28:58 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.87 2002/05/29 00:34:15 johayek Exp $' =~
+    '$Id: JHdiary 1.88 2002/06/12 01:29:03 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -142,10 +142,11 @@ sub main
   # ~/scripts/JHdiary --job_work_at --company_tag=IDS 2>/dev/console
   #
   ##################################################
-  # `--job_yearly_events' may only be applied to the region within diary,
+  #
+  # `--job_yearly_events' may ******only****** be applied to the region within diary,
   # where we find the yearly events;
-  ##################################################
-  # JHdiary --job_yearly_events --this_year=1997
+  #
+  ## JHdiary --job_yearly_events --this_year=1997
 
   if($main::options{version})
     {
@@ -537,6 +538,8 @@ sub job_yearly_events
 	    ,$text
 	    ;
 	}
+      elsif(m/^%%\(diary-.*\)\s*$/)
+	{}
       elsif(m/^\s*$/)
 	{
 	}
