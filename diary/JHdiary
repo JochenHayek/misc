@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 18:20:10 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 19:15:23 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.46 1998/01/30 18:27:27 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 18:27:27 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.47 1998/01/30 19:16:14 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 19:16:14 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -650,16 +650,16 @@ sub terminalise
 
 	$::fh_tbl1->print("\t,");	# the column title for the row titles
 	$::fh_tbl1->print( join( ','
-			       , map { "\"$_\"" }
+			       , map { "^$_" }
 				     (sort keys %{ $::t{days} })
 			       ) );
-	$::fh_tbl1->print("\n");
+	$::fh_tbl1->print(",^*\n");
       }
 
       my     ($tag);
       foreach $tag (sort keys %{ $::t{tags} })
 	{
-	  $::fh_tbl1->print("\"$tag\"\t,");
+	  $::fh_tbl1->print("'$tag\t,");
 
 	  $::fh_tbl1->print( join( ','
 				 , map {
@@ -668,8 +668,22 @@ sub terminalise
 				       (sort keys %{ $::t{days} })
 				 ) );
 
-	  $::fh_tbl1->print("\n");
+	  $::fh_tbl1->print( ','
+			   , ( sprintf "%6.2f", ( $::t{tags}{$tag} / 60 ) )
+			   , "\n"
+			   );
 	}
+
+      {
+	# the footer line with all the sums
+
+	$::fh_tbl1->print("'*\t,");	# the column title for the row titles
+	$::fh_tbl1->print( join( ','
+			       , map { "^$_" }
+				     (sort keys %{ $::t{days} })
+			       ) );
+	$::fh_tbl1->print(",'???\n");
+      }
     }
 
   $::fh_tbl0->close;
@@ -729,7 +743,7 @@ sub proc_entry
 	}
       );
   $::t{days}{ $date }{ $param{other_tags} }{work_min} = $param{work_min_today};
-  $::t{tags}{ $param{other_tags} } = 1;
+  $::t{tags}{ $param{other_tags} }                   += $param{work_min_today};
 
   printf STDERR
     ( "%s|%s|%s"
