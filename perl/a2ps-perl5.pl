@@ -7,7 +7,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.42 1997/08/05 20:34:29 jh48501 Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.43 2000/01/25 08:54:38 johayek Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -84,7 +84,7 @@ $numformat = '%-5d ';
 $oblique = 1;
 $bold = 1;
 $kanji_ascii_ratio = 1.0;
-$default_sublabel = q#%month %mday 19%year %hour:%min#;
+$default_sublabel = q#%month %mday %year %hour:%min#;
 
 ;# regexps for Japanese character code
 $re_sjis_s = '([\201-\237\340-\374][\100-\176\200-\374])+';
@@ -574,7 +574,7 @@ sub date {
     s/%mday\b/$mday/g;				# %mday
     s/%mon\b/$mon+1/ge;				# %mon
     s/%wday\b/$wday/g;				# %wday
-    s/%year\b/$year/g;				# %year
+    s/%year\b/$year+1900/ge;			# %year
     s/%day\b/$day[$wday]/g;			# %day
 
     s/\377/%/g;					# restore %
