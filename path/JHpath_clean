@@ -1,8 +1,8 @@
 #!/usr/bin/perl
 
-# $Id: JHpath_clean 1.3 1995/05/22 06:21:46 hayek Exp $
+# $Id: JHpath_clean 1.4 1995/05/22 06:41:16 hayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/path/RCS/JHpath_clean $
-# Time-stamp: <95/05/22 08:20:50 hayek>
+# Time-stamp: <95/05/22 08:40:31 hayek>
 
 # Usage: JHpath_clean path_value
 #     where `path_value' is any value like $PATH,
