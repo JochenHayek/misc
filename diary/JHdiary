@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <1999-06-10 19:17:46 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <1999-06-10 19:48:36 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.57 1999/06/10 17:18:52 johayek Exp $' =~
+    '$Id: JHdiary 1.58 1999/06/10 17:48:47 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -901,25 +901,35 @@ sub proc_entry
     ,$param{other_tags}
     ;
 
-  printf $::fh_csv1
+  {
+    my($date) = $param{date};
+    $date =~ tr/-/:/;
 
-      "%s|%s|%s"
-    . "|%s|%s"
-    . "|%s|%s|%4.4d"
-    . "%s%s\n"
+    my(@other_tags) = split(/\|/,$param{other_tags});
+    $other_tags[0] =~ s/ +$//;
 
-    ,$param{date},$start,$end
-    
-    ,&aux::min_2_hhDOTmm($param{total_min      })
-    ,&aux::min_2_hhDOTmm($param{total_min_today})
-    
-    ,&aux::min_2_hhDOTmm($param{work_min      })
-    ,&aux::min_2_hhDOTmm($param{work_min_today})
-    ,                    $param{work_min      }
-    
-    ,$param{other_tags_alt_separator}
-    ,$param{other_tags}
-    ;
+    # there is a somehow weird `:' right in the end of the line,
+    # but the commerzbank.com timesheet file lines also have it (obviously for whatever *other* reason),
+    # but anyway, I don't need to care so far;
+
+    printf $::fh_csv1
+
+	"%s"
+      . ":%s"
+      . ":%s"
+      . ":%s"
+      . ":%s:%s\n"
+
+      ,$date
+
+      ,$other_tags[0]
+
+      ,&aux::min_2_hhDOTmm($param{work_min      })
+
+      ,$other_tags[1]
+      ,$other_tags[2]
+      ;
+  }
 
   printf "\t%s .. %s=%s=%s+%s--S:%s(%s) [%s%s]\n"
 
