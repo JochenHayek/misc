@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 14:31:08 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 14:32:10 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.39 1998/01/30 14:31:42 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 14:31:42 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.40 1998/01/30 14:34:03 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 14:34:03 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -615,10 +615,7 @@ sub set_day
 
   print $_,"\n" if $main::options{echo_the_source_p};
 
-  my($fh_tbl) = $::fh_tbl;
-  print 
-    $fh_tbl			# perl5 does not allow me to replace this by $param{fh_tbl}
-    $day_separator;
+  print $::fh_tbl $day_separator;
 
   $day_separator = "_\n";
 
@@ -666,9 +663,7 @@ sub proc_entry
     ,$param{other_tags}
     ;
 
-  my($fh_tbl) = $::fh_tbl;
-  printf
-     $fh_tbl			# perl5 does not allow me to replace this by $param{fh_tbl}
+  printf $::fh_tbl
 
       "%04.4d-%02.2d-%02.2d"
     . "|%02.2d:%02.2d|%02.2d:%02.2d"
