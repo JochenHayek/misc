@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <1998-09-16 16:51:56 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <1999-06-10 19:17:46 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.56 1998/09/16 15:51:57 johayek Exp $' =~
+    '$Id: JHdiary 1.57 1999/06/10 17:18:52 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -616,6 +616,32 @@ sub min_2_hh_mm
   return $return_value;
 }
 #
+sub min_2_hhDOTmm
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  #my(%param) = @_;
+  my($min) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$file_name',$file_name
+      if 0 && $main::options{debug};
+
+  &discard_unused_variables($file_name) if 0;
+
+  $return_value = sprintf "%0.2f",($min/60);
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
 sub print_structure
 {
   my($fh,$prefix,$name,$ptr) = @_;
@@ -670,7 +696,10 @@ sub initialise
   $::fh_tbl0 = new FileHandle ">$ENV{'HOME'}/diary.month-tbl" ||
     die "cannot open month tbl: $! -";
 
-  $::fh_csv0 = new FileHandle ">$ENV{'HOME'}/diary.work_at.csv" ||
+  $::fh_csv0 = new FileHandle ">$ENV{'HOME'}/diary.work_at.CitiElite.csv" ||
+    die "cannot open month tbl #1: $! -";
+
+  $::fh_csv1 = new FileHandle ">$ENV{'HOME'}/diary.work_at.commerzbankDOTcom.csv" ||
     die "cannot open month tbl #1: $! -";
 
   $day_separator = '';
@@ -772,6 +801,7 @@ sub terminalise
 
   $::fh_tbl0->close;
   $::fh_csv0->close;
+  $::fh_csv1->close;
 
   printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
@@ -866,6 +896,26 @@ sub proc_entry
     ,&aux::min_2_hh_mm($param{work_min      })
     ,&aux::min_2_hh_mm($param{work_min_today})
     ,                  $param{work_min      }
+    
+    ,$param{other_tags_alt_separator}
+    ,$param{other_tags}
+    ;
+
+  printf $::fh_csv1
+
+      "%s|%s|%s"
+    . "|%s|%s"
+    . "|%s|%s|%4.4d"
+    . "%s%s\n"
+
+    ,$param{date},$start,$end
+    
+    ,&aux::min_2_hhDOTmm($param{total_min      })
+    ,&aux::min_2_hhDOTmm($param{total_min_today})
+    
+    ,&aux::min_2_hhDOTmm($param{work_min      })
+    ,&aux::min_2_hhDOTmm($param{work_min_today})
+    ,                    $param{work_min      }
     
     ,$param{other_tags_alt_separator}
     ,$param{other_tags}
