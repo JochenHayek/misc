@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 #!/usr/columbus/users32/hayek/usr/local/perl5/bin/perl
 
-# $Id: JHdiary 1.6 1996/09/30 12:30:19 jhayek Exp $
+# $Id: JHdiary 1.7 1996/09/30 12:44:35 jhayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <96/09/30 14:29:05 jhayek>
+# Time-stamp: <96/09/30 14:42:51 jhayek>
 
 # Usage: 
 
@@ -34,6 +34,13 @@
 	 );
     }
 
+  %month_name2no =
+    ( 'Jan', 1,'Feb', 2,'Mar', 3
+     ,'Apr', 4,'May', 5,'Jun', 6
+     ,'Jul', 7,'Aug', 8,'Sep', 9
+     ,'Oct',10,'Nov',11,'Dec',12
+     );
+
   open(TBL,">$ENV{'HOME'}/diary.month-tbl") || die "cannot open month tbl: $! -";
 
   while (<>)
@@ -46,7 +53,7 @@
 	{
 	  $this_day     = $_;
 	  $day_of_month = $1;
-	  $month        = $2;
+	  $month        = $month_name2no{$2};
 	  $year         = $3;
 
 	  if (0 && $debug)
@@ -128,8 +135,8 @@
 	  $total_work_hh = ($total_work_min - $total_work_mm) / 60;
 
 	  printf STDERR
-	    "  %2d.|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s|%s\n"
-	    ,$day_of_month
+	    "%04.4d-%02.2d-%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s|%s\n"
+	    ,$year,$month,$day_of_month
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 	    ,$total_hh,$total_mm
 	    ,$work_hh,$work_mm,$work_min
@@ -138,8 +145,8 @@
 	    ;
 
 	  printf TBL
-	    "  %2d.|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s\n"
-	    ,$day_of_month
+	    "%04.4d-%02.2d-%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s\n"
+	    ,$year,$month,$day_of_month
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 	    ,$total_hh,$total_mm
 	    ,$work_hh,$work_mm,$work_min
