@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 
-# $Id: JHdiary 1.21 1997/08/18 22:00:53 jh48501 Exp $
+# $Id: JHdiary 1.22 1997/08/18 22:18:34 jh48501 Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <97/08/18 23:00:11 jh48501>
+# Time-stamp: <97/08/18 23:16:41 jh48501>
 
 # Usage: 
 
@@ -64,6 +64,10 @@
 
   open(TBL,">$ENV{'HOME'}/diary.month-tbl") || die "cannot open month tbl: $! -";
 
+  my($total_min_today) = 0;
+  my( $work_min_today) = 0;
+  my($day_separator) = '';
+
   while (<>)
     {
       chop;
@@ -86,6 +90,11 @@
 	    }
 
 	  print $_,"\n" if $p_echo_the_source;
+
+	  $total_min_today = 0;
+	  $work_min_today  = 0;
+	  print TBL $day_separator;
+	  $day_separator = "_\n";
 	}
 
       elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[work\@$company_tag((,)(.+))?\]$/)
@@ -134,6 +143,7 @@
 	    }
 
 	  local($total_min) = $total_min__computed;
+	  $total_min_today += $total_min;
 
 	  local($break_min)  = $break_hh  * 60 + $break_mm;
 
@@ -162,13 +172,15 @@
 
 	  local($work_min) = $work_min__computed;
 
+	  $work_min_today  += $work_min;
+
 	  $total_work::min += $work_min;
 
 	  printf STDERR
 	    ( "%04.4d-%02.2d-%02.2d"
 	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
-	     ."|%s|%s"
-	     ."|%s|%s|%4.4d"
+	     ."|%s|%s"		# total
+	     ."|%s|%s|%4.4d"	# worked
 	     ."|%s%s%s\n"
 	     )
 
@@ -177,10 +189,10 @@
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 
 	    ,&min_2_hh_mm($total_min)
-	    ,&min_2_hh_mm($total_min)
+	    ,&min_2_hh_mm($total_min_today)
 
 	    ,&min_2_hh_mm($work_min)
-	    ,&min_2_hh_mm($work_min)
+	    ,&min_2_hh_mm($work_min_today)
 	    ,$work_min
 
 	    ,$this_day
@@ -201,10 +213,10 @@
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 
 	    ,&min_2_hh_mm($total_min)
-	    ,&min_2_hh_mm($total_min)
+	    ,&min_2_hh_mm($total_min_today)
 
 	    ,&min_2_hh_mm($work_min)
-	    ,&min_2_hh_mm($work_min)
+	    ,&min_2_hh_mm($work_min_today)
 	    ,$work_min
 
 	    ,$other_tags_alt_separator
