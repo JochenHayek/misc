@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 #!/usr/columbus/users32/hayek/usr/local/perl5/bin/perl
 
-# $Id: JHdiary 1.5 1996/09/30 12:26:59 jhayek Exp $
+# $Id: JHdiary 1.6 1996/09/30 12:30:19 jhayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <96/03/28 13:43:00 jh>
+# Time-stamp: <96/09/30 14:29:05 jhayek>
 
 # Usage: 
 
@@ -42,10 +42,12 @@
 
       local($other_tags);
 
-      if (m/^(\d\d) \w\w\w \d\d\d\d/)
+      if (m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
 	{
 	  $this_day     = $_;
 	  $day_of_month = $1;
+	  $month        = $2;
+	  $year         = $3;
 
 	  if (0 && $debug)
 	    {
