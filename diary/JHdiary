@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 17:13:51 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 18:05:31 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.44 1998/01/30 17:15:46 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 17:15:46 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.45 1998/01/30 18:07:20 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 18:07:20 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -537,6 +537,44 @@ sub min_2_hh_mm
   return $return_value;
 }
 #
+sub print_structure
+{
+  my($fh,$prefix,$name,$ptr) = @_;
+
+  if(!defined($ptr))
+    {
+      die "cannot print this structure";
+    }
+  elsif(ref($ptr) eq 'ARRAY')
+    {
+      foreach (0 .. $#{$ptr})
+	{
+	  &print_structure
+	    ($fh
+	    ,$prefix
+	    , $name . '[' . $_ . ']'
+	    ,$ptr->[$_]
+	    );
+	}
+    }
+  elsif(ref($ptr) eq 'HASH')
+    {
+      foreach(sort keys %{$ptr})
+	{
+	  &print_structure
+	    ($fh
+	    ,$prefix
+	    , $name . '{' . $_ . '}'
+	    ,$ptr->{$_}
+	    );
+	}
+    }
+  else
+    {
+      print $fh "$prefix$name=>{$ptr}\n";
+    }
+}
+#
 package work_at;
 
 sub initialise
@@ -598,6 +636,41 @@ sub terminalise
 	if 0;
     }
 
+  &aux::print_structure
+    (\*STDERR
+     ,(sprintf "=%s,%d,%s: ",__FILE__,__LINE__,$proc_name)
+     ,'$::t'
+     ,\%::t
+     ) if 0;
+
+  if(1)
+    {
+      {
+	# the header line
+
+	$::fh_tbl1->print("\t,");	# the column title for the row titles
+	$::fh_tbl1->print( join( ','
+			       , map { "\"$_\"" }
+				     (sort keys %{ $::t{days} })
+			       ) );
+	$::fh_tbl1->print("\n");
+      }
+
+      my     ($tag);
+      foreach $tag (sort keys %{ $::t{tags} })
+	{
+	  $::fh_tbl1->print("\"$tag\"\t,");
+
+	  $::fh_tbl1->print( join( ','
+				 , map { $::t{days}{$_}{$tag}{work_min}
+				       }
+				       (sort keys %{ $::t{days} })
+				 ) );
+
+	  $::fh_tbl1->print("\n");
+	}
+    }
+
   $::fh_tbl0->close;
   $::fh_tbl1->close;
 
@@ -649,11 +722,13 @@ sub proc_entry
   my(  $end) = sprintf "%02.2d:%02.2d",$param{  end_hh},$param{  end_mm};
   my($break) = sprintf "%02.2d:%02.2d",$param{break_hh},$param{break_mm};
 
-  push( @{ $::t{ $date }{ $param{other_tags} } }
+  push( @{ $::t{days}{ $date }{ $param{other_tags} }{blocks} }
       , { 'start' => $start , 'end' => $end , 'break' => $break
 	, 'work_min' => $param{work_min}
 	}
       );
+  $::t{days}{ $date }{ $param{other_tags} }{work_min} = $param{work_min_today};
+  $::t{tags}{ $param{other_tags} } = 1;
 
   printf STDERR
     ( "%s|%s|%s"
