@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-09 15:07:26 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 10:14:34 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.33 1998/01/09 15:07:28 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/09 15:07:28 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.34 1998/01/30 10:15:45 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 10:15:45 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -63,6 +63,7 @@ sub main
 
     $main::options{job_tag_match}              = 0;
     $main::options{job_work_at}                = 0;
+    $main::options{job_old_work_at}            = 0;
     $main::options{job_yearly_events}          = 0;
 
     $main::options{echo_the_source_p}		= 1;
@@ -76,6 +77,7 @@ sub main
      ##,'job_xxx|jxxx!'
        ,'job_tag_match!'
        ,'job_work_at!'
+       ,'job_old_work_at!'
        ,'job_yearly_events!'
 
        ,'dry_run!'
@@ -95,7 +97,8 @@ sub main
   #
   # JHdiary --job_tag_match --tag=travel
   #
-  # JHdiary --job_work_at --company_tag=derwent.co.uk 2>/dev/console
+  # JHdiary --job_work_at     --company_tag=derwent.co.uk 2>/dev/console
+  # JHdiary --job_old_work_at --company_tag=derwent.co.uk 2>/dev/console
   #
   ##################################################
   # `--job_yearly_events' may only be applied to the region within diary,
@@ -115,6 +118,7 @@ sub main
 
   if   ($main::options{job_tag_match	}) { &job_tag_match    ; }
   elsif($main::options{job_work_at  	}) { &job_work_at      ; }
+  elsif($main::options{job_old_work_at  }) { &job_old_work_at  ; }
   elsif($main::options{job_yearly_events}) { &job_yearly_events; }
   else
     {
@@ -183,6 +187,275 @@ sub job_tag_match
 }
 #
 sub job_work_at
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(!exists($main::options{company_tag}))
+    {
+      die "I need at least the company tag.";
+    }
+
+  my($company_tag) = $main::options{company_tag};
+  my($pure_company_tag);
+
+  %month_name2no =
+    ('Jan'  =>  1
+     ,'Feb' =>  2
+     ,'Mar' =>  3
+     ,'Apr' =>  4
+     ,'May' =>  5
+     ,'Jun' =>  6
+     ,'Jul' =>  7
+     ,'Aug' =>  8
+     ,'Sep' =>  9
+     ,'Oct' => 10
+     ,'Nov' => 11
+     ,'Dec' => 12
+     );
+
+  $total_work::min = 0;
+
+  open(TBL,">$ENV{'HOME'}/diary.month-tbl") || die "cannot open month tbl: $! -";
+
+  my($total_min_today) = 0;
+  my( $work_min_today) = 0;
+  my($day_separator) = '';
+
+  # within this loop quite some `local'-s are being used,
+  # because this procedure was originally written in perl4;
+
+  while (<>)
+    {
+      chop;
+
+      my($other_tags);
+
+      if (m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
+	{
+	  $this_day     = $_;
+	  $day_of_month = $1;
+	  $month        = $month_name2no{$2};
+	  $year         = $3;
+
+	  if (0 && $main::options{debug})
+	    {
+	      printf STDERR "=%d: %s=>'%s',%s=>%d\n",__LINE__
+		,'$this_day',$this_day
+		,'$day_of_month',$day_of_month
+		;
+	    }
+
+	  print $_,"\n" if $main::options{echo_the_source_p};
+
+	  $total_min_today = 0;
+	  $work_min_today  = 0;
+	  print TBL $day_separator;
+	  $day_separator = "_\n";
+	}
+
+      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
+	{
+	  local($start_hh,$start_mm) = ( $1, $2); local($start_min) = $start_hh * 60 + $start_mm;
+	  local($end_hh  ,$end_mm  ) = ( $3, $4); local($end_min  ) = $end_hh   * 60 + $end_mm;
+	  local($total_hh,$total_mm) = ( $5, $6);
+	  local($work_hh ,$work_mm ) = ( $7, $8);
+	  local($break_hh,$break_mm) = ( $9,$10);
+	  local($target_hhh        ) = ($11    );
+	  local($work_AT           ) = ($12);
+
+	  my($other_tags_dummy,$other_tags_separator);
+
+	  ($pure_company_tag,$other_tags_dummy,$other_tags_separator,$other_tags) =
+	    $work_AT =~ m/^work\@([^,]+)((,)(.+))?$/;
+
+	  if(defined($other_tags_dummy))
+	    {
+	      $other_tags_alt_separator = '|';
+	      $other_tags           	=~ s/,/|/g;
+	    }
+	  else
+	    {
+	      $other_tags_dummy         = '';
+	      $other_tags_alt_separator = '';
+	      $other_tags           	= '';
+	    }
+
+	  local($total_min__computed) = $end_min - $start_min;
+
+	  if ("$total_hh:$total_mm" eq 'hh:mm') # concerns `total' time
+	    {
+	    }
+	  else
+	    {
+	      local($total_min) = $total_hh * 60 + $total_mm;
+
+	      if(   $main::options{complain_about_manual_computing}
+		 && ($total_min__computed != $total_min)
+		 )
+		{
+		  printf STDERR "=%d: %s=>%d,%s=>%d,%s=>%d\n",__LINE__
+		    ,'$.',$.
+		    ,'$total_min__computed',$total_min__computed
+		    ,'$total_min'          ,$total_min
+		    ;
+		  warn "manual computing is not that easy ... - sum";
+		}
+	    }
+
+	  local($total_min) = $total_min__computed;
+	  $total_min_today += $total_min;
+
+	  local($break_min)  = $break_hh  * 60 + $break_mm;
+
+	  local($work_min__computed) = $total_min__computed - $break_min;
+
+	  if ("$work_hh:$work_mm" eq 'hh:mm') # concerns `work' time
+	    {
+	    }
+	  else
+	    {
+	      local($work_min)   = $work_hh   * 60 + $work_mm ;
+
+	      if  (   (($work_min+$break_min) != $total_min)
+		   && $main::options{complain_about_manual_computing}
+		   )
+		{
+		  printf STDERR "=%d: %s=>%d,%s=>%d,%s=>%d,%s=>%d\n",__LINE__
+		    ,'$.',$.
+		    ,'$work_min' ,$work_min
+		    ,'$break_min',$break_min
+		    ,'$total_min',$total_min
+		    ;
+		  warn "manual computing is not that easy ... - sum-break";
+		}
+	    }
+
+	  local($work_min) = $work_min__computed;
+
+	  $work_min_today  += $work_min;
+
+	  $total_work::min += $work_min;
+
+	  printf STDERR
+	    ( "%04.4d-%02.2d-%02.2d"
+	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
+	     ."|%s|%s"		# total
+	     ."|%s|%s|%4.4d"	# worked
+	     ."|%s%s%s\n"
+	     )
+
+	    ,$year,$month,$day_of_month
+
+	    ,$start_hh,$start_mm,$end_hh ,$end_mm
+
+	    ,&min_2_hh_mm($total_min)
+	    ,&min_2_hh_mm($total_min_today)
+
+	    ,&min_2_hh_mm($work_min)
+	    ,&min_2_hh_mm($work_min_today)
+	    ,$work_min
+
+	    ,$this_day
+	    ,$other_tags_alt_separator
+	    ,$other_tags
+	    ;
+
+	  printf TBL
+	    ( "%04.4d-%02.2d-%02.2d"
+	     ."|%02.2d:%02.2d|%02.2d:%02.2d"
+	     ."|%s|%s"
+	     ."|%s|%s|%4.4d"
+	     ."%s%s\n"
+	     )
+
+	    ,$year,$month,$day_of_month
+
+	    ,$start_hh,$start_mm,$end_hh ,$end_mm
+
+	    ,&min_2_hh_mm($total_min)
+	    ,&min_2_hh_mm($total_min_today)
+
+	    ,&min_2_hh_mm($work_min)
+	    ,&min_2_hh_mm($work_min_today)
+	    ,$work_min
+
+	    ,$other_tags_alt_separator
+	    ,$other_tags
+	    ;
+
+	  printf
+	    "\t%02.2d:%02.2d .. %02.2d:%02.2d=%s=%s+%02.2d:%02.2d--S:%s(%s) [%s%s]\n"
+	    ,$start_hh,$start_mm,$end_hh ,$end_mm
+	    ,&min_2_hh_mm($total_min)
+	    ,&min_2_hh_mm($work_min)
+	    ,$break_hh,$break_mm
+	    ,&min_2_hhh_mm($total_work::min)
+	    ,$target_hhh
+	    ,"work\@${pure_company_tag}"
+	    ,$other_tags_dummy
+	    if $main::options{echo_the_source_p};
+	}
+
+      # when does this match???
+
+      elsif (m/^\t\w\w:\w\w \.\. \w\w:\w\w=(\w\w):(\w\w)=(\w\w):(\w\w)\+\d\d:\d\d--S:\w\w\w:\m\m\(\w\w\w\) \[work\@$company_tag(,.+)?\]$/)
+	{
+	  print $_,"\n" if $main::options{echo_the_source_p};
+	}
+
+      elsif (m/work\@$company_tag/)
+	{
+	  printf STDERR "=%d: %s=>%d,%s=>'%s' // %s\n",__LINE__
+	    ,'$.',$.
+	    ,'$_',$_
+	    ,"mysteriously matching [work\@${company_tag}]"
+	    ;
+	  print $_,"\n" if $main::options{echo_the_source_p};
+	}
+      else
+	{
+	  print $_,"\n" if $main::options{echo_the_source_p};
+	}
+    }
+
+  if (1)
+    {
+      printf STDERR "=%d: %s=>%04.4d,%s=>%s\n",__LINE__
+	,'$total_work::min',$total_work::min
+	,'$total_work::{hh,mm}' ,&min_2_hhh_mm($total_work::min)
+	;
+      printf TBL
+	"=\n|||||%s|%s|%4.4d\n"
+	,&min_2_hh_mm($total_work::min)
+	,&min_2_hh_mm($total_work::min)
+	,$total_work::min
+	;
+      printf TBL ".\\\" =%d: %s=>%04.4d,%s=>%s // %s\n",__LINE__
+	,'$total_work::min',$total_work::min
+	,'$total_work::{hh,mm}',&min_2_hhh_mm($total_work::min)
+	,&min_2_hhh_mm($total_work::min)
+	if 0;
+    }
+
+  close(TBL);
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_old_work_at
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
