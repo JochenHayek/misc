@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2004-03-22 14:59:59 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2004-03-22 15:33:07 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.90 2004/03/22 14:00:26 johayek Exp $' =~
+    '$Id: JHdiary 1.91 2004/03/22 14:34:02 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -117,6 +117,7 @@ sub main
     $main::options{job_tag_match}              = 0;
     $main::options{job_work_at}                = 0;
     $main::options{job_yearly_events}          = 0;
+    $main::options{job_easter_etc}             = 0;
 
     $main::options{echo_the_source_p}		= 1;
 
@@ -133,6 +134,7 @@ sub main
        ,'job_tag_match!'
        ,'job_work_at!'
        ,'job_yearly_events!'
+       ,'job_easter_etc!'
 
        ,'dry_run!'
        ,'version!'
@@ -141,7 +143,7 @@ sub main
 
        ,'tag=s'			# used by --job_tag_match
 
-       ,'this_year|year=s'	# used by --job_yearly_events
+       ,'this_year|year=s'	# used by --job_yearly_events , --job_easter_etc
 
        ,'from=s'
        ,'to=s'
@@ -152,22 +154,24 @@ sub main
   # example
   # =======
   #
-  # ~/scripts/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
-  # ~/scripts/JHdiary --from=2001-05-17 --to=2001-06-18 --job_tag_match --tag=biz,travel,flight
-  # ~/scripts/JHdiary --from=1999-01-01 --to=1999-12-31 --job_tag_match --tag=biz,travel
+  # ~/Computers.Programming.Languages.Perl/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
+  # ~/Computers.Programming.Languages.Perl/JHdiary --from=2001-05-17 --to=2001-06-18 --job_tag_match --tag=biz,travel,flight
+  # ~/Computers.Programming.Languages.Perl/JHdiary --from=1999-01-01 --to=1999-12-31 --job_tag_match --tag=biz,travel
   #
-  # ~/scripts/JHdiary --from=1999-01 --to=1999-01-99 --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/scripts/JHdiary                                --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/scripts/JHdiary --job_work_at --company_tag=IDS 2>/dev/pts/10
-  # ~/scripts/JHdiary --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/scripts/JHdiary --job_work_at --company_tag=IDS 2>/dev/console
+  # ~/Computers.Programming.Languages.Perl/JHdiary --from=1999-01 --to=1999-01-99 --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/Computers.Programming.Languages.Perl/JHdiary                                --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/Computers.Programming.Languages.Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/pts/10
+  # ~/Computers.Programming.Languages.Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/Computers.Programming.Languages.Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/console
   #
   ##################################################
   #
   # `--job_yearly_events' may ******only****** be applied to the region within diary,
   # where we find the yearly events;
   #
-  ## JHdiary --job_yearly_events --this_year=1997
+  # ~/Computers.Programming.Languages.Perl/JHdiary --job_yearly_events --this_year=1997
+  #
+  # ~/Computers.Programming.Languages.Perl/JHdiary --job_easter_etc    --this_year=2004
 
   if($main::options{version})
     {
@@ -182,6 +186,7 @@ sub main
   if   ($main::options{job_tag_match	}) { &job_tag_match    ; }
   elsif($main::options{job_work_at  	}) { &job_work_at      ; }
   elsif($main::options{job_yearly_events}) { &job_yearly_events; }
+  elsif($main::options{job_easter_etc   }) { &job_easter_etc   ; }
   else
     {
       die "You did not give me a job.";
@@ -534,7 +539,7 @@ sub job_yearly_events
 	  printf "%02.2d %s %s\n\thh:mm %s\n"
 	    ,$day
 	    ,$short_month_name
-	    ,$options{this_year}
+	    ,$main::options{this_year}
 	    ,$text
 	    ;
 	}
@@ -550,7 +555,7 @@ sub job_yearly_events
 	  printf "%02.2d %s %s\n\thh:mm %s\n"
 	    ,$day
 	    , $::month_names__long2short{$long_month_name}
-	    ,$options{this_year}
+	    ,$main::options{this_year}
 	    ,$text
 	    ;
 	}
@@ -558,6 +563,71 @@ sub job_yearly_events
 	{
 	  warn;
 	}
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_easter_etc
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$main::options{this_year}',$main::options{this_year}
+    if 0 && $main::options{debug};
+
+  use Date::Calc qw( Easter_Sunday Add_Delta_Days );
+
+  my(@table) =
+
+  ( { name => 'Carnival Monday / Rosenmontag / Veille du Mardi Gras'   ,  offset => -48 }
+  , { name => 'Mardi Gras / Karnevalsdienstag / Mardi Gras'            ,  offset => -47 }
+  , { name => 'Ash Wednesday / Aschermittwoch / Mercredi des Cendres'  ,  offset => -46 }
+  , { name => 'Palm Sunday / Palmsonntag / Dimanche des Rameaux'       ,  offset =>  -7 }
+  , { name => 'Easter Friday / Karfreitag / Vendredi Saint'            ,  offset =>  -2 }
+  , { name => 'Easter Saturday / Ostersamstag / Samedi de Paques'      ,  offset =>  -1 }
+  , { name => 'Easter Sunday / Ostersonntag / Dimanche de Paques'      ,  offset =>   0 }
+  , { name => 'Easter Monday / Ostermontag / Lundi de Paques'          ,  offset =>  +1 }
+  , { name => 'Ascension of Christ / Christi Himmelfahrt / Ascension'  ,  offset => +39 }
+  , { name => 'Whitsunday / Pfingstsonntag / Dimanche de Pentecote'    ,  offset => +49 }
+  , { name => 'Whitmonday / Pfingstmontag / Lundi de Pentecote'        ,  offset => +50 }
+  , { name => 'Feast of Corpus Christi / Fronleichnam / Fete-Dieu'     ,  offset => +60 }
+  );
+
+  foreach my $rec ( @table )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	,'$rec->{offset}',$rec->{offset}
+	if 0 && $main::options{debug};
+
+      my(%date);
+      ($date{year},$date{month},$date{day}) = Add_Delta_Days( Easter_Sunday($main::options{this_year}) , $rec->{offset} );;
+
+      printf STDERR "=%s,%d,%s: %s=>{%04d-%02d-%02d}\n",__FILE__,__LINE__,$proc_name
+
+	,$rec->{name}
+	,$date{year},$date{month},$date{day}
+
+	if 0 && $main::options{debug};
+
+      printf STDOUT "%02d %s %04d\n\thh:mm name of day: %s\n"
+	,$date{day}
+	,$::short_month_names[$date{month}]
+	,$date{year}
+        ,$rec->{name}
+	;
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
