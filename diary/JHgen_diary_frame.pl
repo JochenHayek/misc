@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.3 1995/11/16 15:57:17 jh Exp $
+# $Id: JHgen_diary_frame.pl 1.4 1995/11/16 16:32:12 jh Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 {
@@ -31,12 +31,11 @@
 	      $cal_week = 1;
 	      $old_year = $year;
 	    }
-	  printf "\f\n%02.2d %s %d %s, week# %02.2d\n"
+	  printf "\f\n%02.2d %s %d %s\n"
 	    , $mday
 	    , $month_names[$mon]
 	    , 1900 + $year
 	    , $week_day_names[$wday]
-	    , $cal_week
 	    unless $debug;
 	  printf "\t00:00 [biz] week# %02.2d\n"
 	    , $cal_week
@@ -44,7 +43,7 @@
 	}
       elsif ($wday == 4)
 	{
-	  printf "\f\n%02.2d %s %d %s\n"
+	  printf "%02.2d %s %d %s\n"
 	    , $mday
 	    , $month_names[$mon]
 	    , 1900 + $year
