@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 22:04:27 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-02-04 11:06:40 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.50 1998/01/30 22:19:51 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 22:19:51 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.51 1998/02/04 11:12:16 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/02/04 11:12:16 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -262,28 +262,7 @@ sub job_work_at
 
 	  &work_at::set_day;
 	}
-
-      if(   $main::options{from} le $date
-	 && $date le $main::options{to}
-	)
-	{
-	  printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
-	    ,'$main::options{from}',$main::options{from}
-	    ,'$date',$date
-	    ,'$main::options{to}',$main::options{to}
-	    if 0;
-	}
-      else
-	{
-	  printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
-	    ,'$main::options{from}',$main::options{from}
-	    ,'$date',$date
-	    ,'$main::options{to}',$main::options{to}
-	    if 0;
-	  next;
-	}
-
-      if(m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
+      elsif(m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
 	{
 	  local($start_hh,$start_mm) = ( $1, $2); local($start_min) = $start_hh * 60 + $start_mm;
 	  local($end_hh  ,$end_mm  ) = ( $3, $4); local($end_min  ) = $end_hh   * 60 + $end_mm;
@@ -292,6 +271,24 @@ sub job_work_at
 	  local($break_hh,$break_mm) = ( $9,$10);
 	  local($target_hhh        ) = ($11    );
 	  local($work_AT           ) = ($12);
+
+	  if( $main::options{from} le $date && $date le $main::options{to} )
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$date',$date
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	    }
+	  else
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$date',$date
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	      next;
+	    }
 
 	  my($other_tags_ALL,$other_tags_separator);
 
