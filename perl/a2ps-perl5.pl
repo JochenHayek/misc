@@ -6,7 +6,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.37 1995/08/03 14:27:08 hayek Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.38 1995/11/07 23:51:02 jh Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -47,9 +47,10 @@ $jisconvert = 0;
 @mon{@mon} = ($[ .. $#mon);
 @day{@day} = ($[ .. $#day);
 
-@param_us = ( 8.50, 11.06, 0.65, 1.2, 6.85, 9.5, 0.29, 0.22, 0.12, 'a4');
-@param_a4 = ( 8.27, 11.64, 1.20, 1.2, 6.60, 9.8, 0.29, 0.22, 0.05, 'a4');
-@param_b4 = (10.15, 14.31, 1.40, 1.2, 8.50, 9.5, 0.29, 0.22, 0.08, 'b4');
+@param_us    = ( 8.50, 11.06, 0.65, 1.2, 6.85, 9.5, 0.29, 0.22, 0.12, 'a4');
+@param_a4    = ( 8.27, 11.64, 1.20, 1.2, 6.60, 9.8, 0.29, 0.22, 0.05, 'a4');
+@param_b4    = (10.15, 14.31, 1.40, 1.2, 8.50, 9.5, 0.29, 0.22, 0.08, 'b4');
+@param_a4_ff = ( 7.77,  8.56, 1.20, 1.2, 6.60, 9.8, 0.29, 0.22, 0.05, 'a4');
 sub paper {
     local(*param) = 'param_' . $_[0];
     die "Unknown paper type: $_[0]\n" unless defined @param;
@@ -93,7 +94,7 @@ while ($_ = $ARGV[0], s/^-(.+)$/$1/ && shift) {
     next if $_ eq '';
     if (s/^help$//)		{&usage;				next;}
     if (s/^basename$//)		{$basename++;				next;}
-    if (s/^(us|a4|b4)$//i)	{&paper($paper="\L$1");			next;}
+    if (s/^(us|a4|b4|a4_ff)$//i){&paper($paper="\L$1");			next;}
     if (s/^l(.*)$//)		{defined($label=$1||shift)||&usage;	next;}
     if (s/^L(.*)$//)		{defined($sublabel=$1||shift)||&usage;	next;}
     if (s/^toc$//)		{defined($toc=shift)||&usage;		next;}
