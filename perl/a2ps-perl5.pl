@@ -7,7 +7,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.41 1997/07/17 11:18:34 jh Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.42 1997/08/05 20:34:29 jh48501 Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -104,7 +104,7 @@ while ($_ = $ARGV[0], s/^-(.+)$/$1/ && shift) {
 
     if (s/^(n?)D//)		{$duplex   	= !$1;			redo;}
     if (s/^(n?)T//)		{$tumble   	= !$1;			redo;}
-    if (s/^P([\d\.]+)//)	{$hp_pcl_level=$1;			redo;}
+    if (s/^P(\d+)//)		{$hp_pcl_level=$1;			redo;}
 
     if (s/^l(.*)$//)		{defined($label=$1||shift)||&usage;	next;}
     if (s/^L(.*)$//)		{defined($sublabel=$1||shift)||&usage;	next;}
