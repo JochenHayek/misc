@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 14:38:57 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 17:05:19 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.42 1998/01/30 14:39:30 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 14:39:30 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.43 1998/01/30 17:11:47 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 17:11:47 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -558,6 +558,8 @@ sub initialise
 
   $day_separator = '';
 
+  %::t = ();
+
   printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
     if 0 && $main::options{debug};
@@ -641,18 +643,25 @@ sub proc_entry
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
+  my($date ) = sprintf "%04.4d-%02.2d-%02.2d",$param{year},$param{month},$param{day_of_month};
+
+  my($start) = sprintf "%02.2d:%02.2d",$param{start_hh},$param{start_mm};
+  my(  $end) = sprintf "%02.2d:%02.2d",$param{  end_hh},$param{  end_mm};
+  my($break) = sprintf "%02.2d:%02.2d",$param{break_hh},$param{break_mm};
+
+  push( @{ $::t{ $date }{ $param{other_tags} } }
+      , { 'start' => $start
+	}
+      );
+
   printf STDERR
-    ( "%04.4d-%02.2d-%02.2d"
-     ."|%02.2d:%02.2d|%02.2d:%02.2d"
+    ( "%s|%s|%s"
      ."|%s|%s"		# total
      ."|%s|%s|%4.4d"	# worked
      ."|%s%s%s\n"
      )
 
-    ,$param{year},$param{month},$param{day_of_month}
-
-    ,$param{start_hh},$param{start_mm}
-    ,$param{  end_hh},$param{  end_mm}
+    ,$date,$start,$end
 
     ,&aux::min_2_hh_mm($param{total_min      })
     ,&aux::min_2_hh_mm($param{total_min_today})
@@ -669,16 +678,12 @@ sub proc_entry
 
   printf $::fh_tbl0
 
-      "%04.4d-%02.2d-%02.2d"
-    . "|%02.2d:%02.2d|%02.2d:%02.2d"
+      "%s|%s|%s"
     . "|%s|%s"
     . "|%s|%s|%4.4d"
     . "%s%s\n"
 
-    ,$param{year},$param{month},$param{day_of_month}
-    
-    ,$param{start_hh},$param{start_mm}
-    ,$param{  end_hh},$param{  end_mm}
+    ,$date,$start,$end
     
     ,&aux::min_2_hh_mm($param{total_min      })
     ,&aux::min_2_hh_mm($param{total_min_today})
@@ -691,15 +696,14 @@ sub proc_entry
     ,$param{other_tags}
     ;
 
-  printf "\t%02.2d:%02.2d .. %02.2d:%02.2d=%s=%s+%02.2d:%02.2d--S:%s(%s) [%s%s]\n"
+  printf "\t%s .. %s=%s=%s+%s--S:%s(%s) [%s%s]\n"
 
-    ,$param{start_hh},$param{start_mm}
-    ,$param{  end_hh},$param{  end_mm}
+    ,$start,$end
 
     ,&aux::min_2_hh_mm($param{total_min})
     ,&aux::min_2_hh_mm($param{ work_min})
 
-    ,$param{break_hh},$param{break_mm}
+    ,$break
 
     ,&aux::min_2_hhh_mm($param{total_work__min}) , $param{target_hhh}
 
