@@ -1,10 +1,10 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2002-08-27 01:15:48 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2002-08-28 00:23:04 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.4 2002/08/26 23:15:58 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2002/08/26 23:15:58 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.5 2002/08/27 22:26:41 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2002/08/27 22:26:41 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
@@ -75,6 +75,9 @@ sub main
     $main::options{help}			= 0;
 
     $main::options{job_diff}	= 0;
+    $main::options{job_merge}	= 0;
+    $main::options{job_check_strict_monotony}	= 0;
+    $main::options{job_establish_strict_monotony}	= 0;
   }
 
   # a problem I found find GetOptions:
@@ -84,6 +87,9 @@ sub main
     &GetOptions
       (\%main::options
        ,'job_diff!'
+       ,'job_merge!'
+       ,'job_check_strict_monotony!'
+       ,'job_establish_strict_monotony!'
 
        ,'left_operand=s'
        ,'right_operand|operand=s'
@@ -109,6 +115,9 @@ sub main
   # =======
   #
   # PROG --verbose --job_diff
+  # PROG --verbose --job_merge
+  # PROG --verbose --job_check_strict_monotony
+  # PROG --verbose --job_establish_strict_monotony
 
   if($main::options{version})
     {
@@ -123,6 +132,12 @@ sub main
   if   ($main::options{help               }) { &help                                ; }
   elsif($main::options{job_diff})
     {                 &job_diff; }
+  elsif($main::options{job_merge})
+    {                 &job_merge; }
+  elsif($main::options{job_check_strict_monotony})
+    {                 &job_check_strict_monotony; }
+  elsif($main::options{job_establish_strict_monotony})
+    {                 &job_establish_strict_monotony; }
   else
     {
       die "You did not give me a job.";
@@ -135,9 +150,6 @@ sub main
     if 0 && $main::options{debug};
 }
 #
-#################################################################################
-#   job_diff
-#################################################################################
 sub job_diff
 {
   my($package,$filename,$line,$proc_name) = caller(0);
@@ -338,6 +350,128 @@ sub job_diff
 	  printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
 	  exit(1);
 	}
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  return $return_value;
+}
+#
+sub job_merge
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+  my(%param) = @_;
+  $return_value = 0;
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  defined($main::options{left_operand}) || die "!defined(\$main::options{left_operand})";
+  defined($main::options{right_operand}) || die "!defined(\$main::options{right_operand})";
+
+  my($left_fh) = new FileHandle;
+  $left_fh->open($main::options{left_operand}) or die "cannot open {$main::options{left_operand}}";
+
+  my($right_fh) = new FileHandle;
+  $right_fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+  my($left_line );
+  my($right_line);
+
+  for(;;)
+    {
+      $right_line = <$right_fh> ;
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  return $return_value;
+}
+#
+sub job_check_strict_monotony
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+  my(%param) = @_;
+  $return_value = 0;
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  defined($main::options{right_operand}) || die "!defined(\$main::options{right_operand})";
+
+  my($fh) = new FileHandle;
+  $fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+  my($current_line);
+
+  my($last_date_line);
+
+  for(;;)
+    {
+      $current_line = <$fh> ;
+
+      defined($current_line) || last;
+
+      $current_line =~ m/^\s+/ && next;
+
+      if(defined($last_date_line) && ($current_line eq $last_date_line))
+	{
+	  chomp($current_line);
+	  die "\$current_line=>{$current_line} // \$current_line eq \$last_date_line";
+	}
+
+      $last_date_line = $current_line;
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  return $return_value;
+}
+#
+sub job_establish_strict_monotony
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+  my(%param) = @_;
+  $return_value = 0;
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  defined($main::options{right_operand}) || die "!defined(\$main::options{right_operand})";
+
+  my($fh) = new FileHandle;
+  $fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+  my($current_line);
+
+  my($last_date_line);
+
+  for(;;)
+    {
+      $current_line = <$fh> ;
+
+      defined($current_line) || last;
+
+      if($current_line =~ m/^\s+/)
+	{
+	  print $current_line;
+	  next;
+	}
+
+      if(defined($last_date_line) && ($current_line eq $last_date_line))
+	{
+	  next;
+	}
+
+      print $current_line;
+
+      $last_date_line = $current_line;
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
