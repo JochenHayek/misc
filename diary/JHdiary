@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 10:54:52 jh48501>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 10:58:17 jh48501>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.28 1997/11/20 10:56:25 jh48501 Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 10:56:25 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.29 1997/11/20 10:59:50 jh48501 Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 10:59:50 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: jh48501 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -61,7 +61,7 @@ sub main
     $main::options{dry_run}		       = 0;
     $main::options{version}		       = 0;
 
-    $main::options{job_work_at}                = 1;
+    $main::options{job_work_at}                = 0;
 
     $main::options{echo_the_source_p} = 1;
   }
@@ -95,7 +95,11 @@ sub main
 	 ;
     }
 
-  $main::options{job_work_at}      && &job_work_at;
+  if   ($main::options{job_work_at}) { &job_work_at; }
+  else
+    {
+      die "You did not give me a job.";
+    }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
