@@ -1,12 +1,29 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-02-26 22:21:04 johayek>' =~ m/<(.*)>/;
+{
+  ($emacs_Time_stamp) = 'Time-stamp: <1998-03-17 11:42:41 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.53 1998/03/17 11:21:09 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/03/17 11:21:09 $'))[1..2])));
-#     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
-#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
+  '' =~ m/`/;
+
+  ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
+
+    '$Id: JHdiary 1.54 1998/03/17 11:43:22 johayek Exp $' =~
+
+      m(^ \ \s
+
+          (
+               (\S+)		# RCSfile
+            \s (\S+)		# Revision
+            \s (\S+ \s \S+)	# Date
+            \s (\S+)		# Author
+            \s (\S+)		# State
+            .*
+          )
+
+          \s \$ $)x;
+
+  '' =~ m/`/;
+}
 
 # usage: 
 #
@@ -44,7 +61,7 @@
 
   &main;
 }
-#
+
 sub main
 {
   my($package,$filename,$line,$proc_name) = caller(0);
@@ -724,7 +741,8 @@ sub terminalise
 
 	  $::fh_csv0->print( join( ','
 				 , map {
-				         sprintf "%6.2f", ( $::t{days}{$_}{$tag}{work_min} / 60 )
+				         sprintf "%6.2f"
+					   , ( exists($::t{days}{$_}{$tag}) ? $::t{days}{$_}{$tag}{work_min} / 60 : 0 )
 				       }
 				       (sort keys %{ $::t{days} })
 				 ) );
