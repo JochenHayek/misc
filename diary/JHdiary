@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 14:35:05 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 14:38:57 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.41 1998/01/30 14:35:43 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 14:35:43 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.42 1998/01/30 14:39:30 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 14:39:30 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -550,8 +550,11 @@ sub initialise
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  $::fh_tbl = new FileHandle ">$ENV{'HOME'}/diary.month-tbl" ||
+  $::fh_tbl0 = new FileHandle ">$ENV{'HOME'}/diary.month-tbl" ||
     die "cannot open month tbl: $! -";
+
+  $::fh_tbl1 = new FileHandle ">$ENV{'HOME'}/diary.month-tbl-1" ||
+    die "cannot open month tbl #1: $! -";
 
   $day_separator = '';
 
@@ -579,13 +582,13 @@ sub terminalise
 	,'$::total_work__min',$::total_work__min
 	,'$::total_work__{hh,mm}' ,&aux::min_2_hhh_mm($::total_work__min)
 	;
-      printf $::fh_tbl
+      printf $::fh_tbl0
 	 "=\n|||||%s|%s|%4.4d\n"
 	,&aux::min_2_hh_mm($::total_work__min)
 	,&aux::min_2_hh_mm($::total_work__min)
 	,$::total_work__min
 	;
-      printf $::fh_tbl
+      printf $::fh_tbl0
 	 ".\\\" =%d: %s=>%04.4d,%s=>%s // %s\n",__LINE__
 	,'$::total_work__min',$::total_work__min
 	,'$::total_work__{hh,mm}',&aux::min_2_hhh_mm($::total_work__min)
@@ -593,7 +596,8 @@ sub terminalise
 	if 0;
     }
 
-  $::fh_tbl->close;
+  $::fh_tbl0->close;
+  $::fh_tbl1->close;
 
   printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
@@ -615,7 +619,7 @@ sub set_day
 
   print $_,"\n" if $main::options{echo_the_source_p};
 
-  print $::fh_tbl $day_separator;
+  print $::fh_tbl0 $day_separator;
 
   $day_separator = "_\n";
 
@@ -663,7 +667,7 @@ sub proc_entry
     ,$param{other_tags}
     ;
 
-  printf $::fh_tbl
+  printf $::fh_tbl0
 
       "%04.4d-%02.2d-%02.2d"
     . "|%02.2d:%02.2d|%02.2d:%02.2d"
