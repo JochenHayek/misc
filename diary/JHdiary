@@ -1,0 +1,182 @@
+#!/usr/bin/perl
+#!/usr/columbus/users32/hayek/usr/local/perl5/bin/perl
+
+# $Id: JHdiary 1.1 1996/02/26 13:17:52 jh Exp $
+# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
+# Time-stamp: <95/12/22 16:18:20 jh>
+
+# Usage: 
+
+# in:
+
+# out:
+
+# requirements:
+
+{
+  $debug   = 1;
+  $p_do_it = 1;
+  $p_echo_the_source = 1;
+
+  if (0)
+    {
+      require 'newgetopt.pl';
+      &NGetOpt
+	( 'columns=i'			# 1..3
+	 ,'landscape','portrait'	# 
+	 ,'font_size=i'		# 6,12,24
+	 ,'no_header'			# pr(1)'s `-t'
+	 ,'offset=i'			# pr(1)'s `-o'
+	 );
+    }
+
+  open(TBL,">$ENV{'HOME'}/diary.month-tbl") || die "cannot open month tbl: $! -";
+
+  while (<>)
+    {
+      chop;
+
+      if (m/^(\d\d) \w\w\w \d\d\d\d/)
+	{
+	  $this_day     = $_;
+	  $day_of_month = $1;
+
+	  if (0 && $debug)
+	    {
+	      printf STDERR "=%d: %s=>'%s',%s=>%d\n",__LINE__
+		,'$this_day',$this_day
+		,'$day_of_month',$day_of_month
+		;
+	    }
+
+	  print $_,"\n" if $p_echo_the_source;
+	}
+
+      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[work\@abc-inf\]$/)
+	{
+	  $start_hh   = $1; $start_mm = $2; $start_min = $start_hh * 60 + $start_mm;
+	  $end_hh     = $3; $end_mm   = $4; $end_min   = $end_hh   * 60 + $end_mm;
+	  $total_hh   = $5; $total_mm = $6;
+	  $work_hh    = $7; $work_mm  = $8;
+	  $break_hh   = $9; $break_mm = $10;
+	  $target_hhh = $11;
+
+	  $total_min__computed = $end_min - $start_min;
+
+	  if ("$5:$6" eq 'hh:mm') # concerns `total' time
+	    {
+	    }
+	  else
+	    {
+	      $total_min = $total_hh * 60 + $total_mm;
+
+	      if ($total_min__computed != $total_min)
+		{
+		  printf STDERR "=%d: %s=>%d,%s=>%d,%s=>%d\n",__LINE__
+		    ,'$.',$.
+		    ,'$total_min__computed',$total_min__computed
+		    ,'$total_min'          ,$total_min
+		    ;
+		  warn "manual computing is not that easy ... - sum";
+		}
+	    }
+
+	  $total_min = $total_min__computed;
+
+	  $total_mm =  $total_min              % 60;
+	  $total_hh = ($total_min - $total_mm) / 60;
+
+	  $break_min  = $break_hh  * 60 + $break_mm;
+
+	  $work_min__computed = $total_min__computed - $break_min;
+
+	  if ("$7:$8" eq 'hh:mm') # concerns `work' time
+	    {
+	    }
+	  else
+	    {
+	      $work_min   = $work_hh   * 60 + $work_mm ;
+
+	      if  (($work_min+$break_min) != $total_min)
+		{
+		  printf STDERR "=%d: %s=>%d,%s=>%d,%s=>%d,%s=>%d\n",__LINE__
+		    ,'$.',$.
+		    ,'$work_min' ,$work_min
+		    ,'$break_min',$break_min
+		    ,'$total_min',$total_min
+		    ;
+		  warn "manual computing is not that easy ... - sum-break";
+		}
+	    }
+
+	  $work_min = $work_min__computed;
+
+	  $work_mm =  $work_min             % 60;
+	  $work_hh = ($work_min - $work_mm) / 60;
+
+	  $total_work_min += $work_min;
+	  $total_work_mm =  $total_work_min                   % 60;
+	  $total_work_hh = ($total_work_min - $total_work_mm) / 60;
+
+	  printf STDERR "  %2d.|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%s\n"
+	    ,$day_of_month
+	    ,$start_hh,$start_mm,$end_hh ,$end_mm
+	    ,$total_hh,$total_mm,$work_hh,$work_mm
+	    ,$this_day
+	    ;
+
+	  printf TBL    "  %2d.|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d\n"
+	    ,$day_of_month
+	    ,$start_hh,$start_mm,$end_hh ,$end_mm
+	    ,$total_hh,$total_mm,$work_hh,$work_mm
+	    ;
+	  printf        "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%02.2d:%02.2d+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) %s\n"
+	    ,$start_hh,$start_mm,$end_hh ,$end_mm
+	    ,$total_hh,$total_mm,$work_hh,$work_mm
+	    ,$break_hh,$break_mm
+	    ,$total_work_hh,$total_work_mm
+	    ,$target_hhh
+	    ,'[work@abc-inf]'
+	    if $p_echo_the_source;
+	}
+
+      elsif (m/^\t\w\w:\w\w \.\. \w\w:\w\w=(\w\w):(\w\w)=(\w\w):(\w\w)\+\d\d:\d\d--S:\w\w\w:\m\m\(\w\w\w\) \[work\@abc-inf\]$/)
+	{
+	  print $_,"\n" if $p_echo_the_source;
+	}
+
+      elsif (m/work\@abc-inf/)
+	{
+	  printf STDERR "=%d: %s=>%d,%s=>'%s' // %s\n",__LINE__
+	    ,'$.',$.
+	    ,'$_',$_
+	    ,'mysteriously matching [work@abc-inf]'
+	    ;
+	  print $_,"\n" if $p_echo_the_source;
+	}
+      else
+	{
+	  print $_,"\n" if $p_echo_the_source;
+	}
+    }
+
+  if (1)
+    {
+      printf STDERR "=%d: %s=>%04.4d,%s=>%03.3d,%s=>%02.2d // %03.3d:%02.2d\n",__LINE__
+	,'$total_work_min',$total_work_min
+	,'$total_work_hh' ,$total_work_hh
+	,'$total_work_mm' ,$total_work_mm
+	,$total_work_hh
+	,$total_work_mm
+	;
+      printf TBL ".\\\" =%d: %s=>%04.4d,%s=>%03.3d,%s=>%02.2d // %03.3d:%02.2d\n",__LINE__
+	,'$total_work_min',$total_work_min
+	,'$total_work_hh' ,$total_work_hh
+	,'$total_work_mm' ,$total_work_mm
+	,$total_work_hh
+	,$total_work_mm
+	;
+    }
+
+  close(TBL);
+}
