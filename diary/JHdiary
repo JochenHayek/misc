@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-02-04 11:06:40 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-02-04 13:00:22 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.51 1998/02/04 11:12:16 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/02/04 11:12:16 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.52 1998/02/04 13:17:12 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/02/04 13:17:12 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -26,6 +26,21 @@
   use English;
   use FileHandle;
   use strict;
+
+  %::month_name2no =
+    ('Jan' =>  1
+    ,'Feb' =>  2
+    ,'Mar' =>  3
+    ,'Apr' =>  4
+    ,'May' =>  5
+    ,'Jun' =>  6
+    ,'Jul' =>  7
+    ,'Aug' =>  8
+    ,'Sep' =>  9
+    ,'Oct' => 10
+    ,'Nov' => 11
+    ,'Dec' => 12
+    );
 
   &main;
 }
@@ -150,28 +165,62 @@ sub job_tag_match
       die "I need at least a tag.";
     }
 
-  my($tag) = $main::options{tag};
-
   while (<>)
     {
-      if( m/^[^\s]/ )
+      my($tags);
+
+      if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
 	{
-	  $current_day = $_;
+	  $this_day     = $_;
+	  $day_of_month = $1;
+	  $month        = $::month_name2no{$2};
+	  $year         = $3;
+
+	  $date = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+
+	  if (0 && $main::options{debug})
+	    {
+	      printf STDERR "=%d: %s=>'%s',%s=>%d\n",__LINE__
+		,'$this_day',$this_day
+		,'$day_of_month',$day_of_month
+		;
+	    }
+	}
+      elsif( m/^[^\s]/ )
+	{
 	}
 
       # extract the tag list;
       # check whether the tag specified is included;
-      if( m/\[([^\]]+)\]/ )
+      elsif( ( $tags ) = m/\[([^\]]+)\]/ )
 	{
-	  if ( $1 =~ m/\b$tag\b/ ) # `${tag}' disturbed the perl-mode-syntax
+	  if( $main::options{from} le $date && $date le $main::options{to} )
 	    {
-	      if( $printed_days{$current_day} )
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$date',$date
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	    }
+	  else
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$date',$date
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	      next;
+	    }
+
+	  if ( $tags =~ m/\b$main::options{tag}\b/ )
+	    {
+	      if( $printed_days{$this_day} )
 		{
 		}
 	      else
 		{
-		  print         $current_day;
-		  $printed_days{$current_day} = 1;
+		  print         $this_day;
+		  $printed_days{$this_day} = 1;
 		}
 
 	      print;
@@ -207,21 +256,6 @@ sub job_work_at
   my($company_tag) = $main::options{company_tag};
   my($pure_company_tag);
 
-  %month_name2no =
-    ('Jan' =>  1
-    ,'Feb' =>  2
-    ,'Mar' =>  3
-    ,'Apr' =>  4
-    ,'May' =>  5
-    ,'Jun' =>  6
-    ,'Jul' =>  7
-    ,'Aug' =>  8
-    ,'Sep' =>  9
-    ,'Oct' => 10
-    ,'Nov' => 11
-    ,'Dec' => 12
-    );
-
   $::total_work__min = 0;
 
   my($total_min_today) = 0;
@@ -244,7 +278,7 @@ sub job_work_at
 	{
 	  $this_day     = $_;
 	  $day_of_month = $1;
-	  $month        = $month_name2no{$2};
+	  $month        = $::month_name2no{$2};
 	  $year         = $3;
 
 	  $date = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
