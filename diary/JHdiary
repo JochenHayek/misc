@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 18:05:31 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 18:20:10 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.45 1998/01/30 18:07:20 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 18:07:20 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.46 1998/01/30 18:27:27 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 18:27:27 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -662,7 +662,8 @@ sub terminalise
 	  $::fh_tbl1->print("\"$tag\"\t,");
 
 	  $::fh_tbl1->print( join( ','
-				 , map { $::t{days}{$_}{$tag}{work_min}
+				 , map {
+				         sprintf "%5.2f", ( $::t{days}{$_}{$tag}{work_min} / 60 )
 				       }
 				       (sort keys %{ $::t{days} })
 				 ) );
