@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.6 1996/10/06 21:46:33 jhayek Exp $
+# $Id: JHgen_diary_frame.pl 1.7 1997/05/05 18:31:39 chkjoha Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 {
@@ -32,22 +32,28 @@
 	{
 	  if ($old_year eq $year)
 	    {
-	      $cal_week++;
+	      $cal_week++;	# this is actually wrong for the last week of the year ...
 	    }
 	  else
 	    {
-	      $cal_week = 1;
+	      $cal_week = 2;
 	      $old_year = $year;
 	    }
-	  printf "%02.2d %s %d %s\n"
-	    , $mday
-	    , $month_names[$mon]
-	    , 1900 + $year
-	    , $week_day_names[$wday]
-	    unless $debug;
-	  printf "\t00:00 [biz] week# %02.2d\n"
-	    , $cal_week
-	    unless $debug;
+	  if($debug)
+	    {}
+	  else
+	    {
+	      printf "%02.2d %s %d %s"
+		, $mday
+		, $month_names[$mon]
+		, 1900 + $year
+		, $week_day_names[$wday]
+		;
+	      printf " (week# %02.2d)"
+		, $cal_week
+		;
+	      print "\n";
+	    }
 	}
       elsif ($wday == 4)
 	{
