@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.8 1999/06/03 09:59:34 johayek Exp $
+# $Id: JHgen_diary_frame.pl 1.9 1999/06/03 10:08:02 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 {
@@ -15,6 +15,10 @@
      ,'   Friday'
      ,' Saturday'
      );
+
+  # I could generate a correct 1999 calendar using $cal_week this way,
+  # but I'm still not sure, whether the overall usage of $cal_week is correct this way;
+  my($cal_week);
 
   for ($i=0,$cal_week=1,$old_year=-1; $i < 946857600 ; $i += 24*60*60 )
     {
