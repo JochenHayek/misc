@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.9 1999/06/03 10:08:02 johayek Exp $
+# $Id: JHgen_diary_frame.pl 1.10 1999/06/03 10:10:51 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 {
@@ -20,7 +20,7 @@
   # but I'm still not sure, whether the overall usage of $cal_week is correct this way;
   my($cal_week);
 
-  for ($i=0,$cal_week=1,$old_year=-1; $i < 946857600 ; $i += 24*60*60 )
+  for ($i=0,$cal_week=1,$old_year=-1; $i < 978393600; $i += 24*60*60 )
     {
       ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = gmtime($i);
 
