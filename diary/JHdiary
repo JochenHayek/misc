@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 #!/usr/columbus/users32/hayek/usr/local/perl5/bin/perl
 
-# $Id: JHdiary 1.3 1996/02/26 13:29:19 jh Exp $
+# $Id: JHdiary 1.4 1996/03/28 10:09:11 jh Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $
-# Time-stamp: <96/02/26 13:29:17 jh>
+# Time-stamp: <96/03/28 10:07:03 jh>
 
 # Usage: 
 
@@ -40,6 +40,8 @@
     {
       chop;
 
+      local($other_tags);
+
       if (m/^(\d\d) \w\w\w \d\d\d\d/)
 	{
 	  $this_day     = $_;
@@ -56,7 +58,7 @@
 	  print $_,"\n" if $p_echo_the_source;
 	}
 
-      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[work\@${company_tag}\]$/)
+      elsif (m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[work\@${company_tag}(,.+)?\]$/)
 	{
 	  $start_hh   = $1; $start_mm = $2; $start_min = $start_hh * 60 + $start_mm;
 	  $end_hh     = $3; $end_mm   = $4; $end_min   = $end_hh   * 60 + $end_mm;
@@ -64,6 +66,7 @@
 	  $work_hh    = $7; $work_mm  = $8;
 	  $break_hh   = $9; $break_mm = $10;
 	  $target_hhh = $11;
+	  $other_tags = $12;
 
 	  $total_min__computed = $end_min - $start_min;
 
@@ -122,29 +125,36 @@
 	  $total_work_mm =  $total_work_min                   % 60;
 	  $total_work_hh = ($total_work_min - $total_work_mm) / 60;
 
-	  printf STDERR "  %2d.|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%s\n"
+	  printf STDERR
+	    "  %2d.|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s|%s\n"
 	    ,$day_of_month
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
-	    ,$total_hh,$total_mm,$work_hh,$work_mm
+	    ,$total_hh,$total_mm
+	    ,$work_hh,$work_mm,$work_min
 	    ,$this_day
+	    ,$other_tags
 	    ;
 
-	  printf TBL    "  %2d.|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d\n"
+	  printf TBL
+	    "  %2d.|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%02.2d:%02.2d|%4.4d|%s\n"
 	    ,$day_of_month
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
-	    ,$total_hh,$total_mm,$work_hh,$work_mm
+	    ,$total_hh,$total_mm
+	    ,$work_hh,$work_mm,$work_min
+	    ,$other_tags
 	    ;
-	  printf        "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%02.2d:%02.2d+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) %s\n"
+	  printf        "\t%02.2d:%02.2d .. %02.2d:%02.2d=%02.2d:%02.2d=%02.2d:%02.2d+%02.2d:%02.2d--S:%03.3d:%02.2d(%s) [%s%s]\n"
 	    ,$start_hh,$start_mm,$end_hh ,$end_mm
 	    ,$total_hh,$total_mm,$work_hh,$work_mm
 	    ,$break_hh,$break_mm
 	    ,$total_work_hh,$total_work_mm
 	    ,$target_hhh
-	    ,"[work\@${company_tag}]"
+	    ,"work\@${company_tag}"
+	    ,$other_tags
 	    if $p_echo_the_source;
 	}
 
-      elsif (m/^\t\w\w:\w\w \.\. \w\w:\w\w=(\w\w):(\w\w)=(\w\w):(\w\w)\+\d\d:\d\d--S:\w\w\w:\m\m\(\w\w\w\) \[work\@${company_tag}\]$/)
+      elsif (m/^\t\w\w:\w\w \.\. \w\w:\w\w=(\w\w):(\w\w)=(\w\w):(\w\w)\+\d\d:\d\d--S:\w\w\w:\m\m\(\w\w\w\) \[work\@${company_tag}(,.+)?\]$/)
 	{
 	  print $_,"\n" if $p_echo_the_source;
 	}
