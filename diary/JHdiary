@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 11:03:26 jh48501>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1997-11-20 11:23:42 jh48501>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.30 1997/11/20 11:04:43 jh48501 Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 11:04:43 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.31 1997/11/20 11:25:08 jh48501 Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1997/11/20 11:25:08 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: jh48501 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -61,6 +61,7 @@ sub main
     $main::options{dry_run}		       = 0;
     $main::options{version}		       = 0;
 
+    $main::options{job_tag_match}              = 0;
     $main::options{job_work_at}                = 0;
 
     $main::options{echo_the_source_p} = 1;
@@ -70,18 +71,23 @@ sub main
     &GetOptions
       (\%main::options
      ##,'job_xxx|jxxx!'
+       ,'job_tag_match!'
        ,'job_work_at!'
 
        ,'dry_run!'
        ,'version!'
 
-       ,'company_tag=s'
+       ,'company_tag=s'		# used by --job_work_at
+
+       ,'tag=s'			# used by --job_tag_match
        );
   $result || die 'GetMain::Options failed';
 
   #
   # example
   # =======
+  #
+  # JHdiary --job_tag_match --tag=travel
   #
   # JHdiary --job_work_at --company_tag=sbi.com 2>/dev/console
 
@@ -95,7 +101,8 @@ sub main
 	 ;
     }
 
-  if   ($main::options{job_work_at}) { &job_work_at; }
+  if   ($main::options{job_tag_match}) { &job_tag_match; }
+  elsif($main::options{job_work_at  }) { &job_work_at  ; }
   else
     {
       die "You did not give me a job.";
@@ -106,6 +113,60 @@ sub main
     if 0 && $main::options{debug};
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
+}
+#
+sub job_tag_match
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(!exists($main::options{tag}))
+    {
+      die "I need at least a tag.";
+    }
+
+  my($tag) = $main::options{tag};
+
+  while (<>)
+    {
+      if( m/^[^\s]/ )
+	{
+	  $current_day = $_;
+	}
+
+      # extract the tag list;
+      # check whether the tag specified is included;
+      if( m/\[([^\]]+)\]/ )
+	{
+	  if ( $1 =~ m/\b$tag\b/ ) # `${tag}' disturbed the perl-mode-syntax
+	    {
+	      if( $printed_days{$current_day} )
+		{
+		}
+	      else
+		{
+		  print         $current_day;
+		  $printed_days{$current_day} = 1;
+		}
+
+	      print;
+	    }
+        }
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
 }
 #
 sub job_work_at
