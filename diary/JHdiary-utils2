@@ -1,10 +1,10 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2002-08-28 01:02:55 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2004-07-13 23:34:30 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.6 2002/08/27 23:05:42 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2002/08/27 23:05:42 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.7 2004/07/13 21:34:37 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2004/07/13 21:34:37 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
@@ -376,6 +376,10 @@ sub job_merge
 
   my($right_fh) = new FileHandle;
   $right_fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+  printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+    ,'CAVEAT: there are a few simplifying and sometimes false assumptions like *strong* monotony for the right side -- USE WITH CAUTION'
+    if 1 || $main::options{debug};
 
   my($left_line );
   my($right_line);
