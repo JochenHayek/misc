@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 11:23:30 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <1998-01-30 11:35:48 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.35 1998/01/30 11:24:07 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 11:24:07 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary 1.36 1998/01/30 11:36:40 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 1998/01/30 11:36:40 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary $'))[1])));
@@ -901,16 +901,16 @@ sub proc_entry
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  my($fh) = $param{fh_tbl};
-  my($format)
-    = "%04.4d-%02.2d-%02.2d"
+  my($fh_tbl) = $param{fh_tbl};
+
+  printf
+     $fh_tbl			# perl5 does not allow me to replace this by $param{fh_tbl}
+
+      "%04.4d-%02.2d-%02.2d"
     . "|%02.2d:%02.2d|%02.2d:%02.2d"
     . "|%s|%s"
     . "|%s|%s|%4.4d"
     . "%s%s\n"
-    ;
-
-  printf $fh $format
 
     ,$param{year},$param{month},$param{day_of_month}
     
