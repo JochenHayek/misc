@@ -1,10 +1,10 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2000-03-06 12:11:20 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2000-03-06 13:41:13 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.1 2000/03/06 11:11:36 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2000/03/06 11:11:36 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.2 2000/03/06 12:45:16 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2000/03/06 12:45:16 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
@@ -74,7 +74,7 @@ sub main
 
     $main::options{help}			= 0;
 
-    $main::options{job____}	= 0;
+    $main::options{job____}	= 1;
   }
 
   # a problem I found find GetOptions:
@@ -146,6 +146,199 @@ sub job____
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
+  defined($main::options{left_operand}) || die "!defined(\$main::options{left_operand})";
+  defined($main::options{right_operand}) || die "!defined(\$main::options{right_operand})";
+
+  my($left_fh) = new FileHandle;
+  $left_fh->open($main::options{left_operand}) or die "cannot open {$main::options{left_operand}}";
+
+  my($right_fh) = new FileHandle;
+  $right_fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+##  while(<$left_fh>)
+##    {
+##      print "\t",$_;
+##    }
+
+  my($left_line );
+  my($right_line);
+
+  for(;;)
+    {
+      # in case I want to signal I read it already:
+
+      if(!defined($left_line))
+	 {
+	   $left_line  = <$left_fh> ;
+	 }
+      if(!defined($right_line))
+	 {
+	   $right_line  = <$right_fh> ;
+	 }
+
+      printf "=%s,%d,%s: %s=>%d,%s=>%d\n",__FILE__,__LINE__,$proc_name
+	, '$left_fh->input_line_number', $left_fh->input_line_number
+	,'$right_fh->input_line_number',$right_fh->input_line_number
+	if 0;
+
+      ################################################################################
+
+      if(!defined($left_line))
+	{
+	  printf "=%s,%d,%s: %s=>%d,%s=>%d // %s\n",__FILE__,__LINE__,$proc_name
+	    , '$left_fh->input_line_number', $left_fh->input_line_number
+	    ,'$right_fh->input_line_number',$right_fh->input_line_number
+	    ,'!defined(\$left_line)'
+	    if 1;
+	}
+      if(!defined($right_line))
+	{
+	  printf "=%s,%d,%s: %s=>%d,%s=>%d // %s\n",__FILE__,__LINE__,$proc_name
+	    , '$left_fh->input_line_number', $left_fh->input_line_number
+	    ,'$right_fh->input_line_number',$right_fh->input_line_number
+	    ,'!defined(\$right_line)'
+	    if 1;
+	}
+
+      if(!defined($left_line) && !defined($right_line))
+	{
+	  printf "*** stop in sync (__LINE__=>%d).\n",__LINE__;
+	  exit(0);
+	}
+      elsif(!defined($left_line) || !defined($right_line))
+	{
+	  printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
+	  exit(1);
+	}
+
+      ################################################################################
+
+      chomp($left_line);
+      chomp($right_line);
+
+      ################################################################################
+
+      if( ($left_line =~ m/^\s*$/) && ($right_line =~ m/^\s*$/) )
+	{
+
+	  if($left_line eq $right_line)
+	    {
+	      printf "*** %s=>%d,%s=>%d // %s\n"
+		, '$left_fh->input_line_number', $left_fh->input_line_number
+		,'$right_fh->input_line_number',$right_fh->input_line_number
+		,'left and right are both blank and the same'
+		if 0;
+	    }
+	  else
+	    {
+	      printf "*** %s=>%d,%s=>%d // %s\n"
+		, '$left_fh->input_line_number', $left_fh->input_line_number
+		,'$right_fh->input_line_number',$right_fh->input_line_number
+		,'left and right are both blank but not the same'
+		if 1;
+
+	      print '<{',$left_line,"}\n";
+	      print '>{',$right_line,"}\n";
+	    }
+
+	  undef($left_line);
+	  undef($right_line);
+
+	  next;
+	}
+
+      if( ($left_line =~ m/^\S/) || ($right_line =~ m/^\S/) )
+	{
+	  if($left_line eq $right_line)
+	    {}
+	  else
+	    {
+	      printf "*** %s=>%d,%s=>%d // %s\n"
+		, '$left_fh->input_line_number', $left_fh->input_line_number
+		,'$right_fh->input_line_number',$right_fh->input_line_number
+		,'left and right are not the same'
+		if 1;
+
+	      print '<{',$left_line,"}\n";
+	      print '>{',$right_line,"}\n";
+
+	      printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
+	      exit(1);
+	    }
+
+	  $left_day  = $left_line;
+	  $right_day = $right_line;
+	}
+
+      if($left_line eq $right_line)
+	{
+	  undef($left_line);
+	  undef($right_line);
+	}
+      elsif(1)
+	{
+	  my  (@left_lines);
+	  push(@left_lines,$left_line);
+	  my  (@right_lines);
+	  push(@right_lines,$right_line);
+
+	  while(<$left_fh>)
+	    {
+	      m/^\S/ && last;
+	      chomp;
+	      push(@left_lines,$_);
+	    }
+	  $left_line = $_;	# so it will be used as next line
+	  
+	  while(<$right_fh>)
+	    {
+	      m/^\S/ && last;
+	      chomp;
+	      push(@right_lines,$_);
+	    }
+	  $right_line = $_;	# so it will be used as next line
+
+	  printf "*** %s=>%d,%s=>%d // %s\n"
+	    , '$left_fh->input_line_number', $left_fh->input_line_number
+	    ,'$right_fh->input_line_number',$right_fh->input_line_number
+	    ,'left and right are not the same'
+	    if 1;
+
+	  print '<',$left_day  ,"\n";
+	  for(@left_lines)
+	    {
+	      print '<',$_,"\n";
+	    }
+
+	  print '>',$right_day  ,"\n";
+	  for(@right_lines)
+	    {
+	      print '<',$_,"\n";
+	    }
+
+	  if(0)
+	    {
+	      printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
+	      exit(1);
+	    }
+	}
+      else
+	{
+	  printf "*** %s=>%d,%s=>%d // %s\n"
+	    , '$left_fh->input_line_number', $left_fh->input_line_number
+	    ,'$right_fh->input_line_number',$right_fh->input_line_number
+	    ,'left and right are not the same'
+	    if 1;
+
+	  print '<',$left_day  ,"\n";
+	  print '<',$left_line ,"\n";
+	  print '>',$right_day ,"\n";
+	  print '>',$right_line,"\n";
+
+	  printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
+	  exit(1);
+	}
+    }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
