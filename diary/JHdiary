@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <1998-04-22 10:24:36 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <1998-09-16 16:51:56 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.55 1998/05/12 10:37:09 johayek Exp $' =~
+    '$Id: JHdiary 1.56 1998/09/16 15:51:57 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -230,7 +230,7 @@ sub job_tag_match
 	      next;
 	    }
 
-	  if ( $tags =~ m/\b$main::options{tag}\b/ )
+	  if ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT
 	    {
 	      if( $printed_days{$this_day} )
 		{
