@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+#!/software/shells/bin/perl5.003
 ;#
 ;# a2ps: ascii to ps
 ;#
@@ -6,7 +7,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.40 1997/07/10 13:30:28 jh Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.41 1997/07/17 11:18:34 jh Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -59,11 +60,13 @@ sub paper {
 }
 &paper($default_paper);
 
+$duplex = 0;
+$tumble = 1;
+$hp_pcl_level = 4;
+
 $pixels_inch = 72;
 $selfconvert = 0;
 $numbering = 0;
-$duplex = 0;
-$tumble = 1;
 $folding = 1;
 $restart = 1;
 $visualize = 1;
@@ -101,6 +104,7 @@ while ($_ = $ARGV[0], s/^-(.+)$/$1/ && shift) {
 
     if (s/^(n?)D//)		{$duplex   	= !$1;			redo;}
     if (s/^(n?)T//)		{$tumble   	= !$1;			redo;}
+    if (s/^P([\d\.]+)//)	{$hp_pcl_level=$1;			redo;}
 
     if (s/^l(.*)$//)		{defined($label=$1||shift)||&usage;	next;}
     if (s/^L(.*)$//)		{defined($sublabel=$1||shift)||&usage;	next;}
@@ -515,32 +519,32 @@ sub print_header {
     printf("/docsave save def\n");
     printf("startdoc\n");
 
-    if ($duplex)
+    if($hp_pcl_level > 4)
       {
-	if ($tumble)
+	if ($duplex)
 	  {
-	    # print on both sides - for turning over the `short side'
+	    if ($tumble)
+	      {
+		# print on both sides - for turning over the `short side'
 
-	    print "[{\n";
-	    print "%%BeginFeature: *Duplex DuplexTumble\n\n";
-	    print "\t<</Duplex true /Tumble true>> setpagedevice\n";
-	    print "%%EndFeature\n";
-	    print "} stopped cleartomark\n";
+		print "[{\n";
+		print "%%BeginFeature: *Duplex DuplexTumble\n\n";
+		print "\t<</Duplex true /Tumble true>> setpagedevice\n";
+		print "%%EndFeature\n";
+		print "} stopped cleartomark\n";
+	      }
+	    else
+	      {
+		# print on both sides - for turning over the `long side'
+
+		print "[{\n";
+		print "%%BeginFeature: *Duplex DuplexNoTumble\n\n";
+		print "\t<</Duplex true /Tumble false>> setpagedevice\n";
+		print "%%EndFeature\n";
+		print "} stopped cleartomark\n";
+	      }
 	  }
 	else
-	  {
-	    # print on both sides - for turning over the `long side'
-
-	    print "[{\n";
-	    print "%%BeginFeature: *Duplex DuplexNoTumble\n\n";
-	    print "\t<</Duplex true /Tumble false>> setpagedevice\n";
-	    print "%%EndFeature\n";
-	    print "} stopped cleartomark\n";
-	  }
-      }
-    else
-      {
-	if (0)
 	  {
 	    print "[{\n";
 	    print "%%BeginFeature: *Duplex None\n\n";
