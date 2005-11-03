@@ -1,10 +1,10 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2004-07-13 23:34:30 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-11-03 11:28:00 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.7 2004/07/13 21:34:37 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2004/07/13 21:34:37 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.8 2005/11/03 10:36:14 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/11/03 10:36:14 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
@@ -391,6 +391,10 @@ sub job_merge
 
   $right_line = <$right_fh> ;
   chomp($right_line);
+  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+    ,'$right_line',$right_line
+    ,'read'
+    if 1 && $main::options{debug};
 
   for(;;)
     {
@@ -410,6 +414,18 @@ sub job_merge
 	  for(;;)
 	    {
 	      $right_line = <$right_fh> ;
+	      if(1 && $main::options{debug})
+		{
+		  my($aux__right_line) = $right_line;
+
+		  chomp($aux__right_line)
+		    if defined($aux__right_line);
+
+		  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		    ,'$aux__right_line', defined($aux__right_line) ? $aux__right_line : ''
+		    , defined($aux__right_line) ? 'read' : 'read but !defined($aux__right_line)'
+		    if 1 && $main::options{debug};
+		}
 
 	      if(!defined($right_line))
 		{
@@ -435,6 +451,18 @@ sub job_merge
 		}
 
 	      print $right_line;
+	      if(1 && $main::options{debug})
+		{
+		  my($aux__right_line) = $right_line;
+
+		  chomp($aux__right_line)
+		    if defined($aux__right_line);
+
+		  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		    ,'$aux__right_line', defined($aux__right_line) ? $aux__right_line : ''
+		    , defined($aux__right_line) ? 'printed' : 'printed but !defined($aux__right_line)'
+		    if 1 && $main::options{debug};
+		}
 	    }
 	}
       else
