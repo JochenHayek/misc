@@ -1,10 +1,10 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-11-03 11:28:00 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-11-03 11:37:56 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.8 2005/11/03 10:36:14 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/11/03 10:36:14 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.9 2005/11/03 10:37:57 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/11/03 10:37:57 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
@@ -77,7 +77,7 @@ sub main
     $main::options{job_diff}	= 0;
     $main::options{job_merge}	= 0;
     $main::options{job_check_strict_monotony}	= 0;
-    $main::options{job_establish_strict_monotony}	= 0;
+    $main::options{job_remove_duplicate_date_lines}	= 0;
   }
 
   # a problem I found find GetOptions:
@@ -89,7 +89,7 @@ sub main
        ,'job_diff!'
        ,'job_merge!'
        ,'job_check_strict_monotony!'
-       ,'job_establish_strict_monotony!'
+       ,'job_remove_duplicate_date_lines!'
 
        ,'left_operand=s'
        ,'right_operand|operand=s'
@@ -117,7 +117,7 @@ sub main
   # PROG --verbose --job_diff
   # PROG --verbose --job_merge
   # PROG --verbose --job_check_strict_monotony
-  # PROG --verbose --job_establish_strict_monotony
+  # PROG --verbose --job_remove_duplicate_date_lines
 
   if($main::options{version})
     {
@@ -136,8 +136,8 @@ sub main
     {                 &job_merge; }
   elsif($main::options{job_check_strict_monotony})
     {                 &job_check_strict_monotony; }
-  elsif($main::options{job_establish_strict_monotony})
-    {                 &job_establish_strict_monotony; }
+  elsif($main::options{job_remove_duplicate_date_lines})
+    {                 &job_remove_duplicate_date_lines; }
   else
     {
       die "You did not give me a job.";
@@ -521,7 +521,7 @@ sub job_check_strict_monotony
   return $return_value;
 }
 #
-sub job_establish_strict_monotony
+sub job_remove_duplicate_date_lines
 {
   my($package,$filename,$line,$proc_name) = caller(0);
   my(%param) = @_;
