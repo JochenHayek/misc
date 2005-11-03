@@ -1,10 +1,10 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-11-03 11:37:56 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-11-03 12:25:36 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.9 2005/11/03 10:37:57 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/11/03 10:37:57 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.10 2005/11/03 11:25:41 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/11/03 11:25:41 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
@@ -463,11 +463,85 @@ sub job_merge
 		    , defined($aux__right_line) ? 'printed' : 'printed but !defined($aux__right_line)'
 		    if 1 && $main::options{debug};
 		}
+	      $right_line = undef;
 	    }
 	}
       else
 	{
 	  print $left_line;
+	}
+    }
+
+  ################################################################################
+
+  # we left the loop, because there is no further left line.
+  # but what about the remaining right lines?!?
+
+  ################################################################################
+
+  # before I properly handled those remaining right lines,
+  # I lost specifically the remainder of non-monotonous right files.
+  # now, that I do handle them properly,
+  # a "diff" on the original and the merged new file at least show a substantial difference in the end.
+
+  my($printed_the_announcement_p) = 0;
+
+  if(defined($right_line))
+    {
+      if(!$printed_the_announcement_p)
+	{
+	  printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'now printing the remaining right lines ...'
+	    if 1 && $main::options{debug};
+
+	  $printed_the_announcement_p = 1;
+	}
+
+      print $right_line,"\n";
+      if(1 && $main::options{debug})
+	{
+	  my($aux__right_line) = $right_line;
+
+	  chomp($aux__right_line);
+
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$aux__right_line', $aux__right_line
+	    ,'read&printed'
+	    if 1 && $main::options{debug};
+	}
+
+      $right_line = undef;
+    }
+
+  for(;;)
+    {
+      $right_line = <$right_fh> ;
+
+      if(!defined($right_line))
+	{
+	  last;
+	}
+
+      if(!$printed_the_announcement_p)
+	{
+	  printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'now printing the remaining right lines ...'
+	    if 1 && $main::options{debug};
+
+	  $printed_the_announcement_p = 1;
+	}
+
+      print $right_line;
+      if(1 && $main::options{debug})
+	{
+	  my($aux__right_line) = $right_line;
+
+	  chomp($aux__right_line);
+
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$aux__right_line', $aux__right_line
+	    ,'read&printed'
+	    if 1 && $main::options{debug};
 	}
     }
 
@@ -521,7 +595,7 @@ sub job_check_strict_monotony
   return $return_value;
 }
 #
-sub job_remove_duplicate_date_lines
+sub job_remove_duplicate_date_lines # earlier this function was called "job_establish_strict_monotony", but that wasn't really what it actually did.
 {
   my($package,$filename,$line,$proc_name) = caller(0);
   my(%param) = @_;
