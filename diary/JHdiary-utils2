@@ -1,10 +1,10 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-11-03 12:25:36 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-11-03 12:27:11 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.10 2005/11/03 11:25:41 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/11/03 11:25:41 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.11 2005/11/03 11:27:13 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/11/03 11:27:13 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
@@ -76,7 +76,7 @@ sub main
 
     $main::options{job_diff}	= 0;
     $main::options{job_merge}	= 0;
-    $main::options{job_check_strict_monotony}	= 0;
+    $main::options{job_check_against_duplicate_date_lines}	= 0;
     $main::options{job_remove_duplicate_date_lines}	= 0;
   }
 
@@ -88,7 +88,7 @@ sub main
       (\%main::options
        ,'job_diff!'
        ,'job_merge!'
-       ,'job_check_strict_monotony!'
+       ,'job_check_against_duplicate_date_lines!'
        ,'job_remove_duplicate_date_lines!'
 
        ,'left_operand=s'
@@ -116,7 +116,7 @@ sub main
   #
   # PROG --verbose --job_diff
   # PROG --verbose --job_merge
-  # PROG --verbose --job_check_strict_monotony
+  # PROG --verbose --job_check_against_duplicate_date_lines
   # PROG --verbose --job_remove_duplicate_date_lines
 
   if($main::options{version})
@@ -134,8 +134,8 @@ sub main
     {                 &job_diff; }
   elsif($main::options{job_merge})
     {                 &job_merge; }
-  elsif($main::options{job_check_strict_monotony})
-    {                 &job_check_strict_monotony; }
+  elsif($main::options{job_check_against_duplicate_date_lines})
+    {                 &job_check_against_duplicate_date_lines; }
   elsif($main::options{job_remove_duplicate_date_lines})
     {                 &job_remove_duplicate_date_lines; }
   else
@@ -553,7 +553,7 @@ sub job_merge
   return $return_value;
 }
 #
-sub job_check_strict_monotony
+sub job_check_against_duplicate_date_lines
 {
   my($package,$filename,$line,$proc_name) = caller(0);
   my(%param) = @_;
