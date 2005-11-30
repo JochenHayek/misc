@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:16:17 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:23:13 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.3 2005/12/01 00:17:26 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:17:26 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.4 2005/12/01 00:23:42 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:23:42 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -107,7 +107,7 @@ sub main
 ##elsif($main::options{job_upload_transfer}   ) { &job_upload_transfer; }
   else
     {
-      die "no job to be carried out";
+      die "*** no job to be carried out";
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
@@ -210,11 +210,23 @@ sub job____
 		,'end of common block, but still something on the left side'
 		if 1 && $main::options{debug};
 
-	      die;
+	      die "*** \$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block, but still something on the left side";
 	    }
 	}
 
       print $lines{left}[$left_i],"\n";
+    }
+
+  if($within_common_block_p)
+    {
+    }
+  else
+    {
+      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	,'empty common block'
+	if 1 && $main::options{debug};
+
+      warn "*** empty common block";
     }
 
   for( ; $right_i <= $#{$lines{right}} ; $right_i++ )
