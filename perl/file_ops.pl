@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:00:50 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:16:17 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.2 2005/12/01 00:01:02 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:01:02 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.3 2005/12/01 00:17:26 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:17:26 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -172,13 +172,60 @@ sub job____
 	}
     }
 
-  for(my $left_i = 0 ; $left_i<= $#{$lines{left}} ; $left_i++ )
+  my($within_common_block_p) = 0;
+
+  my($right_i) = 0;
+
+  for( my $left_i = 0 ; $left_i <= $#{$lines{left}} ; $left_i++ )
     {
-      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$within_common_block_p',$within_common_block_p
 	,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	,'...'
 	if 1 && $main::options{debug};
+
+      if($lines{left}[$left_i] eq $lines{right}[$right_i])
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$right_i',$right_i
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'matching'
+	    if 1 && $main::options{debug};
+
+	  $within_common_block_p = 1;
+
+	  $right_i ++ ;
+	}
+      else
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'left only'
+	    if 1 && $main::options{debug};
+
+	  if($within_common_block_p)
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+		,'end of common block, but still something on the left side'
+		if 1 && $main::options{debug};
+
+	      die;
+	    }
+	}
+
+      print $lines{left}[$left_i],"\n";
     }
 
+  for( ; $right_i <= $#{$lines{right}} ; $right_i++ )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,"\$lines{right}[$right_i]",$lines{right}[$right_i]
+	,'...'
+	if 1 && $main::options{debug};
+
+      print $lines{right}[$right_i],"\n";
+    }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
