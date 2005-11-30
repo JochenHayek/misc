@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:25:57 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:33:48 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.5 2005/12/01 00:26:02 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:26:02 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.6 2005/12/01 00:36:17 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:36:17 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -68,19 +68,7 @@ sub main
 
     $main::options{job____}      = 1;
 
-    $main::options{user}		       	= '';
-    $main::options{passwd}		       	= '';
-
-    $main::options{bank_html_file}	       	= undef;
-
-    $main::options{payee_name}		       	= '';
-    $main::options{payee_account}		= '';
-    $main::options{payee_blz}		       	= '';
-  ##$main::options{payee_bank}		       	= '';
-    $main::options{amount}		       	= '';
-    $main::options{memo_1}		       	= '';
-    $main::options{memo_2}		       	= '';
-    $main::options{debit_date}		       	= '';
+    $main::options{ignore_header_line_on_right_side}		       	= 0;
   }
 
   my($result) =
@@ -97,6 +85,8 @@ sub main
 
        ,'left=s'
        ,'right=s'
+
+       ,'ignore_header_line_on_right_side!'
        );
   $result || pod2usage(2);
 
@@ -175,6 +165,9 @@ sub job____
   my($within_common_block_p) = 0;
 
   my($right_i) = 0;
+
+  $right_i = 1
+    if $main::options{ignore_header_line_on_right_side};
 
   for( my $left_i = 0 ; $left_i <= $#{$lines{left}} ; $left_i++ )
     {
