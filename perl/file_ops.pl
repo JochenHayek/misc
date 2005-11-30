@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 00:42:52 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:00:50 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.1 2005/11/30 23:44:03 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/11/30 23:44:03 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.2 2005/12/01 00:01:02 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:01:02 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -95,25 +95,8 @@ sub main
        ,'debug!'
        ,'verbose=s'
 
-       ,'curl_bin=s'
-
-       ,'user=s'
-       ,'passwd=s'
-
-       ,'gen_csv!'
-
-       ,'transaction_number|tan=s'
-
-       ,'bank_html_file=s'
-
-       ,'payee_name=s'
-       ,'payee_account=s'
-       ,'payee_blz=s'
-     ##,'payee_bank=s'
-       ,'amount=s'
-       ,'memo_1=s'
-       ,'memo_2=s'
-       ,'debit_date=s'
+       ,'left=s'
+       ,'right=s'
        );
   $result || pod2usage(2);
 
@@ -146,6 +129,56 @@ sub job____
     if 1 && $main::options{debug};
 
   # ...
+
+  # $main::options{left}
+  # $main::options{right}
+
+  foreach my $what ('left','right')
+    {
+      if(exists($main::options{$what}))
+	{}
+      else
+	{
+	  pod2usage(-message => "!exists(\$main::options{$what})"
+		   ,-exitval => 2
+		   );
+	}
+
+      my($fh) = new FileHandle $main::options{$what};
+
+      if(defined($fh))
+	{}
+      else
+	{
+	  pod2usage(-message => "could not open: \$main::options{$what}=>{$main::options{$what}},\$!=>{$!}"
+		   ,-exitval => 2
+		   );
+	}
+
+      while(<$fh>)
+	{
+	  chomp;
+	  push(@{$lines{$what}},$_);
+	}
+
+      if(0 && $main::options{debug})
+	{
+	  for(my $i = 0 ; $i<= $#{$lines{$what}} ; $i++ )
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{$what}[$i]",$lines{$what}[$i]
+		;
+	    }
+	}
+    }
+
+  for(my $left_i = 0 ; $left_i<= $#{$lines{left}} ; $left_i++ )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	if 1 && $main::options{debug};
+    }
+
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
