@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:23:13 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:25:57 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.4 2005/12/01 00:23:42 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:23:42 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.5 2005/12/01 00:26:02 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:26:02 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -251,7 +251,7 @@ __END__
 
 =head1 NAME
 
-~/com/postbank.de/web-banking/p.pl - ...
+~/Computers/Programming/Languages/Perl/merge_ab_with_bc.pl - ...
 
 =head1 SYNOPSIS
 
@@ -262,10 +262,9 @@ Options:
     --man
 
     --job____
-    --job_upload_transfer
 
-    --user=s
-    --passwd=s
+    --left=s
+    --right=s
 
 =head1 OPTIONS
 
@@ -283,18 +282,11 @@ Prints the manual page and exits.
 
 ...
 
-=item B<--job_upload_transfer>
+=item B<--left>
 
 ...
 
-=item B<--user>
-
-Also known as the I<account>.
-...
-
-=item B<--passwd>
-
-Also known as the I<PIN>.
+=item B<--right>
 ...
 
 =back
@@ -302,9 +294,5 @@ Also known as the I<PIN>.
 =head1 DESCRIPTION
 
 B<This program> will ...,
-and leave a file I<$PWD/%Y%m%d%H%M%S.html> (from I<localtime>),
-that you will probably further process with ~/com/postbank.de/HTML/postbank_html2csv.pl ___.html > ____.csv .
-
-Also read ~/com/postbank.de/HTML/README-web2csv !
 
 =cut
