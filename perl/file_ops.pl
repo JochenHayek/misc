@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:33:48 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-01 01:42:07 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.6 2005/12/01 00:36:17 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/01 00:36:17 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.7 2005/12/02 09:14:42 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/02 09:14:42 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -220,6 +220,18 @@ sub job____
 	if 1 && $main::options{debug};
 
       warn "*** empty common block";
+    }
+
+  if($right_i > $#{$lines{right}})
+    {
+      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	,'end of common block and end of right side'
+	if 1 && $main::options{debug};
+
+      warn "*** \$right_i=>{$right_i} // end of common block and end of right side";
+    }
+  else
+    {
     }
 
   for( ; $right_i <= $#{$lines{right}} ; $right_i++ )
