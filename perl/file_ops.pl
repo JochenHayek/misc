@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-15 19:03:36 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-15 19:08:17 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.8 2005/12/15 18:03:41 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/15 18:03:41 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.9 2005/12/15 18:09:53 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/15 18:09:53 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -66,7 +66,8 @@ sub main
   ##$main::options{curl_bin}		       	= 'curl';
     $main::options{curl_bin}		       	= 'curl-haxx-se';
 
-    $main::options{job____}      = 1;
+    $main::options{job_merge_ab_with_bc}      = 0;
+    $main::options{job_check_situation__left_ab__right_b}      = 0;
 
     $main::options{ignore_header_line_on_right_side}		       	= 0;
   }
@@ -74,7 +75,8 @@ sub main
   my($result) =
     &GetOptions
       (\%main::options
-       ,'job____!'
+       ,'job_merge_ab_with_bc!'
+       ,'job_check_situation__left_ab__right_b!'
 
        ,'dry_run!'
        ,'version!'
@@ -93,8 +95,8 @@ sub main
   pod2usage(1) if $main::options{help};
   pod2usage(-exitstatus => 0, -verbose => 2) if $main::options{man};
 
-  if   ($main::options{job____}) { &job____; }
-##elsif($main::options{job_upload_transfer}   ) { &job_upload_transfer; }
+  if   ($main::options{job_merge_ab_with_bc}) { &job_merge_ab_with_bc; }
+  elsif($main::options{job_check_situation__left_ab__right_b}) { &job_check_situation__left_ab__right_b; }
   else
     {
       die "*** no job to be carried out";
@@ -107,7 +109,153 @@ sub main
     if 0 && $main::options{debug};
 }
 #
-sub job____
+sub job_merge_ab_with_bc
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  # ...
+
+  # $main::options{left}
+  # $main::options{right}
+
+  foreach my $what ('left','right')
+    {
+      if(exists($main::options{$what}))
+	{}
+      else
+	{
+	  pod2usage(-message => "!exists(\$main::options{$what})"
+		   ,-exitval => 2
+		   );
+	}
+
+      my($fh) = new FileHandle $main::options{$what};
+
+      if(defined($fh))
+	{}
+      else
+	{
+	  pod2usage(-message => "could not open: \$main::options{$what}=>{$main::options{$what}},\$!=>{$!}"
+		   ,-exitval => 2
+		   );
+	}
+
+      while(<$fh>)
+	{
+	  chomp;
+	  push(@{$lines{$what}},$_);
+	}
+
+      if(0 && $main::options{debug})
+	{
+	  for(my $i = 0 ; $i<= $#{$lines{$what}} ; $i++ )
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{$what}[$i]",$lines{$what}[$i]
+		;
+	    }
+	}
+    }
+
+  my($within_common_block_p) = 0;
+
+  my($right_i) = 0;
+
+  $right_i = 1
+    if $main::options{ignore_header_line_on_right_side};
+
+  for( my $left_i = 0 ; $left_i <= $#{$lines{left}} ; $left_i++ )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$within_common_block_p',$within_common_block_p
+	,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	,'...'
+	if 1 && $main::options{debug};
+
+      if($lines{left}[$left_i] eq $lines{right}[$right_i])
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$right_i',$right_i
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'matching'
+	    if 1 && $main::options{debug};
+
+	  $within_common_block_p = 1;
+
+	  $right_i ++ ;
+	}
+      else
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'left only'
+	    if 1 && $main::options{debug};
+
+	  if($within_common_block_p)
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+		,'end of common block, but still something on the left side'
+		if 1 && $main::options{debug};
+
+	      die "*** \$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block, but still something on the left side";
+	    }
+	}
+
+      print $lines{left}[$left_i],"\n";
+    }
+
+  if($within_common_block_p)
+    {
+    }
+  else
+    {
+      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	,'empty common block'
+	if 1 && $main::options{debug};
+
+      warn "*** empty common block";
+    }
+
+  if($right_i > $#{$lines{right}})
+    {
+      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	,'end of common block and end of right side'
+	if 1 && $main::options{debug};
+
+      warn "*** \$right_i=>{$right_i} // end of common block and end of right side";
+    }
+  else
+    {
+    }
+
+  for( ; $right_i <= $#{$lines{right}} ; $right_i++ )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,"\$lines{right}[$right_i]",$lines{right}[$right_i]
+	,'...'
+	if 1 && $main::options{debug};
+
+      print $lines{right}[$right_i],"\n";
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_check_situation__left_ab__right_b
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
@@ -266,7 +414,8 @@ Options:
     --help
     --man
 
-    --job____
+    --job_merge_ab_with_bc
+    --job_check_situation__left_ab__right_b
 
     --left=s
     --right=s
@@ -283,7 +432,11 @@ Print a brief help message and exits.
 
 Prints the manual page and exits.
 
-=item B<--job____>
+=item B<--job_merge_ab_with_bc>
+
+...
+
+=item B<--job_check_situation__left_ab__right_b>
 
 ...
 
