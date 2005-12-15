@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-15 19:32:06 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-15 19:42:41 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.10 2005/12/15 18:34:11 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/15 18:34:11 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.11 2005/12/15 18:42:42 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/15 18:42:42 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -62,9 +62,6 @@ sub main
     $main::options{dry_run}		       	= 0;
     $main::options{version}		       	= 0;
     $main::options{verbose}		       	= 0;
-
-  ##$main::options{curl_bin}		       	= 'curl';
-    $main::options{curl_bin}		       	= 'curl-haxx-se';
 
     $main::options{job_merge_ab_with_bc}      = 0;
     $main::options{job_check_situation__left_ab__right_b}      = 0;
