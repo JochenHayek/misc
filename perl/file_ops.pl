@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-15 19:08:17 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2005-12-15 19:32:06 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.9 2005/12/15 18:09:53 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/15 18:09:53 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.10 2005/12/15 18:34:11 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/15 18:34:11 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -70,6 +70,7 @@ sub main
     $main::options{job_check_situation__left_ab__right_b}      = 0;
 
     $main::options{ignore_header_line_on_right_side}		       	= 0;
+    $main::options{ignore_header_lines}		       	= 0;
   }
 
   my($result) =
@@ -89,6 +90,7 @@ sub main
        ,'right=s'
 
        ,'ignore_header_line_on_right_side!'
+       ,'ignore_header_lines!'
        );
   $result || pod2usage(2);
 
@@ -312,12 +314,16 @@ sub job_check_situation__left_ab__right_b
 
   my($within_common_block_p) = 0;
 
+  my($left_i)  = 0;
   my($right_i) = 0;
 
-  $right_i = 1
-    if $main::options{ignore_header_line_on_right_side};
+  if($main::options{ignore_header_lines})
+    {
+      $left_i  = 1;
+      $right_i = 1;
+    }
 
-  for( my $left_i = 0 ; $left_i <= $#{$lines{left}} ; $left_i++ )
+  for( ; $left_i <= $#{$lines{left}} ; $left_i++ )
     {
       printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
 	,'$within_common_block_p',$within_common_block_p
@@ -354,8 +360,6 @@ sub job_check_situation__left_ab__right_b
 	      die "*** \$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block, but still something on the left side";
 	    }
 	}
-
-      print $lines{left}[$left_i],"\n";
     }
 
   if($within_common_block_p)
@@ -368,6 +372,8 @@ sub job_check_situation__left_ab__right_b
 	if 1 && $main::options{debug};
 
       warn "*** empty common block";
+
+      exit(1);
     }
 
   if($right_i > $#{$lines{right}})
@@ -376,20 +382,15 @@ sub job_check_situation__left_ab__right_b
 	,'end of common block and end of right side'
 	if 1 && $main::options{debug};
 
-      warn "*** \$right_i=>{$right_i} // end of common block and end of right side";
+      exit(0);
     }
   else
     {
-    }
-
-  for( ; $right_i <= $#{$lines{right}} ; $right_i++ )
-    {
-      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
-	,"\$lines{right}[$right_i]",$lines{right}[$right_i]
-	,'...'
+      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	,'end of common block, but there is more on the right side'
 	if 1 && $main::options{debug};
 
-      print $lines{right}[$right_i],"\n";
+      exit(1);
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
@@ -404,7 +405,7 @@ __END__
 
 =head1 NAME
 
-~/Computers/Programming/Languages/Perl/merge_ab_with_bc.pl - ...
+~/Computers/Programming/Languages/Perl/file_ops.pl - ...
 
 =head1 SYNOPSIS
 
@@ -452,5 +453,21 @@ Prints the manual page and exits.
 =head1 DESCRIPTION
 
 B<This program> will ...,
+
+CAVEAT:
+
+Yes, I know, both functions ignore the fact,
+that there may be somthing that looks like b, but is not,
+but there is something else, that in fact is a true b.
+
+There is no backtracking at all at the moment.
+
+=head1 EXAMPLES
+
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_merge_ab_with_bc --ignore_header_line_on_right_side --left=... --right=...
+
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_ab__right_b --ignore_header_lines --left=... --right=...
+
+...
 
 =cut
