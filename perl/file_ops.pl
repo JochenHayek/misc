@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2005-12-15 19:42:41 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2006-01-09 20:21:08 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.11 2005/12/15 18:42:42 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2005/12/15 18:42:42 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.12 2006/01/10 13:11:12 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/10 13:11:12 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -75,6 +75,7 @@ sub main
       (\%main::options
        ,'job_merge_ab_with_bc!'
        ,'job_check_situation__left_ab__right_b!'
+       ,'job_check_situation__left_a__right_ab!'
 
        ,'dry_run!'
        ,'version!'
@@ -96,6 +97,7 @@ sub main
 
   if   ($main::options{job_merge_ab_with_bc}) { &job_merge_ab_with_bc; }
   elsif($main::options{job_check_situation__left_ab__right_b}) { &job_check_situation__left_ab__right_b; }
+  elsif($main::options{job_check_situation__left_a__right_ab}) { &job_check_situation__left_a__right_ab; }
   else
     {
       die "*** no job to be carried out";
@@ -385,6 +387,124 @@ sub job_check_situation__left_ab__right_b
     {
       printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
 	,'end of common block, but there is more on the right side'
+	if 1 && $main::options{debug};
+
+      exit(1);
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_check_situation__left_a__right_ab # assuming non-empty b
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  # ...
+
+  # $main::options{left}
+  # $main::options{right}
+
+  foreach my $what ('left','right')
+    {
+      if(exists($main::options{$what}))
+	{}
+      else
+	{
+	  pod2usage(-message => "!exists(\$main::options{$what})"
+		   ,-exitval => 2
+		   );
+	}
+
+      my($fh) = new FileHandle $main::options{$what};
+
+      if(defined($fh))
+	{}
+      else
+	{
+	  pod2usage(-message => "could not open: \$main::options{$what}=>{$main::options{$what}},\$!=>{$!}"
+		   ,-exitval => 2
+		   );
+	}
+
+      while(<$fh>)
+	{
+	  chomp;
+	  push(@{$lines{$what}},$_);
+	}
+
+      if(0 && $main::options{debug})
+	{
+	  for(my $i = 0 ; $i<= $#{$lines{$what}} ; $i++ )
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{$what}[$i]",$lines{$what}[$i]
+		;
+	    }
+	}
+    }
+
+  my($left_i)  = 0;
+  my($right_i) = 0;
+
+  if($main::options{ignore_header_lines})
+    {
+      $left_i  = 1;
+      $right_i = 1;
+    }
+
+  for( ; $left_i <= $#{$lines{left}} ; $left_i++ )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	,'...'
+	if 1 && $main::options{debug};
+
+      if($lines{left}[$left_i] eq $lines{right}[$right_i])
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$right_i',$right_i
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'matching'
+	    if 1 && $main::options{debug};
+
+	  $right_i ++ ;
+	}
+      else
+	{
+	  if(1 && $main::options{debug})
+	    {
+	      warn "*** \$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block";
+	    }
+
+	  exit(1);
+	}
+    }
+
+  if($right_i < $#{$lines{right}})
+    {
+      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	,'end of common block, but there is more on the right side'
+	if 1 && $main::options{debug};
+
+      exit(0);
+    }
+  else
+    {
+      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	,'end of common block, not a non-empty block b on the right side'
 	if 1 && $main::options{debug};
 
       exit(1);
