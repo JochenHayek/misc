@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2006-01-09 20:21:08 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2006-01-10 14:15:12 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.12 2006/01/10 13:11:12 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/10 13:11:12 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.13 2006/01/11 20:42:56 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/11 20:42:56 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -456,44 +456,40 @@ sub job_check_situation__left_a__right_ab # assuming non-empty b
 	}
     }
 
-  my($left_i)  = 0;
-  my($right_i) = 0;
+  my($i)  = 0;
 
   if($main::options{ignore_header_lines})
     {
-      $left_i  = 1;
-      $right_i = 1;
+      $i  = 1;
     }
 
-  for( ; $left_i <= $#{$lines{left}} ; $left_i++ )
+  for( ; $i <= $#{$lines{left}} ; $i++ )
     {
       printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
-	,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	,"\$lines{left}[$i]",$lines{left}[$i]
 	,'...'
 	if 1 && $main::options{debug};
 
-      if($lines{left}[$left_i] eq $lines{right}[$right_i])
+      if($lines{left}[$i] eq $lines{right}[$i])
 	{
 	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
-	    ,'$right_i',$right_i
-	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'$i',$i
+	    ,"\$lines{left}[$i]",$lines{left}[$i]
 	    ,'matching'
 	    if 1 && $main::options{debug};
-
-	  $right_i ++ ;
 	}
       else
 	{
 	  if(1 && $main::options{debug})
 	    {
-	      warn "*** \$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block";
+	      warn "*** \$i=>{$i} // end of common block";
 	    }
 
 	  exit(1);
 	}
     }
 
-  if($right_i < $#{$lines{right}})
+  if($i < $#{$lines{right}})
     {
       printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
 	,'end of common block, but there is more on the right side'
