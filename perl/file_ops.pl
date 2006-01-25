@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 13:53:18 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 14:10:11 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.16 2006/01/25 12:53:23 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 12:53:23 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.17 2006/01/25 13:10:48 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 13:10:48 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -207,7 +207,7 @@ sub job_merge_ab_with_bc
 		,'end of common block, but still something on the left side'
 		if 1 && $main::options{debug};
 
-	      die "*** \$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block, but still something on the left side";
+	      die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block, but still something on the left side";
 	    }
 	}
 
@@ -223,7 +223,7 @@ sub job_merge_ab_with_bc
 	,'empty common block'
 	if 1 && $main::options{debug};
 
-      warn "*** empty common block";
+      warn "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}} // empty common block";
     }
 
   if($right_i > $#{$lines{right}})
@@ -232,7 +232,7 @@ sub job_merge_ab_with_bc
 	,'end of common block and end of right side'
 	if 1 && $main::options{debug};
 
-      warn "*** \$right_i=>{$right_i} // end of common block and end of right side";
+      warn "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$right_i=>{$right_i} // end of common block and end of right side";
     }
   else
     {
