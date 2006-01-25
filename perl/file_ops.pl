@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 14:17:30 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 14:37:39 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.18 2006/01/25 13:18:25 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 13:18:25 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.19 2006/01/25 13:37:49 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 13:37:49 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -592,6 +592,9 @@ There is no backtracking at all at the moment.
 =head1 EXAMPLES
 
 ~/Computers/Programming/Languages/Perl/file_ops.pl --job_merge_ab_with_bc --ignore_header_line_on_right_side --left=... --right=...
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_merge_ab_with_bc --ignore_header_line_on_right_side --left=ALL-RAW.csv     --right=20060125131133-statement.csv >     ALL-RAW.csv-
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_merge_ab_with_bc --ignore_header_line_on_right_side --left=JH-ALL-RAW.csv  --right=20060125131133-statement.csv >  JH-ALL-RAW.csv-
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_merge_ab_with_bc --ignore_header_line_on_right_side --left=ESH-ALL-RAW.csv --right=20060125131133-statement.csv > ESH-ALL-RAW.csv-
 
 ~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_ab__right_b --ignore_header_lines --left=... --right=...
 
