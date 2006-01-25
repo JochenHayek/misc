@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 13:34:21 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 13:53:18 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.15 2006/01/25 12:35:03 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 12:35:03 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.16 2006/01/25 12:53:23 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 12:53:23 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -65,6 +65,7 @@ sub main
 
     $main::options{job_merge_ab_with_bc}      = 0;
     $main::options{job_check_situation__left_ab__right_b}      = 0;
+    $main::options{job_check_situation__left_a__right_ab}      = 0;
 
     $main::options{ignore_header_line_on_right_side}		       	= 0;
     $main::options{ignore_header_lines}		       	= 0;
@@ -536,9 +537,13 @@ Options:
 
     --job_merge_ab_with_bc
     --job_check_situation__left_ab__right_b
+    --job_check_situation__left_a__right_ab
 
     --left=s
     --right=s
+
+    --ignore_header_line_on_right_side
+    --ignore_header_lines
 
 =head1 OPTIONS
 
@@ -586,6 +591,8 @@ There is no backtracking at all at the moment.
 ~/Computers/Programming/Languages/Perl/file_ops.pl --job_merge_ab_with_bc --ignore_header_line_on_right_side --left=... --right=...
 
 ~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_ab__right_b --ignore_header_lines --left=... --right=...
+
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_a__right_ab --ignore_header_lines --left=... --right=...
 
 ...
 
