@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 13:30:15 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 13:34:21 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.14 2006/01/25 12:31:34 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 12:31:34 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.15 2006/01/25 12:35:03 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 12:35:03 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -366,18 +366,22 @@ sub job_check_situation__left_ab__right_b
     }
   else
     {
-      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$main::options{left}'  => $main::options{left}
+        ,'$main::options{right}' => $main::options{right}
 	,'empty common block'
 	if 1 && $main::options{debug};
 
-      warn "*** empty common block";
+      warn "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}} // empty common block";
 
       exit(1);
     }
 
   if($right_i > $#{$lines{right}})
     {
-      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$main::options{left}'  => $main::options{left}
+        ,'$main::options{right}' => $main::options{right}
 	,'end of common block and end of right side'
 	if 1 && $main::options{debug};
 
@@ -385,7 +389,9 @@ sub job_check_situation__left_ab__right_b
     }
   else
     {
-      printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$main::options{left}'  => $main::options{left}
+        ,'$main::options{right}' => $main::options{right}
 	,'end of common block, but there is more on the right side'
 	if 1 && $main::options{debug};
 
