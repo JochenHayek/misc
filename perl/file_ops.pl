@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2006-01-25 14:37:39 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2006-03-22 13:25:56 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.19 2006/01/25 13:37:49 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/01/25 13:37:49 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.20 2006/03/22 12:26:28 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2006/03/22 12:26:28 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -183,35 +183,46 @@ sub job_merge_ab_with_bc
 
       if(   defined($lines{left}[$left_i])
 	 && defined($lines{right}[$right_i])
-	 && ($lines{left}[$left_i] eq $lines{right}[$right_i])
 	)
 	{
-	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
-	    ,'$right_i',$right_i
-	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
-	    ,'matching'
-	    if 1 && $main::options{debug};
+	  if($lines{left}[$left_i] eq $lines{right}[$right_i])
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		,'$right_i',$right_i
+		,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+		,'matching'
+		if 1 && $main::options{debug};
 
-	  $within_common_block_p = 1;
+	      $within_common_block_p = 1;
 
-	  $right_i ++ ;
+	      $right_i ++ ;
+	    }
+	  else
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+		,'left only'
+		if 1 && $main::options{debug};
+
+	      if($within_common_block_p)
+		{
+		  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+		    ,'end of common block, but still something on the left side'
+		    if 1 && $main::options{debug};
+
+		  die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block, but still something on the left side";
+		}
+	    }
 	}
       else
 	{
 	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
 	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
-	    ,'left only'
+	    ,'end of common block, but still something on the left side (?!???)'
 	    if 1 && $main::options{debug};
 
-	  if($within_common_block_p)
-	    {
-	      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
-		,"\$lines{left}[$left_i]",$lines{left}[$left_i]
-		,'end of common block, but still something on the left side'
-		if 1 && $main::options{debug};
-
-	      die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i} // end of common block, but still something on the left side";
-	    }
+	  die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},defined(\$lines{left}[\$left_i])=>{".defined($lines{left}[$left_i])."},defined(\$lines{right}[\$right_i])=>{".defined($lines{right}[$right_i])."},\$within_common_block_p=>{$within_common_block_p} // ...";
 	}
 
       print $lines{left}[$left_i],"\n";
