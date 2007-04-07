@@ -1,7 +1,7 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-08 00:53:33 johayek>
-# $Id: xml_multi_utility.pl 1.3 2007/04/07 22:54:14 johayek Exp $
+# Time-stamp: <2007-04-08 02:00:01 johayek>
+# $Id: xml_multi_utility.pl 1.4 2007/04/08 00:01:00 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Programming/Languages/Perl/use_XML-Parser.pl -file=...
@@ -116,12 +116,15 @@ sub proc_content
 	{
 	  push( @main::stack_of_elements , $tag );
 
-	  my(%this_pl_dict);
-
 	  my($value);
 
-	  if   ($main::stack_of_elements[$#main::stack_of_elements] =~ m/^dict$/)
+	  if   (0)
 	    {
+	    }
+	  elsif($main::stack_of_elements[$#main::stack_of_elements] =~ m/^dict$/)
+	    {
+	      my(%this_pl_dict);
+
 	      &proc_content({ 'content' => $content
 			    , 'this_pl_dict' => \%this_pl_dict
 			    });
@@ -130,12 +133,50 @@ sub proc_content
 		{
 		  foreach my $k (sort keys %this_pl_dict)
 		    {
+		      my($v) = $this_pl_dict{$k};
+
+		      if(ref(\$v) eq 'SCALAR')
+			{
+			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+			    ,$k=>$this_pl_dict{$k}
+			    ,'...'
+			    ;
+			}
+		      else
+			{
+			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+			    ,"\$this_pl_dict{$k}"=>$this_pl_dict{$k}
+			    ,"ref(\$this_pl_dict{$k})"=>ref($this_pl_dict{$k})
+			    ,'...'
+			    ;
+			}
+		    }
+		}
+
+	      $return_value = \%this_pl_dict;
+	    }
+	  elsif($main::stack_of_elements[$#main::stack_of_elements] =~ m/^array$/)
+	    {
+	      my(@this_pl_array);
+
+	      $value =
+		  &proc_content({ 'content' => $content
+				, 'this_pl_array' => \@this_pl_array
+				});
+
+	      if($main::options{debug})
+		{
+		  my($i);
+		  for($i=0;$i<=$#this_pl_array;$i++)
+		    {
 		      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-			,$k=>$this_pl_dict{$k}
+			,"\$this_pl_array[$i]"=>$this_pl_array[$i]
 			,'...'
 			;
 		    }
 		}
+
+	      $return_value = \@this_pl_array;
 	    }
 	  else
 	    {
@@ -146,7 +187,7 @@ sub proc_content
 
 	  if(defined ($value))
 	    {
-	      if   ($main::stack_of_elements[$#main::stack_of_elements] =~ m/^dict$/)
+	      if   (0)
 		{
 		}
 	      elsif($main::stack_of_elements[$#main::stack_of_elements] =~ m/^key$/)
@@ -157,6 +198,15 @@ sub proc_content
 		    ,'$current_pl_dict_key'=>$current_pl_dict_key
 		    ,'...'
 		    if $main::options{debug};
+		}
+	      elsif($main::stack_of_elements[$#main::stack_of_elements] =~ m/^(array|dict)$/)
+		{
+		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		    ,"\$main::stack_of_elements[$#main::stack_of_elements]"=>$main::stack_of_elements[$#main::stack_of_elements]
+		    ,'...'
+		    if $main::options{debug};
+
+		  $params->{this_pl_dict}{$current_pl_dict_key} = $value;
 		}
 	      elsif($main::stack_of_elements[$#main::stack_of_elements] =~ m/^(string|integer)$/)
 		{
@@ -169,6 +219,19 @@ sub proc_content
 		    if $main::options{debug};
 
 		  $params->{this_pl_dict}{$current_pl_dict_key} = $current_pl_dict_value;
+		}
+	    }
+	  else
+	    {
+	      if   (0)
+		{
+		}
+	      elsif($main::stack_of_elements[$#main::stack_of_elements] =~ m/^(array|dict)$/)
+		{
+		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		    ,"\$main::stack_of_elements[$#main::stack_of_elements]"=>$main::stack_of_elements[$#main::stack_of_elements]
+		    ,'...'
+		    if $main::options{debug};
 		}
 	    }
 
