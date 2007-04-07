@@ -1,7 +1,7 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-07 23:40:21 johayek>
-# $Id: xml_multi_utility.pl 1.1 2007/04/07 21:43:43 johayek Exp $
+# Time-stamp: <2007-04-07 23:44:11 johayek>
+# $Id: xml_multi_utility.pl 1.2 2007/04/07 21:46:12 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Programming/Languages/Perl/use_XML-Parser.pl -file=...
@@ -32,45 +32,6 @@
     {
       $tree = $p->parse('<foo><head id="a">Hello <em>there</em></head><bar>Howdy<ref/></bar>do</foo>');
     }
-
-  # When parsing a document, "parse()" will return a parse tree for the document. 
-  # Each node in the tree takes the form of a tag, content pair. 
-  # Text nodes are represented with a pseudo-tag of "0" and the string that is their content. 
-  # For elements, the content is an array reference. 
-  # The first item in the array is a (possibly empty) hash reference containing attributes. 
-  # The remainder of the array is a sequence of tag-content pairs representing the content of the element.
-
-  # <foo><head id="a">Hello <em>there</em></head><bar>Howdy<ref/></bar>do</foo>
-
-  # Style=>Debug
-  #
-  #  \\ ()
-  # foo \\ (id a)
-  # foo head || Hello 
-  # foo head \\ ()
-  # foo head em || there
-  # foo head //
-  # foo //
-  # foo \\ ()
-  # foo bar || Howdy
-  # foo bar \\ ()
-  # foo bar //
-  # foo //
-  # foo || do
-  #  //
-
-  # [foo, [{}
-  #       ,head, [{id => "a"}
-  #              ,0, "Hello "
-  #              ,em, [{}, 0, "there"]
-  #              ]
-  #       ,bar , [{}
-  #              ,0, "Howdy"
-  #              ,ref, [{}]
-  #              ]
-  #       ,0, "do"
-  #       ]
-  # ]
 
   if   ( $Style eq 'Debug'  )
     {
