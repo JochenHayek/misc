@@ -1,7 +1,7 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-08 21:48:01 johayek>
-# $Id: xml_multi_utility.pl 1.6 2007/04/08 23:13:09 johayek Exp $
+# Time-stamp: <2007-04-09 01:28:06 johayek>
+# $Id: xml_multi_utility.pl 1.7 2007/04/08 23:29:00 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
@@ -84,6 +84,23 @@
 			    ,$k=>$v
 			    ,"ref(\$value->{$k})"=>ref($value->{$k})
 			    ,'another k=>v assoc ...'
+			    ;
+			}
+		    }
+
+		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		    ,'$value->{Application}'=>$value->{Application}
+		    ,'...'
+		    ;
+
+		  if($value->{Application} =~ m/^iTunes v7\.0\.1$/)
+		    {
+		      foreach my $track (@{$value->{tracks}})
+			{
+			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+			    ,'$track->{Artist}' => defined($track->{Artist}) ? $track->{Artist} : '{undef}'
+			    ,'$track->{Name}'   => defined($track->{Name})   ? $track->{Name}   : '{undef}'
+			    ,'...'
 			    ;
 			}
 		    }
@@ -199,7 +216,7 @@ sub proc_content
 	      # we are back from constructing the "dict",
 	      # so now we can have a look at it:
 
-	      if($main::options{debug})
+	      if(0 && $main::options{debug})
 		{
 		  foreach my $k (sort keys %this_pl_dict)
 		    {
@@ -237,7 +254,7 @@ sub proc_content
 	      # we are back from constructing the "array",
 	      # so now we can have a look at it:
 
-	      if($main::options{debug})
+	      if(0 && $main::options{debug})
 		{
 		  my($i);
 		  for($i=0;$i<=$#this_pl_array;$i++)
@@ -308,7 +325,7 @@ sub proc_content
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
 			    ,"\$main::stack[$#main::stack]"=>$main::stack[$#main::stack]
 			    ,'$#main::stack == 0 ...'
-			    if $main::options{debug};
+			    if 0 && $main::options{debug};
 			}
 		      elsif($main::stack[$#main::stack - 1] eq 'plist')
 			{
@@ -318,7 +335,7 @@ sub proc_content
 			    ,"\$main::stack[$#main::stack]"=>$main::stack[$#main::stack]
 			    ,"\$main::stack[$#main::stack - 1]"=>$main::stack[$#main::stack - 1]
 			    ,'...'
-			    if $main::options{debug};
+			    if 0 && $main::options{debug};
 			}
 		      elsif($main::stack[$#main::stack - 1] eq 'dict')
 			{
@@ -335,7 +352,7 @@ sub proc_content
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
 			    ,'$value'=>$value
 			    ,'pushing a value onto a stack ...'
-			    if $main::options{debug};
+			    if 0 && $main::options{debug};
 
 			  push( @{$params->{this_pl_array}} , $value );
 			}
