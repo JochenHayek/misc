@@ -1,10 +1,13 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-08 21:24:18 johayek>
-# $Id: xml_multi_utility.pl 1.5 2007/04/08 19:25:48 johayek Exp $
+# Time-stamp: <2007-04-08 21:48:01 johayek>
+# $Id: xml_multi_utility.pl 1.6 2007/04/08 23:13:09 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+
+# this utility reads a file conforming to "-//Apple Computer//DTD PLIST 1.0//EN" (aka "Apple Property List") using XML::Parser
+# and creates a corresponding PERL-ish data structure.
 
 {
   use XML::Parser;
@@ -48,8 +51,45 @@
 
       unshift(@{$tree},{});
 
-      &proc_content({ 'content' => $tree
-		    });
+      my($value) =
+	  &proc_content({ 'content' => $tree
+			});
+
+      if($main::options{process_PropertyList_p})
+	{
+	  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+	    ,'$value'=>$value
+	    ,'ref($value)'=>ref($value)
+	    ,'this is the result of parsing the XML document'
+	    if 1 && $main::options{debug};
+
+	  if($main::options{debug})
+	    {
+	      if(ref($value) eq 'HASH')
+		{
+		  foreach my $k (sort keys %{$value})
+		    {
+		      my($v) = $value->{$k};
+
+		      if(ref(\$v) eq 'SCALAR')
+			{
+			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+			    ,$k=>$v
+			    ,'another k=>v assoc ...'
+			    ;
+			}
+		      else
+			{
+			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+			    ,$k=>$v
+			    ,"ref(\$value->{$k})"=>ref($value->{$k})
+			    ,'another k=>v assoc ...'
+			    ;
+			}
+		    }
+		}
+	    }
+	}
     }
 }
 sub proc_content
@@ -229,7 +269,7 @@ sub proc_content
 	      # this *may* still be according to $main::options{process_PropertyList_p}
 	      # or just ordinary expat tree traversal
 
-	      $value =
+	      $value = $return_value =
 		  &proc_content({ 'content' => $content
 				});
 	    }
