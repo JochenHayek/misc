@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 19:02:00 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 19:11:53 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.19 2007/04/10 17:02:13 johayek Exp $
+# $Id: xml_multi_utility.pl 1.20 2007/04/10 17:13:03 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.19 2007/04/10 17:02:13 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 17:02:13 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.20 2007/04/10 17:13:03 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 17:13:03 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.19 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.20 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -292,12 +292,20 @@ sub job_whatever
 			,$test_case->{stdin}{file}
 			;
 		    }
+		  else
+		    {
+		      die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stdin}{file})";
+		    }
 
 		  if( defined($test_case->{stdout}{reference_file}) )
 		    {
 		      printf "    1> '%s' \\\n"
 			,'/tmp/regression_test--stdout'
 			;
+		    }
+		  else
+		    {
+		      die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stdout}{reference_file})";
 		    }
 
 		  if( defined($test_case->{stderr}{reference_file}) )
@@ -306,6 +314,10 @@ sub job_whatever
 			,'/tmp/regression_test--stderr'
 			;
 		    }
+		  else
+		    {
+		      die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stderr}{reference_file})";
+		    }
 
 		  print "    ;\n";
 
@@ -313,7 +325,7 @@ sub job_whatever
 		    {
 		      if( defined($test_case->{stdout}{reference_file}) )
 			{
-			  printf "  cmp -s '%s' '%s%s' ||\n  echo test case '%s': %s different\n  : rm -f '%s'\n"
+			  printf "  cmp -s '%s' '%s%s'; exit_code=\$?\n  echo test_case=>{%s},\$stdX=>{%s},exit_code=>\${exit_code}\n  rm -f '%s%s'\n"
 			    ,$test_case->{$stdX}{reference_file}
 			    ,'/tmp/regression_test--'
 			    ,$stdX
