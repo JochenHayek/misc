@@ -1,19 +1,21 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 16:08:08 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 17:16:12 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.14 2007/04/10 14:08:39 johayek Exp $
+# $Id: xml_multi_utility.pl 1.15 2007/04/10 15:22:02 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.14 2007/04/10 14:08:39 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 14:08:39 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.15 2007/04/10 15:22:02 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 15:22:02 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.14 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.15 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
-# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_pl_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+
+# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_pl_validate --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 # the utility local_xml_package::load reads a file using XML::Parser .
 
@@ -63,16 +65,18 @@ sub main
     $main::options{version}		       	= 0;
     $main::options{verbose}		       	= 0;
 
-    $main::options{job_anon}                   = 1;
+    $main::options{job_whatever}                   = 0;
+    $main::options{job_propertylist_validate}                   = 0;
 
-    $main::options{file}	       	        = undef;
+    $main::options{propertylist_file}	       	        = undef;
   }
 
   my($result) =
     &GetOptions
       (\%main::options
 
-      ,'job_anon!'
+      ,'job_whatever!'
+      ,'job_propertylist_validate|job_pl_validate!'
 
       ,'dry_run!'
       ,'version!'
@@ -82,7 +86,7 @@ sub main
       ,'verbose=i'
       ,'params=s%'		# some "indirect" parameters
 
-      ,'file=s'
+      ,'propertylist_file|pl_file=s'
       );
   $result || pod2usage(2);
 
@@ -92,7 +96,8 @@ sub main
 ##$main::options{verbose}=0;
 ##$main::options{verbose}=2;			# JH: verbosest level here
 
-  if   ($main::options{job_anon})               { &main::job_anon; }
+  if   ($main::options{job_whatever})               { &main::job_whatever; }
+  elsif($main::options{job_propertylist_validate})               { &main::job_propertylist_validate; }
   else
     {
       die "no job to be carried out";
@@ -106,7 +111,7 @@ sub main
     if 0 && $main::options{debug};
 }
 #
-sub job_anon
+sub job_whatever
 {
   my($package,$filename,$line_no,$proc_name) = caller(0);
 
@@ -117,12 +122,11 @@ sub job_anon
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
     if 1 && $main::options{debug};
 
-##defined($main::options{file}) && $main::options{file} || die "--file ???";
-  defined($main::options{file}) 		        || die "--file ???";
+  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
 
   my($value) =
       &local_xml_package::load
-        ({ 'file' => $main::options{file}
+        ({ 'file' => $main::options{propertylist_file}
 	, 'process_PropertyList_p' => 1
 	});
 
@@ -175,6 +179,44 @@ sub job_anon
 	    }
 	}
     }
+
+  printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
+    ,'$return_value',$return_value
+    ,'...'
+    if 0 && $main::options{debug};
+  printf STDERR "<%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_propertylist_validate
+{
+  my($package,$filename,$line_no,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+
+  system( 'env XML_CATALOG_FILES=$HOME/usr/share/xml/PropertyList/schema/dtd/1.0/catalog.xml xmllint --valid --noout '
+	. $main::options{propertylist_file}
+	);
+
+  my($exit_value)  = $? >> 8;
+  my($signal_num)  = $? & 127;
+  my($dumped_core) = $? & 128;
+
+  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+    ,'$exit_value',$exit_value
+    ,'$signal_num',$signal_num
+    ,'$dumped_core',$dumped_core
+    ,'...'
+    if 1 || $main::options{debug};
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
     ,'$return_value',$return_value
@@ -547,7 +589,7 @@ Options:
 
     --job_...
 
-    --file
+    --propertylist_file
 
 =head1 OPTIONS
 
@@ -560,6 +602,14 @@ Print a brief help message and exits.
 =item B<--man>
 
 Prints the manual page and exits.
+
+=item B<--job_whatever>
+
+...
+
+=item B<--job_propertylist_validate>
+
+...
 
 =item B<--job_...>
 
