@@ -1,21 +1,27 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 18:46:55 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 19:02:00 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.18 2007/04/10 16:46:57 johayek Exp $
+# $Id: xml_multi_utility.pl 1.19 2007/04/10 17:02:13 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.18 2007/04/10 16:46:57 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 16:46:57 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.19 2007/04/10 17:02:13 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 17:02:13 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.18 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.19 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
+############################################################################################################################################
+
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_pl_validate --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
+# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_whatever --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0=1
+
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+
+############################################################################################################################################
 
 # the subroutine local_xml_package::load reads a file using XML::Parser .
 
@@ -282,12 +288,44 @@ sub job_whatever
 
 		  if( defined($test_case->{stdin}{file}) )
 		    {
-		      printf "    > %s \\\n"
+		      printf "    < '%s' \\\n"
 			,$test_case->{stdin}{file}
 			;
 		    }
 
-		  print "    ;\n)\n";
+		  if( defined($test_case->{stdout}{reference_file}) )
+		    {
+		      printf "    1> '%s' \\\n"
+			,'/tmp/regression_test--stdout'
+			;
+		    }
+
+		  if( defined($test_case->{stderr}{reference_file}) )
+		    {
+		      printf "    2> '%s' \\\n"
+			,'/tmp/regression_test--stderr'
+			;
+		    }
+
+		  print "    ;\n";
+
+		  foreach my $stdX ('stdout','stderr')
+		    {
+		      if( defined($test_case->{stdout}{reference_file}) )
+			{
+			  printf "  cmp -s '%s' '%s%s' ||\n  echo test case '%s': %s different\n  : rm -f '%s'\n"
+			    ,$test_case->{$stdX}{reference_file}
+			    ,'/tmp/regression_test--'
+			    ,$stdX
+			    ,$test_case->{unique_id}
+			    ,$stdX
+			    ,'/tmp/regression_test--'
+			    ,$stdX
+			    ;
+			}
+		    }
+
+		  print ")\n";
 		}
 	    }
 	}
