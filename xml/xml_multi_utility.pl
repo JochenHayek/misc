@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 18:36:38 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 18:46:55 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.17 2007/04/10 16:37:11 johayek Exp $
+# $Id: xml_multi_utility.pl 1.18 2007/04/10 16:46:57 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.17 2007/04/10 16:37:11 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 16:37:11 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.18 2007/04/10 16:46:57 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 16:46:57 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.17 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.18 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -271,13 +271,23 @@ sub job_whatever
 			;
 		    }
 
-		  printf "  %s # =%03d // %s\n"
-		    , ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '# {undef}' )
+		  printf "  # =%03d // %s\n"
 		    ,__LINE__
 		    ,'...'
 		    ;
 
-		  print ")\n";
+		  printf "  %s \\\n"
+		    , ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '# {undef}' )
+		    ;
+
+		  if( defined($test_case->{stdin}{file}) )
+		    {
+		      printf "    > %s \\\n"
+			,$test_case->{stdin}{file}
+			;
+		    }
+
+		  print "    ;\n)\n";
 		}
 	    }
 	}
