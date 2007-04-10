@@ -1,8 +1,17 @@
-#! /usr/bin/perl -ws
+#! /usr/bin/perl -w
 
-# Time-stamp: <2007-04-10 15:10:45 johayek>
-# $Id: xml_multi_utility.pl 1.13 2007/04/10 13:10:46 johayek Exp $
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 16:08:08 johayek>' =~ m/<(.*)>/;
+
+# Time-stamp: <2007-04-10 16:00:13 johayek>
+# $Id: xml_multi_utility.pl 1.14 2007/04/10 14:08:39 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
+
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.14 2007/04/10 14:08:39 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 14:08:39 $'))[1..2])));
+#     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.14 $'))[1])));
+#	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
+#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
@@ -14,18 +23,108 @@
 # so that you can make further use of it.
 
 {
-  %main::options = ();
+##use English;
+##use FileHandle;
+  use strict;
 
-  $main::options{debug} = 1;
+  &main;
+}
+#
+sub main
+{
+  my($package,$filename,$line_no,$proc_name) = caller(0);
 
-  die "!defined(-file)"
-    unless defined($file);
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  # described in:
+  #	camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
+
+  use Getopt::Long;
+  use Pod::Usage;
+  %options = ();
+
+  $main::options{debug} = 0;
+
+  printf STDERR ">%d,%s\n",__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%d,%s: %s=>{%s}\n",__LINE__,$proc_name
+    ,'$rcs_Id',$rcs_Id
+    if 0 && $main::options{debug};
+  printf STDERR "=%d,%s: %s=>{%s}\n",__LINE__,$proc_name
+    ,'$emacs_Time_stamp',$emacs_Time_stamp
+    if 0 && $main::options{debug};
+
+  {
+    # defaults for the main::options;
+    
+    $main::options{dry_run}		       	= 0;
+    $main::options{version}		       	= 0;
+    $main::options{verbose}		       	= 0;
+
+    $main::options{job_anon}                   = 1;
+
+    $main::options{file}	       	        = undef;
+  }
+
+  my($result) =
+    &GetOptions
+      (\%main::options
+
+      ,'job_anon!'
+
+      ,'dry_run!'
+      ,'version!'
+      ,'help|?!'
+      ,'man!'
+      ,'debug!'
+      ,'verbose=i'
+      ,'params=s%'		# some "indirect" parameters
+
+      ,'file=s'
+      );
+  $result || pod2usage(2);
+
+  pod2usage(1) if $main::options{help};
+  pod2usage(-exitstatus => 0, -verbose => 2) if $main::options{man};
+
+##$main::options{verbose}=0;
+##$main::options{verbose}=2;			# JH: verbosest level here
+
+  if   ($main::options{job_anon})               { &main::job_anon; }
+  else
+    {
+      die "no job to be carried out";
+    }
+
+  printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
+    ,'$return_value',$return_value
+    ,'...'
+    if 0 && $main::options{debug};
+  printf STDERR "<%d,%s\n",__LINE__,$proc_name
+    if 0 && $main::options{debug};
+}
+#
+sub job_anon
+{
+  my($package,$filename,$line_no,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+##defined($main::options{file}) && $main::options{file} || die "--file ???";
+  defined($main::options{file}) 		        || die "--file ???";
 
   my($value) =
       &local_xml_package::load
-	({ 'file' => $file
-	 , 'process_PropertyList_p' => 1
-         });
+        ({ 'file' => $main::options{file}
+	, 'process_PropertyList_p' => 1
+	});
 
   printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
     ,'$value'=>$value
@@ -76,6 +175,15 @@
 	    }
 	}
     }
+
+  printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
+    ,'$return_value',$return_value
+    ,'...'
+    if 0 && $main::options{debug};
+  printf STDERR "<%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  return $return_value;
 }
 #
 package local_xml_package;
@@ -423,3 +531,50 @@ sub proc_content
 
   return $return_value;
 }
+__END__
+
+=head1 NAME
+
+... - ...
+
+=head1 SYNOPSIS
+
+... [options] [file ...]
+
+Options:
+    --help
+    --man
+
+    --job_...
+
+    --file
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--help>
+
+Print a brief help message and exits.
+
+=item B<--man>
+
+Prints the manual page and exits.
+
+=item B<--job_...>
+
+...
+
+=back
+
+=head1 DESCRIPTION
+
+B<This program> will ...
+
+...
+
+=head1 EXAMPLES
+
+...
+
+=cut
