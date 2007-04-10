@@ -1,7 +1,7 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-10 14:55:23 johayek>
-# $Id: xml_multi_utility.pl 1.11 2007/04/10 12:56:02 johayek Exp $
+# Time-stamp: <2007-04-10 15:09:33 johayek>
+# $Id: xml_multi_utility.pl 1.12 2007/04/10 13:10:30 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
@@ -96,6 +96,10 @@ sub load
 
   ################################################################################
 
+  my(%local_variables_of_top_level_utility);
+
+  ################################################################################
+
   use XML::Parser;
 
   my($p) = new XML::Parser(Style => $params_of_top_level_utility->{Style});
@@ -119,14 +123,17 @@ sub load
     }
   elsif( $params_of_top_level_utility->{Style} eq 'Tree'  )
     {
-      @{$params_of_top_level_utility->{tree_stack}} = ();
+      @{$local_variables_of_top_level_utility{tree_stack}} = ();
 
       unshift(@{$tree},{});
 
       my($value) =
 	  &proc_content($params_of_top_level_utility
+		       ,\%local_variables_of_top_level_utility
 		       ,{ 'content' => $tree
 			});
+
+      $tree = undef;		# releasing the data structure created by the parser
 
       return $value;
     }
@@ -134,7 +141,7 @@ sub load
 
 sub proc_content
 {
-  my($params_of_top_level_utility,$params) = @_;
+  my($params_of_top_level_utility,$variables_of_top_level_utility,$params) = @_;
 
   my($return_value);
 
@@ -147,7 +154,7 @@ sub proc_content
     if($params_of_top_level_utility->{like_Style_Debug_p})
       {
 	printf STDERR "=%03d: %s \\\\ (",__LINE__
-	  ,join(' ',@{$params_of_top_level_utility->{tree_stack}})
+	  ,join(' ',@{$variables_of_top_level_utility->{tree_stack}})
 	  ;
 
 	my($separator) = '';
@@ -187,7 +194,7 @@ sub proc_content
 	      if($params_of_top_level_utility->{like_Style_Debug_p})
 		{
 		  printf STDERR "=%03d: %s || {%s}\n",__LINE__
-		    ,join(' ',@{$params_of_top_level_utility->{tree_stack}})
+		    ,join(' ',@{$variables_of_top_level_utility->{tree_stack}})
 		    ,$content
 		    ;
 		}
@@ -196,43 +203,44 @@ sub proc_content
 		{
 		  # within PropertyList_s we are only interested in PCDATA as part of a key or of "primitive types"
 
-		  if   ($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}] =~ m/^(key|data|date|real|integer|string)$/)
+		  if   ($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}] =~ m/^(key|data|date|real|integer|string)$/)
 		    {
 		      $return_value = $content;
 		    }
 		  else
 		    {
-		      die "\$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]=>{$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]},\$content=>{$content}"
+		      die "\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]=>{$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]},\$content=>{$content}";
 		    }
 		}
 	    }
 	}
       elsif($tag ne '0') # man XML::Parser::Style::Tree : for elements, the content is an array reference
 	{
-	  push( @{$params_of_top_level_utility->{tree_stack}} , $tag );
+	  push( @{$variables_of_top_level_utility->{tree_stack}} , $tag );
 
 	  my($value);		# we are going to visit "content", and $value is what we will get back from visiting the content during PropertyList processing
 
 	  if   (0)
 	    {
 	    }
-	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}] =~ m/^(true|false)$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}] =~ m/^(true|false)$/))
 	    {
 	      if(0 && $params_of_top_level_utility->{debug})
 		{
 		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-		    ,"\$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]"=>$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]
+		    ,"\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]"=>$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]
 		    ,'...'
 		    ;
 		}
 
-	      $value = $return_value = ($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}] =~ 'true')
+	      $value = $return_value = ($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}] =~ 'true')
 	    }
-	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}] =~ m/^dict$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}] =~ m/^dict$/))
 	    {
 	      my(%this_PropertyList_dict);
 
 	      &proc_content($params_of_top_level_utility
+			   ,$variables_of_top_level_utility
 			   ,{ 'content' => $content
 			    , 'this_PropertyList_dict' => \%this_PropertyList_dict
 			    });
@@ -266,12 +274,13 @@ sub proc_content
 
 	      $value = $return_value = \%this_PropertyList_dict;
 	    }
-	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}] =~ m/^array$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}] =~ m/^array$/))
 	    {
 	      my(@this_PropertyList_array);
 
 	      $value =
 		  &proc_content($params_of_top_level_utility
+			       ,$variables_of_top_level_utility
 			       ,{ 'content' => $content
 				, 'this_PropertyList_array' => \@this_PropertyList_array
 				});
@@ -313,6 +322,7 @@ sub proc_content
 
 	      $value = $return_value =
 		  &proc_content($params_of_top_level_utility
+			       ,$variables_of_top_level_utility
 			       ,{ 'content' => $content
 				});
 	    }
@@ -323,14 +333,14 @@ sub proc_content
 	    {
 	      if(!defined ($value))
 		{
-		  die "\$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]=>{$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]}"
+		  die "\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]=>{$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]}"
 		}
 	      else
 		{
 		  if   (0)
 		    {
 		    }
-		  elsif($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}] =~ m/^key$/)
+		  elsif($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}] =~ m/^key$/)
 		    {
 		      # so that we will keep the name of the key in mind until we will find the value of this key
 
@@ -341,29 +351,29 @@ sub proc_content
 			,'with value'
 			if 0 && $params_of_top_level_utility->{debug};
 		    }
-		##elsif($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}] =~ m/^(data|date|real|integer|string|true|false)$/)
+		##elsif($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}] =~ m/^(data|date|real|integer|string|true|false)$/)
 		  elsif(1)
 		    {
-		      if ($#{$params_of_top_level_utility->{tree_stack}} == 0)
+		      if ($#{$variables_of_top_level_utility->{tree_stack}} == 0)
 			{
 			  # ???
 
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-			    ,"\$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]"=>$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]
-			    ,'$#{$params_of_top_level_utility->{tree_stack}} == 0 ...'
+			    ,"\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]"=>$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]
+			    ,'$#{$variables_of_top_level_utility->{tree_stack}} == 0 ...'
 			    if 0 && $params_of_top_level_utility->{debug};
 			}
-		      elsif($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}} - 1] eq 'plist')
+		      elsif($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}} - 1] eq 'plist')
 			{
 			  # ???
 
 			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-			    ,"\$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]"=>$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]
-			    ,"\$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}} - 1]"=>$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}} - 1]
+			    ,"\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]"=>$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]
+			    ,"\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}} - 1]"=>$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}} - 1]
 			    ,'...'
 			    if 0 && $params_of_top_level_utility->{debug};
 			}
-		      elsif($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}} - 1] eq 'dict')
+		      elsif($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}} - 1] eq 'dict')
 			{
 			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
 			    ,'$current_PropertyList_dict_key'=>$current_PropertyList_dict_key
@@ -373,7 +383,7 @@ sub proc_content
 
 			  $params->{this_PropertyList_dict}{ $current_PropertyList_dict_key } = $value;
 			}
-		      elsif($params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}} - 1] eq 'array')
+		      elsif($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}} - 1] eq 'array')
 			{
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
 			    ,'$value'=>$value
@@ -384,17 +394,17 @@ sub proc_content
 			}
 		      else
 			{
-			  die "\$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}} - 1]=>{$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}} - 1]}"
+			  die "\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}} - 1]=>{$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}} - 1]}"
 			}
 		    }
 		  else
 		    {
-		      die "\$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]=>{$params_of_top_level_utility->{tree_stack}[$#{$params_of_top_level_utility->{tree_stack}}]}"
+		      die "\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]=>{$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]}"
 		    }
 		}
 	    }
 
-	  pop( @{$params_of_top_level_utility->{tree_stack}} );
+	  pop( @{$variables_of_top_level_utility->{tree_stack}} );
 	}
       else
 	{
@@ -406,7 +416,7 @@ sub proc_content
   if($params_of_top_level_utility->{like_Style_Debug_p})
     {
       printf STDERR "=%03d: %s //\n",__LINE__
-	,join(' ',@{$params_of_top_level_utility->{tree_stack}})
+	,join(' ',@{$variables_of_top_level_utility->{tree_stack}})
 	;
     }
 
