@@ -1,38 +1,110 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-09 01:28:06 johayek>
-# $Id: xml_multi_utility.pl 1.7 2007/04/08 23:29:00 johayek Exp $
+# Time-stamp: <2007-04-10 14:26:28 johayek>
+# $Id: xml_multi_utility.pl 1.8 2007/04/10 12:26:52 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
-# this utility reads a file conforming to "-//Apple Computer//DTD PLIST 1.0//EN" (aka "Apple Property List") using XML::Parser
-# and creates a corresponding PERL-ish data structure.
+# the utility local_xml::load reads a file using XML::Parser .
+
+# you can advise the utility local_xml::load to treat the data structure read
+# as conforming to "-//Apple Computer//DTD PLIST 1.0//EN" (aka "Apple Property List").
+# it will then create a corresponding PERL-ish data structure and return it, so that you can make further use of it.
 
 {
-  use XML::Parser;
-
   %main::options = ();
 
   $main::options{debug} = 1;
 
-  $main::options{like_Style_Debug} = 0;
+  die "!defined(-file)"
+    unless defined($file);
 
-##$main::options{Style} = 'Debug';
-  $main::options{Style} = 'Tree';
+  my($value) =
+      &local_xml::load
+	({ 'file' => $file
+	 , 'process_PropertyList_p' => 1
+         });
 
-  $main::options{process_PropertyList_p} = 1;
+  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+    ,'$value'=>$value
+    ,'ref($value)'=>ref($value)
+    ,'this is the result of parsing the XML document'
+    if 1 && $main::options{debug};
+
+  if($main::options{debug})
+    {
+      if(ref($value) eq 'HASH')
+	{
+	  foreach my $k (sort keys %{$value})
+	    {
+	      my($v) = $value->{$k};
+
+	      if(ref(\$v) eq 'SCALAR')
+		{
+		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		    ,$k=>$v
+		    ,'another k=>v assoc ...'
+		    ;
+		}
+	      else
+		{
+		  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+		    ,$k=>$v
+		    ,"ref(\$value->{$k})"=>ref($value->{$k})
+		    ,'another k=>v assoc ...'
+		    ;
+		}
+	    }
+
+	  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+	    ,'$value->{Application}'=>$value->{Application}
+	    ,'...'
+	    ;
+
+	  if($value->{Application} =~ m/^iTunes v7\.0\.1$/)
+	    {
+	      foreach my $track (@{$value->{tracks}})
+		{
+		  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+		    ,'$track->{Artist}' => defined($track->{Artist}) ? $track->{Artist} : '{undef}'
+		    ,'$track->{Name}'   => defined($track->{Name})   ? $track->{Name}   : '{undef}'
+		    ,'...'
+		    ;
+		}
+	    }
+	}
+    }
+}
+#
+package local_xml;
+
+use XML::Parser;
+
+sub load
+{
+  my($params_of_top_level_utility) = (@_);
+
+  ################################################################################
+
+  $params_of_top_level_utility->{debug} = 0
+    unless defined($params_of_top_level_utility->{debug});
+
+  $params_of_top_level_utility->{like_Style_Debug_p} = 0
+    unless defined($params_of_top_level_utility->{like_Style_Debug_p});
+
+  $params_of_top_level_utility->{Style} = 'Tree' # 'Debug' ?!?
+    unless defined($params_of_top_level_utility->{Style});
+
+  ################################################################################
+
+  my($p) = new XML::Parser(Style => $params_of_top_level_utility->{Style});
 
   my($tree);
 
-  my($p) = new XML::Parser(Style => $main::options{Style});
-
   if   (1)
     {
-      die "!defined(-file)"
-	unless defined($file);
-
-      $tree = $p->parsefile($file);
+      $tree = $p->parsefile($params_of_top_level_utility->{file});
     }
   else
     {
@@ -42,76 +114,26 @@
       $tree = $p->parse('<foo><head id="a">Hello <em>there</em></head><bar>Howdy<ref/></bar>do</foo>');
     }
 
-  if   ( $main::options{Style} eq 'Debug'  )
+  if   ( $params_of_top_level_utility->{Style} eq 'Debug'  )
     {
     }
-  elsif( $main::options{Style} eq 'Tree'  )
+  elsif( $params_of_top_level_utility->{Style} eq 'Tree'  )
     {
-      @main::stack = ();
+      @local_xml::tree_stack = ();
 
       unshift(@{$tree},{});
 
       my($value) =
-	  &proc_content({ 'content' => $tree
+	  &proc_content($params_of_top_level_utility
+		       ,{ 'content' => $tree
 			});
 
-      if($main::options{process_PropertyList_p})
-	{
-	  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-	    ,'$value'=>$value
-	    ,'ref($value)'=>ref($value)
-	    ,'this is the result of parsing the XML document'
-	    if 1 && $main::options{debug};
-
-	  if($main::options{debug})
-	    {
-	      if(ref($value) eq 'HASH')
-		{
-		  foreach my $k (sort keys %{$value})
-		    {
-		      my($v) = $value->{$k};
-
-		      if(ref(\$v) eq 'SCALAR')
-			{
-			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-			    ,$k=>$v
-			    ,'another k=>v assoc ...'
-			    ;
-			}
-		      else
-			{
-			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-			    ,$k=>$v
-			    ,"ref(\$value->{$k})"=>ref($value->{$k})
-			    ,'another k=>v assoc ...'
-			    ;
-			}
-		    }
-
-		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-		    ,'$value->{Application}'=>$value->{Application}
-		    ,'...'
-		    ;
-
-		  if($value->{Application} =~ m/^iTunes v7\.0\.1$/)
-		    {
-		      foreach my $track (@{$value->{tracks}})
-			{
-			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-			    ,'$track->{Artist}' => defined($track->{Artist}) ? $track->{Artist} : '{undef}'
-			    ,'$track->{Name}'   => defined($track->{Name})   ? $track->{Name}   : '{undef}'
-			    ,'...'
-			    ;
-			}
-		    }
-		}
-	    }
-	}
+      return $value;
     }
 }
 sub proc_content
 {
-  my($params) = @_;
+  my($params_of_top_level_utility,$params) = @_;
 
   my($return_value);
 
@@ -121,10 +143,10 @@ sub proc_content
     my($ref_attributes) = shift(@pairs); # man XML::Parser::Style::Tree : the first item in the array is a (possibly empty) hash reference containing attributes
     my(@attributes) = %{$ref_attributes};
 
-    if($main::options{like_Style_Debug})
+    if($params_of_top_level_utility->{like_Style_Debug_p})
       {
 	printf STDERR "=%03d: %s \\\\ (",__LINE__
-	  ,join(' ',@main::stack)
+	  ,join(' ',@local_xml::tree_stack)
 	  ;
 
 	my($separator) = '';
@@ -143,7 +165,7 @@ sub proc_content
       }
   }
 
-  my($current_pl_dict_key);
+  my($current_PropertyList_dict_key);
 
   while($#pairs >= 0) # man XML::Parser::Style::Tree : the remainder of the array is a sequence of tag-content pairs representing the content of the element
     {
@@ -161,66 +183,67 @@ sub proc_content
 	    }
 	  else
 	    {
-	      if($main::options{like_Style_Debug})
+	      if($params_of_top_level_utility->{like_Style_Debug_p})
 		{
 		  printf STDERR "=%03d: %s || {%s}\n",__LINE__
-		    ,join(' ',@main::stack)
+		    ,join(' ',@local_xml::tree_stack)
 		    ,$content
 		    ;
 		}
 
-	      if($main::options{process_PropertyList_p})
+	      if($params_of_top_level_utility->{process_PropertyList_p})
 		{
 		  # within PropertyList_s we are only interested in PCDATA as part of a key or of "primitive types"
 
-		  if   ($main::stack[$#main::stack] =~ m/^(key|data|date|real|integer|string)$/)
+		  if   ($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^(key|data|date|real|integer|string)$/)
 		    {
 		      $return_value = $content;
 		    }
 		  else
 		    {
-		      die "\$main::stack[$#main::stack]=>{$main::stack[$#main::stack]},\$content=>{$content}"
+		      die "\$local_xml::tree_stack[$#local_xml::tree_stack]=>{$local_xml::tree_stack[$#local_xml::tree_stack]},\$content=>{$content}"
 		    }
 		}
 	    }
 	}
       elsif($tag ne '0') # man XML::Parser::Style::Tree : for elements, the content is an array reference
 	{
-	  push( @main::stack , $tag );
+	  push( @local_xml::tree_stack , $tag );
 
 	  my($value);		# we are going to visit "content", and $value is what we will get back from visiting the content during PropertyList processing
 
 	  if   (0)
 	    {
 	    }
-	  elsif($main::options{process_PropertyList_p} && ($main::stack[$#main::stack] =~ m/^(true|false)$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^(true|false)$/))
 	    {
-	      if(0 && $main::options{debug})
+	      if(0 && $params_of_top_level_utility->{debug})
 		{
 		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-		    ,"\$main::stack[$#main::stack]"=>$main::stack[$#main::stack]
+		    ,"\$local_xml::tree_stack[$#local_xml::tree_stack]"=>$local_xml::tree_stack[$#local_xml::tree_stack]
 		    ,'...'
 		    ;
 		}
 
-	      $value = $return_value = ($main::stack[$#main::stack] =~ 'true')
+	      $value = $return_value = ($local_xml::tree_stack[$#local_xml::tree_stack] =~ 'true')
 	    }
-	  elsif($main::options{process_PropertyList_p} && ($main::stack[$#main::stack] =~ m/^dict$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^dict$/))
 	    {
-	      my(%this_pl_dict);
+	      my(%this_PropertyList_dict);
 
-	      &proc_content({ 'content' => $content
-			    , 'this_pl_dict' => \%this_pl_dict
+	      &proc_content($params_of_top_level_utility
+			   ,{ 'content' => $content
+			    , 'this_PropertyList_dict' => \%this_PropertyList_dict
 			    });
 
 	      # we are back from constructing the "dict",
 	      # so now we can have a look at it:
 
-	      if(0 && $main::options{debug})
+	      if(0 && $params_of_top_level_utility->{debug})
 		{
-		  foreach my $k (sort keys %this_pl_dict)
+		  foreach my $k (sort keys %this_PropertyList_dict)
 		    {
-		      my($v) = $this_pl_dict{$k};
+		      my($v) = $this_PropertyList_dict{$k};
 
 		      if(ref(\$v) eq 'SCALAR')
 			{
@@ -232,143 +255,145 @@ sub proc_content
 		      else
 			{
 			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-			    ,"\$this_pl_dict{$k}"=>$this_pl_dict{$k}
-			    ,"ref(\$this_pl_dict{$k})"=>ref($this_pl_dict{$k})
+			    ,"\$this_PropertyList_dict{$k}"=>$this_PropertyList_dict{$k}
+			    ,"ref(\$this_PropertyList_dict{$k})"=>ref($this_PropertyList_dict{$k})
 			    ,'another k=>v assoc ...'
 			    ;
 			}
 		    }
 		}
 
-	      $value = $return_value = \%this_pl_dict;
+	      $value = $return_value = \%this_PropertyList_dict;
 	    }
-	  elsif($main::options{process_PropertyList_p} && ($main::stack[$#main::stack] =~ m/^array$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^array$/))
 	    {
-	      my(@this_pl_array);
+	      my(@this_PropertyList_array);
 
 	      $value =
-		  &proc_content({ 'content' => $content
-				, 'this_pl_array' => \@this_pl_array
+		  &proc_content($params_of_top_level_utility
+			       ,{ 'content' => $content
+				, 'this_PropertyList_array' => \@this_PropertyList_array
 				});
 
 	      # we are back from constructing the "array",
 	      # so now we can have a look at it:
 
-	      if(0 && $main::options{debug})
+	      if(0 && $params_of_top_level_utility->{debug})
 		{
 		  my($i);
-		  for($i=0;$i<=$#this_pl_array;$i++)
+		  for($i=0;$i<=$#this_PropertyList_array;$i++)
 		    {
-		      my($v) = $this_pl_array[$i];
+		      my($v) = $this_PropertyList_array[$i];
 
 		      if(ref(\$v) eq 'SCALAR')
 			{
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-			    ,"\$this_pl_array[$i]"=>$this_pl_array[$i]
+			    ,"\$this_PropertyList_array[$i]"=>$this_PropertyList_array[$i]
 			    ,'...'
 			    ;
 			}
 		      else
 			{
 			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-			    ,"\$this_pl_array[$i]"=>$this_pl_array[$i]
-			    ,"ref(\$this_pl_array[$i])"=>ref($this_pl_array[$i])
+			    ,"\$this_PropertyList_array[$i]"=>$this_PropertyList_array[$i]
+			    ,"ref(\$this_PropertyList_array[$i])"=>ref($this_PropertyList_array[$i])
 			    ,'...'
 			    ;
 			}
 		    }
 		}
 
-	      $value = $return_value = \@this_pl_array;
+	      $value = $return_value = \@this_PropertyList_array;
 	    }
 	  else
 	    {
-	      # this *may* still be according to $main::options{process_PropertyList_p}
+	      # this *may* still be according to $params_of_top_level_utility->{process_PropertyList_p}
 	      # or just ordinary expat tree traversal
 
 	      $value = $return_value =
-		  &proc_content({ 'content' => $content
+		  &proc_content($params_of_top_level_utility
+			       ,{ 'content' => $content
 				});
 	    }
 
 	  # after returning from visiting content ...
 
-	  if($main::options{process_PropertyList_p})
+	  if($params_of_top_level_utility->{process_PropertyList_p})
 	    {
 	      if(!defined ($value))
 		{
-		  die "\$main::stack[$#main::stack]=>{$main::stack[$#main::stack]}"
+		  die "\$local_xml::tree_stack[$#local_xml::tree_stack]=>{$local_xml::tree_stack[$#local_xml::tree_stack]}"
 		}
 	      else
 		{
 		  if   (0)
 		    {
 		    }
-		  elsif($main::stack[$#main::stack] =~ m/^key$/)
+		  elsif($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^key$/)
 		    {
 		      # so that we will keep the name of the key in mind until we will find the value of this key
 
-		      $current_pl_dict_key = $value; # actually $value here is the key *name*
+		      $current_PropertyList_dict_key = $value; # actually $value here is the key *name*
 
 		      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-			,'$current_pl_dict_key'=>$current_pl_dict_key
+			,'$current_PropertyList_dict_key'=>$current_PropertyList_dict_key
 			,'with value'
-			if 0 && $main::options{debug};
+			if 0 && $params_of_top_level_utility->{debug};
 		    }
-		##elsif($main::stack[$#main::stack] =~ m/^(data|date|real|integer|string|true|false)$/)
+		##elsif($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^(data|date|real|integer|string|true|false)$/)
 		  elsif(1)
 		    {
-		      if ($#main::stack == 0)
+		      if ($#local_xml::tree_stack == 0)
 			{
 			  # ???
 
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-			    ,"\$main::stack[$#main::stack]"=>$main::stack[$#main::stack]
-			    ,'$#main::stack == 0 ...'
-			    if 0 && $main::options{debug};
+			    ,"\$local_xml::tree_stack[$#local_xml::tree_stack]"=>$local_xml::tree_stack[$#local_xml::tree_stack]
+			    ,'$#local_xml::tree_stack == 0 ...'
+			    if 0 && $params_of_top_level_utility->{debug};
 			}
-		      elsif($main::stack[$#main::stack - 1] eq 'plist')
+		      elsif($local_xml::tree_stack[$#local_xml::tree_stack - 1] eq 'plist')
 			{
 			  # ???
 
 			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-			    ,"\$main::stack[$#main::stack]"=>$main::stack[$#main::stack]
-			    ,"\$main::stack[$#main::stack - 1]"=>$main::stack[$#main::stack - 1]
+			    ,"\$local_xml::tree_stack[$#local_xml::tree_stack]"=>$local_xml::tree_stack[$#local_xml::tree_stack]
+			    ,"\$local_xml::tree_stack[$#local_xml::tree_stack - 1]"=>$local_xml::tree_stack[$#local_xml::tree_stack - 1]
 			    ,'...'
-			    if 0 && $main::options{debug};
+			    if 0 && $params_of_top_level_utility->{debug};
 			}
-		      elsif($main::stack[$#main::stack - 1] eq 'dict')
+		      elsif($local_xml::tree_stack[$#local_xml::tree_stack - 1] eq 'dict')
 			{
 			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-			    ,'$current_pl_dict_key'=>$current_pl_dict_key
+			    ,'$current_PropertyList_dict_key'=>$current_PropertyList_dict_key
 			    ,'$value'=>$value
 			    ,'...'
-			    if 0 && $main::options{debug};
+			    if 0 && $params_of_top_level_utility->{debug};
 
-			  $params->{this_pl_dict}{$current_pl_dict_key} = $value;
+			  $params->{this_PropertyList_dict}{ $current_PropertyList_dict_key } = $value;
 			}
-		      elsif($main::stack[$#main::stack - 1] eq 'array')
+		      elsif($local_xml::tree_stack[$#local_xml::tree_stack - 1] eq 'array')
 			{
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
 			    ,'$value'=>$value
 			    ,'pushing a value onto a stack ...'
-			    if 0 && $main::options{debug};
+			    if 0 && $params_of_top_level_utility->{debug};
 
-			  push( @{$params->{this_pl_array}} , $value );
+			  push( @{$params->{this_PropertyList_array}} , $value );
 			}
 		      else
 			{
-			  die "\$main::stack[$#main::stack - 1]=>{$main::stack[$#main::stack - 1]}"
+			  die "\$local_xml::tree_stack[$#local_xml::tree_stack - 1]=>{$local_xml::tree_stack[$#local_xml::tree_stack - 1]}"
 			}
 		    }
 		  else
 		    {
-		      die "\$main::stack[$#main::stack]=>{$main::stack[$#main::stack]}"
+		      die "\$local_xml::tree_stack[$#local_xml::tree_stack]=>{$local_xml::tree_stack[$#local_xml::tree_stack]}"
 		    }
 		}
 	    }
 
-	  pop( @main::stack );
+	  pop( @local_xml::tree_stack );
 	}
       else
 	{
@@ -377,10 +402,10 @@ sub proc_content
 
     }
 
-  if($main::options{like_Style_Debug})
+  if($params_of_top_level_utility->{like_Style_Debug_p})
     {
       printf STDERR "=%03d: %s //\n",__LINE__
-	,join(' ',@main::stack)
+	,join(' ',@local_xml::tree_stack)
 	;
     }
 
