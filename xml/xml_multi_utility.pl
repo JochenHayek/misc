@@ -1,7 +1,7 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-10 15:09:33 johayek>
-# $Id: xml_multi_utility.pl 1.12 2007/04/10 13:10:30 johayek Exp $
+# Time-stamp: <2007-04-10 15:10:45 johayek>
+# $Id: xml_multi_utility.pl 1.13 2007/04/10 13:10:46 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
@@ -10,7 +10,8 @@
 
 # you can advise the utility local_xml_package::load to treat the data structure read
 # as conforming to "-//Apple Computer//DTD PLIST 1.0//EN" (aka "Apple Property List").
-# it will then create a corresponding PERL-ish data structure and return it, so that you can make further use of it.
+# it will then create a corresponding PERL-ish data structure and return it,
+# so that you can make further use of it.
 
 {
   %main::options = ();
