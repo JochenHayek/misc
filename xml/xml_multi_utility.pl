@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 19:11:53 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 20:22:53 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.20 2007/04/10 17:13:03 johayek Exp $
+# $Id: xml_multi_utility.pl 1.21 2007/04/10 18:23:35 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.20 2007/04/10 17:13:03 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 17:13:03 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.21 2007/04/10 18:23:35 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 18:23:35 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.20 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.21 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -244,16 +244,14 @@ sub job_whatever
 		,'...'
 		if 1 && $main::options{debug};
 
-	      if(exists($main::options{test_cases}{ $test_case->{unique_id} }))
+	      if(!exists($main::options{test_cases}) || exists($main::options{test_cases}{ $test_case->{unique_id} }))
 		{
-		  print "#\n" , '#' x 80 , "\n#\n";
+		  print "\n" , '#' x 80 , "\n";
 
-		  printf "# =%03d: {%s}=>{%s} // %s\n",__LINE__
+		  printf "\n( # =%03d: {%s}=>{%s} // %s\n\n",__LINE__
 		    ,'$test_case->{unique_id}'    => ( defined($test_case->{unique_id}) ? $test_case->{unique_id} : '{undef}' )
 		    ,'...'
 		    ;
-
-		  print "#\n(\n";
 
 		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
 		    ,'$test_case->{command_line}' => ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '{undef}' )
@@ -269,20 +267,14 @@ sub job_whatever
 			,'another shell variable'
 			if 1 && $main::options{debug};
 
-		      printf "  %s='%s' # =%03d // %s\n"
+		      printf "  %s='%s' # // %s\n"
 			,  ( defined($k) ? $k : '# {undef}' )
 			=> ( defined($v) ? $v : '"{undef}"' )
-		        ,__LINE__
 			,'another shell variable'
 			;
 		    }
 
-		  printf "  # =%03d // %s\n"
-		    ,__LINE__
-		    ,'...'
-		    ;
-
-		  printf "  %s \\\n"
+		  printf "\n  %s \\\n"
 		    , ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '# {undef}' )
 		    ;
 
@@ -325,14 +317,17 @@ sub job_whatever
 		    {
 		      if( defined($test_case->{stdout}{reference_file}) )
 			{
-			  printf "  cmp -s '%s' '%s%s'; exit_code=\$?\n  echo test_case=>{%s},\$stdX=>{%s},exit_code=>\${exit_code}\n  rm -f '%s%s'\n"
+			  printf "\n  %s '%s' | cmp -s - '%s%s'; exit_code=\$?\n  echo \"test_case=>{%s},\$stdX=>{%s},exit_code=>\${exit_code}\"\n  rm -f '%s%s'\n"
+
+			    , defined($test_case->{$stdX}{how_to_decompress}) ? $test_case->{$stdX}{how_to_decompress} : 'cat'
 			    ,$test_case->{$stdX}{reference_file}
-			    ,'/tmp/regression_test--'
-			    ,$stdX
+
+			    ,'/tmp/regression_test--',$stdX
+
 			    ,$test_case->{unique_id}
 			    ,$stdX
-			    ,'/tmp/regression_test--'
-			    ,$stdX
+
+			    ,'/tmp/regression_test--',$stdX
 			    ;
 			}
 		    }
