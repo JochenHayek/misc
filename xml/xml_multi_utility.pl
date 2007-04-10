@@ -1,21 +1,21 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 17:22:27 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 18:36:38 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.16 2007/04/10 15:22:34 johayek Exp $
+# $Id: xml_multi_utility.pl 1.17 2007/04/10 16:37:11 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.16 2007/04/10 15:22:34 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 15:22:34 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.17 2007/04/10 16:37:11 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 16:37:11 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.16 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.17 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
-# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_pl_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
-
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_pl_validate --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+
+# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 # the subroutine local_xml_package::load reads a file using XML::Parser .
 
@@ -65,8 +65,10 @@ sub main
     $main::options{version}		       	= 0;
     $main::options{verbose}		       	= 0;
 
-    $main::options{job_whatever}                   = 0;
     $main::options{job_propertylist_validate}                   = 0;
+
+    $main::options{job_itunes_whatever}                   = 0;
+    $main::options{job_whatever}                   = 0;
 
     $main::options{propertylist_file}	       	        = undef;
   }
@@ -75,8 +77,10 @@ sub main
     &GetOptions
       (\%main::options
 
-      ,'job_whatever!'
       ,'job_propertylist_validate|job_pl_validate!'
+
+      ,'job_itunes_whatever!'
+      ,'job_whatever!'
 
       ,'dry_run!'
       ,'version!'
@@ -87,6 +91,8 @@ sub main
       ,'params=s%'		# some "indirect" parameters
 
       ,'propertylist_file|pl_file=s'
+
+      ,'test_cases=s%'
       );
   $result || pod2usage(2);
 
@@ -96,8 +102,9 @@ sub main
 ##$main::options{verbose}=0;
 ##$main::options{verbose}=2;			# JH: verbosest level here
 
-  if   ($main::options{job_whatever})               { &main::job_whatever; }
-  elsif($main::options{job_propertylist_validate})               { &main::job_propertylist_validate; }
+  if   ($main::options{job_propertylist_validate})  { &main::job_propertylist_validate; }
+  elsif($main::options{job_itunes_whatever})               { &main::job_iTunes_whatever; }
+  elsif($main::options{job_whatever})               { &main::job_whatever; }
   else
     {
       die "no job to be carried out";
@@ -109,6 +116,85 @@ sub main
     if 0 && $main::options{debug};
   printf STDERR "<%d,%s\n",__LINE__,$proc_name
     if 0 && $main::options{debug};
+}
+#
+sub job_iTunes_whatever
+{
+  my($package,$filename,$line_no,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+
+  my($value) =
+      &local_xml_package::load
+        ({ 'file' => $main::options{propertylist_file}
+	, 'process_PropertyList_p' => 1
+	});
+
+  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+    ,'$value'=>$value
+    ,'ref($value)'=>ref($value)
+    ,'this is the result of parsing the XML document'
+    if 1 && $main::options{debug};
+
+  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+    ,'$value->{Application}'=>$value->{Application}
+    ,'...'
+    if 1 && $main::options{debug};
+
+  if($value->{Application} =~ m/^iTunes v7\.0\.1$/)
+    {
+      if(1 || $main::options{debug})
+	{
+	  if(ref($value) eq 'HASH')
+	    {
+	      foreach my $k (sort keys %{$value})
+		{
+		  my($v) = $value->{$k};
+
+		  if(ref(\$v) eq 'SCALAR')
+		    {
+		      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+			,$k=>$v
+			,'another k=>v assoc ...'
+			;
+		    }
+		  else
+		    {
+		      printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+			,$k=>$v
+			,"ref(\$value->{$k})"=>ref($value->{$k})
+			,'another k=>v assoc ...'
+			;
+		    }
+		}
+
+	      foreach my $track (@{$value->{tracks}})
+		{
+		  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+		    ,'$track->{Artist}' => defined($track->{Artist}) ? $track->{Artist} : '{undef}'
+		    ,'$track->{Name}'   => defined($track->{Name})   ? $track->{Name}   : '{undef}'
+		    ,'...'
+		    ;
+		}
+	    }
+	}
+    }
+
+  printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
+    ,'$return_value',$return_value
+    ,'...'
+    if 0 && $main::options{debug};
+  printf STDERR "<%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  return $return_value;
 }
 #
 sub job_whatever
@@ -136,48 +222,69 @@ sub job_whatever
     ,'this is the result of parsing the XML document'
     if 1 && $main::options{debug};
 
-  if($main::options{debug})
+  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+    ,'$value->{Application}'=>$value->{Application}
+    ,'...'
+    if 1 && $main::options{debug};
+
+  if   ($value->{Application} eq 'files.pl regression test')
     {
-      if(ref($value) eq 'HASH')
+      if(1 || $main::options{debug})
 	{
-	  foreach my $k (sort keys %{$value})
+	  foreach my $test_case (@{$value->{test_cases}})
 	    {
-	      my($v) = $value->{$k};
+	      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		,'$test_case->{unique_id}'    => ( defined($test_case->{unique_id}) ? $test_case->{unique_id} : '{undef}' )
+		,'...'
+		if 1 && $main::options{debug};
 
-	      if(ref(\$v) eq 'SCALAR')
+	      if(exists($main::options{test_cases}{ $test_case->{unique_id} }))
 		{
-		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-		    ,$k=>$v
-		    ,'another k=>v assoc ...'
-		    ;
-		}
-	      else
-		{
-		  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-		    ,$k=>$v
-		    ,"ref(\$value->{$k})"=>ref($value->{$k})
-		    ,'another k=>v assoc ...'
-		    ;
-		}
-	    }
+		  print "#\n" , '#' x 80 , "\n#\n";
 
-	  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-	    ,'$value->{Application}'=>$value->{Application}
-	    ,'...'
-	    ;
-
-	  if($value->{Application} =~ m/^iTunes v7\.0\.1$/)
-	    {
-	      foreach my $track (@{$value->{tracks}})
-		{
-		  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-		    ,'$track->{Artist}' => defined($track->{Artist}) ? $track->{Artist} : '{undef}'
-		    ,'$track->{Name}'   => defined($track->{Name})   ? $track->{Name}   : '{undef}'
+		  printf "# =%03d: {%s}=>{%s} // %s\n",__LINE__
+		    ,'$test_case->{unique_id}'    => ( defined($test_case->{unique_id}) ? $test_case->{unique_id} : '{undef}' )
 		    ,'...'
 		    ;
+
+		  print "#\n(\n";
+
+		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		    ,'$test_case->{command_line}' => ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '{undef}' )
+		    ,'...'
+		    if 1 && $main::options{debug};
+
+		  my($k,$v);
+		  while( ($k,$v) = each %{$test_case->{shell_variables}} )
+		    {
+		      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+			,  ( defined($k) ? $k : '{undef}' )
+			=> ( defined($v) ? $v : '{undef}' )
+			,'another shell variable'
+			if 1 && $main::options{debug};
+
+		      printf "  %s='%s' # =%03d // %s\n"
+			,  ( defined($k) ? $k : '# {undef}' )
+			=> ( defined($v) ? $v : '"{undef}"' )
+		        ,__LINE__
+			,'another shell variable'
+			;
+		    }
+
+		  printf "  %s # =%03d // %s\n"
+		    , ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '# {undef}' )
+		    ,__LINE__
+		    ,'...'
+		    ;
+
+		  print ")\n";
 		}
 	    }
 	}
+    }
+  else
+    {
+      die "\$value->{Application}=>{$value->{Application}}"
     }
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
@@ -603,11 +710,15 @@ Print a brief help message and exits.
 
 Prints the manual page and exits.
 
-=item B<--job_whatever>
+=item B<--job_propertylist_validate>
 
 ...
 
-=item B<--job_propertylist_validate>
+=item B<--job_iTunes_whatever>
+
+...
+
+=item B<--job_whatever>
 
 ...
 
