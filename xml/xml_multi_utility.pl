@@ -1,7 +1,7 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-10 14:26:28 johayek>
-# $Id: xml_multi_utility.pl 1.8 2007/04/10 12:26:52 johayek Exp $
+# Time-stamp: <2007-04-10 14:28:08 johayek>
+# $Id: xml_multi_utility.pl 1.9 2007/04/10 12:29:08 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
@@ -79,8 +79,6 @@
 #
 package local_xml;
 
-use XML::Parser;
-
 sub load
 {
   my($params_of_top_level_utility) = (@_);
@@ -97,6 +95,8 @@ sub load
     unless defined($params_of_top_level_utility->{Style});
 
   ################################################################################
+
+  use XML::Parser;
 
   my($p) = new XML::Parser(Style => $params_of_top_level_utility->{Style});
 
@@ -119,7 +119,7 @@ sub load
     }
   elsif( $params_of_top_level_utility->{Style} eq 'Tree'  )
     {
-      @local_xml::tree_stack = ();
+      @::tree_stack = ();
 
       unshift(@{$tree},{});
 
@@ -131,6 +131,7 @@ sub load
       return $value;
     }
 }
+
 sub proc_content
 {
   my($params_of_top_level_utility,$params) = @_;
@@ -146,7 +147,7 @@ sub proc_content
     if($params_of_top_level_utility->{like_Style_Debug_p})
       {
 	printf STDERR "=%03d: %s \\\\ (",__LINE__
-	  ,join(' ',@local_xml::tree_stack)
+	  ,join(' ',@::tree_stack)
 	  ;
 
 	my($separator) = '';
@@ -186,7 +187,7 @@ sub proc_content
 	      if($params_of_top_level_utility->{like_Style_Debug_p})
 		{
 		  printf STDERR "=%03d: %s || {%s}\n",__LINE__
-		    ,join(' ',@local_xml::tree_stack)
+		    ,join(' ',@::tree_stack)
 		    ,$content
 		    ;
 		}
@@ -195,39 +196,39 @@ sub proc_content
 		{
 		  # within PropertyList_s we are only interested in PCDATA as part of a key or of "primitive types"
 
-		  if   ($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^(key|data|date|real|integer|string)$/)
+		  if   ($::tree_stack[$#::tree_stack] =~ m/^(key|data|date|real|integer|string)$/)
 		    {
 		      $return_value = $content;
 		    }
 		  else
 		    {
-		      die "\$local_xml::tree_stack[$#local_xml::tree_stack]=>{$local_xml::tree_stack[$#local_xml::tree_stack]},\$content=>{$content}"
+		      die "\$::tree_stack[$#::tree_stack]=>{$::tree_stack[$#::tree_stack]},\$content=>{$content}"
 		    }
 		}
 	    }
 	}
       elsif($tag ne '0') # man XML::Parser::Style::Tree : for elements, the content is an array reference
 	{
-	  push( @local_xml::tree_stack , $tag );
+	  push( @::tree_stack , $tag );
 
 	  my($value);		# we are going to visit "content", and $value is what we will get back from visiting the content during PropertyList processing
 
 	  if   (0)
 	    {
 	    }
-	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^(true|false)$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($::tree_stack[$#::tree_stack] =~ m/^(true|false)$/))
 	    {
 	      if(0 && $params_of_top_level_utility->{debug})
 		{
 		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-		    ,"\$local_xml::tree_stack[$#local_xml::tree_stack]"=>$local_xml::tree_stack[$#local_xml::tree_stack]
+		    ,"\$::tree_stack[$#::tree_stack]"=>$::tree_stack[$#::tree_stack]
 		    ,'...'
 		    ;
 		}
 
-	      $value = $return_value = ($local_xml::tree_stack[$#local_xml::tree_stack] =~ 'true')
+	      $value = $return_value = ($::tree_stack[$#::tree_stack] =~ 'true')
 	    }
-	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^dict$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($::tree_stack[$#::tree_stack] =~ m/^dict$/))
 	    {
 	      my(%this_PropertyList_dict);
 
@@ -265,7 +266,7 @@ sub proc_content
 
 	      $value = $return_value = \%this_PropertyList_dict;
 	    }
-	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^array$/))
+	  elsif($params_of_top_level_utility->{process_PropertyList_p} && ($::tree_stack[$#::tree_stack] =~ m/^array$/))
 	    {
 	      my(@this_PropertyList_array);
 
@@ -322,14 +323,14 @@ sub proc_content
 	    {
 	      if(!defined ($value))
 		{
-		  die "\$local_xml::tree_stack[$#local_xml::tree_stack]=>{$local_xml::tree_stack[$#local_xml::tree_stack]}"
+		  die "\$::tree_stack[$#::tree_stack]=>{$::tree_stack[$#::tree_stack]}"
 		}
 	      else
 		{
 		  if   (0)
 		    {
 		    }
-		  elsif($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^key$/)
+		  elsif($::tree_stack[$#::tree_stack] =~ m/^key$/)
 		    {
 		      # so that we will keep the name of the key in mind until we will find the value of this key
 
@@ -340,29 +341,29 @@ sub proc_content
 			,'with value'
 			if 0 && $params_of_top_level_utility->{debug};
 		    }
-		##elsif($local_xml::tree_stack[$#local_xml::tree_stack] =~ m/^(data|date|real|integer|string|true|false)$/)
+		##elsif($::tree_stack[$#::tree_stack] =~ m/^(data|date|real|integer|string|true|false)$/)
 		  elsif(1)
 		    {
-		      if ($#local_xml::tree_stack == 0)
+		      if ($#::tree_stack == 0)
 			{
 			  # ???
 
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-			    ,"\$local_xml::tree_stack[$#local_xml::tree_stack]"=>$local_xml::tree_stack[$#local_xml::tree_stack]
-			    ,'$#local_xml::tree_stack == 0 ...'
+			    ,"\$::tree_stack[$#::tree_stack]"=>$::tree_stack[$#::tree_stack]
+			    ,'$#::tree_stack == 0 ...'
 			    if 0 && $params_of_top_level_utility->{debug};
 			}
-		      elsif($local_xml::tree_stack[$#local_xml::tree_stack - 1] eq 'plist')
+		      elsif($::tree_stack[$#::tree_stack - 1] eq 'plist')
 			{
 			  # ???
 
 			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-			    ,"\$local_xml::tree_stack[$#local_xml::tree_stack]"=>$local_xml::tree_stack[$#local_xml::tree_stack]
-			    ,"\$local_xml::tree_stack[$#local_xml::tree_stack - 1]"=>$local_xml::tree_stack[$#local_xml::tree_stack - 1]
+			    ,"\$::tree_stack[$#::tree_stack]"=>$::tree_stack[$#::tree_stack]
+			    ,"\$::tree_stack[$#::tree_stack - 1]"=>$::tree_stack[$#::tree_stack - 1]
 			    ,'...'
 			    if 0 && $params_of_top_level_utility->{debug};
 			}
-		      elsif($local_xml::tree_stack[$#local_xml::tree_stack - 1] eq 'dict')
+		      elsif($::tree_stack[$#::tree_stack - 1] eq 'dict')
 			{
 			  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
 			    ,'$current_PropertyList_dict_key'=>$current_PropertyList_dict_key
@@ -372,7 +373,7 @@ sub proc_content
 
 			  $params->{this_PropertyList_dict}{ $current_PropertyList_dict_key } = $value;
 			}
-		      elsif($local_xml::tree_stack[$#local_xml::tree_stack - 1] eq 'array')
+		      elsif($::tree_stack[$#::tree_stack - 1] eq 'array')
 			{
 			  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
 			    ,'$value'=>$value
@@ -383,17 +384,17 @@ sub proc_content
 			}
 		      else
 			{
-			  die "\$local_xml::tree_stack[$#local_xml::tree_stack - 1]=>{$local_xml::tree_stack[$#local_xml::tree_stack - 1]}"
+			  die "\$::tree_stack[$#::tree_stack - 1]=>{$::tree_stack[$#::tree_stack - 1]}"
 			}
 		    }
 		  else
 		    {
-		      die "\$local_xml::tree_stack[$#local_xml::tree_stack]=>{$local_xml::tree_stack[$#local_xml::tree_stack]}"
+		      die "\$::tree_stack[$#::tree_stack]=>{$::tree_stack[$#::tree_stack]}"
 		    }
 		}
 	    }
 
-	  pop( @local_xml::tree_stack );
+	  pop( @::tree_stack );
 	}
       else
 	{
@@ -405,7 +406,7 @@ sub proc_content
   if($params_of_top_level_utility->{like_Style_Debug_p})
     {
       printf STDERR "=%03d: %s //\n",__LINE__
-	,join(' ',@local_xml::tree_stack)
+	,join(' ',@::tree_stack)
 	;
     }
 
