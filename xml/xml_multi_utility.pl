@@ -1,14 +1,14 @@
 #! /usr/bin/perl -ws
 
-# Time-stamp: <2007-04-10 14:32:14 johayek>
-# $Id: xml_multi_utility.pl 1.10 2007/04/10 12:32:35 johayek Exp $
+# Time-stamp: <2007-04-10 14:55:23 johayek>
+# $Id: xml_multi_utility.pl 1.11 2007/04/10 12:56:02 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
 # $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl -file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
-# the utility local_xml::load reads a file using XML::Parser .
+# the utility local_xml_package::load reads a file using XML::Parser .
 
-# you can advise the utility local_xml::load to treat the data structure read
+# you can advise the utility local_xml_package::load to treat the data structure read
 # as conforming to "-//Apple Computer//DTD PLIST 1.0//EN" (aka "Apple Property List").
 # it will then create a corresponding PERL-ish data structure and return it, so that you can make further use of it.
 
@@ -21,7 +21,7 @@
     unless defined($file);
 
   my($value) =
-      &local_xml::load
+      &local_xml_package::load
 	({ 'file' => $file
 	 , 'process_PropertyList_p' => 1
          });
@@ -77,7 +77,7 @@
     }
 }
 #
-package local_xml;
+package local_xml_package;
 
 sub load
 {
