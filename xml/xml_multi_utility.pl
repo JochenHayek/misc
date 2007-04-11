@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 18:12:30 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 18:35:24 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.29 2007/04/11 16:32:03 johayek Exp $
+# $Id: xml_multi_utility.pl 1.30 2007/04/11 16:37:13 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.29 2007/04/11 16:32:03 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 16:32:03 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.30 2007/04/11 16:37:13 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 16:37:13 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.29 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.30 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -336,6 +336,11 @@ sub job_run
 		}
 
 	      print "    ;\n";
+	      print "  exit_code=\$?\n";
+
+	      printf "  echo \"test_case=>{%s},\\\$exit_code=>\${exit_code}\"\n"
+		,$test_case->{unique_id}
+		;
 
 	      foreach my $stdX ('stdout','stderr')
 		{
@@ -366,7 +371,7 @@ sub job_run
 			}
 		      else
 			{
-			  printf "\n  %s '%s' |\n  cmp -s - '%s'\n  exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n"
+			  printf "\n  %s '%s' |\n  cmp -s - '%s'\n  cmp__exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$cmp__exit_code=>\${cmp__exit_code}\"\n"
 
 			    , defined($test_case->{$stdX}{compressor})
 			    ? ( $test_case->{$stdX}{compressor} . ' --decompress --stdout' ) # works actually for gzip and also for bzip2
@@ -387,7 +392,7 @@ sub job_run
 			    }
 			  else
 			    {
-			      printf "  test \"\$exit_code\" -eq 0 || echo maybe you want to diff %s %s\n"
+			      printf "  test \"\$cmp__exit_code\" -eq 0 || echo maybe you want to diff %s %s\n"
 				,$test_case->{$stdX}{output_file}
 			        ,$test_case->{$stdX}{reference_file}
 				;
