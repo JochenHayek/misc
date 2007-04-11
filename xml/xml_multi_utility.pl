@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-10 21:01:59 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 14:38:15 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.23 2007/04/10 19:02:34 johayek Exp $
+# $Id: xml_multi_utility.pl 1.24 2007/04/11 12:38:59 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.23 2007/04/10 19:02:34 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/10 19:02:34 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.24 2007/04/11 12:38:59 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 12:38:59 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.23 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.24 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -316,9 +316,11 @@ sub job_whatever
 		    {
 		      if( defined($test_case->{stdout}{reference_file}) )
 			{
-			  printf "\n  %s '%s' | cmp -s - '%s%s'; exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n  rm -f '%s%s'\n"
+			  printf "\n  %s '%s' |\n  cmp -s - '%s%s'\n  exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n  rm -f '%s%s'\n"
 
-			    , defined($test_case->{$stdX}{how_to_decompress}) ? $test_case->{$stdX}{how_to_decompress} : 'cat'
+			    , defined($test_case->{$stdX}{compressor})
+			    ? ( $test_case->{$stdX}{compressor} . ' --decompress --stdout' ) # works actually for gzip and also for bzip2
+			    : 'cat'
 			    ,$test_case->{$stdX}{reference_file}
 
 			    ,'/tmp/regression_test--',$stdX
