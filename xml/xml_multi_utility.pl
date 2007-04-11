@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 16:00:39 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 17:57:28 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.27 2007/04/11 14:01:45 johayek Exp $
+# $Id: xml_multi_utility.pl 1.28 2007/04/11 15:58:32 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.27 2007/04/11 14:01:45 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 14:01:45 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.28 2007/04/11 15:58:32 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 15:58:32 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.27 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.28 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -86,6 +86,7 @@ sub main
     $main::options{propertylist_file}	       	        = undef;
 
     $main::options{create_reference_files_p}	       	        = 0;
+    $main::options{remove_output_files_p}	       	        = 0;
   }
 
   my($result) =
@@ -108,6 +109,7 @@ sub main
       ,'propertylist_file|pl_file=s'
 
       ,'create_reference_files_p!'
+      ,'remove_output_files_p!'
 
       ,'test_cases=s@'
       );
@@ -309,8 +311,10 @@ sub job_run
 
 	      if( defined($test_case->{stdout}{reference_file}) )
 		{
+		  $test_case->{stdout}{output_file} = '/tmp/regression_test--' . $test_case->{unique_id} . '--stdout';
+
 		  printf "    1> '%s' \\\n"
-		    ,'/tmp/regression_test--stdout'
+		    ,$test_case->{stdout}{output_file}
 		    ;
 		}
 	      else
@@ -320,8 +324,10 @@ sub job_run
 
 	      if( defined($test_case->{stderr}{reference_file}) )
 		{
+		  $test_case->{stderr}{output_file} = '/tmp/regression_test--' . $test_case->{unique_id} . '--stderr';
+
 		  printf "    2> '%s' \\\n"
-		    ,'/tmp/regression_test--stderr'
+		    ,$test_case->{stderr}{output_file}
 		    ;
 		}
 	      else
@@ -339,41 +345,52 @@ sub job_run
 			{
 			  if($test_case->{$stdX}{reference_file} ne '/dev/null')
 			    {
-			      printf "\n  %s '%s%s' > '%s'\n"
+			      printf "\n  %s '%s' > '%s'\n"
 
 				, defined($test_case->{$stdX}{compressor})
 				? ( $test_case->{$stdX}{compressor} . ' -9 --stdout' ) # works actually for gzip and also for bzip2
 				: 'cat'
 
-				,'/tmp/regression_test--',$stdX
+				,$test_case->{$stdX}{output_file}
 				,$test_case->{$stdX}{reference_file}
 				;
 
-			      printf "  echo \"test_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s%s'\n"
+			      printf "  echo \"test_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s'\n"
 
 				,$test_case->{unique_id}
 				,$stdX
 
-				,'/tmp/regression_test--',$stdX
+				,$test_case->{$stdX}{output_file}
 				;
 			    }
 			}
 		      else
 			{
-			  printf "\n  %s '%s' |\n  cmp -s - '%s%s'\n  exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n  rm -f '%s%s'\n"
+			  printf "\n  %s '%s' |\n  cmp -s - '%s'\n  exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n"
 
 			    , defined($test_case->{$stdX}{compressor})
 			    ? ( $test_case->{$stdX}{compressor} . ' --decompress --stdout' ) # works actually for gzip and also for bzip2
 			    : 'cat'
 			    ,$test_case->{$stdX}{reference_file}
 
-			    ,'/tmp/regression_test--',$stdX
+			    ,$test_case->{$stdX}{output_file}
 
 			    ,$test_case->{unique_id}
 			    ,$stdX
-
-			    ,'/tmp/regression_test--',$stdX
 			    ;
+
+			  if($main::options{remove_output_files_p})
+			    {
+			      printf "  rm -f '%s'\n"
+				,$test_case->{$stdX}{output_file}
+				;
+			    }
+			  else
+			    {
+			      printf "  echo \"maybe you want to have a look at {%s}\"\n"
+				,$test_case->{$stdX}{output_file}
+				;
+			    }
 			}
 		    }
 		}
@@ -823,6 +840,14 @@ See C<--create_reference_files_p> below!
 ...
 
 =item B<--job_iTunes_whatever>
+
+...
+
+=item B<--remove_output_files_p>
+
+As long as you are developing certain software,
+you probably want to keep the output files generated,
+therefore you would use C<--noremove_output_files_p> .
 
 ...
 
