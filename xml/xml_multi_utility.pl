@@ -1,25 +1,32 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 14:38:15 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 15:01:31 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.24 2007/04/11 12:38:59 johayek Exp $
+# $Id: xml_multi_utility.pl 1.25 2007/04/11 13:01:34 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.24 2007/04/11 12:38:59 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 12:38:59 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.25 2007/04/11 13:01:34 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 13:01:34 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.24 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.25 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
 ############################################################################################################################################
 
-# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_pl_validate --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_pl_validate     --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_pl_validate     --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
-# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_whatever --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0=1
+############################################################################################################################################
 
-# $ ~/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/use_XML-Parser.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0=1
+
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run --create_reference_files_p --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+#   --test_case=thetakeoverpanel--header--0=1 --test_case=djindexes--header--0=1 --test_case=jpmorgan--trsi_hedged_eur--header--0=1 --test_case=bloomberg--equity_euro.cax--header--0=1 --test_case=bloomberg--equity_euro.dif--header--0=1 --test_case=bloomberg--fields.csv--header--0=1 --test_case=bloomberg--lookup.out--header--0=1
+
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 ############################################################################################################################################
 
@@ -74,9 +81,11 @@ sub main
     $main::options{job_propertylist_validate}                   = 0;
 
     $main::options{job_itunes_whatever}                   = 0;
-    $main::options{job_whatever}                   = 0;
+    $main::options{job_run}                   = 0;
 
     $main::options{propertylist_file}	       	        = undef;
+
+    $main::options{create_reference_files_p}	       	        = 1;
   }
 
   my($result) =
@@ -86,7 +95,7 @@ sub main
       ,'job_propertylist_validate|job_pl_validate!'
 
       ,'job_itunes_whatever!'
-      ,'job_whatever!'
+      ,'job_run!'
 
       ,'dry_run!'
       ,'version!'
@@ -97,6 +106,8 @@ sub main
       ,'params=s%'		# some "indirect" parameters
 
       ,'propertylist_file|pl_file=s'
+
+      ,'create_reference_files_p!'
 
       ,'test_cases=s%'
       );
@@ -110,7 +121,7 @@ sub main
 
   if   ($main::options{job_propertylist_validate})  { &main::job_propertylist_validate; }
   elsif($main::options{job_itunes_whatever})               { &main::job_iTunes_whatever; }
-  elsif($main::options{job_whatever})               { &main::job_whatever; }
+  elsif($main::options{job_run})               { &main::job_run; }
   else
     {
       die "no job to be carried out";
@@ -203,7 +214,7 @@ sub job_iTunes_whatever
   return $return_value;
 }
 #
-sub job_whatever
+sub job_run
 {
   my($package,$filename,$line_no,$proc_name) = caller(0);
 
@@ -314,22 +325,41 @@ sub job_whatever
 
 		  foreach my $stdX ('stdout','stderr')
 		    {
-		      if( defined($test_case->{stdout}{reference_file}) )
+		      if( defined($test_case->{$stdX}{reference_file}) )
 			{
-			  printf "\n  %s '%s' |\n  cmp -s - '%s%s'\n  exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n  rm -f '%s%s'\n"
+			  if($main::options{create_reference_files_p})
+			    {
+			      if($test_case->{$stdX}{reference_file} ne '/dev/null')
+				{
+				  printf "\n  cp --arch '%s%s' '%s'\n  echo \"test_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s%s'\n"
 
-			    , defined($test_case->{$stdX}{compressor})
-			    ? ( $test_case->{$stdX}{compressor} . ' --decompress --stdout' ) # works actually for gzip and also for bzip2
-			    : 'cat'
-			    ,$test_case->{$stdX}{reference_file}
+				    ,'/tmp/regression_test--',$stdX
+				    ,$test_case->{$stdX}{reference_file}
 
-			    ,'/tmp/regression_test--',$stdX
+				    ,$test_case->{unique_id}
+				    ,$stdX
 
-			    ,$test_case->{unique_id}
-			    ,$stdX
+				    ,'/tmp/regression_test--',$stdX
+				    ;
+				}
+			    }
+			  else
+			    {
+			      printf "\n  %s '%s' |\n  cmp -s - '%s%s'\n  exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n  rm -f '%s%s'\n"
 
-			    ,'/tmp/regression_test--',$stdX
-			    ;
+				, defined($test_case->{$stdX}{compressor})
+				? ( $test_case->{$stdX}{compressor} . ' --decompress --stdout' ) # works actually for gzip and also for bzip2
+				: 'cat'
+				,$test_case->{$stdX}{reference_file}
+
+				,'/tmp/regression_test--',$stdX
+
+				,$test_case->{unique_id}
+				,$stdX
+
+				,'/tmp/regression_test--',$stdX
+				;
+			    }
 			}
 		    }
 
@@ -770,11 +800,17 @@ Prints the manual page and exits.
 
 ...
 
-=item B<--job_iTunes_whatever>
+=item B<--job_run>
+
+This job runs the regression_test.
+
+You don't want to create reference files yourself, do you?
+So in case of C<--create_reference_files_p> only the resp. reference files get created.
+We expect you to restrict the creation of reference files by specifying the test case on the command line.
 
 ...
 
-=item B<--job_whatever>
+=item B<--job_iTunes_whatever>
 
 ...
 
