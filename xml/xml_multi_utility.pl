@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 17:57:28 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 18:12:30 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.28 2007/04/11 15:58:32 johayek Exp $
+# $Id: xml_multi_utility.pl 1.29 2007/04/11 16:32:03 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.28 2007/04/11 15:58:32 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 15:58:32 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.29 2007/04/11 16:32:03 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 16:32:03 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.28 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.29 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -355,7 +355,7 @@ sub job_run
 				,$test_case->{$stdX}{reference_file}
 				;
 
-			      printf "  echo \"test_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s'\n"
+			      printf "  echo -e \"\ntest_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s'\n"
 
 				,$test_case->{unique_id}
 				,$stdX
@@ -387,8 +387,9 @@ sub job_run
 			    }
 			  else
 			    {
-			      printf "  echo \"maybe you want to have a look at {%s}\"\n"
+			      printf "  test \"\$exit_code\" -eq 0 || echo maybe you want to diff %s %s\n"
 				,$test_case->{$stdX}{output_file}
+			        ,$test_case->{$stdX}{reference_file}
 				;
 			    }
 			}
