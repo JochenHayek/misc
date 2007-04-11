@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 15:01:31 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 15:29:02 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.25 2007/04/11 13:01:34 johayek Exp $
+# $Id: xml_multi_utility.pl 1.26 2007/04/11 13:33:32 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.25 2007/04/11 13:01:34 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 13:01:34 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.26 2007/04/11 13:33:32 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 13:33:32 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.25 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.26 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -24,7 +24,7 @@
 # $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0=1
 
 # $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run --create_reference_files_p --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
-#   --test_case=thetakeoverpanel--header--0=1 --test_case=djindexes--header--0=1 --test_case=jpmorgan--trsi_hedged_eur--header--0=1 --test_case=bloomberg--equity_euro.cax--header--0=1 --test_case=bloomberg--equity_euro.dif--header--0=1 --test_case=bloomberg--fields.csv--header--0=1 --test_case=bloomberg--lookup.out--header--0=1
+#   --test_case=bloomberg--fields.csv--header--0=1 --test_case=bloomberg--lookup.out--header--0=1
 
 # $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
@@ -85,7 +85,7 @@ sub main
 
     $main::options{propertylist_file}	       	        = undef;
 
-    $main::options{create_reference_files_p}	       	        = 1;
+    $main::options{create_reference_files_p}	       	        = 0;
   }
 
   my($result) =
@@ -331,10 +331,17 @@ sub job_run
 			    {
 			      if($test_case->{$stdX}{reference_file} ne '/dev/null')
 				{
-				  printf "\n  cp --arch '%s%s' '%s'\n  echo \"test_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s%s'\n"
+				  printf "\n  %s '%s%s' > '%s'\n"
+
+				    , defined($test_case->{$stdX}{compressor})
+				    ? ( $test_case->{$stdX}{compressor} . ' -9 --stdout' ) # works actually for gzip and also for bzip2
+				    : 'cat'
 
 				    ,'/tmp/regression_test--',$stdX
 				    ,$test_case->{$stdX}{reference_file}
+				    ;
+
+				  printf "  echo \"test_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s%s'\n"
 
 				    ,$test_case->{unique_id}
 				    ,$stdX
@@ -811,6 +818,10 @@ We expect you to restrict the creation of reference files by specifying the test
 ...
 
 =item B<--job_iTunes_whatever>
+
+...
+
+=item B<--create_reference_files_p>
 
 ...
 
