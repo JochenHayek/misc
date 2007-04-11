@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 15:29:02 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-11 16:00:39 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.26 2007/04/11 13:33:32 johayek Exp $
+# $Id: xml_multi_utility.pl 1.27 2007/04/11 14:01:45 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.26 2007/04/11 13:33:32 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 13:33:32 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.27 2007/04/11 14:01:45 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/11 14:01:45 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.26 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.27 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -21,10 +21,10 @@
 ############################################################################################################################################
 
 # $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0=1
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0
 
 # $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run --create_reference_files_p --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
-#   --test_case=bloomberg--fields.csv--header--0=1 --test_case=bloomberg--lookup.out--header--0=1
+#   --test_case=bloomberg--fields.csv--header--0 --test_case=bloomberg--lookup.out--header--0
 
 # $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
@@ -109,7 +109,7 @@ sub main
 
       ,'create_reference_files_p!'
 
-      ,'test_cases=s%'
+      ,'test_cases=s@'
       );
   $result || pod2usage(2);
 
@@ -246,120 +246,110 @@ sub job_run
 
   if   ($value->{Application} eq 'files.pl regression test')
     {
-      if(1 || $main::options{debug})
+      if(exists($main::options{test_cases}))
 	{
-	  foreach my $test_case (@{$value->{test_cases}})
+	  %main::test_cases_as_hash = ();
+
+	  foreach my $h (@{$main::options{test_cases}})
 	    {
-	      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+	      $main::test_cases_as_hash{$h} = 1;
+	    }
+	}
+
+      foreach my $test_case (@{$value->{test_cases}})
+	{
+	  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+	    ,'$test_case->{unique_id}'    => ( defined($test_case->{unique_id}) ? $test_case->{unique_id} : '{undef}' )
+	    ,'...'
+	    if 1 && $main::options{debug};
+
+	  if(!exists($main::options{test_cases}) || exists($main::test_cases_as_hash{ $test_case->{unique_id} }))
+	    {
+	      print "\n" , '#' x 80 , "\n";
+
+	      printf "\n# =%03d: {%s}=>{%s} // %s\n\n(\n",__LINE__
 		,'$test_case->{unique_id}'    => ( defined($test_case->{unique_id}) ? $test_case->{unique_id} : '{undef}' )
+		,'...'
+		;
+
+	      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		,'$test_case->{command_line}' => ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '{undef}' )
 		,'...'
 		if 1 && $main::options{debug};
 
-	      if(!exists($main::options{test_cases}) || exists($main::options{test_cases}{ $test_case->{unique_id} }))
+	      my($k,$v);
+	      while( ($k,$v) = each %{$test_case->{shell_variables}} )
 		{
-		  print "\n" , '#' x 80 , "\n";
-
-		  printf "\n# =%03d: {%s}=>{%s} // %s\n\n(\n",__LINE__
-		    ,'$test_case->{unique_id}'    => ( defined($test_case->{unique_id}) ? $test_case->{unique_id} : '{undef}' )
-		    ,'...'
-		    ;
-
 		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-		    ,'$test_case->{command_line}' => ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '{undef}' )
-		    ,'...'
+		    ,  ( defined($k) ? $k : '{undef}' )
+		    => ( defined($v) ? $v : '{undef}' )
+		    ,'another shell variable'
 		    if 1 && $main::options{debug};
 
-		  my($k,$v);
-		  while( ($k,$v) = each %{$test_case->{shell_variables}} )
-		    {
-		      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-			,  ( defined($k) ? $k : '{undef}' )
-			=> ( defined($v) ? $v : '{undef}' )
-			,'another shell variable'
-			if 1 && $main::options{debug};
-
-		      printf "  %s='%s'\n"
-			,  ( defined($k) ? $k : '# {undef}' )
-			=> ( defined($v) ? $v : '"{undef}"' )
-			;
-		    }
-
-		  printf "\n  %s \\\n"
-		    , ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '# {undef}' )
+		  printf "  %s='%s'\n"
+		    ,  ( defined($k) ? $k : '# {undef}' )
+		    => ( defined($v) ? $v : '"{undef}"' )
 		    ;
+		}
 
-		  if( defined($test_case->{stdin}{file}) )
-		    {
-		      printf "    < '%s' \\\n"
-			,$test_case->{stdin}{file}
-			;
-		    }
-		  else
-		    {
-		      die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stdin}{file})";
-		    }
+	      printf "\n  %s \\\n"
+		, ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '# {undef}' )
+		;
 
-		  if( defined($test_case->{stdout}{reference_file}) )
-		    {
-		      printf "    1> '%s' \\\n"
-			,'/tmp/regression_test--stdout'
-			;
-		    }
-		  else
-		    {
-		      die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stdout}{reference_file})";
-		    }
+	      if( defined($test_case->{stdin}{file}) )
+		{
+		  printf "    < '%s' \\\n"
+		    ,$test_case->{stdin}{file}
+		    ;
+		}
+	      else
+		{
+		  die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stdin}{file})";
+		}
 
-		  if( defined($test_case->{stderr}{reference_file}) )
-		    {
-		      printf "    2> '%s' \\\n"
-			,'/tmp/regression_test--stderr'
-			;
-		    }
-		  else
-		    {
-		      die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stderr}{reference_file})";
-		    }
+	      if( defined($test_case->{stdout}{reference_file}) )
+		{
+		  printf "    1> '%s' \\\n"
+		    ,'/tmp/regression_test--stdout'
+		    ;
+		}
+	      else
+		{
+		  die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stdout}{reference_file})";
+		}
 
-		  print "    ;\n";
+	      if( defined($test_case->{stderr}{reference_file}) )
+		{
+		  printf "    2> '%s' \\\n"
+		    ,'/tmp/regression_test--stderr'
+		    ;
+		}
+	      else
+		{
+		  die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stderr}{reference_file})";
+		}
 
-		  foreach my $stdX ('stdout','stderr')
+	      print "    ;\n";
+
+	      foreach my $stdX ('stdout','stderr')
+		{
+		  if( defined($test_case->{$stdX}{reference_file}) )
 		    {
-		      if( defined($test_case->{$stdX}{reference_file}) )
+		      if($main::options{create_reference_files_p})
 			{
-			  if($main::options{create_reference_files_p})
+			  if($test_case->{$stdX}{reference_file} ne '/dev/null')
 			    {
-			      if($test_case->{$stdX}{reference_file} ne '/dev/null')
-				{
-				  printf "\n  %s '%s%s' > '%s'\n"
-
-				    , defined($test_case->{$stdX}{compressor})
-				    ? ( $test_case->{$stdX}{compressor} . ' -9 --stdout' ) # works actually for gzip and also for bzip2
-				    : 'cat'
-
-				    ,'/tmp/regression_test--',$stdX
-				    ,$test_case->{$stdX}{reference_file}
-				    ;
-
-				  printf "  echo \"test_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s%s'\n"
-
-				    ,$test_case->{unique_id}
-				    ,$stdX
-
-				    ,'/tmp/regression_test--',$stdX
-				    ;
-				}
-			    }
-			  else
-			    {
-			      printf "\n  %s '%s' |\n  cmp -s - '%s%s'\n  exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n  rm -f '%s%s'\n"
+			      printf "\n  %s '%s%s' > '%s'\n"
 
 				, defined($test_case->{$stdX}{compressor})
-				? ( $test_case->{$stdX}{compressor} . ' --decompress --stdout' ) # works actually for gzip and also for bzip2
+				? ( $test_case->{$stdX}{compressor} . ' -9 --stdout' ) # works actually for gzip and also for bzip2
 				: 'cat'
-				,$test_case->{$stdX}{reference_file}
 
 				,'/tmp/regression_test--',$stdX
+				,$test_case->{$stdX}{reference_file}
+				;
+
+			      printf "  echo \"test_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s%s'\n"
 
 				,$test_case->{unique_id}
 				,$stdX
@@ -368,10 +358,27 @@ sub job_run
 				;
 			    }
 			}
-		    }
+		      else
+			{
+			  printf "\n  %s '%s' |\n  cmp -s - '%s%s'\n  exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$exit_code=>\${exit_code}\"\n  rm -f '%s%s'\n"
 
-		  print ")\n";
+			    , defined($test_case->{$stdX}{compressor})
+			    ? ( $test_case->{$stdX}{compressor} . ' --decompress --stdout' ) # works actually for gzip and also for bzip2
+			    : 'cat'
+			    ,$test_case->{$stdX}{reference_file}
+
+			    ,'/tmp/regression_test--',$stdX
+
+			    ,$test_case->{unique_id}
+			    ,$stdX
+
+			    ,'/tmp/regression_test--',$stdX
+			    ;
+			}
+		    }
 		}
+
+	      print ")\n";
 	    }
 	}
     }
@@ -811,9 +818,7 @@ Prints the manual page and exits.
 
 This job runs the regression_test.
 
-You don't want to create reference files yourself, do you?
-So in case of C<--create_reference_files_p> only the resp. reference files get created.
-We expect you to restrict the creation of reference files by specifying the test case on the command line.
+See C<--create_reference_files_p> below!
 
 ...
 
@@ -822,6 +827,22 @@ We expect you to restrict the creation of reference files by specifying the test
 ...
 
 =item B<--create_reference_files_p>
+
+You don't want to capture the reference files manually, do you?
+
+So in case of C<--create_reference_files_p>
+instead of comparing the output to the reference files
+we create the respective reference files from the output.
+
+We expect you to restrict the creation of reference files by specifying the test case on the command line.
+
+...
+
+=item B<--test_cases>
+
+Name the test case you want to run!
+
+You can specify this option more than once.
 
 ...
 
