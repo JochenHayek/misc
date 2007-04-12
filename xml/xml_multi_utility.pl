@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-12 18:50:41 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-12 19:17:59 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.32 2007/04/12 16:51:29 johayek Exp $
+# $Id: xml_multi_utility.pl 1.33 2007/04/12 17:18:45 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.32 2007/04/12 16:51:29 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/12 16:51:29 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.33 2007/04/12 17:18:45 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/12 17:18:45 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.32 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.33 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -353,7 +353,7 @@ sub job_run
 			{
 			  if($test_case->{$stdX}{reference_file} ne '/dev/null')
 			    {
-			      printf "\n  %s '%s' > %s\n"
+			      printf "\n  %s '%s' > %s"
 
 				, defined($test_case->{$stdX}{compressor})
 				? ( $test_case->{$stdX}{compressor} . ' -9 --stdout' ) # works actually for gzip and also for bzip2
@@ -362,6 +362,19 @@ sub job_run
 				,$test_case->{$stdX}{output_file}
 				,$test_case->{$stdX}{reference_file}
 				;
+
+			      if   ( defined($test_case->{$stdX}{compressor}) && ($test_case->{$stdX}{compressor} eq 'bzip2') )
+				{
+				  print ".bz2\n";
+				}
+			      elsif( defined($test_case->{$stdX}{compressor}) && ($test_case->{$stdX}{compressor} eq 'gzip') )
+				{
+				  print ".gz\n";
+				}
+			      else
+				{
+				  print "\n";
+				}
 
 			      printf "  echo -e \"\\ntest_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s'\n"
 
