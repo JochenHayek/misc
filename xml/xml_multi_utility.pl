@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-14 21:51:08 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-14 22:17:34 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.40 2007/04/14 19:58:02 johayek Exp $
+# $Id: xml_multi_utility.pl 1.41 2007/04/14 20:17:39 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.40 2007/04/14 19:58:02 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 19:58:02 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.41 2007/04/14 20:17:39 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 20:17:39 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.40 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.41 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -266,7 +266,7 @@ sub job_t_mobile_reo
 
       print <<'header_EOF';
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE plist PUBLIC "-//Aleph Soft//DTD T-Mobile-REO 1.0//EN" "http://www.Aleph-Soft.com/DTDs/T-Mobile-REO-1.0.dtd">
+<!DOCTYPE Rechnung PUBLIC "-//Aleph Soft//DTD T-Mobile-REO 1.0//EN" "http://www.Aleph-Soft.com/DTDs/T-Mobile-REO-1.0.dtd">
 <Rechnung>
   <Kopfteil
 header_EOF
@@ -297,7 +297,7 @@ header_EOF
 
 		  $state    = 'Summenteil';
 
-		  printf "  <%s\n"
+		  printf "  <%s>\n"
 		    ,$state
 		    ;
 		}
