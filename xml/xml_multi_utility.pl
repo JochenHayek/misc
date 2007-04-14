@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-14 20:01:51 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-14 20:37:47 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.38 2007/04/14 18:02:00 johayek Exp $
+# $Id: xml_multi_utility.pl 1.39 2007/04/14 18:37:51 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.38 2007/04/14 18:02:00 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 18:02:00 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.39 2007/04/14 18:37:51 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 18:37:51 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.38 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.39 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -17,6 +17,11 @@
 
 # $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
 # $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+
+############################################################################################################################################
+
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo --pl_file=$HOME/com/t-mobile.de/CSV-Rechnung--20070129.xml \
+#       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv
 
 ############################################################################################################################################
 
@@ -84,6 +89,7 @@ sub main
 
     $main::options{job_itunes_whatever}                   = 0;
     $main::options{job_regression_test}                   = 0;
+    $main::options{job_t_mobile_reo}                      = 0;
 
     $main::options{propertylist_file}	       	        = undef;
 
@@ -99,6 +105,7 @@ sub main
 
       ,'job_itunes_whatever!'
       ,'job_regression_test!'
+      ,'job_t_mobile_reo!'
 
       ,'dry_run!'
       ,'version!'
@@ -126,6 +133,7 @@ sub main
   if   ($main::options{job_propertylist_validate})  { &main::job_propertylist_validate; }
   elsif($main::options{job_itunes_whatever})               { &main::job_iTunes_whatever; }
   elsif($main::options{job_regression_test})               { &main::job_regression_test; }
+  elsif($main::options{job_t_mobile_reo})               { &main::job_t_mobile_reo; }
   else
     {
       die "no job to be carried out";
@@ -206,6 +214,276 @@ sub job_iTunes_whatever
 		}
 	    }
 	}
+    }
+
+  printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
+    ,'$return_value',$return_value
+    ,'...'
+    if 0 && $main::options{debug};
+  printf STDERR "<%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_t_mobile_reo
+{
+  my($package,$filename,$line_no,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+
+  my($pl_tree) =
+      &local_xml_package::load
+        ({ 'file' => $main::options{propertylist_file}
+	, 'process_PropertyList_p' => 1
+	});
+
+  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+    ,'$pl_tree'=>$pl_tree
+    ,'ref($pl_tree)'=>ref($pl_tree)
+    ,'this is the result of parsing the XML document'
+    if 1 && $main::options{debug};
+
+  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+    ,'$pl_tree->{Application}'=>$pl_tree->{Application}
+    ,'...'
+    if 1 && $main::options{debug};
+
+  if   ($pl_tree->{Application} eq 'T-Mobile RechnungOnline Business')
+    {
+      my($do_print_to_stdout_p) = 1;
+
+      my($state) = 'Kopfteil';
+
+      while(<>)
+	{
+	  chomp;
+
+	  if($_ eq '')
+	    {
+	      if   ($state eq 'Kopfteil')
+		{
+		  $state    = 'Positionsteil';
+		}
+	      elsif($state eq 'Positionsteil')
+		{
+		  $state    = 'Summenteil';
+		}
+
+	      next;
+	    }
+	  else
+	    {
+	      # /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999999-000--2007mmdd--T-Mobile--period-2007mm.PLACEHOLDER.dir/CSV-Rechnung--20070129.csv
+
+	      if   ($state eq 'Kopfteil')
+		{
+		}
+	      elsif($state eq 'Positionsteil')
+		{
+		}
+	      elsif($state eq 'Summenteil')
+		{
+		}
+	    }
+
+	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$.' => $.
+	    ,'$state' => $state
+	    ,'...'
+	    if 1 && $main::options{debug};
+
+	  next;
+
+	  my(@F) = &parse_line(',' , 0 , $_); # keep=>0 !!!!!!!!!
+
+	  printf STDERR "=%s,%d,%s: %03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
+	    ,'$F[0]' => $F[0]
+	    ,'...'
+	    if 0 && $main::options{debug} && defined($F[0]);
+
+	  if(defined($F[0]))
+	    {
+	    }
+	  else
+	    {
+	      print $_,"\r\n"
+		if $do_print_to_stdout_p;
+
+	      next;
+	    }
+	}
+
+      ########################################################################################################################
+
+      if(exists($main::options{test_cases}))
+	{
+	  %main::test_cases_as_hash = ();
+
+	  foreach my $h (@{$main::options{test_cases}})
+	    {
+	      $main::test_cases_as_hash{$h} = 1;
+	    }
+	}
+
+      foreach my $test_case (@{$pl_tree->{test_cases}})
+	{
+	  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+	    ,'$test_case->{unique_id}'    => ( defined($test_case->{unique_id}) ? $test_case->{unique_id} : '{undef}' )
+	    ,'...'
+	    if 1 && $main::options{debug};
+
+	  next
+	    unless( !exists($test_case->{active_p}) || $test_case->{active_p} );
+
+	  if(!exists($main::options{test_cases}) || exists($main::test_cases_as_hash{ $test_case->{unique_id} }))
+	    {
+	      print "\n" , '#' x 80 , "\n";
+
+	      printf "\n# =%03d: {%s}=>{%s} // %s\n\n(\n",__LINE__
+		,'$test_case->{unique_id}'    => ( defined($test_case->{unique_id}) ? $test_case->{unique_id} : '{undef}' )
+		,'...'
+		;
+
+	      printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		,'$test_case->{command_line}' => ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '{undef}' )
+		,'...'
+		if 1 && $main::options{debug};
+
+	      my($k,$v);
+	      while( ($k,$v) = each %{$test_case->{shell_variables}} )
+		{
+		  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+		    ,  ( defined($k) ? $k : '{undef}' )
+		    => ( defined($v) ? $v : '{undef}' )
+		    ,'another shell variable'
+		    if 1 && $main::options{debug};
+
+		  printf "  %s='%s'\n"
+		    ,  ( defined($k) ? $k : '# {undef}' )
+		    => ( defined($v) ? $v : '"{undef}"' )
+		    ;
+		}
+
+	      printf "\n  %s \\\n"
+		, ( defined($test_case->{command_line})   ? $test_case->{command_line}   : '# {undef}' )
+		;
+
+	      if( defined($test_case->{stdin}{file}) )
+		{
+		  printf "    < %s \\\n"
+		    ,$test_case->{stdin}{file}
+		    ;
+		}
+	      else
+		{
+		  die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stdin}{file})";
+		}
+
+	      if( defined($test_case->{stdout}{reference_file}) )
+		{
+		  $test_case->{stdout}{output_file} = '/tmp/regression_test--' . $test_case->{unique_id} . '--stdout';
+
+		  printf "    1> '%s' \\\n"
+		    ,$test_case->{stdout}{output_file}
+		    ;
+		}
+	      else
+		{
+		  die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stdout}{reference_file})";
+		}
+
+	      if( defined($test_case->{stderr}{reference_file}) )
+		{
+		  $test_case->{stderr}{output_file} = '/tmp/regression_test--' . $test_case->{unique_id} . '--stderr';
+
+		  printf "    2> '%s' \\\n"
+		    ,$test_case->{stderr}{output_file}
+		    ;
+		}
+	      else
+		{
+		  die "\$test_case->{unique_id}=>{$test_case->{unique_id}} : !defined(\$test_case->{stderr}{reference_file})";
+		}
+
+	      print "    ;\n";
+	      print "  exit_code=\$?\n";
+
+	      printf "  echo -e \"\\ntest_case=>{%s},\\\$exit_code=>\${exit_code}\"\n"
+		,$test_case->{unique_id}
+		;
+
+	      foreach my $stdX ('stdout','stderr')
+		{
+		  if( defined($test_case->{$stdX}{reference_file}) )
+		    {
+		      if($main::options{create_reference_files_p})
+			{
+			  if($test_case->{$stdX}{reference_file} ne '/dev/null')
+			    {
+			      printf "\n  %s '%s' > \"%s\"\n"
+
+				, defined($test_case->{$stdX}{compressor})
+				? ( $test_case->{$stdX}{compressor} . ' -9 --stdout' ) # works actually for gzip and also for bzip2
+				: 'cat'
+
+				,$test_case->{$stdX}{output_file}
+				,$test_case->{$stdX}{reference_file}
+				;
+
+			      printf "  echo -e \"\\ntest_case=>{%s},\\\$stdX=>{%s}\"\n  rm -f '%s'\n"
+
+				,$test_case->{unique_id}
+				,$stdX
+
+				,$test_case->{$stdX}{output_file}
+				;
+			    }
+			}
+		      else
+			{
+			  printf "\n  %s \"%s\" |\n  cmp -s - '%s'\n  cmp__exit_code=\$?\n  echo \"test_case=>{%s},\\\$stdX=>{%s},\\\$cmp__exit_code=>\${cmp__exit_code}\"\n"
+
+			    , defined($test_case->{$stdX}{compressor})
+			    ? ( $test_case->{$stdX}{compressor} . ' --decompress --stdout' ) # works actually for gzip and also for bzip2
+			    : 'cat'
+			    ,$test_case->{$stdX}{reference_file}
+
+			    ,$test_case->{$stdX}{output_file}
+
+			    ,$test_case->{unique_id}
+			    ,$stdX
+			    ;
+
+			  if($main::options{remove_output_files_p})
+			    {
+			      printf "  test \"\$cmp__exit_code\" -eq 0 && rm -f '%s'\n"
+				,$test_case->{$stdX}{output_file}
+				;
+			    }
+
+			  printf "  test \"\$cmp__exit_code\" -eq 0 || echo maybe you want to diff '%s' \"%s\"\n"
+			    ,$test_case->{$stdX}{output_file}
+			    ,$test_case->{$stdX}{reference_file}
+			    ;
+			}
+		    }
+		}
+
+	      print ")\n";
+	    }
+	}
+    }
+  else
+    {
+      die "\$pl_tree->{Application}=>{$pl_tree->{Application}}"
     }
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
@@ -719,6 +997,14 @@ sub proc_visit_content
 
 	  if($params_of_top_level_utility->{process_PropertyList_p})
 	    {
+	      if(   !defined ($value)
+		 && ($variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}] eq 'string')
+		)
+		{
+		  $value = '';	# I am not sure whether this fixes the <string></string> problem
+		}
+		
+
 	      if(!defined ($value))
 		{
 		  die "\$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]=>{$variables_of_top_level_utility->{tree_stack}[$#{$variables_of_top_level_utility->{tree_stack}}]}"
