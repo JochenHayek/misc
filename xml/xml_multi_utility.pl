@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-12 19:53:24 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-14 19:53:27 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.36 2007/04/12 17:55:43 johayek Exp $
+# $Id: xml_multi_utility.pl 1.37 2007/04/14 17:54:02 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.36 2007/04/12 17:55:43 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/12 17:55:43 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.37 2007/04/14 17:54:02 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 17:54:02 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.36 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.37 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -20,10 +20,10 @@
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_regression_test        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_regression_test        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0
 
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_run --create_reference_files_p --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_regression_test --create_reference_files_p --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
 #   --test_case=bloomberg--fields.csv--header--0 --test_case=bloomberg--lookup.out--header--0
 
 # $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
@@ -81,7 +81,7 @@ sub main
     $main::options{job_propertylist_validate}                   = 0;
 
     $main::options{job_itunes_whatever}                   = 0;
-    $main::options{job_run}                   = 0;
+    $main::options{job_regression_test}                   = 0;
 
     $main::options{propertylist_file}	       	        = undef;
 
@@ -96,7 +96,7 @@ sub main
       ,'job_propertylist_validate|job_pl_validate!'
 
       ,'job_itunes_whatever!'
-      ,'job_run!'
+      ,'job_regression_test!'
 
       ,'dry_run!'
       ,'version!'
@@ -123,7 +123,7 @@ sub main
 
   if   ($main::options{job_propertylist_validate})  { &main::job_propertylist_validate; }
   elsif($main::options{job_itunes_whatever})               { &main::job_iTunes_whatever; }
-  elsif($main::options{job_run})               { &main::job_run; }
+  elsif($main::options{job_regression_test})               { &main::job_regression_test; }
   else
     {
       die "no job to be carried out";
@@ -216,7 +216,7 @@ sub job_iTunes_whatever
   return $return_value;
 }
 #
-sub job_run
+sub job_regression_test
 {
   my($package,$filename,$line_no,$proc_name) = caller(0);
 
@@ -510,10 +510,11 @@ sub load
       unshift(@{$tree},{});
 
       my($value) =
-	  &proc_content($params_of_top_level_utility
-		       ,\%local_variables_of_top_level_utility
-		       ,{ 'content' => $tree
-			});
+	  &proc_visit_content
+	    ($params_of_top_level_utility
+	    ,\%local_variables_of_top_level_utility
+	    ,{ 'content' => $tree
+	     });
 
       $tree = undef;		# releasing the data structure created by the parser
 
@@ -521,7 +522,7 @@ sub load
     }
 }
 
-sub proc_content
+sub proc_visit_content
 {
   my($params_of_top_level_utility,$variables_of_top_level_utility,$params) = @_;
 
@@ -621,11 +622,12 @@ sub proc_content
 	    {
 	      my(%this_PropertyList_dict);
 
-	      &proc_content($params_of_top_level_utility
-			   ,$variables_of_top_level_utility
-			   ,{ 'content' => $content
-			    , 'this_PropertyList_dict' => \%this_PropertyList_dict
-			    });
+	      &proc_visit_content
+		($params_of_top_level_utility
+		,$variables_of_top_level_utility
+		,{ 'content' => $content
+		 , 'this_PropertyList_dict' => \%this_PropertyList_dict
+		 });
 
 	      # we are back from constructing the "dict",
 	      # so now we can have a look at it:
@@ -661,11 +663,12 @@ sub proc_content
 	      my(@this_PropertyList_array);
 
 	      $value =
-		  &proc_content($params_of_top_level_utility
-			       ,$variables_of_top_level_utility
-			       ,{ 'content' => $content
-				, 'this_PropertyList_array' => \@this_PropertyList_array
-				});
+		  &proc_visit_content
+		    ($params_of_top_level_utility
+		    ,$variables_of_top_level_utility
+		    ,{ 'content' => $content
+		     , 'this_PropertyList_array' => \@this_PropertyList_array
+		     });
 
 	      # we are back from constructing the "array",
 	      # so now we can have a look at it:
@@ -703,10 +706,11 @@ sub proc_content
 	      # or just ordinary expat tree traversal
 
 	      $value = $return_value =
-		  &proc_content($params_of_top_level_utility
-			       ,$variables_of_top_level_utility
-			       ,{ 'content' => $content
-				});
+		  &proc_visit_content
+		    ($params_of_top_level_utility
+		    ,$variables_of_top_level_utility
+		    ,{ 'content' => $content
+		     });
 	    }
 
 	  # after returning from visiting content ...
@@ -838,7 +842,7 @@ Prints the manual page and exits.
 
 ...
 
-=item B<--job_run>
+=item B<--job_regression_test>
 
 This job runs the regression_test.
 
