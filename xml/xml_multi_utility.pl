@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-14 22:17:34 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-15 01:02:09 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.41 2007/04/14 20:17:39 johayek Exp $
+# $Id: xml_multi_utility.pl 1.42 2007/04/14 23:02:12 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.41 2007/04/14 20:17:39 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 20:17:39 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.42 2007/04/14 23:02:12 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 23:02:12 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.41 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.42 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -433,7 +433,7 @@ header_EOF
 <!-- Local variables: -->
 <!-- mode: xml -->
 <!-- sgml-local-catalogs:("/home/jochen_hayek/usr/share/sgml/CATALOG.T-Mobile-REO-10") -->
-<!-- sgml-default-dtd-file:"/home/jochen_hayek/Computers/Data_Formats/Markup_Languages/SGML/T-Mobile-REO.ced" -->
+<!-- sgml-default-dtd-file:"/home/jochen_hayek/Computers/Data_Formats/Markup_Languages/SGML/T-Mobile-REO-1.0.ced" -->
 <!-- sgml-validate-command:"xmllint -valid -noout %s %s" -->
 <!-- sgml-declaration:nil -->
 <!-- End: -->
