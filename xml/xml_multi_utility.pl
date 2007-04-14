@@ -1,32 +1,34 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-14 19:53:27 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-14 20:01:51 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.37 2007/04/14 17:54:02 johayek Exp $
+# $Id: xml_multi_utility.pl 1.38 2007/04/14 18:02:00 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.37 2007/04/14 17:54:02 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 17:54:02 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.38 2007/04/14 18:02:00 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/14 18:02:00 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.37 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.38 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_pl_validate     --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_pl_validate     --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_regression_test        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_regression_test        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0
 
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_regression_test --create_reference_files_p --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --create_reference_files_p --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
 #   --test_case=bloomberg--fields.csv--header--0 --test_case=bloomberg--lookup.out--header--0
 
-# $ ~/Computers/Programming/Languages/Perl/regression_test.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+############################################################################################################################################
+
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 ############################################################################################################################################
 
