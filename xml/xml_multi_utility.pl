@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 01:27:11 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 01:43:59 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.46 2007/04/17 23:27:17 johayek Exp $
+# $Id: xml_multi_utility.pl 1.47 2007/04/17 23:44:31 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.46 2007/04/17 23:27:17 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/17 23:27:17 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.47 2007/04/17 23:44:31 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/17 23:44:31 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.46 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.47 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -20,21 +20,25 @@
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo --pl_file=$HOME/com/t-mobile.de/CSV-Rechnung--20070129.xml \
-#       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo    --pl_file=$HOME/com/t-mobile.de/CSV-Rechnung--20070129.xml \
+#       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv \
+#     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv.xml.NEW
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo --pl_file=$HOME/com/telekom.de/CSV-Rechnung--200x.xml \
-#       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo     --pl_file=$HOME/com/telekom.de/CSV-Rechnung--200x.xml \
+#       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv \
+#     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv.NEW
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test        --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml --test_cases=thetakeoverpanel_0
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+#       --test_cases=thetakeoverpanel_0
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --create_reference_files_p --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
-#   --test_case=bloomberg--fields.csv--header--0 --test_case=bloomberg--lookup.out--header--0
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+#       --create_reference_files_p \
+#       --test_case=bloomberg--fields.csv--header--0 --test_case=bloomberg--lookup.out--header--0
 
 ############################################################################################################################################
 
