@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-16 10:04:11 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 00:05:42 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.43 2007/04/16 08:05:13 johayek Exp $
+# $Id: xml_multi_utility.pl 1.44 2007/04/17 22:06:10 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.43 2007/04/16 08:05:13 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/16 08:05:13 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.44 2007/04/17 22:06:10 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/17 22:06:10 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.43 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.44 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -22,6 +22,11 @@
 
 # $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo --pl_file=$HOME/com/t-mobile.de/CSV-Rechnung--20070129.xml \
 #       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv
+
+############################################################################################################################################
+
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo --pl_file=$HOME/com/telekom.de/CSV-Rechnung--200x.xml \
+#       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv
 
 ############################################################################################################################################
 
@@ -90,6 +95,7 @@ sub main
     $main::options{job_itunes_whatever}                   = 0;
     $main::options{job_regression_test}                   = 0;
     $main::options{job_t_mobile_reo}                      = 0;
+    $main::options{job_telekom_reo}                      = 0;
 
     $main::options{propertylist_file}	       	        = undef;
 
@@ -106,6 +112,7 @@ sub main
       ,'job_itunes_whatever!'
       ,'job_regression_test!'
       ,'job_t_mobile_reo!'
+      ,'job_telekom_reo!'
 
       ,'dry_run!'
       ,'version!'
@@ -134,6 +141,7 @@ sub main
   elsif($main::options{job_itunes_whatever})               { &main::job_iTunes_whatever; }
   elsif($main::options{job_regression_test})               { &main::job_regression_test; }
   elsif($main::options{job_t_mobile_reo})               { &main::job_t_mobile_reo; }
+  elsif($main::options{job_telekom_reo})               { &main::job_telekom_reo; }
   else
     {
       die "no job to be carried out";
@@ -264,12 +272,16 @@ sub job_t_mobile_reo
 
       my($state) = 'Kopfteil';
 
+      '' =~ m/`/;
+
       print <<'header_EOF';
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE Rechnung PUBLIC "-//Aleph Soft//DTD T-Mobile-REO 1.0//EN" "http://www.Aleph-Soft.com/DTDs/T-Mobile-REO-1.0.dtd">
 <Rechnung>
   <Kopfteil
 header_EOF
+
+      '' =~ m/`/;
 
       while(<>)
 	{
@@ -306,8 +318,6 @@ header_EOF
 	    }
 	  else
 	    {
-	      # /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999999-000--2007mmdd--T-Mobile--period-2007mm.PLACEHOLDER.dir/CSV-Rechnung--20070129.csv
-
 	      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
 		,'$.' => $.
 		,'$state' => $state
@@ -433,6 +443,8 @@ header_EOF
 	,$state
 	;
 
+      '' =~ m/`/;
+
       print <<'tail_EOF';
 </Rechnung>
 
@@ -453,6 +465,9 @@ header_EOF
 <!-- sgml-namecase-general:t -->
 <!-- End: -->
 tail_EOF
+
+      '' =~ m/`/;
+
     }
   else
     {
@@ -469,7 +484,7 @@ tail_EOF
   return $return_value;
 }
 
-sub proc_t_mobile_reo__format
+sub proc_telekom_reo__format
 {
   my($package,$filename,$line_no,$proc_name) = caller(0);
   my(%param) = @_;
@@ -489,6 +504,196 @@ sub proc_t_mobile_reo__format
     {
       return $param{value};
     }
+}
+#
+sub job_telekom_reo
+{
+  my($package,$filename,$line_no,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+
+  my($pl_tree) =
+      &local_xml_package::load
+        ({ 'file' => $main::options{propertylist_file}
+	, 'process_PropertyList_p' => 1
+	});
+
+  printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
+    ,'$pl_tree'=>$pl_tree
+    ,'ref($pl_tree)'=>ref($pl_tree)
+    ,'this is the result of parsing the XML document'
+    if 1 && $main::options{debug};
+
+  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+    ,'$pl_tree->{Application}'=>$pl_tree->{Application}
+    ,'...'
+    if 1 && $main::options{debug};
+
+  use Text::ParseWords;		# -> parse_line, ...
+
+  if   ($pl_tree->{Application} eq 'Telekom Rechnung Online') # -> e.g. ~/com/telekom.de/CSV-Rechnung--200x.xml
+    {
+      my($do_print_to_stdout_p) = 1;
+
+      my($state) = 'Kopfteil';
+
+      '' =~ m/`/;
+
+      print <<'header_EOF';
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Rechnung PUBLIC "-//Aleph Soft//DTD Telkom-REO 1.0//EN" "http://www.Aleph-Soft.com/DTDs/Telekom-REO-1.0.dtd">
+<Rechnung>
+header_EOF
+
+      '' =~ m/`/;
+
+      $/ = "\r\n";
+
+      while(<>)
+	{
+	  chomp;
+
+	  if   ($state eq 'Kopfteil')
+	    {
+	      if (m/^Rechnungsbereich,/)
+		{
+		  $state    = 'Positionsteil';
+
+		  printf "  <%s>\n"
+		    ,$state
+		    ;
+		}
+
+	      next;
+	    }
+	  elsif($state eq 'Positionsteil')
+	    {
+	      if (m/^\s+/ || ($_ eq ''))
+		{
+		  printf "   /> <!-- end of %s -->\n"
+		    ,$state
+		    ;
+
+		  $state    = 'Summenteil';
+
+		  printf "  <%s>\n"
+		    ,$state
+		    ;
+		}
+	      else
+		{
+		  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		    ,'$.' => $.
+		    ,'$state' => $state
+		    ,'...'
+		    if 0 && $main::options{debug};
+
+		  my(@F) = &parse_line(',' , 0 , $_); # keep=>0 !!!!!!!!!
+
+		  printf STDERR "=%s,%d,%s: %03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
+		    ,'$state' => $state
+		    ,'$F[0]' => $F[0]
+		    ,'...'
+		    if 1 && $main::options{debug};
+
+		  next;
+
+		  printf "    <%s"
+		    ,'Position'
+		    ;
+
+		  my($i);
+
+		  for($i=0;$i<=$#F;$i++)
+		    {
+		    ##$F[$i] = '' unless defined($F[$i]);
+		      if(!defined($F[$i]) || ($F[$i] eq ''))
+			{
+			  next;
+			}
+
+		      printf STDERR "=%s,%d,%s: %03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
+			, "\$pl_tree->{$state}[$i]{Bezeichnung}" => $pl_tree->{$state}[$i]{Bezeichnung}
+			, "\$F[$i]" => $F[$i]
+			,'...'
+			if 0 && $main::options{debug};
+
+		      printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
+		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			,'...'
+			if 0 && $main::options{debug};
+
+		    ##if( 0 && $main::options{debug} && ($pl_tree->{$state}[$i]{Datentyp} eq 'date(dd.mm.yyyy)') )
+		      if( 0 && $main::options{debug} )
+			{
+			  printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
+			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			    , $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			    ,'matched date(...) ...'
+			    ;
+			}
+		    }
+
+		  printf " %s=\"%s\""
+		  ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+		    , $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+		    ;
+
+		  print "/>\n";
+		}
+	    }
+	}
+
+      printf "  </%s>\n"
+	,$state
+	;
+
+      '' =~ m/`/;
+
+      print <<'tail_EOF';
+</Rechnung>
+
+<!--
+  sgml-default-dtd-file :
+  the parsed DTD got saved to the file mentioned below
+  using "M-x sgml-save-dtd"
+  from a DocBook XML file visited in emacs
+  after "DTD / Parse DTD
+  -->
+
+<!-- Local variables: -->
+<!-- mode: xml -->
+<!-- sgml-local-catalogs:("/home/jochen_hayek/usr/share/sgml/CATALOG.T-Mobile-REO-10") -->
+<!-- sgml-default-dtd-file:"/home/jochen_hayek/Computers/Data_Formats/Markup_Languages/SGML/Telekom-REO-1.0.ced" -->
+<!-- sgml-validate-command:"xmllint -valid -noout %s %s" -->
+<!-- sgml-declaration:nil -->
+<!-- sgml-namecase-general:t -->
+<!-- End: -->
+tail_EOF
+
+      '' =~ m/`/;
+    }
+  else
+    {
+      die "\$pl_tree->{Application}=>{$pl_tree->{Application}}"
+    }
+
+  printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
+    ,'$return_value',$return_value
+    ,'...'
+    if 0 && $main::options{debug};
+  printf STDERR "<%d,%s\n",__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  return $return_value;
 }
 #
 sub job_regression_test
