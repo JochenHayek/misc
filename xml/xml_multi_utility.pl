@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 01:43:59 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 01:55:50 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.47 2007/04/17 23:44:31 johayek Exp $
+# $Id: xml_multi_utility.pl 1.48 2007/04/17 23:56:19 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.47 2007/04/17 23:44:31 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/17 23:44:31 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.48 2007/04/17 23:56:19 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/17 23:56:19 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.47 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.48 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -28,7 +28,7 @@
 
 # $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo     --pl_file=$HOME/com/telekom.de/CSV-Rechnung--200x.xml \
 #       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv \
-#     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv.NEW
+#     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv.xml.NEW
 
 ############################################################################################################################################
 
