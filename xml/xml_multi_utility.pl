@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 00:05:42 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 00:20:01 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.44 2007/04/17 22:06:10 johayek Exp $
+# $Id: xml_multi_utility.pl 1.45 2007/04/17 22:20:39 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.44 2007/04/17 22:06:10 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/17 22:06:10 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.45 2007/04/17 22:20:39 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/17 22:20:39 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.44 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.45 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -377,19 +377,13 @@ header_EOF
 			,'...'
 			if 0 && $main::options{debug};
 
-		      printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
-			,'...'
-			if 0 && $main::options{debug};
-
 		    ##if( 0 && $main::options{debug} && ($pl_tree->{$state}[$i]{Datentyp} eq 'date(dd.mm.yyyy)') )
 		      if( 0 && $main::options{debug} )
 			{
 			  printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
 			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
 			    , $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
-			    ,'matched date(...) ...'
+			    ,'...'
 			    ;
 			}
 
@@ -484,7 +478,7 @@ tail_EOF
   return $return_value;
 }
 
-sub proc_telekom_reo__format
+sub proc_t_mobile_reo__format
 {
   my($package,$filename,$line_no,$proc_name) = caller(0);
   my(%param) = @_;
@@ -603,8 +597,6 @@ header_EOF
 		    ,'...'
 		    if 1 && $main::options{debug};
 
-		  next;
-
 		  printf "    <%s"
 		    ,'Position'
 		    ;
@@ -614,7 +606,7 @@ header_EOF
 		  for($i=0;$i<=$#F;$i++)
 		    {
 		    ##$F[$i] = '' unless defined($F[$i]);
-		      if(!defined($F[$i]) || ($F[$i] eq ''))
+		      if(!defined($F[$i]) || ($F[$i] eq '') || ($F[$i] eq '---'))
 			{
 			  next;
 			}
@@ -625,27 +617,21 @@ header_EOF
 			,'...'
 			if 0 && $main::options{debug};
 
-		      printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
-			,'...'
-			if 0 && $main::options{debug};
-
 		    ##if( 0 && $main::options{debug} && ($pl_tree->{$state}[$i]{Datentyp} eq 'date(dd.mm.yyyy)') )
-		      if( 0 && $main::options{debug} )
+		      if( 1 && $main::options{debug} )
 			{
 			  printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			    , $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
-			    ,'matched date(...) ...'
+			    , $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			    ,'...'
 			    ;
 			}
-		    }
 
-		  printf " %s=\"%s\""
-		  ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-		    , $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
-		    ;
+		      printf " %s=\"%s\""
+		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			if 1;
+		    }
 
 		  print "/>\n";
 		}
