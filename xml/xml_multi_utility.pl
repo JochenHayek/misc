@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 14:49:45 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 17:45:33 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.50 2007/04/18 12:49:46 johayek Exp $
+# $Id: xml_multi_utility.pl 1.51 2007/04/18 15:45:34 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.50 2007/04/18 12:49:46 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/18 12:49:46 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.51 2007/04/18 15:45:34 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/18 15:45:34 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.50 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.51 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -274,15 +274,15 @@ sub job_t_mobile_reo
     {
       my($do_print_to_stdout_p) = 1;
 
-      my($state) = 'Kopfteil';
+      my($state) = 'kopfteil';
 
       '' =~ m/`/;
 
       print <<'header_EOF';
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE Rechnung PUBLIC "-//Aleph Soft//DTD T-Mobile-REO 1.0//EN" "http://www.Aleph-Soft.com/DTDs/T-Mobile-REO-1.0.dtd">
-<Rechnung>
-  <Kopfteil
+<rechnung>
+  <kopfteil
 header_EOF
 
       '' =~ m/`/;
@@ -293,25 +293,25 @@ header_EOF
 
 	  if($_ eq '')
 	    {
-	      if   ($state eq 'Kopfteil')
+	      if   ($state eq 'kopfteil')
 		{
 		  printf "   /> <!-- end of %s -->\n"
 		    ,$state
 		    ;
 
-		  $state    = 'Positionsteil';
+		  $state    = 'positionsteil';
 
 		  printf "  <%s>\n"
 		    ,$state
 		    ;
 		}
-	      elsif($state eq 'Positionsteil')
+	      elsif($state eq 'positionsteil')
 		{
 		  printf "  </%s>\n"
 		    ,$state
 		    ;
 
-		  $state    = 'Summenteil';
+		  $state    = 'summenteil';
 
 		  printf "  <%s>\n"
 		    ,$state
@@ -336,7 +336,7 @@ header_EOF
 		,'...'
 		if 1 && $main::options{debug};
 
-	      if   ($state eq 'Kopfteil')
+	      if   ($state eq 'kopfteil')
 		{
 		  my($i);
 
@@ -359,10 +359,10 @@ header_EOF
 			;
 		    }
 		}
-	      elsif($state eq 'Positionsteil')
+	      elsif($state eq 'positionsteil')
 		{
 		  printf "    <%s"
-		    ,'Position'
+		    ,'position'
 		    ;
 
 		  my($i);
@@ -399,7 +399,7 @@ header_EOF
 
 		  print "/>\n";
 		}
-	      elsif($state eq 'Summenteil')
+	      elsif($state eq 'summenteil')
 		{
 		  printf "    <%s"
 		    ,'Untersumme'
@@ -444,7 +444,7 @@ header_EOF
       '' =~ m/`/;
 
       print <<'tail_EOF';
-</Rechnung>
+</rechnung>
 
 <!--
   sgml-default-dtd-file :
@@ -492,9 +492,13 @@ sub proc_reo__format
 
   my($h) = $param{value};
 
-  if($param{format} eq 'date(dd.mm.yyyy)')
+  if   ($param{format} eq 'date(dd.mm.yyyy)')
     {
       $h =~ s/^(\d+)\.(\d+)\.(\d+)$/$3-$2-$1/;
+    }
+  elsif( exists($param{swap_numerical_special_characters_p}) && $param{swap_numerical_special_characters_p} && ($param{format} eq 'numerisch') )
+    {
+      $h =~ tr/,./.,/;
     }
   else
     {
@@ -540,7 +544,7 @@ sub job_telekom_reo
     {
       my($do_print_to_stdout_p) = 1;
 
-      my($state) = 'Kopfteil';
+      my($state) = 'kopfteil';
 
       '' =~ m/`/;
 
@@ -558,11 +562,31 @@ header_EOF
 	{
 	  chomp;
 
-	  if   ($state eq 'Kopfteil')
+	  if   ($state eq 'kopfteil')
 	    {
-	      if (m/^Rechnungsbereich,/)
+	      if (0)
+		{}
+	      elsif(m/^Buchungskonto (\d+)$/)
 		{
-		  $state    = 'Positionsteil';
+		  $Rechnungsbereich{Buchungskonto} = $1;
+		}
+	      elsif(m/^Rechnungsnummer (\d+) vom ([\d.]+)$/) # e.g. "Rechnungsnummer 9782562619 vom 27.03.2007"
+		{
+		  $Rechnungsbereich{Rechnungsnummer} = $1;
+		  $Rechnungsbereich{Rechnungsdatum}  = &proc_reo__format( 'value' => $2 , 'format' => 'date(dd.mm.yyyy)' , 'swap_numerical_special_characters_p' => 1 );
+		}
+	      elsif(m/^Rechnungsbereich,/)
+		{
+      print <<"kopfteil_EOF";
+  <kopfteil
+    buchungskonto="$Rechnungsbereich{Buchungskonto}"
+    rechnungsnummer="$Rechnungsbereich{Rechnungsnummer}"
+    rechnungsdatum="$Rechnungsbereich{Rechnungsdatum}"
+    waehrung="EUR"
+   />
+kopfteil_EOF
+
+		  $state    = 'positionsteil';
 
 		  printf "  <%s>\n"
 		    ,$state
@@ -571,7 +595,7 @@ header_EOF
 
 	      next;
 	    }
-	  elsif($state eq 'Positionsteil')
+	  elsif($state eq 'positionsteil')
 	    {
 	      if (m/^\s+/ || ($_ eq ''))
 		{
@@ -579,7 +603,7 @@ header_EOF
 		    ,$state
 		    ;
 
-		  $state    = 'Summenteil';
+		  $state    = 'summenteil';
 
 		  printf "  <%s>\n"
 		    ,$state
@@ -602,7 +626,7 @@ header_EOF
 		    if 1 && $main::options{debug};
 
 		  printf "    <%s"
-		    ,'Position'
+		    ,'position'
 		    ;
 
 		  my($i);
@@ -626,14 +650,14 @@ header_EOF
 			{
 			  printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
 			    , $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} , 'swap_numerical_special_characters_p' => 1 )
 			    ,'...'
 			    ;
 			}
 
 		      printf " %s=\"%s\""
 		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} , 'swap_numerical_special_characters_p' => 1 )
 			if 1;
 		    }
 
