@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 01:55:50 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 14:02:15 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.48 2007/04/17 23:56:19 johayek Exp $
+# $Id: xml_multi_utility.pl 1.49 2007/04/18 12:03:48 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.48 2007/04/17 23:56:19 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/17 23:56:19 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.49 2007/04/18 12:03:48 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/18 12:03:48 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.48 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.49 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -355,7 +355,7 @@ header_EOF
 
 		      printf "     %s=\"%s\"\n"
 		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
 			;
 		    }
 		}
@@ -386,14 +386,14 @@ header_EOF
 			{
 			  printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
 			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			    , $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			    , $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
 			    ,'...'
 			    ;
 			}
 
 		      printf " %s=\"%s\""
 		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
 			;
 		    }
 
@@ -428,7 +428,7 @@ header_EOF
 
 		      printf " %s=\"%s\""
 		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
 			;
 		    }
 
@@ -482,7 +482,7 @@ tail_EOF
   return $return_value;
 }
 
-sub proc_t_mobile_reo__format
+sub proc_reo__format
 {
   my($package,$filename,$line_no,$proc_name) = caller(0);
   my(%param) = @_;
@@ -490,18 +490,18 @@ sub proc_t_mobile_reo__format
   # $param{value}
   # $param{format}
 
+  my($h) = $param{value};
+
   if($param{format} eq 'date(dd.mm.yyyy)')
     {
-      my($h) = $param{value};
-
       $h =~ s/^(\d+)\.(\d+)\.(\d+)$/$3-$2-$1/;
-
-      return $h;
     }
   else
     {
-      return $param{value};
+      $h =~ s/&/&amp;/g;
     }
+
+  return $h;
 }
 #
 sub job_telekom_reo
@@ -546,8 +546,8 @@ sub job_telekom_reo
 
       print <<'header_EOF';
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE Rechnung PUBLIC "-//Aleph Soft//DTD Telkom-REO 1.0//EN" "http://www.Aleph-Soft.com/DTDs/Telekom-REO-1.0.dtd">
-<Rechnung>
+<!DOCTYPE telekom_rechnung PUBLIC "-//Aleph Soft//DTD Telkom-REO 1.0//EN" "http://www.Aleph-Soft.com/DTDs/Telekom-REO-1.0.dtd">
+<telekom_rechnung>
 header_EOF
 
       '' =~ m/`/;
@@ -583,7 +583,7 @@ header_EOF
 
 		  printf "  <%s>\n"
 		    ,$state
-		    ;
+		    if 0;
 		}
 	      else
 		{
@@ -626,14 +626,14 @@ header_EOF
 			{
 			  printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
 			    , $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
 			    ,'...'
 			    ;
 			}
 
 		      printf " %s=\"%s\""
 		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_t_mobile_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
 			if 1;
 		    }
 
@@ -644,12 +644,12 @@ header_EOF
 
       printf "  </%s>\n"
 	,$state
-	;
+	if 0;
 
       '' =~ m/`/;
 
       print <<'tail_EOF';
-</Rechnung>
+</telekom_rechnung>
 
 <!--
   sgml-default-dtd-file :
@@ -661,7 +661,7 @@ header_EOF
 
 <!-- Local variables: -->
 <!-- mode: xml -->
-<!-- sgml-local-catalogs:("/home/jochen_hayek/usr/share/sgml/CATALOG.T-Mobile-REO-10") -->
+<!-- sgml-local-catalogs:("/home/jochen_hayek/usr/share/sgml/CATALOG.Telekom-REO-10") -->
 <!-- sgml-default-dtd-file:"/home/jochen_hayek/Computers/Data_Formats/Markup_Languages/SGML/Telekom-REO-1.0.ced" -->
 <!-- sgml-validate-command:"xmllint -valid -noout %s %s" -->
 <!-- sgml-declaration:nil -->
