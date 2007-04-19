@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-19 21:25:32 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-19 21:53:45 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.52 2007/04/19 19:27:23 johayek Exp $
+# $Id: xml_multi_utility.pl 1.53 2007/04/19 19:53:50 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.52 2007/04/19 19:27:23 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/19 19:27:23 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.53 2007/04/19 19:53:50 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/19 19:53:50 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.52 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.53 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -186,12 +186,12 @@ sub job_iTunes_whatever
 
   if(1 && $main::options{debug})
     {
-      foreach my $e (Expat,Name,Sysid,Pubid,Internal)
+      foreach my $e (Expat,Name,Sysid,Pubid,Internal) # -> man XML::Parser -> Doctype
 	{
 	  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
 	    , $e => $local_xml_package::Doctype_handler_parameters{$e}
 	    ,'the parameters of the Expat Doctype handler'
-	    ;
+	    if defined($local_xml_package::Doctype_handler_parameters{$e});
 	}
     }
   
