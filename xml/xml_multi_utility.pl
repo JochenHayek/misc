@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-18 17:45:33 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-19 21:25:32 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.51 2007/04/18 15:45:34 johayek Exp $
+# $Id: xml_multi_utility.pl 1.52 2007/04/19 19:27:23 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.51 2007/04/18 15:45:34 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/18 15:45:34 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.52 2007/04/19 19:27:23 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/19 19:27:23 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.51 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.52 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -184,6 +184,17 @@ sub job_iTunes_whatever
     ,'this is the result of parsing the XML document'
     if 1 && $main::options{debug};
 
+  if(1 && $main::options{debug})
+    {
+      foreach my $e (Expat,Name,Sysid,Pubid,Internal)
+	{
+	  printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
+	    , $e => $local_xml_package::Doctype_handler_parameters{$e}
+	    ,'the parameters of the Expat Doctype handler'
+	    ;
+	}
+    }
+  
   printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
     ,'$value->{Application}'=>$value->{Application}
     ,'...'
@@ -978,7 +989,11 @@ sub load
 
   use XML::Parser;
 
-  my($p) = new XML::Parser(Style => $params_of_top_level_utility->{Style});
+  my($p) = new XML::Parser
+    ( Style => $params_of_top_level_utility->{Style}
+      , Handlers => { Doctype => \&handler_Doctype
+                    }
+    );
 
   my($tree);
 
@@ -1309,6 +1324,27 @@ sub proc_visit_content
     }
 
   return $return_value;
+}
+
+sub handler_Doctype
+{
+  my($Expat,$Name,$Sysid,$Pubid,$Internal) = (@_);
+
+  # <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+
+  # =1327: {$_[0]}=>{XML::Parser::Expat=HASH(0x833868c)} // ...
+  # =1327: {$_[1]}=>{plist} // ...
+  # =1327: {$_[2]}=>{http://www.apple.com/DTDs/PropertyList-1.0.dtd} // ...
+  # =1327: {$_[3]}=>{-//Apple Computer//DTD PLIST 1.0//EN} // ...
+  # =1327: {$_[4]}=>{1} // ...
+
+  %local_xml_package::Doctype_handler_parameters = ();
+
+  $local_xml_package::Doctype_handler_parameters{Expat}    = $Expat  ;
+  $local_xml_package::Doctype_handler_parameters{Name}     = $Name   ;
+  $local_xml_package::Doctype_handler_parameters{Sysid}    = $Sysid  ;
+  $local_xml_package::Doctype_handler_parameters{Pubid}    = $Pubid  ;
+  $local_xml_package::Doctype_handler_parameters{Internal} = $Internal;
 }
 __END__
 
