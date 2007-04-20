@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-19 21:53:45 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-20 15:20:10 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.53 2007/04/19 19:53:50 johayek Exp $
+# $Id: xml_multi_utility.pl 1.54 2007/04/20 13:21:47 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.53 2007/04/19 19:53:50 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/19 19:53:50 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.54 2007/04/20 13:21:47 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/20 13:21:47 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.53 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.54 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -468,7 +468,7 @@ header_EOF
 <!-- Local variables: -->
 <!-- mode: xml -->
 <!-- sgml-local-catalogs:("/home/jochen_hayek/usr/share/sgml/CATALOG.T-Mobile-REO-10") -->
-<!-- sgml-default-dtd-file:"/home/jochen_hayek/Computers/Data_Formats/Markup_Languages/SGML/T-Mobile-REO-1.0.ced" -->
+<!-- sgml-default-dtd-file:"/home/jochen_hayek/etc/xml/T-Mobile-REO-1.0.ced" -->
 <!-- sgml-validate-command:"xmllint -valid -noout %s %s" -->
 <!-- sgml-declaration:nil -->
 <!-- sgml-namecase-general:t -->
@@ -697,7 +697,7 @@ kopfteil_EOF
 <!-- Local variables: -->
 <!-- mode: xml -->
 <!-- sgml-local-catalogs:("/home/jochen_hayek/usr/share/sgml/CATALOG.Telekom-REO-10") -->
-<!-- sgml-default-dtd-file:"/home/jochen_hayek/Computers/Data_Formats/Markup_Languages/SGML/Telekom-REO-1.0.ced" -->
+<!-- sgml-default-dtd-file:"/home/jochen_hayek/etc/xml/Telekom-REO-1.0.ced" -->
 <!-- sgml-validate-command:"xmllint -valid -noout %s %s" -->
 <!-- sgml-declaration:nil -->
 <!-- sgml-namecase-general:t -->
