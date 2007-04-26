@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-04-20 15:20:10 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-04-26 13:44:13 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.54 2007/04/20 13:21:47 johayek Exp $
+# $Id: xml_multi_utility.pl 1.55 2007/04/26 11:44:59 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.54 2007/04/20 13:21:47 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/20 13:21:47 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.55 2007/04/26 11:44:59 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/04/26 11:44:59 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.54 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.55 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -20,13 +20,13 @@
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo    --pl_file=$HOME/com/t-mobile.de/CSV-Rechnung--20070129.xml \
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo    --pl_file=$HOME/Business/Telecommunications/Carriers/t-mobile.de/CSV-Rechnung--20070129.xml \
 #       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv \
 #     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv.xml.NEW
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo     --pl_file=$HOME/com/telekom.de/CSV-Rechnung--200x.xml \
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo     --pl_file=$HOME/Business/Telecommunications/Carriers/telekom.de/CSV-Rechnung--200x.xml \
 #       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv \
 #     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv.xml.NEW
 
