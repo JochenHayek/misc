@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-05-18 19:18:26 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-05-29 17:08:03 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.56 2007/05/18 17:18:34 johayek Exp $
+# $Id: xml_multi_utility.pl 1.57 2007/05/29 15:10:29 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.56 2007/05/18 17:18:34 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/05/18 17:18:34 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.57 2007/05/29 15:10:29 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/05/29 15:10:29 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.56 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.57 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -588,7 +588,7 @@ header_EOF
 		  $Rechnungsbereich{Rechnungsnummer} = $1;
 		  $Rechnungsbereich{Rechnungsdatum}  = &proc_reo__format( 'value' => $2 , 'format' => 'date(dd.mm.yyyy)' , 'swap_numerical_special_characters_p' => 1 );
 		}
-	      elsif(m/^Rechnungsbereich,/)
+	      elsif(m/^\"?Rechnungsbereich\"?,/)
 		{
       print <<"kopfteil_EOF";
   <kopfteil
