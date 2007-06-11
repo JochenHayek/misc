@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-01-18 11:20:34 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-06-11 10:57:44 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.21 2007/01/18 10:20:58 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/01/18 10:20:58 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.22 2007/06/11 09:25:11 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/06/11 09:25:11 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -83,7 +83,7 @@ sub main
        ,'help|?!'
        ,'man!'
        ,'debug!'
-       ,'verbose=s'
+       ,'verbose=i'
 
        ,'left=s'
        ,'right=s'
@@ -408,9 +408,9 @@ sub job_check_situation__left_ab__right_b
 	,'$main::options{left}'  => $main::options{left}
         ,'$main::options{right}' => $main::options{right}
 	,'end of common block, but there is more on the right side'
-	if 1 && $main::options{debug};
+	if    1 && $main::options{debug};
 
-      exit(1);
+      die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},\$proc_name=>{$proc_name} // end of common block, but there is more on the right side";
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
