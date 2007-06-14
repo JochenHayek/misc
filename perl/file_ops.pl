@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-06-11 10:57:44 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2007-06-14 10:42:42 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.22 2007/06/11 09:25:11 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/06/11 09:25:11 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.23 2007/06/14 08:43:49 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/06/14 08:43:49 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -59,6 +59,7 @@ sub main
   {
     # defaults for the main::options;
     
+    $main::options{quiet}		       	= 0;
     $main::options{dry_run}		       	= 0;
     $main::options{version}		       	= 0;
     $main::options{verbose}		       	= 0;
@@ -73,12 +74,14 @@ sub main
 
   my($result) =
     &GetOptions
-      (\%main::options
+      (\%main::options			# -> http://www.gnu.org/prep/standards/standards.html#Option-Table
+
        ,'job_merge_ab_with_bc!'
        ,'job_check_situation__left_ab__right_b!'
        ,'job_check_situation__left_a__right_ab!'
 
-       ,'dry_run!'
+       ,'quiet|silent!'
+       ,'dry_run|dry-run!'
        ,'version!'
        ,'help|?!'
        ,'man!'
@@ -410,7 +413,14 @@ sub job_check_situation__left_ab__right_b
 	,'end of common block, but there is more on the right side'
 	if    1 && $main::options{debug};
 
-      die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},\$proc_name=>{$proc_name} // end of common block, but there is more on the right side";
+      if($main::options{quiet})
+	{
+	  exit(1);
+	}
+      else
+	{
+	  die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},\$proc_name=>{$proc_name} // end of common block, but there is more on the right side";
+	}
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
