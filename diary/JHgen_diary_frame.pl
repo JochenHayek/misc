@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.16 2008/05/13 10:44:41 johayek Exp $
+# $Id: JHgen_diary_frame.pl 1.17 2008/05/13 10:45:06 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 # Q: until what year do we run here?
@@ -49,7 +49,7 @@
 	  , $mday
 	  ;
 
-      last if($date__YYYY_MM_DD gt '2008-99-99'); # "last year"
+      last if($date__YYYY_MM_DD gt '2009-99-99'); # "last year"
 
       print
       ##$i,' ',
