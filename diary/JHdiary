@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2008-05-13 12:41:26 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2008-05-13 12:54:55 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.97 2008/05/13 10:54:35 johayek Exp $' =~
+    '$Id: JHdiary 1.98 2008/05/13 10:54:56 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -395,7 +395,7 @@ sub job_work_at
 
 	  local($total_min__computed) = $end_min - $start_min;
 
-	  if ("$total_hh:$total_mm" eq 'hh:mm') # concerns `total' time
+	  if ("$total_hh:$total_mm" eq 'HH:MM') # concerns `total' time
 	    {
 	    }
 	  else
@@ -423,7 +423,7 @@ sub job_work_at
 
 	  local($work_min__computed) = $total_min__computed - $break_min;
 
-	  if ("$work_hh:$work_mm" eq 'hh:mm') # concerns `work' time
+	  if ("$work_hh:$work_mm" eq 'HH:MM') # concerns `work' time
 	    {
 	    }
 	  else
@@ -536,7 +536,7 @@ sub job_yearly_events
 
 	  $text =~ s/\s*:\s*/: /;
 
-	  printf "%02.2d %s %s\n\thh:mm %s\n"
+	  printf "%02.2d %s %s\n\tHH:MM %s\n"
 	    ,$day
 	    ,$short_month_name
 	    ,$main::options{this_year}
@@ -552,7 +552,7 @@ sub job_yearly_events
 	{
 	  $text =~ s/\s*:\s*/: /;
 
-	  printf "%02.2d %s %s\n\thh:mm %s\n"
+	  printf "%02.2d %s %s\n\tHH:MM %s\n"
 	    ,$day
 	    , $::month_names__long2short{$long_month_name}
 	    ,$main::options{this_year}
@@ -621,7 +621,7 @@ sub job_easter_etc
 
 	if 0 && $main::options{debug};
 
-      printf STDOUT "%02d %s %04d\n\thh:mm name of day: %s\n"
+      printf STDOUT "%02d %s %04d\n\tHH:MM name of day: %s\n"
 	,$date{day}
 	,$::short_month_names[$date{month}]
 	,$date{year}
