@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2008-05-13 12:54:55 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2008-05-26 13:20:57 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.98 2008/05/13 10:54:56 johayek Exp $' =~
+    '$Id: JHdiary 1.99 2008/05/26 12:11:17 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -775,7 +775,10 @@ sub initialise
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  $::fh_tbl0 = new FileHandle ">$ENV{'HOME'}/diary.month-tbl" ||
+  $::fh_tbl_roff_mm = new FileHandle ">$ENV{'HOME'}/diary.month-tbl" ||
+    die "cannot open month tbl: $! -";
+
+  $::fh_tbl_jhts = new FileHandle ">$ENV{'HOME'}/diary.JHts" ||
     die "cannot open month tbl: $! -";
 
   $::fh_csv0 = new FileHandle ">$ENV{'HOME'}/diary.work_at.CitiElite.csv" ||
@@ -787,7 +790,8 @@ sub initialise
   $::fh_csv2 = new FileHandle ">$ENV{'HOME'}/diary.work_at.IDS.csv" ||
     die "cannot open month tbl #1: $! -";
 
-  $day_separator = '';
+  $tbl_roff_mm__day_separator = '';
+  $tbl_jhts__day_separator = '';
 
   %::t = ();
 
@@ -995,18 +999,27 @@ sub terminalise
 	,'$::total_work__min',$::total_work__min
 	,'$::total_work__{hh,mm}' ,&aux::min_2_hhh_mm($::total_work__min)
 	;
-      printf $::fh_tbl0
+
+      printf $::fh_tbl_roff_mm
 	 "=\n|||||||%s|%s|%4.4d\n"
 	,&aux::min_2_hh_mm($::total_work__min)
 	,&aux::min_2_hh_mm($::total_work__min)
 	,$::total_work__min
 	;
-      printf $::fh_tbl0
+      printf $::fh_tbl_roff_mm
 	 ".\\\" =%d: %s=>%04.4d,%s=>%s // %s\n",__LINE__
 	,'$::total_work__min',$::total_work__min
 	,'$::total_work__{hh,mm}',&aux::min_2_hhh_mm($::total_work__min)
 	,&aux::min_2_hhh_mm($::total_work__min)
 	if 0;
+
+      printf $::fh_tbl_jhts
+	 "-----------+-------+-------+-------+-------+-------+-------+-------+-------+-------+----------\n"
+        ."                             Geleistete Gesamtstundenzahl: | %s | %s |  %4.4d |\n"
+	,&aux::min_2_hh_mm($::total_work__min)
+	,&aux::min_2_hh_mm($::total_work__min)
+	,$::total_work__min
+	;
     }
 
   &aux::print_structure
@@ -1065,7 +1078,8 @@ sub terminalise
 	}
     }
 
-  $::fh_tbl0->close;
+  $::fh_tbl_roff_mm->close;
+  $::fh_tbl_jhts->close;
   $::fh_csv0->close;
   $::fh_csv1->close;
   $::fh_csv2->close;
@@ -1090,9 +1104,11 @@ sub set_day
 
   print $_,"\n" if $main::options{echo_the_source_p};
 
-  print $::fh_tbl0 $day_separator;
+  print $::fh_tbl_roff_mm $tbl_roff_mm__day_separator;
+  $tbl_roff_mm__day_separator = "_\n";
 
-  $day_separator = "_\n";
+  print $::fh_tbl_jhts $tbl_jhts__day_separator;
+  $tbl_jhts__day_separator = "-----------+-------+-------+-------+-------+-------+-------+-------+-------+-------+----------\n";
 
   printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
     ,'$return_value',$return_value
@@ -1152,13 +1168,37 @@ sub proc_entry
     ,$param{other_tags}
     ;
 
-  printf $::fh_tbl0
+  printf $::fh_tbl_roff_mm
 
       "%s|%s|%s"
     . "|%s|%s"
     . "|%s|%s"
     . "|%s|%s|%4.4d"
     . "%s%s\n"
+
+    ,$param{date},$start,$end
+
+    ,&aux::min_2_hh_mm($param{break_min      })
+    ,&aux::min_2_hh_mm($param{break_min_today})
+    
+    ,&aux::min_2_hh_mm($param{total_min      })
+    ,&aux::min_2_hh_mm($param{total_min_today})
+    
+    ,&aux::min_2_hh_mm($param{work_min      })
+    ,&aux::min_2_hh_mm($param{work_min_today})
+    ,                  $param{work_min      }
+    
+    ,$param{other_tags_alt_separator}
+    ,$param{other_tags}
+    ;
+
+  printf $::fh_tbl_jhts
+
+      "%s | %s | %s"
+    . " | %s | %s"
+    . " | %s | %s"
+    . " | %s | %s |  %4.4d"
+    . " %s %s\n"
 
     ,$param{date},$start,$end
 
