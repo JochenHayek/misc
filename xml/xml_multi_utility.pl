@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-06-13 10:49:57 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2008-07-16 17:39:31 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.58 2007/06/13 08:49:58 johayek Exp $
+# $Id: xml_multi_utility.pl 1.59 2008/07/16 15:44:22 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.58 2007/06/13 08:49:58 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/06/13 08:49:58 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.59 2008/07/16 15:44:22 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2008/07/16 15:44:22 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.58 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.59 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -457,21 +457,6 @@ header_EOF
       print <<'tail_EOF';
 </rechnung>
 
-<!--
-  sgml-default-dtd-file :
-  the parsed DTD got saved to the file mentioned below
-  using "M-x sgml-save-dtd"
-  from a DocBook XML file visited in emacs
-  after "DTD / Parse DTD
-  -->
-
-<!-- mode: xml -->
-<!-- sgml-local-catalogs:("/home/jochen_hayek/usr/share/sgml/CATALOG.T-Mobile-REO-10") -->
-<!-- sgml-default-dtd-file:"/home/jochen_hayek/etc/xml/T-Mobile-REO-1.0.ced" -->
-<!-- sgml-validate-command:"xmllint -valid -noout %s %s" -->
-<!-- sgml-declaration:nil -->
-<!-- sgml-namecase-general:t -->
-
 <!-- Local variables: -->
 <!-- mode: nxml -->
 <!-- End: -->
@@ -482,7 +467,7 @@ tail_EOF
     }
   else
     {
-      die "\$pl_tree->{Application}=>{$pl_tree->{Application}}"
+      die "\$pl_tree->{Application}=>{$pl_tree->{Application}}";
     }
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
@@ -687,21 +672,6 @@ kopfteil_EOF
 
       print <<'tail_EOF';
 </telekom_rechnung>
-
-<!--
-  sgml-default-dtd-file :
-  the parsed DTD got saved to the file mentioned below
-  using "M-x sgml-save-dtd"
-  from a DocBook XML file visited in emacs
-  after "DTD / Parse DTD
-  -->
-
-<!-- mode: xml -->
-<!-- sgml-local-catalogs:("/home/jochen_hayek/usr/share/sgml/CATALOG.Telekom-REO-10") -->
-<!-- sgml-default-dtd-file:"/home/jochen_hayek/etc/xml/Telekom-REO-1.0.ced" -->
-<!-- sgml-validate-command:"xmllint -valid -noout %s %s" -->
-<!-- sgml-declaration:nil -->
-<!-- sgml-namecase-general:t -->
 
 <!-- Local variables: -->
 <!-- mode: nxml -->
