@@ -1,48 +1,48 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2008-07-16 17:39:31 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2008-08-07 09:24:32 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.59 2008/07/16 15:44:22 johayek Exp $
+# $Id: xml_multi_utility.pl 1.60 2008/08/07 07:38:28 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.59 2008/07/16 15:44:22 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2008/07/16 15:44:22 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.60 2008/08/07 07:38:28 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2008/08/07 07:38:28 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.59 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.60 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --xml_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo    --pl_file=$HOME/Business/Telecommunications/Carriers/t-mobile.de/CSV-Rechnung--20070129.xml \
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo    --xml_file=$HOME/Business/Telecommunications/Carriers/t-mobile.de/CSV-Rechnung--20070129.xml \
 #       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv \
 #     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv.xml.NEW
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo     --pl_file=$HOME/Business/Telecommunications/Carriers/telekom.de/CSV-Rechnung--200x.xml \
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo     --xml_file=$HOME/Business/Telecommunications/Carriers/telekom.de/CSV-Rechnung--200x.xml \
 #       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv \
 #     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv.xml.NEW
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
 #       --test_cases=thetakeoverpanel_0
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --pl_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
 #       --create_reference_files_p \
 #       --test_case=bloomberg--fields.csv--header--0 --test_case=bloomberg--lookup.out--header--0
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_itunes_whatever --pl_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_itunes_whatever --xml_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 ############################################################################################################################################
 
@@ -81,10 +81,10 @@ sub main
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
     if 0 && $main::options{debug};
   printf STDERR "=%d,%s: %s=>{%s}\n",__LINE__,$proc_name
-    ,'$rcs_Id',$rcs_Id
+    ,'$rcs_Id' => $rcs_Id
     if 0 && $main::options{debug};
   printf STDERR "=%d,%s: %s=>{%s}\n",__LINE__,$proc_name
-    ,'$emacs_Time_stamp',$emacs_Time_stamp
+    ,'$emacs_Time_stamp' => $emacs_Time_stamp
     if 0 && $main::options{debug};
 
   {
@@ -101,7 +101,7 @@ sub main
     $main::options{job_t_mobile_reo}                      = 0;
     $main::options{job_telekom_reo}                      = 0;
 
-    $main::options{propertylist_file}	       	        = undef;
+    $main::options{xml_file}	       	        = undef;
 
     $main::options{create_reference_files_p}	       	        = 0;
     $main::options{remove_output_files_p}	       	        = 1;
@@ -126,7 +126,8 @@ sub main
       ,'verbose=i'
       ,'params=s%'		# some "indirect" parameters
 
-      ,'propertylist_file|pl_file=s'
+    ##,'xml_file|propertylist_file|pl_file=s'	# well, I didn't really like this
+      ,'xml_file=s'
 
       ,'create_reference_files_p!'
       ,'remove_output_files_p!'
@@ -152,7 +153,7 @@ sub main
     }
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
-    ,'$return_value',$return_value
+    ,'$return_value' => $return_value
     ,'...'
     if 0 && $main::options{debug};
   printf STDERR "<%d,%s\n",__LINE__,$proc_name
@@ -170,11 +171,11 @@ sub job_iTunes_whatever
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
     if 1 && $main::options{debug};
 
-  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+  defined($main::options{xml_file}) 		        || die "--xml_file ???";
 
   my($value) =
       &local_xml_package::load
-        ({ 'file' => $main::options{propertylist_file}
+        ({ 'file' => $main::options{xml_file}
 	, 'process_PropertyList_p' => 1
 	});
 
@@ -240,7 +241,7 @@ sub job_iTunes_whatever
     }
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
-    ,'$return_value',$return_value
+    ,'$return_value' => $return_value
     ,'...'
     if 0 && $main::options{debug};
   printf STDERR "<%d,%s\n",__LINE__,$proc_name
@@ -260,28 +261,28 @@ sub job_t_mobile_reo
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
     if 1 && $main::options{debug};
 
-  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+  defined($main::options{xml_file}) 		        || die "--xml_file ???";
 
-  my($pl_tree) =
+  my($xml_tree) =
       &local_xml_package::load
-        ({ 'file' => $main::options{propertylist_file}
+        ({ 'file' => $main::options{xml_file}
 	, 'process_PropertyList_p' => 1
 	});
 
   printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-    ,'$pl_tree'=>$pl_tree
-    ,'ref($pl_tree)'=>ref($pl_tree)
+    ,'$xml_tree'=>$xml_tree
+    ,'ref($xml_tree)'=>ref($xml_tree)
     ,'this is the result of parsing the XML document'
     if 1 && $main::options{debug};
 
   printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-    ,'$pl_tree->{Application}'=>$pl_tree->{Application}
+    ,'$xml_tree->{Application}'=>$xml_tree->{Application}
     ,'...'
     if 1 && $main::options{debug};
 
   use Text::ParseWords;		# -> parse_line, ...
 
-  if   ($pl_tree->{Application} eq 'T-Mobile RechnungOnline Business') # -> e.g. ~/com/t-mobile.de/CSV-Rechnung--20070129.xml
+  if   ($xml_tree->{Application} eq 'T-Mobile RechnungOnline Business') # -> e.g. ~/com/t-mobile.de/CSV-Rechnung--20070129.xml
     {
       my($do_print_to_stdout_p) = 1;
 
@@ -354,19 +355,19 @@ header_EOF
 		  for($i=0;$i<=$#F;$i++)
 		    {
 		      printf STDERR "=%s,%d,%s: %03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			, "\$pl_tree->{$state}[$i]{Bezeichnung}" => $pl_tree->{$state}[$i]{Bezeichnung}
+			, "\$xml_tree->{$state}[$i]{Bezeichnung}" => $xml_tree->{$state}[$i]{Bezeichnung}
 			, "\$F[$i]" => $F[$i]
 			,'...'
 			if 0 && $main::options{debug};
 
 		      printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			, $xml_tree->{$state}[$i]{Bezeichnung} => $F[$i]
 			,'...'
 			if 0 && $main::options{debug};
 
 		      printf "     %s=\"%s\"\n"
-		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+		      ##, $xml_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			, $xml_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $xml_tree->{$state}[$i]{Datentyp} )
 			;
 		    }
 		}
@@ -387,24 +388,24 @@ header_EOF
 			}
 
 		      printf STDERR "=%s,%d,%s: %03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			, "\$pl_tree->{$state}[$i]{Bezeichnung}" => $pl_tree->{$state}[$i]{Bezeichnung}
+			, "\$xml_tree->{$state}[$i]{Bezeichnung}" => $xml_tree->{$state}[$i]{Bezeichnung}
 			, "\$F[$i]" => $F[$i]
 			,'...'
 			if 0 && $main::options{debug};
 
-		    ##if( 0 && $main::options{debug} && ($pl_tree->{$state}[$i]{Datentyp} eq 'date(dd.mm.yyyy)') )
+		    ##if( 0 && $main::options{debug} && ($xml_tree->{$state}[$i]{Datentyp} eq 'date(dd.mm.yyyy)') )
 		      if( 0 && $main::options{debug} )
 			{
 			  printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			    , $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+			  ##, $xml_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			    , $xml_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $xml_tree->{$state}[$i]{Datentyp} )
 			    ,'...'
 			    ;
 			}
 
 		      printf " %s=\"%s\""
-		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+		      ##, $xml_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			, $xml_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $xml_tree->{$state}[$i]{Datentyp} )
 			;
 		    }
 
@@ -427,19 +428,19 @@ header_EOF
 			}
 
 		      printf STDERR "=%s,%d,%s: %03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			, "\$pl_tree->{$state}[$i]{Bezeichnung}" => $pl_tree->{$state}[$i]{Bezeichnung}
+			, "\$xml_tree->{$state}[$i]{Bezeichnung}" => $xml_tree->{$state}[$i]{Bezeichnung}
 			, "\$F[$i]" => $F[$i]
 			,'...'
 			if 0 && $main::options{debug};
 
 		      printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			, $xml_tree->{$state}[$i]{Bezeichnung} => $F[$i]
 			,'...'
 			if 0 && $main::options{debug};
 
 		      printf " %s=\"%s\""
-		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} )
+		      ##, $xml_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			, $xml_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $xml_tree->{$state}[$i]{Datentyp} )
 			;
 		    }
 
@@ -467,11 +468,11 @@ tail_EOF
     }
   else
     {
-      die "\$pl_tree->{Application}=>{$pl_tree->{Application}}";
+      die "\$xml_tree->{Application}=>{$xml_tree->{Application}}";
     }
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
-    ,'$return_value',$return_value
+    ,'$return_value' => $return_value
     ,'...'
     if 0 && $main::options{debug};
   printf STDERR "<%d,%s\n",__LINE__,$proc_name
@@ -517,28 +518,28 @@ sub job_telekom_reo
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
     if 1 && $main::options{debug};
 
-  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+  defined($main::options{xml_file}) 		        || die "--xml_file ???";
 
-  my($pl_tree) =
+  my($xml_tree) =
       &local_xml_package::load
-        ({ 'file' => $main::options{propertylist_file}
+        ({ 'file' => $main::options{xml_file}
 	, 'process_PropertyList_p' => 1
 	});
 
   printf STDERR "=%03d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__
-    ,'$pl_tree'=>$pl_tree
-    ,'ref($pl_tree)'=>ref($pl_tree)
+    ,'$xml_tree'=>$xml_tree
+    ,'ref($xml_tree)'=>ref($xml_tree)
     ,'this is the result of parsing the XML document'
     if 1 && $main::options{debug};
 
   printf STDERR "=%03d: {%s}=>{%s} // %s\n",__LINE__
-    ,'$pl_tree->{Application}'=>$pl_tree->{Application}
+    ,'$xml_tree->{Application}'=>$xml_tree->{Application}
     ,'...'
     if 1 && $main::options{debug};
 
   use Text::ParseWords;		# -> parse_line, ...
 
-  if   ($pl_tree->{Application} eq 'Telekom Rechnung Online') # -> e.g. ~/com/telekom.de/CSV-Rechnung--200x.xml
+  if   ($xml_tree->{Application} eq 'Telekom Rechnung Online') # -> e.g. ~/com/telekom.de/CSV-Rechnung--200x.xml
     {
       my($do_print_to_stdout_p) = 1;
 
@@ -638,24 +639,24 @@ kopfteil_EOF
 			}
 
 		      printf STDERR "=%s,%d,%s: %03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			, "\$pl_tree->{$state}[$i]{Bezeichnung}" => $pl_tree->{$state}[$i]{Bezeichnung}
+			, "\$xml_tree->{$state}[$i]{Bezeichnung}" => $xml_tree->{$state}[$i]{Bezeichnung}
 			, "\$F[$i]" => $F[$i]
 			,'...'
 			if 0 && $main::options{debug};
 
-		    ##if( 0 && $main::options{debug} && ($pl_tree->{$state}[$i]{Datentyp} eq 'date(dd.mm.yyyy)') )
+		    ##if( 0 && $main::options{debug} && ($xml_tree->{$state}[$i]{Datentyp} eq 'date(dd.mm.yyyy)') )
 		      if( 1 && $main::options{debug} )
 			{
 			  printf STDERR "=%s,%d,%s: %03.3d: {%s}=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
-			    , $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			  ##, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} , 'swap_numerical_special_characters_p' => 1 )
+			    , $xml_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			  ##, $xml_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $xml_tree->{$state}[$i]{Datentyp} , 'swap_numerical_special_characters_p' => 1 )
 			    ,'...'
 			    ;
 			}
 
 		      printf " %s=\"%s\""
-		      ##, $pl_tree->{$state}[$i]{Bezeichnung} => $F[$i]
-			, $pl_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $pl_tree->{$state}[$i]{Datentyp} , 'swap_numerical_special_characters_p' => 1 )
+		      ##, $xml_tree->{$state}[$i]{Bezeichnung} => $F[$i]
+			, $xml_tree->{$state}[$i]{Bezeichnung} => &proc_reo__format( 'value' => $F[$i] , 'format' => $xml_tree->{$state}[$i]{Datentyp} , 'swap_numerical_special_characters_p' => 1 )
 			if 1;
 		    }
 
@@ -682,11 +683,11 @@ tail_EOF
     }
   else
     {
-      die "\$pl_tree->{Application}=>{$pl_tree->{Application}}"
+      die "\$xml_tree->{Application}=>{$xml_tree->{Application}}"
     }
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
-    ,'$return_value',$return_value
+    ,'$return_value' => $return_value
     ,'...'
     if 0 && $main::options{debug};
   printf STDERR "<%d,%s\n",__LINE__,$proc_name
@@ -706,11 +707,11 @@ sub job_regression_test
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
     if 1 && $main::options{debug};
 
-  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+  defined($main::options{xml_file}) 		        || die "--xml_file ???";
 
   my($value) =
       &local_xml_package::load
-        ({ 'file' => $main::options{propertylist_file}
+        ({ 'file' => $main::options{xml_file}
 	, 'process_PropertyList_p' => 1
 	});
 
@@ -891,7 +892,7 @@ sub job_regression_test
     }
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
-    ,'$return_value',$return_value
+    ,'$return_value' => $return_value
     ,'...'
     if 0 && $main::options{debug};
   printf STDERR "<%d,%s\n",__LINE__,$proc_name
@@ -911,10 +912,10 @@ sub job_propertylist_validate
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
     if 1 && $main::options{debug};
 
-  defined($main::options{propertylist_file}) 		        || die "--propertylist_file ???";
+  defined($main::options{xml_file}) 		        || die "--xml_file ???";
 
   system( 'env XML_CATALOG_FILES=$HOME/usr/share/xml/PropertyList/schema/dtd/1.0/catalog.xml xmllint --valid --noout '
-	. $main::options{propertylist_file}
+	. $main::options{xml_file}
 	);
 
   my($exit_value)  = $? >> 8;
@@ -922,14 +923,14 @@ sub job_propertylist_validate
   my($dumped_core) = $? & 128;
 
   printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
-    ,'$exit_value',$exit_value
-    ,'$signal_num',$signal_num
-    ,'$dumped_core',$dumped_core
+    ,'$exit_value' => $exit_value
+    ,'$signal_num' => $signal_num
+    ,'$dumped_core' => $dumped_core
     ,'...'
     if 1 || $main::options{debug};
 
   printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
-    ,'$return_value',$return_value
+    ,'$return_value' => $return_value
     ,'...'
     if 0 && $main::options{debug};
   printf STDERR "<%d,%s\n",__LINE__,$proc_name
@@ -1336,7 +1337,7 @@ Options:
 
     --job_...
 
-    --propertylist_file
+    --xml_file
 
 =head1 OPTIONS
 
