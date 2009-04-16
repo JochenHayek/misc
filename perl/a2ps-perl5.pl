@@ -7,7 +7,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.45 2008/11/19 21:44:11 johayek Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.46 2009/04/16 11:36:14 johayek Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -144,7 +144,10 @@ sub usage {
 	switches are:
 	-l \@	label string
 	-L \@	sub-label string (\%default="$default_sublabel")
+	-[n]m	show punchmark (?)
+	-[n]h	show header (?)
 	-[n]s	show border (?)
+	-[n]t	show footer (?)
 	-[n]t	tail label (t)
 	-[n]n	numbering (nn)
 	-[n]h	header (h)
