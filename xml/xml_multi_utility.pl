@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2008-08-07 09:24:32 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2010-05-11 02:54:33 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.60 2008/08/07 07:38:28 johayek Exp $
+# $Id: xml_multi_utility.pl 1.61 2010/05/11 00:57:35 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.60 2008/08/07 07:38:28 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2008/08/07 07:38:28 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.61 2010/05/11 00:57:35 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/05/11 00:57:35 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.60 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.61 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -282,7 +282,7 @@ sub job_t_mobile_reo
 
   use Text::ParseWords;		# -> parse_line, ...
 
-  if   ($xml_tree->{Application} eq 'T-Mobile RechnungOnline Business') # -> e.g. ~/com/t-mobile.de/CSV-Rechnung--20070129.xml
+  if   ($xml_tree->{Application} =~ /^(Telekom|T-Mobile) RechnungOnline Business$/) # -> e.g. ~/com/t-mobile.de/CSV-Rechnung--20070129.xml
     {
       my($do_print_to_stdout_p) = 1;
 
