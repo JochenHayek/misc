@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2010-05-11 02:54:33 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2010-05-11 09:36:05 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.61 2010/05/11 00:57:35 johayek Exp $
+# $Id: xml_multi_utility.pl 1.62 2010/05/11 07:36:08 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.61 2010/05/11 00:57:35 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/05/11 00:57:35 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.62 2010/05/11 07:36:08 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/05/11 07:36:08 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.61 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.62 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -281,6 +281,13 @@ sub job_t_mobile_reo
     if 1 && $main::options{debug};
 
   use Text::ParseWords;		# -> parse_line, ...
+
+  # <  2010-05 : "T-Mobile RechnungOnline Business"
+  # >= 2010-05 : "Telekom RechnungOnline Business"
+
+  # is it really worth, checking this property?
+  # I mean, *I* fill this property manually, and *I* check it,
+  # and why would I supply any non-appropriate XML configuration file here?
 
   if   ($xml_tree->{Application} =~ /^(Telekom|T-Mobile) RechnungOnline Business$/) # -> e.g. ~/com/t-mobile.de/CSV-Rechnung--20070129.xml
     {
