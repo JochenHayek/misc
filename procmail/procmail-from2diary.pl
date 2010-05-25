@@ -4,6 +4,8 @@
 # create diary entries
 
 {
+  my(%from_captures,%subject_captures,%folder_captures);
+
   while(<>)
     {
       if(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
@@ -46,15 +48,18 @@
 
 	  %folder_captures = %+;
 
-	  printf "%s %s %s\n\t%s %s: %s; %s: %s; %s: %s\n"
-	    ,$from_captures{mday}
-	    ,$from_captures{month}
-	    ,$from_captures{year}
-	    ,$from_captures{time}
-	    ,'From',$from_captures{from}
-	    ,'Subject',$subject_captures{subject}
-	    ,'Folder',$folder_captures{folder}
-	    ;
+	  if(exists($from_captures{from}))
+	    {
+	      printf "%s %s %s\n\t%s %s: %s; %s: %s; %s: %s\n"
+		,$from_captures{mday}
+		,$from_captures{month}
+		,$from_captures{year}
+		,$from_captures{time}
+		,'From',$from_captures{from}
+		,'Subject',$subject_captures{subject}
+		,'Folder',$folder_captures{folder}
+		;
+	    }
 	}
     }
 }
