@@ -1,5 +1,8 @@
 #! /usr/bin/perl -w
 
+# read a procmail log file -> LOGFILE
+# create diary entries
+
 {
   while(<>)
     {
