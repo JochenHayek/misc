@@ -50,7 +50,7 @@
 
 	  if(exists($from_captures{from}))
 	    {
-	      printf "%s %s %s\n\t%s %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+	      printf "%02.2d %s %s\n\t%s %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
 		,$from_captures{mday}
 		,$from_captures{month}
 		,$from_captures{year}
