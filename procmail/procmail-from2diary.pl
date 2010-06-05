@@ -6,6 +6,8 @@
 {
   my(%from_captures,%subject_captures,%folder_captures);
 
+  my($last_date) = '';
+
   while(<>)
     {
       if(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
@@ -50,11 +52,27 @@
 
 	  if(exists($from_captures{from}))
 	    {
-	      printf "%02.2d %s %s\n"
-		,$from_captures{mday}
-		,$from_captures{month}
-		,$from_captures{year}
-		;
+	      # $last_date
+
+	      $date = sprintf "%02.2d %s %s"
+			,$from_captures{mday}
+			,$from_captures{month}
+			,$from_captures{year}
+			;
+
+	      if($date eq $last_date)
+		{
+		  printf "\n";
+		}
+	      else
+		{
+		  printf "%s\n"
+		    ,$date
+		    ;
+		}
+
+	      $last_date = $date;
+
 	      printf "\t%s %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
 		,$from_captures{time}
 		,'From',$from_captures{from}
