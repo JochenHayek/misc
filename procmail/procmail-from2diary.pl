@@ -3,6 +3,9 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
+# $Id: procmail-from2diary.pl 1.10 2010/06/14 09:20:33 johayek Exp $
+# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
+
 {
   my(%from_captures,%subject_captures,%folder_captures);
 
