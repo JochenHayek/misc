@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.10 2010/06/14 09:20:33 johayek Exp $
+# $Id: procmail-from2diary.pl 1.11 2010/06/16 21:44:39 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -26,7 +26,7 @@
 
 	  %from_captures = %+;
 	}
-      elsif(m/^ \s+ Subject: \s+ (?<subject>.*) $/x)
+      elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$+{subject}',$+{subject}
@@ -86,3 +86,62 @@
 	}
     }
 }
+
+=head1 NAME
+
+procmail-from2diary.pl
+
+=head1 SYNOPSIS
+
+tail -f $HOME/procmail-from | procmail-from2diary.pl
+
+=head1 DESCRIPTION
+
+This script reads the LOGFILE being written to by procmail,
+which is usually called procmail-from,
+and creates entries for a diary (in Emacs format).
+
+=head1 README
+
+This script reads the LOGFILE being written to by procmail,
+which is usually called procmail-from,
+and creates entries for a diary (in Emacs format).
+
+=head1 EXAMPLE
+
+tail -f $HOME/procmail-from | procmail-from2diary.pl
+
+=head1 HISTORY
+
+...
+
+=head1 KNOWN PROBLEMS
+
+...
+
+=head1 PREREQUISITES
+
+...
+
+=head1 OSNAMES
+
+any
+
+=head1 SCRIPT CATEGORIES
+
+Win32
+Win32/Utilities
+
+=head1 AUTHOR
+
+Jochen Hayek E<lt>Jochen+CPAN@Hayek.nameE<gt>
+
+=head1 HISTORY
+
+=over 8
+
+=item B<xls-tar_1_32.pl>
+
+first CPAN upload
+
+=cut
