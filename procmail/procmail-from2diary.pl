@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.11 2010/06/16 21:44:39 johayek Exp $
+# $Id: procmail-from2diary.pl 1.12 2010/06/24 05:52:18 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -25,6 +25,7 @@
 	    ,'...' if 0;
 
 	  %from_captures = %+;
+	  %subject_captures = ();
 	}
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/x)
 	{
@@ -79,7 +80,7 @@
 	      printf "\t%s %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
 		,$from_captures{time}
 		,'From',$from_captures{from}
-		,'Subject',$subject_captures{subject}
+		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
 		,'Folder',$folder_captures{folder}
 		;
 	    }
