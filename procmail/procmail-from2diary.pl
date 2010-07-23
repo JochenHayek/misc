@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.12 2010/06/24 05:52:18 johayek Exp $
+# $Id: procmail-from2diary.pl 1.13 2010/07/23 15:44:00 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -77,7 +77,7 @@
 
 	      $last_date = $date;
 
-	      printf "\t%s %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
 		,$from_captures{time}
 		,'From',$from_captures{from}
 		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
