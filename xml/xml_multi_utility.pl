@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2010-05-11 09:36:05 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2010-10-16 01:51:36 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.62 2010/05/11 07:36:08 johayek Exp $
+# $Id: xml_multi_utility.pl 1.63 2010/10/16 09:49:59 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.62 2010/05/11 07:36:08 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/05/11 07:36:08 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.63 2010/10/16 09:49:59 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/10/16 09:49:59 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.62 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.63 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -456,6 +456,11 @@ header_EOF
 	    }
 	}
 
+      printf STDERR "=%d,%s: %s=>{%s} // %s\n",__LINE__,$proc_name
+	,'$state' => $state
+	,'...'
+	if 1 && $main::options{debug};
+
       printf "  </%s>\n"
 	,$state
 	;
@@ -572,9 +577,18 @@ header_EOF
 	    {
 	      if (0)
 		{}
+	      elsif(m/^\"Buchungskonto (\d+)\"$/)
+		{
+		  $Rechnungsbereich{Buchungskonto} = $1;
+		}
 	      elsif(m/^Buchungskonto (\d+)$/)
 		{
 		  $Rechnungsbereich{Buchungskonto} = $1;
+		}
+	      elsif(m/^\"Rechnungsnummer (\d+) vom ([\d.]+)\"$/) # e.g. "Rechnungsnummer 9782562619 vom 27.03.2007"
+		{
+		  $Rechnungsbereich{Rechnungsnummer} = $1;
+		  $Rechnungsbereich{Rechnungsdatum}  = &proc_reo__format( 'value' => $2 , 'format' => 'date(dd.mm.yyyy)' , 'swap_numerical_special_characters_p' => 1 );
 		}
 	      elsif(m/^Rechnungsnummer (\d+) vom ([\d.]+)$/) # e.g. "Rechnungsnummer 9782562619 vom 27.03.2007"
 		{
@@ -605,7 +619,7 @@ kopfteil_EOF
 	    {
 	      if (m/^\s+/ || ($_ eq ''))
 		{
-		  printf "   </%s>\n"
+		  printf "  </%s>\n"
 		    ,$state
 		    ;
 
@@ -675,6 +689,13 @@ kopfteil_EOF
       printf "  </%s>\n"
 	,$state
 	if 0;
+
+      if($state eq 'positionsteil')
+	{
+	  printf "  </%s>\n"
+	    ,$state
+	    ;
+	}
 
       '' =~ m/`/;
 
