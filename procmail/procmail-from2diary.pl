@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.13 2010/07/23 15:44:00 johayek Exp $
+# $Id: procmail-from2diary.pl 1.14 2010/10/29 12:21:40 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -64,7 +64,7 @@
 			,$from_captures{year}
 			;
 
-	      if($date eq $last_date)
+	      if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
 		{
 		  printf "\n";
 		}
