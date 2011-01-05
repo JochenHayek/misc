@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.14 2010/10/29 12:21:40 johayek Exp $
+# $Id: procmail-from2diary.pl 1.15 2011/01/05 14:16:04 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -84,6 +84,54 @@
 		,'Folder',$folder_captures{folder}
 		;
 	    }
+	}
+      elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
+	    ,'$+{strange_folder}',$+{strange_folder}
+	    ,'$+{size}',$+{size}
+	    ,'...' if 0;
+
+	  %folder_captures = %+;
+
+	  if(exists($from_captures{from}))
+	    {
+	      # $last_date
+
+	      $date = sprintf "%02.2d %s %s"
+			,$from_captures{mday}
+			,$from_captures{month}
+			,$from_captures{year}
+			;
+
+	      if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
+		{
+		  printf "\n";
+		}
+	      else
+		{
+		  printf "%s\n"
+		    ,$date
+		    ;
+		}
+
+	      $last_date = $date;
+
+	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+		,$from_captures{time}
+		,'From',$from_captures{from}
+		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
+		,'Folder',$folder_captures{strange_folder}
+		;
+	    }
+	}
+      else
+	{
+	  chomp;
+
+	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
+	    ,'$_',$_
+	    ,'...' if 1;
 	}
     }
 }
