@@ -81,11 +81,10 @@ file10=
 
   resolution=300
 
-  png_driver=png16m
-
   png_driver=pnggray
   png_driver=png16
   png_driver=png256
+  png_driver=png16m
 
   cmd20="gs -dSAFER -dBATCH -dNOPAUSE -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -sDEVICE=${png_driver} -r${resolution}"
   file20="${filename}.%03d.${png_driver}-r${resolution}.png"
