@@ -48,8 +48,6 @@ esac
 cmd10=
 stderr10=
 
-stderr20="${filename}.pdf2png.stderr.txt"                                                                                                                          
-
 ################################################################################
 
 file10=
@@ -79,9 +77,19 @@ file10=
   file20="${filename}.%03d.pnggray-r300.png"
 
 
+  ################################################################################
 
-  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -sDEVICE=png16m -r300"
-  file20="${filename}.%03d.png16m-r300.png"
+  resolution=300
+
+  png_driver=png16m
+
+  png_driver=pnggray
+  png_driver=png16
+  png_driver=png256
+
+  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -sDEVICE=${png_driver} -r${resolution}"
+  file20="${filename}.%03d.${png_driver}-r${resolution}.png"
+  stderr20="${filename}.pdf2png.${png_driver}-r${resolution}.stderr.txt"                                                                                                                          
 
 file20_etc="-sOutputFile=${file20}"
 
