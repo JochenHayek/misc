@@ -45,16 +45,45 @@ esac
 
 ################################################################################
 
-file10=
-file20="${filename}.%03d.300.png"
-file20_etc="-sOutputFile=${file20}"
+cmd10=
+stderr10=
+
+stderr20="${filename}.form-fields.stderr.txt"                                                                                                                          
 
 ################################################################################
 
-cmd10=
-stderr10=
-cmd20="gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r300"
-stderr20="${filename}.form-fields.stderr.txt"                                                                                                                          
+file10=
+
+# pnggray : Grayscale PNG
+# png16   : 16-Color  	     ( 4-bit) PNG
+# png256  : 256-Color 	     ( 8-bit) PNG
+# png16m  : 16-Million Color (14-bit) PNG
+
+# [2011-03-04 14:14:59] johayek@HayekU $ file gav_gw_100011.pdf.001.png*
+# gav_gw_100011.pdf.001.png16m-r300.png:  PNG image data, 2479 x 3508, 8-bit/color RGB, non-interlaced
+# gav_gw_100011.pdf.001.png16m.png:       PNG image data, 595 x 842, 8-bit/color RGB, non-interlaced
+# gav_gw_100011.pdf.001.pnggray-r300.png: PNG image data, 2479 x 3508, 8-bit grayscale, non-interlaced
+# gav_gw_100011.pdf.001.pnggray.png:      PNG image data, 595 x 842, 8-bit grayscale, non-interlaced
+
+
+  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m"
+  file20="${filename}.%03d.png16m.png"
+
+  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m  -r300"
+  file20="${filename}.%03d.png16m-r300.png"
+
+  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=pnggray"
+  file20="${filename}.%03d.pnggray.png"
+
+  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=pnggray -r300"
+  file20="${filename}.%03d.pnggray-r300.png"
+
+
+
+  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r300"
+  file20="${filename}.%03d.png16m-r300.png"
+
+file20_etc="-sOutputFile=${file20}"
 
 ################################################################################
 
