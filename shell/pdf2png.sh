@@ -48,7 +48,7 @@ esac
 cmd10=
 stderr10=
 
-stderr20="${filename}.form-fields.stderr.txt"                                                                                                                          
+stderr20="${filename}.pdf2png.stderr.txt"                                                                                                                          
 
 ################################################################################
 
