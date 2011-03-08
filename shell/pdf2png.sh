@@ -80,7 +80,7 @@ file10=
 
 
 
-  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r300"
+  cmd20="gs -dSAFER -dBATCH -dNOPAUSE -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -sDEVICE=png16m -r300"
   file20="${filename}.%03d.png16m-r300.png"
 
 file20_etc="-sOutputFile=${file20}"
