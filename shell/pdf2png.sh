@@ -1,5 +1,17 @@
 :
 
+# /media/_ARCHIVE/books/oreilly.com/by-title/PDF_Hacks.pdf : hack #45: Print to Image and Other Rasterizing Options (-> pdf-2-png)
+
+# http://pages.cs.wisc.edu/~ghost/doc/cvs/Devices.htm
+
+# /usr/share/ghostscript/8.70/doc/Devices.htm
+
+# http://www.joshclarkson.net/blog/using-ghostscript-to-convert-pdf-to-png/
+
+# ~/usr/local/src/README-pdf.txt
+
+################################################################################
+
 script=$( basename "$0" )
 
 false &&
