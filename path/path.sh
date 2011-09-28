@@ -1,11 +1,11 @@
 :
 
 ##time_stamp='Time-stamp: <2006-08-09 12:19:05 johayek>'
-##      rcs_Id='$Id: path.sh 1.9 2006/08/09 10:19:10 johayek Exp $'
+##      rcs_Id='$Id: path.sh 1.10 2011/09/28 09:55:55 johayek Exp $'
 ## rcs_RCSfile=$(echo '$RCSfile: path.sh $'|cut -d ' ' -f 2)
 ##  rcs_Source=$(echo '$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/path/RCS/path.sh $'|cut -d ' ' -f 2)
 ##  rcs_Locker=$(echo '$Locker:  $'|cut -d ' ' -f 2)
-##rcs_Revision=$(echo '$Revision: 1.9 $'|cut -d ' ' -f 2)
+##rcs_Revision=$(echo '$Revision: 1.10 $'|cut -d ' ' -f 2)
 
 path_append()
 {
@@ -38,7 +38,9 @@ path_append()
 
     if test "$(echo ${dir}lib/*.so*)" = "${dir}lib/*.so*"
     then :
-    else export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${dir}lib
+    else
+      export   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${dir}lib
+      export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:${dir}lib # according to an ImageMagick.org installation descr. for Mac OS X, this env. var. is being used there
     fi 2>/dev/null
 }
 
@@ -55,6 +57,7 @@ path_prepend()
     export        INFOPATH=${dir}info:$INFOPATH
 
     export   LD_LIBRARY_PATH=${dir}lib:$LD_LIBRARY_PATH
+    export DYLD_LIBRARY_PATH=${dir}lib:$DYLD_LIBRARY_PATH
     export              PATH=${dir}bin:$PATH
 
     if test  "$USER" = 'root' -o "$LOGNAME" = 'root'
@@ -64,10 +67,11 @@ path_prepend()
 
     if test -n "$config"
     then :
-      export LD_LIBRARY_PATH=${dir}$config/lib:$LD_LIBRARY_PATH
+      export   LD_LIBRARY_PATH=${dir}$config/lib:$LD_LIBRARY_PATH
+      export DYLD_LIBRARY_PATH=${dir}$config/lib:$DYLD_LIBRARY_PATH
 
-    ##export            PATH=${dir}$config:$PATH
-      export            PATH=${dir}$config/bin:$PATH
+    ##export              PATH=${dir}$config:$PATH
+      export              PATH=${dir}$config/bin:$PATH
 
       if test  "$USER" = 'root' -o "$LOGNAME" = 'root'
       then :
@@ -75,9 +79,10 @@ path_prepend()
       fi
     fi
 
-
     if test "$(echo ${dir}lib/*.so*)" = "${dir}lib/*.so"
     then :
-    else export LD_LIBRARY_PATH=${dir}lib:$LD_LIBRARY_PATH		# ??????
+    else
+      export   LD_LIBRARY_PATH=${dir}lib:$LD_LIBRARY_PATH		# ??????
+      export DYLD_LIBRARY_PATH=${dir}lib:$DYLD_LIBRARY_PATH		# ??????
     fi 2>/dev/null
 }
