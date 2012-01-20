@@ -40,8 +40,9 @@ do :
 
   shift
   current_file="$1"
-##echo mv "$current_file" "${new_name}.${i}"
-  mv      "$current_file" "${new_name}.${i}"
+  extension_of_current_file=${current_file##*.}
+##echo mv "$current_file" "${new_name}.${i}.${extension_of_current_file}"
+  mv      "$current_file" "${new_name}.${i}.${extension_of_current_file}"
 done
 
 for i in $(seq --format="%02.f" "$max" -1 "$half_max_plus_1")
@@ -56,6 +57,6 @@ do :
 
   shift
   current_file="$1"
-##echo mv "$current_file" "${new_name}.${i}"
-  mv      "$current_file" "${new_name}.${i}"
+##echo mv "$current_file" "${new_name}.${i}.${extension_of_current_file}"
+  mv      "$current_file" "${new_name}.${i}.${extension_of_current_file}"
 done
