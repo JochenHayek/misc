@@ -34,7 +34,7 @@ else :
  exit 1
 fi
 
-for i in $(seq --format="%02.f" "$half_max")
+for i in $(seq --format="%02.f" 1 2 "$max")
 do :
   : echo $i
 
@@ -51,7 +51,7 @@ do :
   mv      "$current_file" "${new_name}.${i}.${extension_of_current_file}"
 done
 
-for i in $(seq --format="%02.f" "$max" -1 "$half_max_plus_1")
+for i in $(seq --format="%02.f" "$max" -2 1)
 do :
   : echo $i
 
@@ -66,3 +66,16 @@ do :
 ##echo mv "$current_file" "${new_name}.${i}.${extension_of_current_file}"
   mv      "$current_file" "${new_name}.${i}.${extension_of_current_file}"
 done
+
+################################################################################
+
+exit 0
+
+################################################################################
+
+o-1 => n-1
+o-2 => n-3
+o-3 => n-5
+o-4 => n-6
+o-5 => n-4
+o-6 => n-2
