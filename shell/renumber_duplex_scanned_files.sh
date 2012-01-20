@@ -8,6 +8,7 @@ rem_max=$(( max % 2  ))
 
 half_max_plus_1=$(( max / 2 + 1 ))
 
+false &&
 printf 1>&2 "=%s,%02.2d: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n" "$0" $LINENO \
   '$new_name' "$new_name" \
   '$max' "$max" \
@@ -31,6 +32,7 @@ for i in $(seq --format="%02.f" "$half_max")
 do :
   : echo $i
 
+  false &&
   printf 1>&2 "=%s,%02.2d: %s=>{%s},%s=>{%s} // %s\n" "$0" $LINENO \
     '$new_name' "$new_name" \
     '$i' "$i" \
@@ -46,6 +48,7 @@ for i in $(seq --format="%02.f" "$max" -1 "$half_max_plus_1")
 do :
   : echo $i
 
+  false &&
   printf 1>&2 "=%s,%02.2d: %s=>{%s},%s=>{%s} // %s\n" "$0" $LINENO \
     '$new_name' "$new_name" \
     '$i' "$i" \
