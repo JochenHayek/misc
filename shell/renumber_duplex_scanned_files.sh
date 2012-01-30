@@ -2,7 +2,7 @@
 
 # for testing purposes:
 #
-# $ touch {a,b,c,d,e,f}.png
+# $ mkdir renumber_duplex_scanned_files.dir && cd renumber_duplex_scanned_files.dir && touch {a,b,c,d,e,f}.png
 
 ################################################################################
 
