@@ -14,6 +14,8 @@ rem_max=$(( max % 2  ))
 
 half_max_plus_1=$(( max / 2 + 1 ))
 
+max_formatted=$( printf "%02.2d" "$max" )
+
 false &&
 printf 1>&2 "=%s,%02.2d: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n" "$0" $LINENO \
   '$new_name' "$new_name" \
@@ -63,8 +65,8 @@ do :
 
   shift
   current_file="$1"
-##echo mv "$current_file" "${new_name}.${i}.${extension_of_current_file}"
-  mv      "$current_file" "${new_name}.${i}.${extension_of_current_file}"
+##echo mv "$current_file" "${new_name}${i}of${max_formatted}.${extension_of_current_file}"
+  mv      "$current_file" "${new_name}${i}of${max_formatted}.${extension_of_current_file}"
 done
 
 ################################################################################
