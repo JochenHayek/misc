@@ -49,8 +49,8 @@ do :
   shift
   current_file="$1"
   extension_of_current_file=${current_file##*.}
-##echo mv "$current_file" "${new_name}.${i}.${extension_of_current_file}"
-  mv      "$current_file" "${new_name}.${i}.${extension_of_current_file}"
+##echo mv "$current_file" "${new_name}${i}of${max_formatted}.${extension_of_current_file}"
+  mv      "$current_file" "${new_name}${i}of${max_formatted}.${extension_of_current_file}"
 done
 
 for i in $(seq --format="%02.f" "$max" -2 1)
