@@ -36,8 +36,8 @@ do :
   current_file="$1"
   extension_of_current_file=${current_file##*.}
 
-  test "${dry_run_p}" = true  && echo mv "$current_file" "${new_name}.${i}of${max_formatted}.${extension_of_current_file}"
-  test "${dry_run_p}" = false &&      mv "$current_file" "${new_name}.${i}of${max_formatted}.${extension_of_current_file}"
+  test "${dry_run_p}" = true  && echo mv "$current_file" "${new_name}${i}of${max_formatted}.${extension_of_current_file}"
+  test "${dry_run_p}" = false &&      mv "$current_file" "${new_name}${i}of${max_formatted}.${extension_of_current_file}"
 done
 
 ################################################################################
