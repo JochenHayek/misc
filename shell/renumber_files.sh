@@ -1,5 +1,11 @@
 #! /bin/bash
 
+# usage:
+#
+# .../renumber_duplex_scanned_files.sh new_name old_names
+
+################################################################################
+
 # for testing purposes:
 #
 # $ mkdir renumber_files.dir && cd renumber_files.dir && touch {a,b,c,d,e,f}.png
