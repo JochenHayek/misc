@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.15 2011/01/05 14:16:04 johayek Exp $
+# $Id: procmail-from2diary.pl 1.16 2012/03/23 12:08:15 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -27,7 +27,7 @@
 	  %from_captures = %+;
 	  %subject_captures = ();
 	}
-      elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/x)
+      elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$+{subject}',$+{subject}
