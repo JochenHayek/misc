@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2007-06-14 10:42:42 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2012-05-16 18:00:30 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.23 2007/06/14 08:43:49 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2007/06/14 08:43:49 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.24 2012/05/16 16:02:19 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2012/05/16 16:02:19 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -339,6 +339,11 @@ sub job_check_situation__left_ab__right_b
       $left_i  = 1;
       $right_i = 1;
     }
+
+  if(!defined($lines{right}[$right_i]))
+     {
+       die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$proc_name=>{$proc_name} // !defined(\$lines{right}[$right_i]";
+     }
 
   for( ; $left_i <= $#{$lines{left}} ; $left_i++ )
     {
