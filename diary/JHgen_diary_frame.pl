@@ -1,6 +1,7 @@
-#!/usr/bin/perl
+#! /usr/local/perlbrew/perls/stable/bin/perl
+#! /usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.20 2011/12/21 19:02:16 johayek Exp $
+# $Id: JHgen_diary_frame.pl 1.21 2012/08/27 20:52:31 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 # Q: until what year do we run here?
