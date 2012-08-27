@@ -1,13 +1,14 @@
-#!/usr/bin/perl -w
+#! /usr/local/perlbrew/perls/stable/bin/perl
+#! /usr/bin/perl -w
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2010-05-16 12:57:03 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2012-08-27 23:08:20 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.103 2010/05/16 10:57:07 johayek Exp $' =~
+    '$Id: JHdiary 1.104 2012/08/27 21:08:23 johayek Exp $' =~
 
       m(^ \ \s
 
