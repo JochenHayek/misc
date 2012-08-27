@@ -1,7 +1,7 @@
 #! /usr/local/perlbrew/perls/stable/bin/perl
 #! /usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.21 2012/08/27 20:52:31 johayek Exp $
+# $Id: JHgen_diary_frame.pl 1.22 2012/08/27 20:59:28 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 # Q: until what year do we run here?
@@ -55,9 +55,9 @@
 	  , $mday
 	  ;
 
-      next if($date__YYYY_MM_DD lt '2012-00-00'); # "first year"
+      next if($date__YYYY_MM_DD lt '2013-00-00'); # "first year"
 
-      last if($date__YYYY_MM_DD gt '2012-99-99'); # "last year"
+      last if($date__YYYY_MM_DD gt '2013-99-99'); # "last year"
 
       print
       ##$i,' ',
