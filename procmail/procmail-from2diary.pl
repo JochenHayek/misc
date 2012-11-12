@@ -3,16 +3,45 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.16 2012/03/23 12:08:15 johayek Exp $
+# $Id: procmail-from2diary.pl 1.17 2012/11/12 10:49:32 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
+  use Getopt::Long;
+  use Pod::Usage;
+  our(%options);
+  $main::options{debug} = 0;
+##$main::options{show_size_warnings_p} = 1;
+
+  my($result) =
+    &GetOptions
+      (\%main::options
+
+      ,'date=s'
+
+      ,'dry_run!'
+      ,'version!'
+      ,'help|?!'
+      ,'man!'
+      ,'debug!'
+      ,'verbose=i'
+      ,'params=s%'		# some "indirect" parameters
+      );
+  $result || pod2usage(2);
+
+  pod2usage(1) if $main::options{help};
+  pod2usage(-exitstatus => 0, -verbose => 2) if $main::options{man};
+
+  ################################################################################
+
   my(%from_captures,%subject_captures,%folder_captures);
 
   my($last_date) = '';
 
   while(<>)
     {
+      # e.g.: From Georg.Kling@t-online.de  Sun Jan 16 20:25:25 2011
+
       if(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
@@ -45,7 +74,8 @@
 	    ,'Subject',$subject_captures{subject}
 	    if 0;
 	}
-      elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)
+    ##elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)
+      elsif(m/^ \s+ Folder: \s+ (?<folder>.*?) \s+ (?<size>\d+) $/x) # a folder name not matching the pattern we are expecting above (with no space character in its name)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$+{folder}',$+{folder}
@@ -54,45 +84,7 @@
 
 	  %folder_captures = %+;
 
-	  if(exists($from_captures{from}))
-	    {
-	      # $last_date
-
-	      $date = sprintf "%02.2d %s %s"
-			,$from_captures{mday}
-			,$from_captures{month}
-			,$from_captures{year}
-			;
-
-	      if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
-		{
-		  printf "\n";
-		}
-	      else
-		{
-		  printf "%s\n"
-		    ,$date
-		    ;
-		}
-
-	      $last_date = $date;
-
-	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
-		,$from_captures{time}
-		,'From',$from_captures{from}
-		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
-		,'Folder',$folder_captures{folder}
-		;
-	    }
-	}
-      elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)
-	{
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$+{strange_folder}',$+{strange_folder}
-	    ,'$+{size}',$+{size}
-	    ,'...' if 0;
-
-	  %folder_captures = %+;
+	  my($folder_name_is_weird) = ( $folder_captures{folder} =~ m/\s/ ) ? 1 : 0;
 
 	  if(exists($from_captures{from}))
 	    {
@@ -117,11 +109,12 @@
 
 	      $last_date = $date;
 
-	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: {%s} // %s=>{%s}\n"
 		,$from_captures{time}
-		,'From',$from_captures{from}
-		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
-		,'Folder',$folder_captures{strange_folder}
+		,'From' => $from_captures{from}
+		,'Subject' => exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
+		,'Folder' => $folder_captures{folder}
+	        ,'$folder_name_is_weird' => $folder_name_is_weird
 		;
 	    }
 	}
@@ -174,12 +167,11 @@ tail -f $HOME/procmail-from | procmail-from2diary.pl
 
 =head1 OSNAMES
 
-any
+...
 
 =head1 SCRIPT CATEGORIES
 
-Win32
-Win32/Utilities
+...
 
 =head1 AUTHOR
 
@@ -187,10 +179,6 @@ Jochen Hayek E<lt>Jochen+CPAN@Hayek.nameE<gt>
 
 =head1 HISTORY
 
-=over 8
-
-=item B<xls-tar_1_32.pl>
-
-first CPAN upload
+...
 
 =cut
