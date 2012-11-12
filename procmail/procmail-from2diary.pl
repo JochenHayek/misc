@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.21 2012/11/12 12:34:13 johayek Exp $
+# $Id: procmail-from2diary.pl 1.22 2012/11/12 12:39:18 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -113,35 +113,29 @@
 
 	  if(exists($from_captures{from}))
 	    {
-	      # $last_date
+	      if( exists( $main::options{date} ) && ( $main::options{date} lt $from_captures{day_time} ) ) # string comparison!!!
+		{
+		  # $last_date
 
-	      $date = sprintf "%02.2d %s %s"
-			,$from_captures{mday}
-			,$from_captures{month}
-			,$from_captures{year}
+		  $date = sprintf "%02.2d %s %s"
+			    ,$from_captures{mday}
+			    ,$from_captures{month}
+			    ,$from_captures{year}
+			    ;
+
+		  if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
+		    {
+		      printf "\n";
+		    }
+		  else
+		    {
+		      printf "%s\n"
+			,$date
 			;
+		    }
 
-	      if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
-		{
-		  printf "\n";
-		}
-	      else
-		{
-		  printf "%s\n"
-		    ,$date
-		    ;
-		}
+		  $last_date = $date;
 
-	      $last_date = $date;
-
-	      my($print_p) = 1;
-
-	      if( 0 && exists( $main::options{date} ) && ( $main::options{date} < $from_captures{day_time} ) )
-		{
-		  $print_p = 0;
-		}
-	      else
-		{
 		  printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: {%s} // %s=>{%s}\n"
 		    ,$from_captures{time}
 		    ,'From' => $from_captures{from}
