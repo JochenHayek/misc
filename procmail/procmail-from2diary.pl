@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.22 2012/11/12 12:39:18 johayek Exp $
+# $Id: procmail-from2diary.pl 1.23 2012/11/12 12:42:25 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -164,6 +164,67 @@ procmail-from2diary.pl
 =head1 SYNOPSIS
 
 tail -f $HOME/procmail-from | procmail-from2diary.pl
+
+Options:
+    --help
+    --man
+
+    --date=STRING
+
+    --dry_run
+    --version
+    --help
+    --man
+    --debug
+    --verbose
+
+    --...
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--help>
+
+Print a brief help message and exits.
+
+=item B<--man>
+
+Prints the manual page and exits.
+
+=item B<--date=STRING>
+
+...
+
+=item B<--[no]dry_run>
+
+...
+
+=item B<--version>
+
+...
+
+=item B<--help>
+
+...
+
+=item B<--man>
+
+...
+
+=item B<--debug=NUMBER>
+
+...
+
+=item B<--[no]verbose>
+
+...
+
+=item B<--...>
+
+...
+
+=back
 
 =head1 DESCRIPTION
 
