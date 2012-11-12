@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.18 2012/11/12 10:49:57 johayek Exp $
+# $Id: procmail-from2diary.pl 1.19 2012/11/12 12:00:30 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -36,6 +36,8 @@
 
   my(%from_captures,%subject_captures,%folder_captures);
 
+  my($date_time);
+
   my($last_date) = '';
 
   while(<>)
@@ -55,6 +57,11 @@
 
 	  %from_captures = %+;
 	  %subject_captures = ();
+
+	  $day_time = $from_captures{year} . $from_captures{month} . $from_captures{mday} . $from_captures{time};
+	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
+	    ,'$day_time',$day_time
+	    ,'...' if 1;
 	}
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
 	{
