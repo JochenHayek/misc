@@ -3,70 +3,17 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.24 2012/11/12 13:07:43 johayek Exp $
+# $Id: procmail-from2diary.pl 1.25 2012/11/12 15:21:14 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
-  use Getopt::Long;
-  use Pod::Usage;
-  our(%options);
-  $main::options{debug} = 0;
-##$main::options{show_size_warnings_p} = 1;
-
-  my($result) =
-    &GetOptions
-      (\%main::options
-
-      ,'date=s'
-
-      ,'dry_run!'
-      ,'version!'
-      ,'help|?!'
-      ,'man!'
-      ,'debug!'
-      ,'verbose=i'
-      ,'params=s%'		# some "indirect" parameters
-      );
-  $result || pod2usage(2);
-
-  pod2usage(1) if $main::options{help};
-  pod2usage(-exitstatus => 0, -verbose => 2) if $main::options{man};
-
-  ################################################################################
-
-  $main::options{trace_option_date} = 1;
-
-  printf STDERR "=%03.3d,%05.5d: %s=>{%s} // %s\n",__LINE__,0 # $.
-    ,'$main::options{date}',$main::options{date}
-    ,'...' if $main::options{trace_option_date} && exists( $main::options{date} );
-
-
-  %::month_names__short2no =
-    ('jan' => '01'
-    ,'feb' => '02'
-    ,'mar' => '03'
-    ,'apr' => '04'
-    ,'may' => '05'
-    ,'jun' => '06'
-    ,'jul' => '07'
-    ,'aug' => '08'
-    ,'sep' => '09'
-    ,'oct' => '10'
-    ,'nov' => '11'
-    ,'dec' => '12'
-    );
-
   my(%from_captures,%subject_captures,%folder_captures);
-
-  my($date_time);
 
   my($last_date) = '';
 
   while(<>)
     {
-      # e.g.: From Georg.Kling@t-online.de  Sun Jan 16 20:25:25 2011
-
-      if(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>(?<HH>\d+):(?<MM>\d+):(?<SS>\d+)) \s+ (?<year>\d+)$/x)
+      if(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$+{from}',$+{from}
@@ -79,15 +26,6 @@
 
 	  %from_captures = %+;
 	  %subject_captures = ();
-
-	  $from_captures{'MONTH'} = exists( $month_names__short2no{ lc( $from_captures{'month'} ) } ) ? $month_names__short2no{ lc( $from_captures{'month'} ) } : '99';
-
-	##$from_captures{day_time} = $from_captures{year} . $from_captures{month} . $from_captures{mday} . $from_captures{HH} . $from_captures{MM} . $from_captures{SS};
-	  $from_captures{day_time} = join( '' , @from_captures{'year','MONTH','mday','HH','MM','SS'} );
-
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$from_captures{day_time}',$from_captures{day_time}
-	    ,'...' if 0 && $main::options{trace_option_date} && exists( $main::options{date} );
 	}
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
 	{
@@ -107,7 +45,7 @@
 	    ,'Subject',$subject_captures{subject}
 	    if 0;
 	}
-      elsif(m/^ \s+ Folder: \s+ (?<folder>.*?) \s+ (?<size>\d+) $/x)
+      elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$+{folder}',$+{folder}
@@ -116,47 +54,75 @@
 
 	  %folder_captures = %+;
 
-	  my($folder_name_is_weird) = ( $folder_captures{folder} =~ m/\s/ ) ? 1 : 0;
+	  if(exists($from_captures{from}))
+	    {
+	      # $last_date
+
+	      $date = sprintf "%02.2d %s %s"
+			,$from_captures{mday}
+			,$from_captures{month}
+			,$from_captures{year}
+			;
+
+	      if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
+		{
+		  printf "\n";
+		}
+	      else
+		{
+		  printf "%s\n"
+		    ,$date
+		    ;
+		}
+
+	      $last_date = $date;
+
+	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+		,$from_captures{time}
+		,'From',$from_captures{from}
+		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
+		,'Folder',$folder_captures{folder}
+		;
+	    }
+	}
+      elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
+	    ,'$+{strange_folder}',$+{strange_folder}
+	    ,'$+{size}',$+{size}
+	    ,'...' if 0;
+
+	  %folder_captures = %+;
 
 	  if(exists($from_captures{from}))
 	    {
-	      if( exists( $main::options{date} ) && ( $main::options{date} lt $from_captures{day_time} ) ) # string comparison!!!
-		{
-		  # $last_date
+	      # $last_date
 
-		  $date = sprintf "%02.2d %s %s"
-			    ,$from_captures{mday}
-			    ,$from_captures{month}
-			    ,$from_captures{year}
-			    ;
-
-		  if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
-		    {
-		      printf "\n";
-		    }
-		  else
-		    {
-		      printf "%s\n"
-			,$date
+	      $date = sprintf "%02.2d %s %s"
+			,$from_captures{mday}
+			,$from_captures{month}
+			,$from_captures{year}
 			;
-		    }
 
-		  $last_date = $date;
-
-		  printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: {%s}"
-		    ,$from_captures{time}
-		    ,'From' => $from_captures{from}
-		    ,'Subject' => exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
-		    ,'Folder' => $folder_captures{folder}
-		    ;
-
-		  printf " // %s=>{%s}\n"
-		    ,'$folder_name_is_weird' => $folder_name_is_weird
-		    if $folder_name_is_weird;
-
-		  printf "\n"
+	      if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
+		{
+		  printf "\n";
+		}
+	      else
+		{
+		  printf "%s\n"
+		    ,$date
 		    ;
 		}
+
+	      $last_date = $date;
+
+	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+		,$from_captures{time}
+		,'From',$from_captures{from}
+		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
+		,'Folder',$folder_captures{strange_folder}
+		;
 	    }
 	}
       else
@@ -177,67 +143,6 @@ procmail-from2diary.pl
 =head1 SYNOPSIS
 
 tail -f $HOME/procmail-from | procmail-from2diary.pl
-
-Options:
-    --help
-    --man
-
-    --date=STRING
-
-    --dry_run
-    --version
-    --help
-    --man
-    --debug
-    --verbose
-
-    --...
-
-=head1 OPTIONS
-
-=over 8
-
-=item B<--help>
-
-Print a brief help message and exits.
-
-=item B<--man>
-
-Prints the manual page and exits.
-
-=item B<--date=STRING>
-
-...
-
-=item B<--[no]dry_run>
-
-...
-
-=item B<--version>
-
-...
-
-=item B<--help>
-
-...
-
-=item B<--man>
-
-...
-
-=item B<--debug=NUMBER>
-
-...
-
-=item B<--[no]verbose>
-
-...
-
-=item B<--...>
-
-...
-
-=back
 
 =head1 DESCRIPTION
 
@@ -269,11 +174,12 @@ tail -f $HOME/procmail-from | procmail-from2diary.pl
 
 =head1 OSNAMES
 
-...
+any
 
 =head1 SCRIPT CATEGORIES
 
-...
+Win32
+Win32/Utilities
 
 =head1 AUTHOR
 
@@ -281,6 +187,10 @@ Jochen Hayek E<lt>Jochen+CPAN@Hayek.nameE<gt>
 
 =head1 HISTORY
 
-...
+=over 8
+
+=item B<xls-tar_1_32.pl>
+
+first CPAN upload
 
 =cut
