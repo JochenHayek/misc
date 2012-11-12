@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.19 2012/11/12 12:00:30 johayek Exp $
+# $Id: procmail-from2diary.pl 1.20 2012/11/12 12:03:27 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -44,7 +44,7 @@
     {
       # e.g.: From Georg.Kling@t-online.de  Sun Jan 16 20:25:25 2011
 
-      if(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
+      if(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>(?<HH>\d+):(?<MM>\d+):(?<SS>\d+)) \s+ (?<year>\d+)$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$+{from}',$+{from}
@@ -58,7 +58,7 @@
 	  %from_captures = %+;
 	  %subject_captures = ();
 
-	  $day_time = $from_captures{year} . $from_captures{month} . $from_captures{mday} . $from_captures{time};
+	  $day_time = $from_captures{year} . $from_captures{month} . $from_captures{mday} . $from_captures{HH} . $from_captures{MM} . $from_captures{SS};
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$day_time',$day_time
 	    ,'...' if 1;
