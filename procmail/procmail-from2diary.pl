@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.17 2012/11/12 10:49:32 johayek Exp $
+# $Id: procmail-from2diary.pl 1.18 2012/11/12 10:49:57 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -74,8 +74,7 @@
 	    ,'Subject',$subject_captures{subject}
 	    if 0;
 	}
-    ##elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)
-      elsif(m/^ \s+ Folder: \s+ (?<folder>.*?) \s+ (?<size>\d+) $/x) # a folder name not matching the pattern we are expecting above (with no space character in its name)
+      elsif(m/^ \s+ Folder: \s+ (?<folder>.*?) \s+ (?<size>\d+) $/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$+{folder}',$+{folder}
