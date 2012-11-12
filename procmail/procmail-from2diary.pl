@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.23 2012/11/12 12:42:25 johayek Exp $
+# $Id: procmail-from2diary.pl 1.24 2012/11/12 13:07:43 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -33,6 +33,13 @@
   pod2usage(-exitstatus => 0, -verbose => 2) if $main::options{man};
 
   ################################################################################
+
+  $main::options{trace_option_date} = 1;
+
+  printf STDERR "=%03.3d,%05.5d: %s=>{%s} // %s\n",__LINE__,0 # $.
+    ,'$main::options{date}',$main::options{date}
+    ,'...' if $main::options{trace_option_date} && exists( $main::options{date} );
+
 
   %::month_names__short2no =
     ('jan' => '01'
@@ -80,7 +87,7 @@
 
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$from_captures{day_time}',$from_captures{day_time}
-	    ,'...' if 0;
+	    ,'...' if 0 && $main::options{trace_option_date} && exists( $main::options{date} );
 	}
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
 	{
@@ -136,12 +143,18 @@
 
 		  $last_date = $date;
 
-		  printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: {%s} // %s=>{%s}\n"
+		  printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: {%s}"
 		    ,$from_captures{time}
 		    ,'From' => $from_captures{from}
 		    ,'Subject' => exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
 		    ,'Folder' => $folder_captures{folder}
+		    ;
+
+		  printf " // %s=>{%s}\n"
 		    ,'$folder_name_is_weird' => $folder_name_is_weird
+		    if $folder_name_is_weird;
+
+		  printf "\n"
 		    ;
 		}
 	    }
