@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.20 2012/11/12 12:03:27 johayek Exp $
+# $Id: procmail-from2diary.pl 1.21 2012/11/12 12:34:13 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
@@ -34,6 +34,21 @@
 
   ################################################################################
 
+  %::month_names__short2no =
+    ('jan' => '01'
+    ,'feb' => '02'
+    ,'mar' => '03'
+    ,'apr' => '04'
+    ,'may' => '05'
+    ,'jun' => '06'
+    ,'jul' => '07'
+    ,'aug' => '08'
+    ,'sep' => '09'
+    ,'oct' => '10'
+    ,'nov' => '11'
+    ,'dec' => '12'
+    );
+
   my(%from_captures,%subject_captures,%folder_captures);
 
   my($date_time);
@@ -58,10 +73,14 @@
 	  %from_captures = %+;
 	  %subject_captures = ();
 
-	  $day_time = $from_captures{year} . $from_captures{month} . $from_captures{mday} . $from_captures{HH} . $from_captures{MM} . $from_captures{SS};
+	  $from_captures{'MONTH'} = exists( $month_names__short2no{ lc( $from_captures{'month'} ) } ) ? $month_names__short2no{ lc( $from_captures{'month'} ) } : '99';
+
+	##$from_captures{day_time} = $from_captures{year} . $from_captures{month} . $from_captures{mday} . $from_captures{HH} . $from_captures{MM} . $from_captures{SS};
+	  $from_captures{day_time} = join( '' , @from_captures{'year','MONTH','mday','HH','MM','SS'} );
+
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$day_time',$day_time
-	    ,'...' if 1;
+	    ,'$from_captures{day_time}',$from_captures{day_time}
+	    ,'...' if 0;
 	}
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
 	{
@@ -115,13 +134,22 @@
 
 	      $last_date = $date;
 
-	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: {%s} // %s=>{%s}\n"
-		,$from_captures{time}
-		,'From' => $from_captures{from}
-		,'Subject' => exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
-		,'Folder' => $folder_captures{folder}
-	        ,'$folder_name_is_weird' => $folder_name_is_weird
-		;
+	      my($print_p) = 1;
+
+	      if( 0 && exists( $main::options{date} ) && ( $main::options{date} < $from_captures{day_time} ) )
+		{
+		  $print_p = 0;
+		}
+	      else
+		{
+		  printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: {%s} // %s=>{%s}\n"
+		    ,$from_captures{time}
+		    ,'From' => $from_captures{from}
+		    ,'Subject' => exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
+		    ,'Folder' => $folder_captures{folder}
+		    ,'$folder_name_is_weird' => $folder_name_is_weird
+		    ;
+		}
 	    }
 	}
       else
