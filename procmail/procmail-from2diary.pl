@@ -3,13 +3,17 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.25 2012/11/12 15:21:14 johayek Exp $
+# $Id: procmail-from2diary.pl 1.26 2012/11/22 23:11:15 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 {
+  use Encode qw(decode);
+
   my(%from_captures,%subject_captures,%folder_captures);
 
   my($last_date) = '';
+
+  binmode( STDOUT , ":encoding(UTF-8)" );
 
   while(<>)
     {
@@ -35,6 +39,39 @@
 	    ,'...' if 0;
 
 	  %subject_captures = %+;
+
+	  $subject_captures{subject_decoded} = $subject_captures{subject_patched} = $subject_captures{subject};
+
+	  if($subject_captures{subject} =~ m/^=\?/)
+	    {
+	      if($subject_captures{subject} =~ m/\?=$/)
+		{}
+	      else
+		{
+		  $subject_captures{subject_patched} .= '?=';
+		}
+
+	      # http://stackoverflow.com/questions/9197170/converting-base64-encoded-mail-subject-to-text
+
+	      $subject_captures{subject_decoded} = decode( "MIME-Header" , $subject_captures{subject_patched} );
+
+	      printf "%s %s %s\n\t%s %s: %s; %s: %s\n"
+		,$from_captures{mday}
+		,$from_captures{month}
+		,$from_captures{year}
+		,$from_captures{time}
+		,'From',$from_captures{from}
+		,'Subject/patched',$subject_captures{subject_patched}
+		if 0;
+	      printf "%s %s %s\n\t%s %s: %s; %s: %s\n"
+		,$from_captures{mday}
+		,$from_captures{month}
+		,$from_captures{year}
+		,$from_captures{time}
+		,'From',$from_captures{from}
+		,'Subject/decoded',$subject_captures{subject_decoded}
+		if 0;
+	    }
 
 	  printf "%s %s %s\n\t%s %s: %s; %s: %s\n"
 	    ,$from_captures{mday}
@@ -77,10 +114,18 @@
 
 	      $last_date = $date;
 
+	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+		,$from_captures{time}
+		,'From',$from_captures{from}
+		,'Subject        ', exists($subject_captures{subject}        ) ? $subject_captures{subject}         : '{!exists(subject)}'
+		,'Subject/patched', exists($subject_captures{subject_patched}) ? $subject_captures{subject_patched} : '{!exists(subject)}'
+		,'Subject/decoded', exists($subject_captures{subject_decoded}) ? $subject_captures{subject_decoded} : '{!exists(subject)}'
+		,'Folder',$folder_captures{folder}
+		if 0;
 	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
 		,$from_captures{time}
 		,'From',$from_captures{from}
-		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
+		,'Subject', exists($subject_captures{subject_decoded}) ? $subject_captures{subject_decoded} : '{!exists(subject)}'
 		,'Folder',$folder_captures{folder}
 		;
 	    }
@@ -120,7 +165,7 @@
 	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
 		,$from_captures{time}
 		,'From',$from_captures{from}
-		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
+		,'Subject', exists($subject_captures{subject_decoded}) ? $subject_captures{subject_decoded} : '{!exists(subject)}'
 		,'Folder',$folder_captures{strange_folder}
 		;
 	    }
@@ -187,10 +232,3 @@ Jochen Hayek E<lt>Jochen+CPAN@Hayek.nameE<gt>
 
 =head1 HISTORY
 
-=over 8
-
-=item B<xls-tar_1_32.pl>
-
-first CPAN upload
-
-=cut
