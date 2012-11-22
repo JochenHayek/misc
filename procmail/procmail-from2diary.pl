@@ -3,8 +3,32 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.26 2012/11/22 23:11:15 johayek Exp $
+# $Id: procmail-from2diary.pl 1.27 2012/11/22 23:19:02 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
+
+# e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
+#
+# samples:
+#
+#  Subject: =?ISO-8859-1?Q?ERINNERUNG=3A_Hebr=E4ischer_B=FCchermarkt_am_kommenden;
+#  Subject: =?UTF-8?Q?Ab_auf_die_Piste_-_Winterspa=C3=9F_f=C3=BCr_die_ganze_Famil;
+#  Subject: =?windows-1252?Q?Re=3A_Projektangebot_in_T=FCbingen_=28Perl-Prog?=;
+#  Subject: =?UTF-8?B?...=?=
+#
+# assumption:
+#
+#  the entire subject value looks like this:
+#
+#  * "=?${ENCODING}?(?=[BQ])?...?="
+#
+#  * "=?${ENCODING}?(?=Q)?...?=" and then occurences
+#   * of regular substrings
+#   * and triplets of "=" and 2 base16 letters
+#   * and space (0x20) characters are replaced by "_"
+#
+#  * "=?${ENCODING}?(?=B)?...=?=", where "..." are all supposedly base64 letters
+#
+#  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -e 'use Encode qw(decode); print decode("MIME-Header", $ENV{TEXT}), "\n"'
 
 {
   use Encode qw(decode);
