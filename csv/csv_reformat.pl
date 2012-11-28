@@ -9,8 +9,10 @@
 {
   exists($ENV{SEPARATOR}) || die "!exists(\$ENV{SEPARATOR})";
   
+  # do these two conflict / overlap?
   binmode( ARGV   , ":encoding(UTF-8)" );
   binmode( STDIN  , ":encoding(UTF-8)" );
+
   binmode( STDOUT , ":encoding(UTF-8)" );
 
   while(<>)
