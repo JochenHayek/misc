@@ -1,17 +1,21 @@
 #! /usr/bin/perl
 
 # gets applied on:
+
 # *--Lohn--Steuer_etc--period-*/Buchungsliste.txt
 
+# env SEPARATOR=';' ~/Computers/Programming/Languages/Perl/csv_reformat.pl
+
 {
-  my($sep_as_re) = qr(;);
-  my($sep) = ';';
+  exists($ENV{SEPARATOR}) || die "!exists(\$ENV{SEPARATOR})";
+  
+  binmode( STDOUT , ":encoding(UTF-8)" );
 
   while(<>)
     {
       chomp;
 
-      my(@F) = split( $sep_as_re );
+      my(@F) = split( $ENV{SEPARATOR} );
 
       push( @lines , \@F );
     }
@@ -35,7 +39,7 @@
 	{
 	  printf "%$lengths[$i].$lengths[$i]s %s ",
 	    $ref_line->[$i],
-	    $sep;
+	    $ENV{SEPARATOR};
 
 	}
       print "\n";
