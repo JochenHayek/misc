@@ -1,6 +1,10 @@
 #! /usr/bin/perl
 
+# regression testing:
+#
 # -> ~/Computers/Programming/Languages/Perl/t/csv_reformat/
+
+################################################################################
 
 # gets applied on:
 #
@@ -9,6 +13,10 @@
 # like this:
 #
 #   env SEPARATOR=';' ~/Computers/Programming/Languages/Perl/csv_reformat.pl
+
+################################################################################
+
+# regarding alignment see below!
 
 {
   exists($ENV{SEPARATOR}) || die "!exists(\$ENV{SEPARATOR})";
@@ -45,6 +53,10 @@
       my($i);
       for( $i=0 ; $i<=$#{$ref_line} ; $i++ )
 	{
+	  # the strings get right-aligned,
+	  # which is optically good for amonts of money,
+	  # but otherwise it's not optimal though good enough for the time being.
+
 	  printf "%$lengths[$i].$lengths[$i]s %s ",
 	    $ref_line->[$i],
 	    $ENV{SEPARATOR};
