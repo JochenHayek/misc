@@ -1,10 +1,14 @@
 #! /usr/bin/perl
 
+# -> ~/Computers/Programming/Languages/Perl/t/csv_reformat/
+
 # gets applied on:
-
-# *--Lohn--Steuer_etc--period-*/Buchungsliste.txt
-
-# env SEPARATOR=';' ~/Computers/Programming/Languages/Perl/csv_reformat.pl
+#
+#   *--Lohn--Steuer_etc--period-*/Buchungsliste.txt
+#
+# like this:
+#
+#   env SEPARATOR=';' ~/Computers/Programming/Languages/Perl/csv_reformat.pl
 
 {
   exists($ENV{SEPARATOR}) || die "!exists(\$ENV{SEPARATOR})";
