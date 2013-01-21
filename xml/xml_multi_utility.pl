@@ -1,15 +1,15 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2010-10-16 01:51:36 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2013-01-21 16:54:17 johayek>' =~ m/<(.*)>/;
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.63 2010/10/16 09:49:59 johayek Exp $
+# $Id: xml_multi_utility.pl 1.64 2013/01/21 15:54:27 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.63 2010/10/16 09:49:59 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/10/16 09:49:59 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.64 2013/01/21 15:54:27 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/01/21 15:54:27 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.63 $'))[1])));
+#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.64 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
 
@@ -74,8 +74,7 @@ sub main
 
   use Getopt::Long;
   use Pod::Usage;
-  %options = ();
-
+  our(%options) = ();
   $main::options{debug} = 0;
 
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
@@ -137,7 +136,8 @@ sub main
   $result || pod2usage(2);
 
   pod2usage(1) if $main::options{help};
-  pod2usage(-exitstatus => 0, -verbose => 2) if $main::options{man};
+##pod2usage( { -exitstatus => 0, -verbose => 2, -width => 30 } ) if $main::options{man};
+  pod2usage( { -exitstatus => 0, -verbose => 2		     } ) if $main::options{man};
 
 ##$main::options{verbose}=0;
 ##$main::options{verbose}=2;			# JH: verbosest level here
