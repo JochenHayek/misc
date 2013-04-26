@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.27 2012/11/22 23:19:02 johayek Exp $
+# $Id: procmail-from2diary.pl 1.28 2013/04/26 11:28:11 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -27,6 +27,10 @@
 #   * and space (0x20) characters are replaced by "_"
 #
 #  * "=?${ENCODING}?(?=B)?...=?=", where "..." are all supposedly base64 letters
+#
+#  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -MEncode -e 'print encode("utf8",decode("MIME-Header",$ENV{TEXT})), "\n"'
+#
+#  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -MEncode -e 'print decode("MIME-Header", $ENV{TEXT}), "\n"'
 #
 #  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -e 'use Encode qw(decode); print decode("MIME-Header", $ENV{TEXT}), "\n"'
 
@@ -153,6 +157,10 @@
 		,'Folder',$folder_captures{folder}
 		;
 	    }
+
+	  %from_captures    = ();
+	  %subject_captures = ();
+	  %folder_captures  = ();
 	}
       elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)
 	{
@@ -193,6 +201,10 @@
 		,'Folder',$folder_captures{strange_folder}
 		;
 	    }
+
+	  %from_captures    = ();
+	  %subject_captures = ();
+	  %folder_captures  = ();
 	}
       else
 	{
