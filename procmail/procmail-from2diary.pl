@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.29 2013/05/24 11:49:15 johayek Exp $
+# $Id: procmail-from2diary.pl 1.30 2013/05/24 14:02:00 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -35,15 +35,34 @@
 #  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -e 'use Encode qw(decode); print decode("MIME-Header", $ENV{TEXT}), "\n"'
 
 {
-  my(%from_captures,%subject_captures,%folder_captures);
+  my(%FROM_captures,%SUBJECT_captures,%from_captures,%subject_captures,%folder_captures);
 
   my($last_date) = '';
 
+  binmode( STDIN  , ":encoding(UTF-8)" );
   binmode( STDOUT , ":encoding(UTF-8)" );
+  binmode( STDERR , ":encoding(UTF-8)" );
 
-  while(<>)
+  while(<>)			# this is only STDIN, if it's really STDIN; if it's "reading files filter-like from the command-line", it's not STDIN; no idea, what it is then
     {
-      if(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
+      if(m/^FROM=\{(?<FROM>.*)\}$/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
+	    ,'$+{FROM}',$+{FROM}
+	    ,'...' if 0;
+
+	  %FROM_captures = %+;
+	  %SUBJECT_captures = ();
+	}
+      elsif(m/^SUBJECT=\{(?<SUBJECT>.*)\}$/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
+	    ,'$+{SUBJECT}',$+{SUBJECT}
+	    ,'...' if 0;
+
+	  %SUBJECT_captures = %+;
+	}
+      elsif(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
 	    ,'$+{from}',$+{from}
@@ -107,14 +126,18 @@
 
 	      $last_date = $date;
 
-	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+	      printf "\t%s [_] %s: %s;\n\t\t %s:%s;\n\t\t %s: %s;\n\t\t %s:%s;\n\t\t %s: %s\n"
 		,$from_captures{time}
 		,'From',$from_captures{from}
+		,'FROM',$FROM_captures{FROM}
 		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
+		,'SUBJECT', exists($SUBJECT_captures{SUBJECT}) ? $SUBJECT_captures{SUBJECT} : '{!exists(SUBJECT)}'
 		,'Folder',$folder_captures{folder}
 		;
 	    }
 
+	  %FROM_captures    = ();
+	  %SUBJECT_captures = ();
 	  %from_captures    = ();
 	  %subject_captures = ();
 	  %folder_captures  = ();
