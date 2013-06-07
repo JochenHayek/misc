@@ -5,13 +5,13 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2013-05-31 13:40:43 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2013-06-07 17:03:21 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.105 2013/06/07 14:51:15 johayek Exp $' =~
+    '$Id: JHdiary 1.106 2013/06/07 15:04:12 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -1293,6 +1293,22 @@ sub initialise
   $tbl_jhts__day_separator = '';
 
   %::t = ();
+
+  #                             |	    |           |     |acc. work [min]
+  #                             |	    |           |acc. work |
+  #                             |acc. break |acc. present     |    |     |acc. work on code [min]
+  # date      |start|end  |break|     |present    |work |     |    |acc. work on code
+  # 2013-06-06|08:45|09:00|00:00|00:00|00:15|00:15|00:15|00:15|0015|HH:MM|0000|06 Jun 2013  Thursday|period-201306|Im_Int_Opr_Maint.Prod.HTTP_listeners
+  # 2013-06-06|09:00|10:00|00:00|00:00|01:00|01:15|01:00|01:15|0060|HH:MM|0000|06 Jun 2013  Thursday|period-201306|Im_Int_Opr_Team
+  # 2013-06-06|10:00|18:00|00:45|00:45|08:00|09:15|07:15|08:30|0435|HH:MM|0000|06 Jun 2013  Thursday|period-201306|Im_Int_Opr_Maint.Prod.HTTP_listeners
+
+  print STDERR <<'prologue';
+
+                            |           |           |     |acc. work [min]
+                            |           |           |acc. work |
+                            |acc. break |acc. present     |    |     |acc. work on code [min]
+date      |start|end  |break|     |present    |work |     |    |acc. work on code
+prologue
 
   if(1)
     {                           # >= 2000-03-01        
