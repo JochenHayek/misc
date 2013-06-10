@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.30 2013/05/24 14:02:00 johayek Exp $
+# $Id: procmail-from2diary.pl 1.31 2013/06/10 17:13:57 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -129,7 +129,7 @@
 	      printf "\t%s [_] %s: %s;\n\t\t %s:%s;\n\t\t %s: %s;\n\t\t %s:%s;\n\t\t %s: %s\n"
 		,$from_captures{time}
 		,'From',$from_captures{from}
-		,'FROM',$FROM_captures{FROM}
+		,'FROM', exists($FROM_captures{FROM}) ? $FROM_captures{FROM} : '{!exists(FROM)}'
 		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
 		,'SUBJECT', exists($SUBJECT_captures{SUBJECT}) ? $SUBJECT_captures{SUBJECT} : '{!exists(SUBJECT)}'
 		,'Folder',$folder_captures{folder}
