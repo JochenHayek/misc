@@ -5,13 +5,13 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2013-06-14 15:37:02 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2013-06-14 16:26:33 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
   ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
 
-    '$Id: JHdiary 1.110 2013/06/14 13:37:45 johayek Exp $' =~
+    '$Id: JHdiary 1.111 2013/06/14 14:27:59 johayek Exp $' =~
 
       m(^ \ \s
 
@@ -403,10 +403,10 @@ sub job_work_at
 	      next;
 	    }
 
-	  my($other_tags_ALL,$other_tags_separator);
+	  my($other_tags_ALL,$other_tags_separator,$comment_tags);
 
-	  ($pure_company_tag,$other_tags_ALL,$other_tags_separator,$other_tags) =
-	    $work_AT =~ m/^ work \@ (?<pure_company_tag>[^,]+) (?<other_tags_ALL> (,) (?<other_tags>.+) )? $/x;
+	  ($pure_company_tag,$other_tags_ALL,$other_tags_separator,$other_tags,$comment_tags) =
+	    $work_AT =~ m/^ work \@ (?<pure_company_tag>[^,]+) (?<other_tags_ALL> (,) (?<other_tags>[^\/]+) (?<comment_tags>.*) )? $/x;
 
 	  if(defined($other_tags_ALL))
 	    {
@@ -496,6 +496,7 @@ sub job_work_at
 	    , 'other_tags_ALL'           => $other_tags_ALL
 	    , 'other_tags_alt_separator' => $other_tags_alt_separator
 	    , 'other_tags'               => $other_tags
+	    , 'comment_tags'             => defined($comment_tags) ? $comment_tags : ''
 
 	    , 'this_day' => $this_day
 	    );
@@ -1670,7 +1671,7 @@ sub proc_entry
      ."|%s"			# worked on this code in total per day 
      ."|%4.4d"			# worked on this code in total per day [minutes]
 
-     ."|%s%s%s\n"
+     ."|%s%s%s%s\n"
      )
 
     ,$param{date},$start,$end
@@ -1693,6 +1694,7 @@ sub proc_entry
 
     ,$param{other_tags_alt_separator}
     ,$param{other_tags}
+    ,$param{comment_tags}
     ;
 
   printf $::fh_tbl_roff_mm
