@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2012-07-06 10:53:00 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2013-08-05 18:21:34 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.25 2012/07/06 08:53:02 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2012/07/06 08:53:02 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.26 2013/08/05 16:22:38 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/08/05 16:22:38 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -66,6 +66,7 @@ sub main
 
     $main::options{job_merge_ab_with_bc}      = 0;
     $main::options{job_check_situation__left_ab__right_b}      = 0;
+    $main::options{job_check_situation__left_ab__right_bc}     = 0;
     $main::options{job_check_situation__left_a__right_ab}      = 0;
 
     $main::options{ignore_header_line_on_right_side}		       	= 0;
@@ -78,6 +79,7 @@ sub main
 
        ,'job_merge_ab_with_bc!'
        ,'job_check_situation__left_ab__right_b!'
+       ,'job_check_situation__left_ab__right_bc!'
        ,'job_check_situation__left_a__right_ab!'
 
        ,'quiet|silent!'
@@ -100,8 +102,9 @@ sub main
   pod2usage(-exitstatus => 0, -verbose => 2) if $main::options{man};
 
   if   ($main::options{job_merge_ab_with_bc}) { &job_merge_ab_with_bc; }
-  elsif($main::options{job_check_situation__left_ab__right_b}) { &job_check_situation__left_ab__right_b; }
-  elsif($main::options{job_check_situation__left_a__right_ab}) { &job_check_situation__left_a__right_ab; }
+  elsif($main::options{job_check_situation__left_ab__right_b} ) { &job_check_situation__left_ab__right_b; }
+  elsif($main::options{job_check_situation__left_ab__right_bc}) { &job_check_situation__left_ab__right_bc; }
+  elsif($main::options{job_check_situation__left_a__right_ab} ) { &job_check_situation__left_a__right_ab; }
   else
     {
       die "*** no job to be carried out";
@@ -353,7 +356,24 @@ sub job_check_situation__left_ab__right_b
 	,'...'
 	if 1 && $main::options{debug};
 
-      if($lines{left}[$left_i] eq $lines{right}[$right_i])
+      if   (!defined( $lines{right}[$right_i] ))
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'left only'
+	    if 1 && $main::options{debug};
+
+	  if($within_common_block_p)
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+		,'end of common block, but still something on the left side'
+		if 1 && $main::options{debug};
+
+	      die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},\$proc_name=>{$proc_name} // end of common block, but still something on the left side";
+	    }
+	}
+      elsif($lines{left}[$left_i] eq $lines{right}[$right_i])
 	{
 	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
 	    ,'$right_i',$right_i
@@ -400,7 +420,8 @@ sub job_check_situation__left_ab__right_b
       exit(1);
     }
 
-  if($right_i > $#{$lines{right}})
+##if($right_i > $#{$lines{right}})
+  if($right_i == $#{$lines{right}} + 1)
     {
       printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
 	,'$main::options{left}'  => $main::options{left}
@@ -426,6 +447,186 @@ sub job_check_situation__left_ab__right_b
 	{
 	  die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},\$proc_name=>{$proc_name} // end of common block, but there is more on the right side";
 	}
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_check_situation__left_ab__right_bc
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 1 && $main::options{debug};
+
+  # ...
+
+  # $main::options{left}
+  # $main::options{right}
+
+  foreach my $what ('left','right')
+    {
+      if(exists($main::options{$what}))
+	{}
+      else
+	{
+	  pod2usage(-message => "!exists(\$main::options{$what})"
+		   ,-exitval => 2
+		   );
+	}
+
+      my($fh) = new FileHandle $main::options{$what};
+
+      if(defined($fh))
+	{}
+      else
+	{
+	  pod2usage(-message => "could not open: \$main::options{$what}=>{$main::options{$what}},\$!=>{$!}"
+		   ,-exitval => 2
+		   );
+	}
+
+      while(<$fh>)
+	{
+	  chomp;
+	  push(@{$lines{$what}},$_);
+	}
+
+      if(0 && $main::options{debug})
+	{
+	  for(my $i = 0 ; $i<= $#{$lines{$what}} ; $i++ )
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{$what}[$i]",$lines{$what}[$i]
+		;
+	    }
+	}
+    }
+
+  my($within_common_block_p) = 0;
+
+  my($left_i)  = 0;
+  my($right_i) = 0;
+
+  if($main::options{ignore_header_lines})
+    {
+      $left_i  = 1;
+      $right_i = 1;
+    }
+
+  if(!defined($lines{right}[$right_i]))
+     {
+       die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$proc_name=>{$proc_name} // !defined(\$lines{right}[$right_i] -- maybe the right file is empty";
+     }
+
+  for( ; $left_i <= $#{$lines{left}} ; $left_i++ )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$within_common_block_p',$within_common_block_p
+	,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	,'...'
+	if 1 && $main::options{debug};
+
+      if   (!defined( $lines{right}[$right_i] ))
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'left only'
+	    if 1 && $main::options{debug};
+
+	  if($within_common_block_p)
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+		,'end of common block, but still something on the left side'
+		if 1 && $main::options{debug};
+
+	      die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},\$proc_name=>{$proc_name} // end of common block, but still something on the left side";
+	    }
+	}
+      elsif($lines{left}[$left_i] eq $lines{right}[$right_i])
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$right_i',$right_i
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'matching'
+	    if 1 && $main::options{debug};
+
+	  $within_common_block_p = 1;
+
+	  $right_i ++ ;
+	}
+      else
+	{
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+	    ,'left only'
+	    if 1 && $main::options{debug};
+
+	  if($within_common_block_p)
+	    {
+	      printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		,"\$lines{left}[$left_i]",$lines{left}[$left_i]
+		,'end of common block, but still something on the left side'
+		if 1 && $main::options{debug};
+
+	      die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},\$proc_name=>{$proc_name} // end of common block, but still something on the left side";
+	    }
+	}
+    }
+
+  if($within_common_block_p)
+    {
+    }
+  else
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$main::options{left}'  => $main::options{left}
+        ,'$main::options{right}' => $main::options{right}
+	,'empty common block'
+	if 1 && $main::options{debug};
+
+      warn "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}} // empty common block";
+
+      exit(1);
+    }
+
+  if($right_i == $#{$lines{right}} + 1)
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$main::options{left}'  => $main::options{left}
+        ,'$main::options{right}' => $main::options{right}
+	,'end of common block and end of right side'
+	if 1 && $main::options{debug};
+
+      if($main::options{quiet})
+	{
+	  exit(1);
+	}
+      else
+	{
+	  die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},\$proc_name=>{$proc_name} // end of common block and end of right side, ie. no c";
+	}
+    }
+  else
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$main::options{left}'  => $main::options{left}
+        ,'$main::options{right}' => $main::options{right}
+	,'end of common block, but there is more on the right side'
+	if    1 && $main::options{debug};
+
+      exit(0);
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
@@ -566,6 +767,7 @@ Options:
 
     --job_merge_ab_with_bc
     --job_check_situation__left_ab__right_b
+    --job_check_situation__left_ab__right_bc
     --job_check_situation__left_a__right_ab
 
     --left=s
@@ -622,9 +824,11 @@ There is no backtracking at all at the moment.
 ~/Computers/Programming/Languages/Perl/file_ops.pl --job_merge_ab_with_bc --ignore_header_line_on_right_side --left=JH-ALL-RAW.csv  --right=20060125131133-statement.csv >  JH-ALL-RAW.csv-
 ~/Computers/Programming/Languages/Perl/file_ops.pl --job_merge_ab_with_bc --ignore_header_line_on_right_side --left=ESH-ALL-RAW.csv --right=20060125131133-statement.csv > ESH-ALL-RAW.csv-
 
-~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_ab__right_b --ignore_header_lines --left=... --right=...
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_ab__right_b  --ignore_header_lines --left=... --right=...
 
-~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_a__right_ab --ignore_header_lines --left=... --right=...
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_ab__right_bc --ignore_header_lines --left=... --right=...
+
+~/Computers/Programming/Languages/Perl/file_ops.pl --job_check_situation__left_a__right_ab  --ignore_header_lines --left=... --right=...
 
 ...
 
