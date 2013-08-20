@@ -31,18 +31,21 @@
 	}
       else
 	{
-	  die;
+	  die "\$.=>$. // but we only allow 2 columns"
+	    if 0;
 	}
     }
 
   die "\$#field_names=>$#field_names,\$#field_values=>$#field_values"
-    if $#field_names != $#field_values;
+    if $#field_names >= $#field_values
+    && 0			# we prefer to assume them as empty over dieing
+    ;
 
   for(my $i = 0;$i<=$#field_names;$i++)
     {
       printf "%s;%s\n",
         $field_names[$i],
-        $field_values[$i],
+        defined($field_values[$i]) ? $field_values[$i] : '',
         ;
     }
 }
