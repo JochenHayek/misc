@@ -25,27 +25,28 @@
 	{
 	  @field_names = split( $ENV{SEPARATOR} );
 	}
-      elsif($. == 2)
+      elsif($. > 1)
 	{
-	  @field_values = split( $ENV{SEPARATOR} );
-	}
-      else
-	{
-	  die "\$.=>$. // but we only allow 2 columns"
-	    if 0;
+	  @{$field_values[$.-2]} = split( $ENV{SEPARATOR} );
+
+	  die "\$#field_names=>$#field_names,\$#field_values=>$#field_values"
+	    if $#field_names < $#{$field_values[$.-2]}
+	    ;
 	}
     }
 
-  die "\$#field_names=>$#field_names,\$#field_values=>$#field_values"
-    if $#field_names >= $#field_values
-    && 0			# we prefer to assume them as empty over dieing
-    ;
-
   for(my $i = 0;$i<=$#field_names;$i++)
     {
-      printf "%s;%s\n",
+      printf "%s",
         $field_names[$i],
-        defined($field_values[$i]) ? $field_values[$i] : '',
+        ;
+      for(my $j = 0;$j<=$#field_values;$j++)
+	{
+	  printf ";%s",
+	    defined($field_values[$j][$i]) ? $field_values[$j][$i] : '',
+	    ;
+	}
+      printf "\n",
         ;
     }
 }
