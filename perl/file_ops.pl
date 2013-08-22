@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2013-08-05 18:23:27 johayek>' =~ m/<(.*)>/;
+($emacs_Time_stamp) = 'Time-stamp: <2013-08-21 23:39:14 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.27 2013/08/05 17:00:27 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/08/05 17:00:27 $'))[1..2])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.28 2013/08/22 11:54:18 johayek Exp $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/08/22 11:54:18 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
 #     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
@@ -71,6 +71,8 @@ sub main
 
     $main::options{ignore_header_line_on_right_side}		       	= 0;
     $main::options{ignore_header_lines}		       	= 0;
+
+    $main::options{output_c_only}		       	= 0;
   }
 
   my($result) =
@@ -95,6 +97,7 @@ sub main
 
        ,'ignore_header_line_on_right_side!'
        ,'ignore_header_lines!'
+       ,'output_c_only!'
        );
   $result || pod2usage(2);
 
@@ -231,7 +234,8 @@ sub job_merge_ab_with_bc
 	  die "*** \$main::options{left}=>{$main::options{left}},\$main::options{right}=>{$main::options{right}},\$left_i=>{$left_i},\$right_i=>{$right_i},defined(\$lines{left}[\$left_i])=>{".defined($lines{left}[$left_i])."},defined(\$lines{right}[\$right_i])=>{".defined($lines{right}[$right_i])."},\$within_common_block_p=>{$within_common_block_p},\$proc_name=>{$proc_name} // ...";
 	}
 
-      print $lines{left}[$left_i],"\n";
+      print $lines{left}[$left_i],"\n"
+	if !$main::options{output_c_only};
     }
 
   if($within_common_block_p)
@@ -775,6 +779,7 @@ Options:
 
     --ignore_header_line_on_right_side
     --ignore_header_lines
+    --output_c_only
 
 =head1 OPTIONS
 
