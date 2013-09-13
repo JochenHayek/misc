@@ -1,6 +1,10 @@
 :
 
-# $Id: group_by_content.sh 1.3 2013/07/08 12:02:14 johayek Exp $
+# $Id: group_by_content.sh 1.4 2013/09/13 14:03:08 johayek Exp $
+
+# usage:
+#
+# md5sum * | ~/bin/group_by_content.sh
 
 sort |
 
