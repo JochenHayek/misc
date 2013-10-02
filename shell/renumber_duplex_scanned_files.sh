@@ -9,6 +9,7 @@
 # for testing purposes:
 #
 # $ mkdir renumber_duplex_scanned_files.dir && cd renumber_duplex_scanned_files.dir && touch {a,b,c,d,e,f}.png
+# $ ../renumber_duplex_scanned_files.sh x. [a-f].png
 
 ################################################################################
 
@@ -22,13 +23,21 @@ half_max_plus_1=$(( max / 2 + 1 ))
 
 max_formatted=$( printf "%02.2d" "$max" )
 
-false &&
-printf 1>&2 "=%s,%02.2d: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n" "$0" $LINENO \
-  '$new_name' "$new_name" \
-  '$max' "$max" \
-  '$half_max' "$half_max" \
-  '$rem_max' "$rem_max" \
-  '...'
+if true
+then :
+
+  echo   1>&2
+  printf 1>&2 "=%s,%02.2d: %s=>{%s} // %s\n" "$0" $LINENO \
+    '$new_name' "$new_name" \
+    '?!?!?!?!?!?'
+  echo   1>&2
+
+  printf 1>&2 "=%s,%02.2d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" "$0" $LINENO \
+    '$max' "$max" \
+    '$half_max' "$half_max" \
+    '$rem_max' "$rem_max" \
+    '...'
+fi
 
 if test "$rem_max" -eq 0
 then :
@@ -39,6 +48,11 @@ else :
     '$half_max' "$half_max" \
     '$rem_max' "$rem_max" \
     '$max is not an even number'
+
+  echo   1>&2
+  printf 1>&2 "=%s,%02.2d: %s=>{%s} // %s\n" "$0" $LINENO \
+    '$new_name' "$new_name" \
+    '?!?!?!?!?!?'
  exit 1
 fi
 
