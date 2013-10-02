@@ -2,7 +2,7 @@
 
 # usage:
 #
-# .../renumber_duplex_scanned_files.sh new_name old_names
+# .../renumber_files.sh new_name old_names
 
 ################################################################################
 
@@ -21,12 +21,20 @@ half_max=$(( max / 2  ))
 rem_max=$(( max % 2  ))
 max_formatted=$( printf "%02.2d" "$max" )
 
-false &&
-printf 1>&2 "=%s,%02.2d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" "$0" $LINENO \
-  '$new_name' "$new_name" \
-  '$max' "$max" \
-  '$max_formatted' "$max_formatted" \
-  '...'
+if true
+then :
+
+  echo   1>&2
+  printf 1>&2 "=%s,%02.2d: %s=>{%s} // %s\n" "$0" $LINENO \
+    '$new_name' "$new_name" \
+    '?!?!?!?!?!?'
+  echo   1>&2
+
+  printf 1>&2 "=%s,%02.2d: ,%s=>{%s},%s=>{%s} // %s\n" "$0" $LINENO \
+    '$max' "$max" \
+    '$max_formatted' "$max_formatted" \
+    '...'
+fi
 
 for i in $(seq --format="%02.f" "$max")
 do :
