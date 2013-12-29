@@ -3,7 +3,7 @@
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.31 2013/06/10 17:13:57 johayek Exp $
+# $Id: procmail-from2diary.pl 1.32 2013/12/29 19:39:10 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -133,6 +133,26 @@
 		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
 		,'SUBJECT', exists($SUBJECT_captures{SUBJECT}) ? $SUBJECT_captures{SUBJECT} : '{!exists(SUBJECT)}'
 		,'Folder',$folder_captures{folder}
+		;
+
+	      printf "##shuttle:\n##shuttle: :0\n##shuttle: * ^Return-Path: <%s>\$\n"
+		,$from_captures{from}
+		;
+
+	      if(exists($FROM_captures{FROM}))
+		{
+		  my($h) = $FROM_captures{FROM};
+
+		  my($rp) = $h;
+		  if($h =~ m/^ .* < (.*) > $/x)
+		    {
+		      $rp = $1;
+		    }
+		  printf "##shuttle: * ^Return-Path: <%s>\$\n"
+		    ,$rp
+		    unless $rp eq $from_captures{from};
+		}
+	      printf "##shuttle: .folder-biz.prio-9/\n"
 		;
 	    }
 
