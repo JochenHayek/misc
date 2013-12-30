@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:32:59 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:52:11 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.39 2013/12/30 14:33:09 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 14:33:09 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.40 2013/12/30 14:52:46 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 14:52:46 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:32:59 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.39 2013/12/30 14:33:09 johayek Exp $
+# $Id: procmail-from2diary.pl 1.40 2013/12/30 14:52:46 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -52,6 +52,7 @@ use strict;
 ##our %directories;
 ##our %mount_points;
 our $std_formatting_options = { 'separator' => ',', 'assign' => '=>', 'quoteLeft' => '{', 'quoteRight' => '}' };
+##our(%all_addresses);
 
 {
   use Carp;
@@ -60,6 +61,8 @@ our $std_formatting_options = { 'separator' => ',', 'assign' => '=>', 'quoteLeft
 ##use Encode;
 ##use File::Basename;  
 ##use File::Stat; # OOP interface for Perl's built-in stat() functions
+
+  %main::all_addresses = ();
 
   &main;
 }
@@ -182,6 +185,13 @@ sub job_anon
   binmode( STDIN  , ":encoding(UTF-8)" );
   binmode( STDOUT , ":encoding(UTF-8)" );
   binmode( STDERR , ":encoding(UTF-8)" );
+
+##our(%all_addresses);
+  my($HOME_var_log_procmailrc) = "$ENV{HOME}/var/log/procmailrc";
+
+  unlink($HOME_var_log_procmailrc);
+
+  open(FH_PROCMAILRC,">$HOME_var_log_procmailrc") || die "\$HOME_var_log_procmailrc=>{$HOME_var_log_procmailrc} // cannot open: $!";
 
   while(<>)			# this is only STDIN, if it's really STDIN; if it's "reading files filter-like from the command-line", it's not STDIN; no idea, what it is then
     {
@@ -306,6 +316,8 @@ sub job_anon
 	}
     }
 
+  close(FH_PROCMAILRC);
+
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
@@ -408,27 +420,32 @@ sub print_shuttle_procmailrc_entry
   # $param{from0}
   # $param{from1}
 
-  printf "##shuttle:\n";
-  printf "##shuttle: :0\n";
-  printf "##shuttle: * ^Return-Path: <%s>\$\n"
-    , &backslash_e_mail_address( 'address' => $param{from0} )
-    ;
-
-  if(defined($param{from1}))
+  unless(exists( $main::all_addresses{ $param{from0} } ))
     {
-      my($h) = $param{from1};
+      $main::all_addresses{ $param{from0} } = 1;
 
-      my($rp) = $h;
-      if($h =~ m/^ .* < (.*) > $/x)
+      printf FH_PROCMAILRC "##shuttle:\n";
+      printf FH_PROCMAILRC "##shuttle: :0\n";
+      printf FH_PROCMAILRC "##shuttle: * ^Return-Path: <%s>\$\n"
+	, &backslash_e_mail_address( 'address' => $param{from0} )
+	;
+
+      if(defined($param{from1}))
 	{
-	  $rp = $1;
-	}
-      printf "##shuttle: * ^Return-Path: <%s>\$\n"
-	, &backslash_e_mail_address( 'address' => $rp )
-	unless $rp eq $param{from0};
-    }
+	  my($h) = $param{from1};
 
-  print "##shuttle: .folder-biz.prio-9/\n";
+	  my($rp) = $h;
+	  if($h =~ m/^ .* < (.*) > $/x)
+	    {
+	      $rp = $1;
+	    }
+	  printf FH_PROCMAILRC "##shuttle: * ^Return-Path: <%s>\$\n"
+	    , &backslash_e_mail_address( 'address' => $rp )
+	    unless $rp eq $param{from0};
+	}
+
+      print FH_PROCMAILRC "##shuttle: .folder-biz.prio-9/\n";
+    }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
