@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:53:03 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:56:56 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.41 2013/12/30 14:53:33 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 14:53:33 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.42 2013/12/30 14:57:26 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 14:57:26 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:53:03 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.41 2013/12/30 14:53:33 johayek Exp $
+# $Id: procmail-from2diary.pl 1.42 2013/12/30 14:57:26 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -426,22 +426,24 @@ sub print_shuttle_procmailrc_entry
       printf FH_PROCMAILRC "##shuttle: * ^Return-Path: <%s>\$\n"
 	, &backslash_e_mail_address( 'address' => $param{from0} )
 	;
+      print FH_PROCMAILRC "##shuttle: .folder-biz.prio-9/\n";
+    }
 
-      if(defined($param{from1}))
+  if(defined($param{from1}))
+    {
+      my($h) = $param{from1};
+
+      my($rp) = $h;
+      if($h =~ m/^ .* < (.*) > $/x)
 	{
-	  my($h) = $param{from1};
-
-	  my($rp) = $h;
-	  if($h =~ m/^ .* < (.*) > $/x)
-	    {
-	      $rp = $1;
-	    }
+	  $rp = $1;
+	}
+      if($rp ne $param{from0})
+	{
 	  printf FH_PROCMAILRC "##shuttle: * ^Return-Path: <%s>\$\n"
 	    , &backslash_e_mail_address( 'address' => $rp )
-	    unless $rp eq $param{from0};
+	    ;
 	}
-
-      print FH_PROCMAILRC "##shuttle: .folder-biz.prio-9/\n";
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
