@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 16:18:50 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 16:26:01 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.47 2013/12/30 15:18:55 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 15:18:55 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.48 2013/12/30 15:26:23 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 15:26:23 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 16:18:50 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.47 2013/12/30 15:18:55 johayek Exp $
+# $Id: procmail-from2diary.pl 1.48 2013/12/30 15:26:23 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -191,6 +191,10 @@ sub job_anon
   our($fh_procmailrc);
 
   open($main::fh_procmailrc,'>',"$HOME_var_log_procmailrc") || warn "\$HOME_var_log_procmailrc=>{$HOME_var_log_procmailrc} // cannot open: '$!'";
+  if(fileno($main::fh_procmailrc))
+    {
+      $main::fh_procmailrc->autoflush(1);
+    }
 
   while(<>)			# this is only STDIN, if it's really STDIN; if it's "reading files filter-like from the command-line", it's not STDIN; no idea, what it is then
     {
