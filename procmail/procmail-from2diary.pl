@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 16:05:34 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 16:14:52 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.45 2013/12/30 15:06:24 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 15:06:24 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.46 2013/12/30 15:14:54 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 15:14:54 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 16:05:34 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.45 2013/12/30 15:06:24 johayek Exp $
+# $Id: procmail-from2diary.pl 1.46 2013/12/30 15:14:54 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -190,7 +190,7 @@ sub job_anon
 
   our($fh_procmailrc);
 
-  open($main::fh_procmailrc,">$HOME_var_log_procmailrc") || warn "\$HOME_var_log_procmailrc=>{$HOME_var_log_procmailrc} // cannot open: '$!'";
+  open($main::fh_procmailrc,'>',"$HOME_var_log_procmailrc") || warn "\$HOME_var_log_procmailrc=>{$HOME_var_log_procmailrc} // cannot open: '$!'";
 
   while(<>)			# this is only STDIN, if it's really STDIN; if it's "reading files filter-like from the command-line", it's not STDIN; no idea, what it is then
     {
@@ -419,7 +419,7 @@ sub print_shuttle_procmailrc_entry
   # $param{from0}
   # $param{from1}
 
-  if(defined($main::fh_procmailrc))
+  if(fileno($main::fh_procmailrc))
     {
       unless(exists( $main::all_addresses{ $param{from0} } ))
 	{
