@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 14:46:58 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 14:55:36 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.34 2013/12/30 13:52:24 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 13:52:24 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.35 2013/12/30 13:55:52 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 13:55:52 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 14:46:58 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.34 2013/12/30 13:52:24 johayek Exp $
+# $Id: procmail-from2diary.pl 1.35 2013/12/30 13:55:52 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -286,9 +286,8 @@ sub job_anon
 		,'Folder' => $folder_captures{folder}
 		;
 
-	      printf "##shuttle:\n##shuttle: :0\n##shuttle: * ^Return-Path: <%s>\$%s\n"
-		,$from_captures{from}
-	        ,' // certain characters need to be back-slashed'
+	      printf "##shuttle:\n##shuttle: :0\n##shuttle: * ^Return-Path: <%s>\$\n"
+		, &backslash_e_mail_address( 'address' => $from_captures{from} )
 		;
 
 	      if(exists($FROM_captures{FROM}))
@@ -300,9 +299,8 @@ sub job_anon
 		    {
 		      $rp = $1;
 		    }
-		  printf "##shuttle: * ^Return-Path: <%s>\$ %s\n"
-		    ,$rp
-		    ,' // certain characters need to be back-slashed'
+		  printf "##shuttle: * ^Return-Path: <%s>\$\n"
+		    , &backslash_e_mail_address( 'address' => $rp )
 		    unless $rp eq $from_captures{from};
 		}
 	      printf "##shuttle: .folder-biz.prio-9/\n"
@@ -382,6 +380,26 @@ sub job_anon
 
   return $return_value;
 }
+#
+sub backslash_e_mail_address
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  $return_value = $param{address};
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+
 
 =head1 NAME
 
