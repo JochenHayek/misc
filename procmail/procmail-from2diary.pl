@@ -1,9 +1,17 @@
 #! /usr/bin/perl -w
 
+our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 14:46:58 johayek>' =~ m/<(.*)>/;
+
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.34 2013/12/30 13:52:24 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 13:52:24 $'))[1..2])));
+##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
+##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
+##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
+
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.33 2013/12/30 13:11:29 johayek Exp $
+# $Id: procmail-from2diary.pl 1.34 2013/12/30 13:52:24 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -34,9 +42,142 @@
 #
 #  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -e 'use Encode qw(decode); print decode("MIME-Header", $ENV{TEXT}), "\n"'
 
+use warnings;
+use strict;
+
+##our $VERSION = '1.36';
+
+##our %executables;
+##our %devices;
+##our %directories;
+##our %mount_points;
+our $std_formatting_options = { 'separator' => ',', 'assign' => '=>', 'quoteLeft' => '{', 'quoteRight' => '}' };
+
 {
+  use Carp;
+##use English;
+##use FileHandle;
+##use Encode;
+##use File::Basename;  
+##use File::Stat; # OOP interface for Perl's built-in stat() functions
+
+  &main;
+}
+
+sub main
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  # described in:
+  #	camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
+
+  use Getopt::Long;
+  use Pod::Usage;
+  %main::options = ();
+
+  $main::options{debug} = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+##printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+##  ,'$rcs_Id' => $rcs_Id
+##  if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s\n",__FILE__,__LINE__,$proc_name
+    , &main::format_key_value_list($main::std_formatting_options, '$emacs_Time_stamp' => $emacs_Time_stamp )
+    if 0 && $main::options{debug};
+
+  {
+    # defaults for the main::options;
+    
+    $main::options{dry_run}		       	= 0;
+    $main::options{version}		       	= 0;
+    $main::options{verbose}		       	= 0;
+    $main::options{brief}		       	= 0;
+
+    $main::options{job_anon} = 1;
+  }
+
+  my($result) =
+    &GetOptions
+      (\%main::options
+     ##,'job_anon|ja!'
+
+       ,'dry_run!'
+       ,'version!'
+       ,'help|?!'
+       ,'man!'
+       ,'debug!'
+     ##,'verbose=s'		# sometimes we use it like this
+       ,'verbose!'		# sometimes we use it like this 
+       ,'brief!'
+
+       ,'directories|directory=s@'
+       );
+  $result || pod2usage(2);
+
+  pod2usage(1) if $main::options{help};
+  pod2usage(-exitstatus => 0, -verbose => 2) if $main::options{man};
+
+  if   ($main::options{job_anon}   ) { &job_anon; }
+##elsif($main::options{job_extract}) { &job_extract; }
+  else
+    {
+      die "no job to be carried out";
+    }
+
+  printf STDERR "=%s,%d,%s: %s\n",__FILE__,__LINE__,$proc_name
+    ,&main::format_key_value_list($main::std_formatting_options, '$return_value' => $return_value )
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+}
+#
+sub format_key_value_list {
+  my $refOptions = shift(@_);
+
+  my $buf;
+
+  confess '!defined($refOptions)' unless defined($refOptions);
+
+  my %options = %{$refOptions};
+
+  foreach my $i ('separator', 'assign', 'quoteLeft', 'quoteRight') {
+    $options{$i} = '' unless defined($options{$i});
+  }
+
+  my ($name,$value);
+  while($#_ >=0) {
+    ($name,$value) = splice(@_,0,2);
+
+    my $chunk = "$name$options{assign}$options{quoteLeft}$value$options{quoteRight}";
+    if (defined($buf)) {
+      $buf .= "$options{separator}$chunk";
+    } else {
+      $buf  =                     $chunk;
+    }
+  }
+
+  return $buf;
+}
+#
+sub job_anon
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
   my(%FROM_captures,%SUBJECT_captures,%from_captures,%subject_captures,%folder_captures);
 
+  my($date);
   my($last_date) = '';
 
   binmode( STDIN  , ":encoding(UTF-8)" );
@@ -47,30 +188,34 @@
     {
       if(m/^FROM=\{(?<FROM>.*)\}$/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$+{FROM}',$+{FROM}
-	    ,'...' if 0;
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options, '$+{FROM}' => $+{FROM} )
+	    ,'...'
+	    if 0;
 
 	  %FROM_captures = %+;
 	  %SUBJECT_captures = ();
 	}
       elsif(m/^SUBJECT=\{(?<SUBJECT>.*)\}$/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$+{SUBJECT}',$+{SUBJECT}
-	    ,'...' if 0;
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options, '$+{SUBJECT}' => $+{SUBJECT} )
+	    ,'...'
+	    if 0;
 
 	  %SUBJECT_captures = %+;
 	}
       elsif(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$+{from}',$+{from}
-	    ,'$+{wday}',$+{wday}
-	    ,'$+{month}',$+{month}
-	    ,'$+{mday}',$+{mday}
-	    ,'$+{time}',$+{time}
-	    ,'$+{year}',$+{year}
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options
+					   ,'$+{from}' => $+{from}
+					   ,'$+{wday}' => $+{wday}
+					   ,'$+{month}' => $+{month}
+					   ,'$+{mday}' => $+{mday}
+					   ,'$+{time}' => $+{time}
+					   ,'$+{year}' => $+{year}
+					   )
 	    ,'...' if 0;
 
 	  %from_captures = %+;
@@ -78,10 +223,13 @@
 	}
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
 	{
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$+{subject}',$+{subject}
-	    ,'$from_captures{from}',$from_captures{from}
-	    ,'...' if 0;
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options
+					   ,'$+{subject}' => $+{subject}
+					   ,'$from_captures{from}' => $from_captures{from}
+					   )
+	    ,'...'
+	    if 0;
 
 	  %subject_captures = %+;
 
@@ -90,16 +238,19 @@
 	    ,$from_captures{month}
 	    ,$from_captures{year}
 	    ,$from_captures{time}
-	    ,'From',$from_captures{from}
-	    ,'Subject',$subject_captures{subject}
+	    ,'From' => $from_captures{from}
+	    ,'Subject' => $subject_captures{subject}
 	    if 0;
 	}
       elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$+{folder}',$+{folder}
-	    ,'$+{size}',$+{size}
-	    ,'...' if 0;
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	     &main::format_key_value_list($main::std_formatting_options
+					  ,'$+{folder}' => $+{folder}
+					  ,'$+{size}' => $+{size}
+					  )
+	    ,'...'
+	    if 0;
 
 	  %folder_captures = %+;
 
@@ -128,11 +279,11 @@
 
 	      printf "\t%s [_] %s: %s;\n\t\t %s:%s;\n\t\t %s: %s;\n\t\t %s:%s;\n\t\t %s: %s\n"
 		,$from_captures{time}
-		,'From',$from_captures{from}
+		,'From' => $from_captures{from}
 		,'FROM', exists($FROM_captures{FROM}) ? $FROM_captures{FROM} : '{!exists(FROM)}'
 		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
 		,'SUBJECT', exists($SUBJECT_captures{SUBJECT}) ? $SUBJECT_captures{SUBJECT} : '{!exists(SUBJECT)}'
-		,'Folder',$folder_captures{folder}
+		,'Folder' => $folder_captures{folder}
 		;
 
 	      printf "##shuttle:\n##shuttle: :0\n##shuttle: * ^Return-Path: <%s>\$%s\n"
@@ -166,10 +317,13 @@
 	}
       elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s},{%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$+{strange_folder}',$+{strange_folder}
-	    ,'$+{size}',$+{size}
-	    ,'...' if 0;
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	     &main::format_key_value_list($main::std_formatting_options
+					  ,'$+{strange_folder}' => $+{strange_folder}
+					  ,'$+{size}' => $+{size}
+					  )
+	    ,'...'
+	    if 0;
 
 	  %folder_captures = %+;
 
@@ -196,14 +350,18 @@
 
 	      $last_date = $date;
 
-	      printf "\t%s [_] %s: %s;\n\t\t %s: %s;\n\t\t %s: %s\n"
+	      printf "\t%s [_] %s: %s;\n\t\t %s:%s;\n\t\t %s: %s;\n\t\t %s:%s;\n\t\t %s: %s\n"
 		,$from_captures{time}
-		,'From',$from_captures{from}
+		,'From' => $from_captures{from}
+		,'FROM', exists($FROM_captures{FROM}) ? $FROM_captures{FROM} : '{!exists(FROM)}'
 		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
-		,'Folder',$folder_captures{strange_folder}
+		,'SUBJECT', exists($SUBJECT_captures{SUBJECT}) ? $SUBJECT_captures{SUBJECT} : '{!exists(SUBJECT)}'
+		,'Folder' => $folder_captures{strange_folder}
 		;
 	    }
 
+	  %FROM_captures    = ();
+	  %SUBJECT_captures = ();
 	  %from_captures    = ();
 	  %subject_captures = ();
 	  %folder_captures  = ();
@@ -212,11 +370,17 @@
 	{
 	  chomp;
 
-	  printf STDERR "=%03.3d,%05.5d: {%s}=>{%s} // %s\n",__LINE__,$.
-	    ,'$_',$_
-	    ,'...' if 1;
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'...'
+	    if 1;
 	}
     }
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
 }
 
 =head1 NAME
