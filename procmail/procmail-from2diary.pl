@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:52:11 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:53:03 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.40 2013/12/30 14:52:46 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 14:52:46 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.41 2013/12/30 14:53:33 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 14:53:33 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:52:11 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.40 2013/12/30 14:52:46 johayek Exp $
+# $Id: procmail-from2diary.pl 1.41 2013/12/30 14:53:33 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -52,7 +52,6 @@ use strict;
 ##our %directories;
 ##our %mount_points;
 our $std_formatting_options = { 'separator' => ',', 'assign' => '=>', 'quoteLeft' => '{', 'quoteRight' => '}' };
-##our(%all_addresses);
 
 {
   use Carp;
@@ -61,8 +60,6 @@ our $std_formatting_options = { 'separator' => ',', 'assign' => '=>', 'quoteLeft
 ##use Encode;
 ##use File::Basename;  
 ##use File::Stat; # OOP interface for Perl's built-in stat() functions
-
-  %main::all_addresses = ();
 
   &main;
 }
@@ -186,7 +183,7 @@ sub job_anon
   binmode( STDOUT , ":encoding(UTF-8)" );
   binmode( STDERR , ":encoding(UTF-8)" );
 
-##our(%all_addresses);
+  our(%all_addresses);
   my($HOME_var_log_procmailrc) = "$ENV{HOME}/var/log/procmailrc";
 
   unlink($HOME_var_log_procmailrc);
