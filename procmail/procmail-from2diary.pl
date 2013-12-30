@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:08:10 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:32:09 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.37 2013/12/30 14:08:56 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 14:08:56 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.38 2013/12/30 14:32:44 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 14:32:44 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 15:08:10 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.37 2013/12/30 14:08:56 johayek Exp $
+# $Id: procmail-from2diary.pl 1.38 2013/12/30 14:32:44 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -177,7 +177,6 @@ sub job_anon
 
   my(%FROM_captures,%SUBJECT_captures,%from_captures,%subject_captures,%folder_captures);
 
-  my($date);
   my($last_date) = '';
 
   binmode( STDIN  , ":encoding(UTF-8)" );
@@ -253,44 +252,15 @@ sub job_anon
 	    if 0;
 
 	  %folder_captures = %+;
-
-	  if(exists($from_captures{from}))
-	    {
-	      # $last_date
-
-	      $date = sprintf "%02.2d %s %s"
-			,$from_captures{mday}
-			,$from_captures{month}
-			,$from_captures{year}
-			;
-
-	      if(0 && ($date eq $last_date)) # maybe we always want to print the calender day, otherwise: s/0/1/
-		{
-		  printf "\n";
-		}
-	      else
-		{
-		  printf "%s\n"
-		    ,$date
-		    ;
-		}
-
-	      $last_date = $date;
-
-	      printf "\t%s [_] %s: %s;\n\t\t %s:%s;\n\t\t %s: %s;\n\t\t %s:%s;\n\t\t %s: %s\n"
-		,$from_captures{time}
-		,'From' => $from_captures{from}
-		,'FROM', exists($FROM_captures{FROM}) ? $FROM_captures{FROM} : '{!exists(FROM)}'
-		,'Subject', exists($subject_captures{subject}) ? $subject_captures{subject} : '{!exists(subject)}'
-		,'SUBJECT', exists($SUBJECT_captures{SUBJECT}) ? $SUBJECT_captures{SUBJECT} : '{!exists(SUBJECT)}'
-		,'Folder' => $folder_captures{folder}
-		;
-
-	      print_shuttle_procmailrc_entry(
-		'from0' => $from_captures{from},
-		'from1' => $FROM_captures{FROM},
-		);
-	    }
+	  
+	  &print_entry(
+	    'ref_last_date'    => \$last_date,
+	    'FROM_captures'    => \%FROM_captures,
+	    'SUBJECT_captures' => \%SUBJECT_captures,
+	    'from_captures'    => \%from_captures,
+	    'subject_captures' => \%subject_captures,
+	    'folder_captures'  => \%folder_captures,
+	    );
 
 	  %FROM_captures    = ();
 	  %SUBJECT_captures = ();
@@ -314,6 +284,7 @@ sub job_anon
 	    {
 	      # $last_date
 
+	      my($date);
 	      $date = sprintf "%02.2d %s %s"
 			,$from_captures{mday}
 			,$from_captures{month}
@@ -380,6 +351,67 @@ sub backslash_e_mail_address
   $return_value = $param{address};
 
   $return_value =~ s/ ([\.\+]) /\\$1/gx;
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub print_entry
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  # $param{ref_last_date}
+  # $param{FROM_captures}
+  # $param{SUBJECT_captures}
+  # $param{from_captures}
+  # $param{subject_captures}
+  # $param{folder_captures}
+
+  if(exists($param{from_captures}{from}))
+    {
+      my($date);
+      $date = sprintf "%02.2d %s %s"
+		,$param{from_captures}{mday}
+		,$param{from_captures}{month}
+		,$param{from_captures}{year}
+		;
+
+      if(0 && ($date eq ${$param{ref_last_date}})) # maybe we always want to print the calender day, otherwise: s/0/1/
+	{
+	  printf "\n";
+	}
+      else
+	{
+	  printf "%s\n"
+	    ,$date
+	    ;
+	}
+
+      ${$param{ref_last_date}} = $date;
+
+      printf "\t%s [_] %s: %s;\n\t\t %s:%s;\n\t\t %s: %s;\n\t\t %s:%s;\n\t\t %s: %s\n"
+	,                                                          $param{from_captures}{time}
+	, 'From'    =>                                             $param{from_captures}{from}
+	, 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
+	, 'Subject' => exists($param{subject_captures}{subject}) ? $param{subject_captures}{subject} : '{!exists(subject)}'
+	, 'SUBJECT' => exists($param{SUBJECT_captures}{SUBJECT}) ? $param{SUBJECT_captures}{SUBJECT} : '{!exists(SUBJECT)}'
+	, 'Folder'  =>                                             $param{folder_captures}{folder}
+	;
+
+      &print_shuttle_procmailrc_entry(
+	'from0' => $param{from_captures}{from},
+	'from1' => $param{FROM_captures}{FROM},
+	);
+    }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
