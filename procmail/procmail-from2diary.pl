@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 16:26:01 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2014-01-02 13:46:01 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.48 2013/12/30 15:26:23 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/12/30 15:26:23 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.49 2014/01/02 12:48:11 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/01/02 12:48:11 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2013-12-30 16:26:01 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.48 2013/12/30 15:26:23 johayek Exp $
+# $Id: procmail-from2diary.pl 1.49 2014/01/02 12:48:11 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -429,6 +429,11 @@ sub print_shuttle_procmailrc_entry
 	{
 	  $main::all_addresses{ $param{from0} } = 1;
 
+	  printf $main::fh_procmailrc "#\n";
+	  printf $main::fh_procmailrc "# %s=>{%s}\n"
+	    , '$param{from0}' => $param{from0}
+	    ;
+	  printf $main::fh_procmailrc "#\n";
 	  printf $main::fh_procmailrc "##shuttle:\n";
 	  printf $main::fh_procmailrc "##shuttle: :0\n";
 	  printf $main::fh_procmailrc "##shuttle: * ^Return-Path: <%s>\$\n"
@@ -441,13 +446,26 @@ sub print_shuttle_procmailrc_entry
 	{
 	  my($h) = $param{from1};
 
-	  my($rp) = $h;
-	  if($h =~ m/^ .* < (.*) > $/x)
+	  my($rp);
+	  if($param{from1} =~ m/^ .* < (.*) > $/x)
 	    {
 	      $rp = $1;
 	    }
+	  else
+	    {
+	      $rp = $param{from1};
+	      $rp =~ s/^ \s+ //x;
+	    }
+
 	  unless(exists( $main::all_addresses{ $rp } ))
 	    {
+	      $main::all_addresses{ $rp } = 1;
+
+	      printf $main::fh_procmailrc "#\n";
+	      printf $main::fh_procmailrc "# %s=>{%s}\n"
+		, '$param{from1}' => $param{from1}
+		;
+	      printf $main::fh_procmailrc "#\n";
 	      printf $main::fh_procmailrc "##shuttle:\n";
 	      printf $main::fh_procmailrc "##shuttle: :0\n";
 	      printf $main::fh_procmailrc "##shuttle: * ^Return-Path: <%s>\$\n"
