@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2014-01-02 13:46:01 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2014-01-12 14:57:49 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.49 2014/01/02 12:48:11 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/01/02 12:48:11 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.50 2014/01/12 13:58:55 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/01/12 13:58:55 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -11,7 +11,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2014-01-02 13:46:01 johayek>' =~ m/<(.*)>
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.49 2014/01/02 12:48:11 johayek Exp $
+# $Id: procmail-from2diary.pl 1.50 2014/01/12 13:58:55 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
@@ -175,7 +175,9 @@ sub job_anon
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  my(%FROM_captures,%SUBJECT_captures,%from_captures,%subject_captures,%folder_captures);
+  my(%FROM_captures,%TO_captures,%SUBJECT_captures,
+     %from_captures,%to_captures,%subject_captures,
+     %folder_captures);
 
   my($last_date) = '';
 
@@ -206,7 +208,17 @@ sub job_anon
 	    if 0;
 
 	  %FROM_captures = %+;
+	  %TO_captures = ();
 	  %SUBJECT_captures = ();
+	}
+      elsif(m/^MSG_TO=\{(?<MSG_TO>.*)\}$/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options, '$+{MSG_TO}' => $+{MSG_TO} )
+	    ,'...'
+	    if 0;
+
+	  %TO_captures = %+;
 	}
       elsif(m/^SUBJECT=\{(?<SUBJECT>.*)\}$/x)
 	{
@@ -231,6 +243,7 @@ sub job_anon
 	    ,'...' if 0;
 
 	  %from_captures = %+;
+	  %to_captures = ();
 	  %subject_captures = ();
 	}
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
@@ -269,15 +282,19 @@ sub job_anon
 	  &print_entry(
 	    'ref_last_date'    => \$last_date,
 	    'FROM_captures'    => \%FROM_captures,
+	    'TO_captures'      => \%TO_captures,
 	    'SUBJECT_captures' => \%SUBJECT_captures,
 	    'from_captures'    => \%from_captures,
+	    'to_captures'      => \%to_captures,
 	    'subject_captures' => \%subject_captures,
 	    'folder_captures'  => \%folder_captures,
 	    );
 
 	  %FROM_captures    = ();
+	  %TO_captures      = ();
 	  %SUBJECT_captures = ();
 	  %from_captures    = ();
+	  %to_captures      = ();
 	  %subject_captures = ();
 	  %folder_captures  = ();
 	}
@@ -296,15 +313,19 @@ sub job_anon
 	  &print_entry(
 	    'ref_last_date'    => \$last_date,
 	    'FROM_captures'    => \%FROM_captures,
+	    'TO_captures'      => \%TO_captures,
 	    'SUBJECT_captures' => \%SUBJECT_captures,
 	    'from_captures'    => \%from_captures,
+	    'to_captures'      => \%to_captures,
 	    'subject_captures' => \%subject_captures,
 	    'folder_captures'  => \%folder_captures,
 	    );
 
 	  %FROM_captures    = ();
+	  %TO_captures      = ();
 	  %SUBJECT_captures = ();
 	  %from_captures    = ();
+	  %to_captures      = ();
 	  %subject_captures = ();
 	  %folder_captures  = ();
 	}
@@ -361,8 +382,10 @@ sub print_entry
 
   # $param{ref_last_date}
   # $param{FROM_captures}
+  # $param{TO_captures}
   # $param{SUBJECT_captures}
   # $param{from_captures}
+  # $param{to_captures}
   # $param{subject_captures}
   # $param{folder_captures}
 
@@ -388,10 +411,16 @@ sub print_entry
 
       ${$param{ref_last_date}} = $date;
 
-      printf "\t%s [_] %s: %s;\n\t\t %s:%s;\n\t\t %s: %s;\n\t\t %s:%s;\n\t\t %s: %s\n"
+      printf "\t%s [_] %s: %s;\n" .
+	"\t\t %s:%s;\n" .
+	"\t\t %s:%s;\n" .
+	"\t\t %s: %s;\n" .
+	"\t\t %s:%s;\n" .
+	"\t\t %s: %s\n"
 	,                                                          $param{from_captures}{time}
 	, 'From'    =>                                             $param{from_captures}{from}
 	, 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
+	, 'TO'      => exists($param{TO_captures}{TO})           ? $param{TO_captures}{TO}           : '{!exists(TO)}'
 	, 'Subject' => exists($param{subject_captures}{subject}) ? $param{subject_captures}{subject} : '{!exists(subject)}'
 	, 'SUBJECT' => exists($param{SUBJECT_captures}{SUBJECT}) ? $param{SUBJECT_captures}{SUBJECT} : '{!exists(SUBJECT)}'
 	, 'Folder'  =>                                             $param{folder_captures}{folder}
