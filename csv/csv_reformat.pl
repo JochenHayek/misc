@@ -23,13 +23,15 @@
   
   # do these two conflict / overlap?
   binmode( ARGV   , ":encoding(UTF-8)" );
-  binmode( STDIN  , ":encoding(UTF-8)" );
+##binmode( STDIN  , ":encoding(UTF-8)" );
+  binmode( STDIN  , ":crlf:encoding(UTF-8)" );
 
   binmode( STDOUT , ":encoding(UTF-8)" );
 
   while(<>)
     {
-      chomp;
+      ##chomp;		# did not get it working
+      s/\s+$//g;
 
       my(@F) = split( $ENV{SEPARATOR} );
 
