@@ -17,10 +17,15 @@
 
   binmode(STDOUT,":encoding(utf8)");
   binmode(STDERR,":encoding(utf8)");
+  binmode(STDIN ,":crlf");
+
+##local $/ = "\r\n";
 
   while(<>)
     {
-      chomp;
+      ##chomp;		# did not get it working
+      s/\s+$//g;
+
       if   ($. == 1)
 	{
 	  @field_names = split( $ENV{SEPARATOR} );
@@ -29,7 +34,30 @@
 	{
 	  @{$field_values[$.-2]} = split( $ENV{SEPARATOR} );
 
-	  die "\$#field_names=>$#field_names,\$#field_values=>$#field_values"
+	  while( $#{$field_values[$.-2]} >= 0 )
+	    {
+	      my($n) = $#{$field_values[$.-2]};
+
+	      if(!defined($field_values[$.-2][$n]))
+		 {
+		  pop(@{$field_values[$.-2]});
+		 }
+	      elsif($field_values[$.-2][$n] =~ m/^\s*$/)
+		{
+		  pop(@{$field_values[$.-2]});
+		}
+	      else
+		{
+		  last;
+		}
+	    }
+
+	  warn "\$field_values[$.-2][$n]=>{$field_values[$.-2][$n]}"
+	    if $#field_names < $#{$field_values[$.-2]}
+	    ;
+
+	##die "\$#field_names=>$#field_names,\$#field_values=>$#field_values"
+	  die "\$#field_names=>$#field_names,\$#{\$field_values[$.-2]}=>$#{$field_values[$.-2]}"
 	    if $#field_names < $#{$field_values[$.-2]}
 	    ;
 	}
