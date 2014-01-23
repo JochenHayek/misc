@@ -15,43 +15,37 @@
   my(@field_names);
   my(@field_values);
 
+##binmode(STDIN ,":encoding(utf8)");
+  binmode(STDIN ,":crlf:encoding(utf8)");
   binmode(STDOUT,":encoding(utf8)");
   binmode(STDERR,":encoding(utf8)");
 
   while(<>)
     {
-      chomp;
-      if   ($. == 1)
-	{
-	  @field_names = split( $ENV{SEPARATOR} );
-	}
-      elsif($. > 1)
-	{
-	  @{$field_values[$.-2]} = split( $ENV{SEPARATOR} );
+      ##chomp;		# did not get it working
+      s/\s+$//g;
 
-	  die "\$#field_names=>$#field_names,\$#field_values=>$#field_values"
-	    if $#field_names < $#{$field_values[$.-2]}
-	    ;
-	}
+      my(@F) = split( $ENV{SEPARATOR} );
+
+      push( @field_names  , shift @F);
+
+      push( @field_values , \@F );
     }
 
-  for(my $j = 0;$j<=$#field_values;$j++)
+  for(my $j = 0;$j<=$#{$field_values[0]};$j++)
+##my $j = 0;
     {
-      printf ";%s",
-	defined($field_values[$j][$i]) ? $field_values[$j][$i] : '',
+      printf "\n",
 	;
-
       for(my $i = 0;$i<=$#field_names;$i++)
 	{
-	  printf "%s",
+	  printf "%s;%s",
+	    $j,
 	    $field_names[$i],
 	    ;
-	  for(my $j = 0;$j<=$#field_values;$j++)
-	    {
-	      printf ";%s",
-		defined($field_values[$j][$i]) ? $field_values[$j][$i] : '',
-		;
-	    }
+	  printf ";%s",
+	    defined($field_values[$i][$j]) ? $field_values[$i][$j] : '',
+	    ;
 	  printf "\n",
 	    ;
 	}
