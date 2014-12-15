@@ -1,18 +1,41 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2014-01-12 15:02:05 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 01:12:10 johayek>' =~ m/<(.*)>/;
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.51 2014/01/12 14:03:17 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/01/12 14:03:17 $'))[1..2])));
+# $Id: procmail-from2diary.pl 1.52 2014/12/16 00:12:25 johayek Exp $
+# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
+
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.52 2014/12/16 00:12:25 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 00:12:25 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
 
+################################################################################
+
 # read a procmail log file -> LOGFILE
 # create diary entries
 
-# $Id: procmail-from2diary.pl 1.51 2014/01/12 14:03:17 johayek Exp $
-# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
+################################################################################
+
+# basically to be called like that:
+
+# $ $HOME/bin/procmail-from2diary.pl $HOME/procmail-from
+
+# but I want to "tail -f" the file on mail.shuttle.de like this,
+# and if I create the pipe on that server, we are running into a buffering problem,
+# which we don't run into, if the script runs locally:
+
+# $ ssh -n mail.shuttle.de tail -1000f procmail-from | ~/bin/procmail-from2diary.pl
+
+################################################################################
+
+# because we also need to survey the certificate fingerprints,
+# we created a more complex command line:
+
+# $ ssh -n www.b.shuttle.de bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log; echo -e '\n\n********************'; sleep 5; ssh -n mail.shuttle.de tail -1000f procmail-from | ~/bin/procmail-from2diary.pl
+
+################################################################################
 
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
 #
@@ -551,11 +574,6 @@ tail -f $HOME/procmail-from | procmail-from2diary.pl
 =head1 OSNAMES
 
 any
-
-=head1 SCRIPT CATEGORIES
-
-Win32
-Win32/Utilities
 
 =head1 AUTHOR
 
