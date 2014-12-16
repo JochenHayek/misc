@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 13:09:29 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 13:19:54 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.55 2014/12/16 12:13:21 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.56 2014/12/16 12:20:01 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.55 2014/12/16 12:13:21 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 12:13:21 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.56 2014/12/16 12:20:01 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 12:20:01 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -46,6 +46,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 13:09:29 johayek>' =~ m/<(.*)>
 # $ rsync -vaz --rsync-path=/volume1/@hayek/bin/rsync $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl diskstation002:ARCHIVE/mail.shuttle.de-non-dated/Computers/Programming/Languages/Perl/
 # $ rsync -vaz					      $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                  mail.shuttle.de:Computers/Programming/Languages/Perl/
 # $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                           HayekW:Computers/Programming/Languages/Perl/
+# $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                         Hayek001:Computers/Programming/Languages/Perl/
 
 ################################################################################
 
