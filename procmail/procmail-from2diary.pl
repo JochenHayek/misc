@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 01:12:10 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 12:37:10 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.52 2014/12/16 00:12:25 johayek Exp $
+# $Id: procmail-from2diary.pl 1.53 2014/12/16 11:40:57 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.52 2014/12/16 00:12:25 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 00:12:25 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.53 2014/12/16 11:40:57 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 11:40:57 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -34,6 +34,12 @@ our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 01:12:10 johayek>' =~ m/<(.*)>
 # we created a more complex command line:
 
 # $ ssh -n www.b.shuttle.de bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log; echo -e '\n\n********************'; sleep 5; ssh -n mail.shuttle.de tail -1000f procmail-from | ~/bin/procmail-from2diary.pl
+
+################################################################################
+
+# $ rsync -vaz --rsync-path=/volume1/@hayek/bin/rsync $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl diskstation002:ARCHIVE/mail.shuttle.de-non-dated/Computers/Programming/Languages/Perl/
+# $ rsync -vaz					      $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                  mail.shuttle.de:Computers/Programming/Languages/Perl/
+# $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                           HayekW:Computers/Programming/Languages/Perl/
 
 ################################################################################
 
