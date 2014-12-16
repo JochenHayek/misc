@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 13:08:47 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 13:09:29 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.54 2014/12/16 12:08:58 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.55 2014/12/16 12:13:21 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.54 2014/12/16 12:08:58 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 12:08:58 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.55 2014/12/16 12:13:21 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 12:13:21 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -32,14 +32,14 @@ our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 13:08:47 johayek>' =~ m/<(.*)>
 # and if I create the pipe on that server, we are running into a buffering problem,
 # which we don't run into, if the script runs locally:
 
-# $ ssh -n mail.shuttle.de tail -1000f procmail-from | ~/bin/procmail-from2diary.pl
+# $ ssh -n mail.shuttle.de tail -1000f var/log/procmail-from | ~/bin/procmail-from2diary.pl
 
 ################################################################################
 
 # because we also need to survey the certificate fingerprints,
 # we created a more complex command line:
 
-# $ ssh -n www.b.shuttle.de bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log; echo -e '\n\n********************'; sleep 5; ssh -n mail.shuttle.de tail -1000f procmail-from | ~/bin/procmail-from2diary.pl
+# $ ssh -n www.b.shuttle.de bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log; echo -e '\n\n********************'; sleep 5; ssh -n mail.shuttle.de tail -1000f var/log/procmail-from | ~/bin/procmail-from2diary.pl
 
 ################################################################################
 
