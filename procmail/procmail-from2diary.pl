@@ -1,26 +1,32 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 12:37:10 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2014-12-16 13:08:47 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.53 2014/12/16 11:40:57 johayek Exp $
+# $Id: procmail-from2diary.pl 1.54 2014/12/16 12:08:58 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.53 2014/12/16 11:40:57 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 11:40:57 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.54 2014/12/16 12:08:58 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2014/12/16 12:08:58 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
 
 ################################################################################
 
-# read a procmail log file -> LOGFILE
-# create diary entries
+# read a procmail LOGFILE
+# * as created by my .procmailrc
+# * with rather special extra lines: FROM:..., MSG_TO=..., SUBJECT=...
+
+# create diary entries on STDOUT
+# create $HOME/var/log/procmailrc
 
 ################################################################################
 
 # basically to be called like that:
 
-# $ $HOME/bin/procmail-from2diary.pl $HOME/procmail-from
+# $ $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl
+
+# $                                  $HOME/bin/procmail-from2diary.pl
 
 # but I want to "tail -f" the file on mail.shuttle.de like this,
 # and if I create the pipe on that server, we are running into a buffering problem,
@@ -229,6 +235,7 @@ sub job_anon
 
   while(<>)			# this is only STDIN, if it's really STDIN; if it's "reading files filter-like from the command-line", it's not STDIN; no idea, what it is then
     {
+
       if(m/^FROM=\{(?<FROM>.*)\}$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -240,6 +247,7 @@ sub job_anon
 	  %MSG_TO_captures = ();
 	  %SUBJECT_captures = ();
 	}
+
       elsif(m/^MSG_TO=\{(?<MSG_TO>.*)\}$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -249,6 +257,7 @@ sub job_anon
 
 	  %MSG_TO_captures = %+;
 	}
+
       elsif(m/^SUBJECT=\{(?<SUBJECT>.*)\}$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -258,6 +267,7 @@ sub job_anon
 
 	  %SUBJECT_captures = %+;
 	}
+
       elsif(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -275,6 +285,7 @@ sub job_anon
 	  %to_captures = ();
 	  %subject_captures = ();
 	}
+
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -296,6 +307,7 @@ sub job_anon
 	    ,'Subject' => $subject_captures{subject}
 	    if 0;
 	}
+
       elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -327,6 +339,7 @@ sub job_anon
 	  %subject_captures = ();
 	  %folder_captures  = ();
 	}
+
       elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -358,6 +371,7 @@ sub job_anon
 	  %subject_captures = ();
 	  %folder_captures  = ();
 	}
+
       else
 	{
 	  chomp;
