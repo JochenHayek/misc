@@ -1,9 +1,5 @@
 :
 
-# -> ~/Computers/Software/Operating_Systems/Unix/Shell/README--rename.txt
-
-# <xmp:CreateDate>2014-02-04T12:13:25Z</xmp:CreateDate>
-
 ################################################################################
 
 pdfinfo_version=$(pdfinfo -v 2>&1)
