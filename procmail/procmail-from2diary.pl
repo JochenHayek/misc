@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-02-13 16:59:22 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-02-27 16:25:20 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.57 2015/02/13 15:59:25 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.58 2015/02/27 15:25:24 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.57 2015/02/13 15:59:25 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/02/13 15:59:25 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.58 2015/02/27 15:25:24 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/02/27 15:25:24 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -78,8 +78,8 @@ our($emacs_Time_stamp) = 'Time-stamp: <2015-02-13 16:59:22 johayek>' =~ m/<(.*)>
 #
 #  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -e 'use Encode qw(decode); print decode("MIME-Header", $ENV{TEXT}), "\n"'
 
-use warnings;
 use strict;
+use warnings FATAL => 'all';
 
 ##our $VERSION = '1.36';
 
