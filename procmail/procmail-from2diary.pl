@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-03-09 18:30:44 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-03-09 23:52:51 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.59 2015/03/09 17:30:45 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.60 2015/03/09 22:55:39 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.59 2015/03/09 17:30:45 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/09 17:30:45 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.60 2015/03/09 22:55:39 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/09 22:55:39 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -79,7 +79,8 @@ our($emacs_Time_stamp) = 'Time-stamp: <2015-03-09 18:30:44 johayek>' =~ m/<(.*)>
 #  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -e 'use Encode qw(decode); print decode("MIME-Header", $ENV{TEXT}), "\n"'
 
 use strict;
-use warnings FATAL => 'all';
+##use warnings FATAL => 'all';	# this creates an immediate exit with 'binmode(STDIN ,":encoding(UTF-8)" );' , when something non-UTF-8 gets encountered
+use warnings;
 
 ##our $VERSION = '1.36';
 
@@ -217,8 +218,16 @@ sub job_anon
 
   my($last_date) = '';
 
-##binmode( STDIN  , ":encoding(UTF-8)" );          # it is NOT UTF-8, and with "use warnings FATAL => 'all';" this creates an immediate exit, when something non-UTF-8 gets encountered
-  binmode( STDIN  , ":encoding(ISO-8859-1)" );
+  # procmail creates 8-bit / 1-byte code,
+  # presumably it lets subjects with German umlauts and "ß" pass through.
+
+  # BUT:
+  # the lines created like this:
+  #   FROM=`formail    -c -xFrom:    | perl -MEncode -ne 'print encode("utf8",decode("MIME-Header",$_))'`
+  # *do* create UTF-8 multi-byte characters.
+
+  binmode( STDIN  , ":encoding(UTF-8)" );          # it is NOT UTF-8, and with "use warnings FATAL => 'all';" this creates an immediate exit, when something non-UTF-8 gets encountered
+##binmode( STDIN  , ":encoding(ISO-8859-1)" );
 
   binmode( STDOUT , ":encoding(UTF-8)" );
   binmode( STDERR , ":encoding(UTF-8)" );
