@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-02-27 16:25:20 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-03-09 18:30:44 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.58 2015/02/27 15:25:24 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.59 2015/03/09 17:30:45 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.58 2015/02/27 15:25:24 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/02/27 15:25:24 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.59 2015/03/09 17:30:45 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/09 17:30:45 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -15,7 +15,7 @@ our($emacs_Time_stamp) = 'Time-stamp: <2015-02-27 16:25:20 johayek>' =~ m/<(.*)>
 
 # read a procmail LOGFILE
 # * as created by my .procmailrc
-# * with rather special extra lines: FROM:..., MSG_TO=..., SUBJECT=...
+# * with rather special extra lines: DATE:..., FROM:..., MSG_TO=..., SUBJECT=...
 
 # create diary entries on STDOUT
 # create $HOME/var/log/procmailrc
@@ -211,13 +211,15 @@ sub job_anon
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  my(%FROM_captures,%MSG_TO_captures,%SUBJECT_captures,
-     %from_captures,%to_captures,%subject_captures,
+  my(%DATE_captures,%FROM_captures,%MSG_TO_captures,%SUBJECT_captures,
+     		    %From_captures,%to_captures,%subject_captures,
      %folder_captures);
 
   my($last_date) = '';
 
-  binmode( STDIN  , ":encoding(UTF-8)" );
+##binmode( STDIN  , ":encoding(UTF-8)" );          # it is NOT UTF-8, and with "use warnings FATAL => 'all';" this creates an immediate exit, when something non-UTF-8 gets encountered
+  binmode( STDIN  , ":encoding(ISO-8859-1)" );
+
   binmode( STDOUT , ":encoding(UTF-8)" );
   binmode( STDERR , ":encoding(UTF-8)" );
 
@@ -244,11 +246,31 @@ sub job_anon
 	    ,'...'
 	    if 0;
 
-	  %FROM_captures = %+;
-	  %MSG_TO_captures = ();
+	  %FROM_captures    = %+;
+	  %DATE_captures    = ();
+	  %MSG_TO_captures  = ();
 	  %SUBJECT_captures = ();
 	}
 
+      # DATE={ 9 Mar 2015 12:36:39 -0400}
+      # DATE={ Mon,  9 Mar 2015 16:58:18 +0100 (CET)}
+      # DATE={ Mon, 09 Mar 2015 16:51:15 +0100}
+      # DATE={ Mon, 9 Mar 2015 16:51:03 +0100}
+
+      elsif(m/^DATE=\{ \s*  ( (?<wday>\w+) , \s+ )? (?<mday>\w+) \s+ (?<month>\w+) \s+ (?<year>\d+) \s+ (?<time>[\d:]+) \s+ (?<DST>.*) \}$/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options
+					   ,'$+{mday}' => $+{mday}
+					   ,'$+{month}' => $+{month}
+					   ,'$+{year}' => $+{year}
+					   ,'$+{time}' => $+{time}
+					   ,'$+{DST}' => $+{DST}
+					   )
+	    ,'...' if 0;
+
+	  %DATE_captures = %+;
+	}
       elsif(m/^MSG_TO=\{(?<MSG_TO>.*)\}$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -258,7 +280,6 @@ sub job_anon
 
 	  %MSG_TO_captures = %+;
 	}
-
       elsif(m/^SUBJECT=\{(?<SUBJECT>.*)\}$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -269,11 +290,11 @@ sub job_anon
 	  %SUBJECT_captures = %+;
 	}
 
-      elsif(m/^From \s+ (?<from>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
+      elsif(m/^From \s+ (?<From>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options
-					   ,'$+{from}' => $+{from}
+					   ,'$+{From}' => $+{From}
 					   ,'$+{wday}' => $+{wday}
 					   ,'$+{month}' => $+{month}
 					   ,'$+{mday}' => $+{mday}
@@ -282,7 +303,7 @@ sub job_anon
 					   )
 	    ,'...' if 0;
 
-	  %from_captures = %+;
+	  %From_captures = %+;
 	  %to_captures = ();
 	  %subject_captures = ();
 	}
@@ -292,7 +313,7 @@ sub job_anon
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options
 					   ,'$+{subject}' => $+{subject}
-					   ,'$from_captures{from}' => $from_captures{from}
+					   ,'$From_captures{From}' => $From_captures{From}
 					   )
 	    ,'...'
 	    if 0;
@@ -300,11 +321,11 @@ sub job_anon
 	  %subject_captures = %+;
 
 	  printf "%s %s %s\n\t%s %s: %s; %s: %s\n"
-	    ,$from_captures{mday}
-	    ,$from_captures{month}
-	    ,$from_captures{year}
-	    ,$from_captures{time}
-	    ,'From' => $from_captures{from}
+	    ,$From_captures{mday}
+	    ,$From_captures{month}
+	    ,$From_captures{year}
+	    ,$From_captures{time}
+	    ,'From' => $From_captures{From}
 	    ,'Subject' => $subject_captures{subject}
 	    if 0;
 	}
@@ -325,8 +346,9 @@ sub job_anon
 	    'ref_last_date'    => \$last_date,
 	    'FROM_captures'    => \%FROM_captures,
 	    'MSG_TO_captures'  => \%MSG_TO_captures,
+	    'DATE_captures'    => \%DATE_captures,
 	    'SUBJECT_captures' => \%SUBJECT_captures,
-	    'from_captures'    => \%from_captures,
+	    'From_captures'    => \%From_captures,
 	    'to_captures'      => \%to_captures,
 	    'subject_captures' => \%subject_captures,
 	    'folder_captures'  => \%folder_captures,
@@ -334,8 +356,9 @@ sub job_anon
 
 	  %FROM_captures    = ();
 	  %MSG_TO_captures  = ();
+	  %DATE_captures    = ();
 	  %SUBJECT_captures = ();
-	  %from_captures    = ();
+	  %From_captures    = ();
 	  %to_captures      = ();
 	  %subject_captures = ();
 	  %folder_captures  = ();
@@ -357,8 +380,9 @@ sub job_anon
 	    'ref_last_date'    => \$last_date,
 	    'FROM_captures'    => \%FROM_captures,
 	    'MSG_TO_captures'  => \%MSG_TO_captures,
+	    'DATE_captures'    => \%DATE_captures,
 	    'SUBJECT_captures' => \%SUBJECT_captures,
-	    'from_captures'    => \%from_captures,
+	    'From_captures'    => \%From_captures,
 	    'to_captures'      => \%to_captures,
 	    'subject_captures' => \%subject_captures,
 	    'folder_captures'  => \%folder_captures,
@@ -366,8 +390,9 @@ sub job_anon
 
 	  %FROM_captures    = ();
 	  %MSG_TO_captures  = ();
+	  %DATE_captures    = ();
 	  %SUBJECT_captures = ();
-	  %from_captures    = ();
+	  %From_captures    = ();
 	  %to_captures      = ();
 	  %subject_captures = ();
 	  %folder_captures  = ();
@@ -427,42 +452,67 @@ sub print_entry
   # $param{ref_last_date}
   # $param{FROM_captures}
   # $param{MSG_TO_captures}
+  # $param{DATE_captures}
   # $param{SUBJECT_captures}
-  # $param{from_captures}
+  # $param{From_captures}
   # $param{to_captures}
   # $param{subject_captures}
   # $param{folder_captures}
 
-  if(exists($param{from_captures}{from}))
+  if(exists($param{From_captures}{From}))
     {
-      my($date);
-      $date = sprintf "%02.2d %s %s"
-		,$param{from_captures}{mday}
-		,$param{from_captures}{month}
-		,$param{from_captures}{year}
-		;
 
-      if(0 && ($date eq ${$param{ref_last_date}})) # maybe we always want to print the calender day, otherwise: s/0/1/
+      # in earlier times I used $From_captures{mday} etc,
+      # but %From_captures reflects the arrival date+time, not the send date+time.
+      # it took me quite a while to find the time to adapt this code.
+
+      my($date);
+
+      if   (exists($param{DATE_captures}{year}))
 	{
-	  printf "\n";
-	}
-      else
-	{
+	  $date = sprintf "%02.2d %s %s"
+		    ,exists($param{DATE_captures}{mday})  ? $param{DATE_captures}{mday}  : '0'
+		    ,exists($param{DATE_captures}{month}) ? $param{DATE_captures}{month} : '{MONTH}'
+		    ,exists($param{DATE_captures}{year})  ? $param{DATE_captures}{year}  : '9999'
+		    ;
 	  printf "%s\n"
 	    ,$date
 	    ;
 	}
+      elsif(exists($param{From_captures}{year}))
+	{
+	  $date = sprintf "%02.2d %s %s"
+		    ,exists($param{From_captures}{mday})  ? $param{From_captures}{mday}  : '0'
+		    ,exists($param{From_captures}{month}) ? $param{From_captures}{month} : '{MONTH}'
+		    ,exists($param{From_captures}{year})  ? $param{From_captures}{year}  : '9999'
+		    ;
+	  printf "%s // From_captures\n"
+	    ,$date
+	    ;
+	}
+
+    ##if(0 && ($date eq ${$param{ref_last_date}})) # maybe we always want to print the calender day, otherwise: s/0/1/
+    ##  {
+    ##    printf "\n";
+    ##  }
+    ##else
+    ##  {
+    ##    printf "%s\n"
+    ##      ,$date
+    ##      ;
+    ##  }
 
       ${$param{ref_last_date}} = $date;
 
-      printf "\t%s [_] %s: %s;\n" .
+      printf "\t%s %s [_] %s: %s;\n" .
 	"\t\t %s:%s;\n" .
 	"\t\t %s:%s;\n" .
 	"\t\t %s: %s;\n" .
 	"\t\t %s:%s;\n" .
 	"\t\t %s: %s\n"
-	,                                                          $param{from_captures}{time}
-	, 'From'    =>                                             $param{from_captures}{from}
+	,              exists($param{DATE_captures}{time})       ? $param{DATE_captures}{time}       : '{!exists(DATE_captures{time})}'
+	,              exists($param{DATE_captures}{DST})        ? $param{DATE_captures}{DST}        : '{!exists(DATE_captures{DST})}'
+	, 'From'    =>                                             $param{From_captures}{From}
 	, 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
 	, 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
 	, 'Subject' => exists($param{subject_captures}{subject}) ? $param{subject_captures}{subject} : '{!exists(subject)}'
@@ -471,7 +521,7 @@ sub print_entry
 	;
 
       &print_shuttle_procmailrc_entry(
-	'from0' => $param{from_captures}{from},
+	'from0' => $param{From_captures}{From},
 	'from1' => $param{FROM_captures}{FROM},
 	);
     }
