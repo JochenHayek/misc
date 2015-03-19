@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-03-09 23:52:51 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-03-19 20:47:13 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.60 2015/03/09 22:55:39 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.61 2015/03/19 20:23:42 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.60 2015/03/09 22:55:39 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/09 22:55:39 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.61 2015/03/19 20:23:42 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/19 20:23:42 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -516,16 +516,93 @@ sub print_entry
       printf "\t%s %s [_] %s: %s;\n" .
 	"\t\t %s:%s;\n" .
 	"\t\t %s:%s;\n" .
-	"\t\t %s: %s;\n" .
-	"\t\t %s:%s;\n" .
-	"\t\t %s: %s\n"
+	''
 	,              exists($param{DATE_captures}{time})       ? $param{DATE_captures}{time}       : '{!exists(DATE_captures{time})}'
 	,              exists($param{DATE_captures}{DST})        ? $param{DATE_captures}{DST}        : '{!exists(DATE_captures{DST})}'
 	, 'From'    =>                                             $param{From_captures}{From}
 	, 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
 	, 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
-	, 'Subject' => exists($param{subject_captures}{subject}) ? $param{subject_captures}{subject} : '{!exists(subject)}'
-	, 'SUBJECT' => exists($param{SUBJECT_captures}{SUBJECT}) ? $param{SUBJECT_captures}{SUBJECT} : '{!exists(SUBJECT)}'
+	;
+
+      if   (  exists($param{subject_captures}{subject}) &&  exists($param{SUBJECT_captures}{SUBJECT}) )
+	{
+	  my($both_still_to_be_printed_p) = 1;
+
+	  {
+	    my($SUBJECT) = $param{SUBJECT_captures}{SUBJECT};
+	    $SUBJECT =~ s/^ //;
+
+	    if( $param{subject_captures}{subject} eq $SUBJECT )
+	      {
+		$both_still_to_be_printed_p = 0;
+
+		printf 
+		  "\t\t %s: %s;\n"
+		  , 'Subject' => $param{subject_captures}{subject}
+		  ;
+	      }
+	  }
+
+	  if($both_still_to_be_printed_p)
+	    {
+	      my($SUBJECT) = $param{SUBJECT_captures}{SUBJECT};
+	      $SUBJECT =~ s/^ //;
+
+	      my($subject) = $param{subject_captures}{subject};
+	      $subject =~ s/;$//;
+	      my($length_of_subject) = length($subject);
+
+	      printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+		 ,&main::format_key_value_list($main::std_formatting_options, 
+					       '$SUBJECT' => $SUBJECT ,
+					       '$subject' => $subject ,
+					       '$length_of_subject' => $length_of_subject ,
+					      )
+		,'...'
+		if 0;
+
+	      if( substr($SUBJECT,0,$length_of_subject) eq $subject )
+		{
+		  $both_still_to_be_printed_p = 0;
+
+		  printf 
+		    "\t\t %s: %s; // %s\n"
+		    , 'Subject' => $param{subject_captures}{subject}
+		    , '*** WILL BE REMOVED, BECAUSE IT IS A SUBSTRING ***'
+		    if 0;
+		  printf 
+		    "\t\t %s:%s;\n"
+		    , 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
+		    ;
+		}
+	    }
+
+	  if($both_still_to_be_printed_p)
+	    {
+	      printf 
+		"\t\t %s: %s;\n"
+		, 'Subject' => $param{subject_captures}{subject}
+		;
+	      printf 
+		"\t\t %s:%s;\n"
+		, 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
+		;
+	    }
+	}
+      else
+	{
+	  printf 
+	    "\t\t %s: %s;\n"
+	    , 'Subject' => exists($param{subject_captures}{subject}) ? $param{subject_captures}{subject} : '{!exists(subject)}'
+	    ;
+
+	  printf 
+	    "\t\t %s:%s;\n"
+	    , 'SUBJECT' => exists($param{SUBJECT_captures}{SUBJECT}) ? $param{SUBJECT_captures}{SUBJECT} : '{!exists(SUBJECT)}'
+	    ;
+	}
+
+      printf "\t\t %s: %s\n"
 	, 'Folder'  =>                                             $param{folder_captures}{folder}
 	;
 
