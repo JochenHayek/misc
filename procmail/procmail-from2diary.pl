@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-03-20 04:02:53 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-03-20 04:14:28 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.62 2015/03/20 03:05:29 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.63 2015/03/20 03:11:39 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.62 2015/03/20 03:05:29 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/20 03:05:29 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.63 2015/03/20 03:11:39 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/20 03:11:39 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -537,9 +537,14 @@ sub print_entry
 		$both_still_to_be_printed_p = 0;
 
 		printf 
-		  "\t\t %s: %s;\n"
+		  "\t\t %s: %s; // %s\n"
 		  , 'Subject' => $param{subject_captures}{subject}
+		  , '*** WILL BE REMOVED, BECAUSE THE SUBJECTS ARE THE SAME ***'
 		  ;
+		  printf 
+		    "\t\t %s:%s;\n"
+		    , 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
+		    ;
 	      }
 	  }
 
@@ -569,7 +574,7 @@ sub print_entry
 		    "\t\t %s: %s; // %s\n"
 		    , 'Subject' => $param{subject_captures}{subject}
 		    , '*** WILL BE REMOVED, BECAUSE IT IS A SUBSTRING ***'
-		    if 0;
+		    if 1;
 		  printf 
 		    "\t\t %s:%s;\n"
 		    , 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
