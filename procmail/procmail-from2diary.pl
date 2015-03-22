@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-03-20 04:14:28 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-03-22 21:20:21 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.63 2015/03/20 03:11:39 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.64 2015/03/22 20:30:44 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.63 2015/03/20 03:11:39 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/20 03:11:39 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.64 2015/03/22 20:30:44 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/22 20:30:44 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -40,6 +40,8 @@ our($emacs_Time_stamp) = 'Time-stamp: <2015-03-20 04:14:28 johayek>' =~ m/<(.*)>
 # we created a more complex command line:
 
 # $ ssh -n www.b.shuttle.de bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log; echo -e '\n\n********************'; ssh -n mail.shuttle.de quota --human-readable; echo -e '\n\n********************'; sleep 5; ssh -n mail.shuttle.de tail -1000f var/log/procmail-from | ~/bin/procmail-from2diary.pl
+
+# $ ssh -n www.b.shuttle.de 'tail -500 var/log/fetchmail.log | bin/fetchmail--extract_fingerprints.pl'; echo -e '\n\n********************'; ssh -n mail.shuttle.de quota --human-readable; echo -e '\n\n********************'; sleep 5; ssh -n mail.shuttle.de tail -1000f var/log/procmail-from | ~/bin/procmail-from2diary.pl
 
 ################################################################################
 
