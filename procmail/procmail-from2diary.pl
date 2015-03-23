@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-03-22 21:20:21 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-03-23 15:12:36 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.64 2015/03/22 20:30:44 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.65 2015/03/23 14:23:21 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.64 2015/03/22 20:30:44 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/22 20:30:44 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.65 2015/03/23 14:23:21 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/23 14:23:21 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -586,14 +586,15 @@ sub print_entry
 
 	  if($both_still_to_be_printed_p)
 	    {
-	      if( $param{subject_captures}{subject} =~ m/=\?UTF-8\?/i )
+	      if( $param{subject_captures}{subject} =~ m/(?<encoding>=\?UTF-8\?.\?)/i )
 		{
 		  $both_still_to_be_printed_p = 0;
 
 		  printf 
-		    "\t\t %s: %s; // %s\n"
+		    "\t\t %s: %s; // %s=>{%s} // %s\n"
 		    , 'Subject' => $param{subject_captures}{subject}
-		    , '*** WILL BE REMOVED, BECAUSE IT IS IN UTF-8 ***'
+		    , 'encoding' => $+{encoding}
+		    , '*** WILL BE REMOVED, BECAUSE IT IS ENCODED ***'
 		    if 1;
 		  printf 
 		    "\t\t %s:%s;\n"
@@ -604,14 +605,15 @@ sub print_entry
 
 	  if($both_still_to_be_printed_p)
 	    {
-	      if( $param{subject_captures}{subject} =~ m/=\?ISO-8859-1\?/i )
+	      if( $param{subject_captures}{subject} =~ m/(?<encoding>=\?ISO-8859-1\?.\?)/i )
 		{
 		  $both_still_to_be_printed_p = 0;
 
 		  printf 
-		    "\t\t %s: %s; // %s\n"
+		    "\t\t %s: %s; // %s=>{%s} // %s\n"
 		    , 'Subject' => $param{subject_captures}{subject}
-		    , '*** WILL BE REMOVED, BECAUSE IT IS IN ISO-8859-1 ***'
+		    , 'encoding' => $+{encoding}
+		    , '*** WILL BE REMOVED, BECAUSE IT IS ENCODED ***'
 		    if 1;
 		  printf 
 		    "\t\t %s:%s;\n"
