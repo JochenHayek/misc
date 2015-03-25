@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-03-23 15:12:36 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-03-25 06:28:48 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.65 2015/03/23 14:23:21 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.66 2015/03/25 05:29:04 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.65 2015/03/23 14:23:21 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/23 14:23:21 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.66 2015/03/25 05:29:04 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/25 05:29:04 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -586,26 +586,7 @@ sub print_entry
 
 	  if($both_still_to_be_printed_p)
 	    {
-	      if( $param{subject_captures}{subject} =~ m/(?<encoding>=\?UTF-8\?.\?)/i )
-		{
-		  $both_still_to_be_printed_p = 0;
-
-		  printf 
-		    "\t\t %s: %s; // %s=>{%s} // %s\n"
-		    , 'Subject' => $param{subject_captures}{subject}
-		    , 'encoding' => $+{encoding}
-		    , '*** WILL BE REMOVED, BECAUSE IT IS ENCODED ***'
-		    if 1;
-		  printf 
-		    "\t\t %s:%s;\n"
-		    , 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
-		    ;
-		}
-	    }
-
-	  if($both_still_to_be_printed_p)
-	    {
-	      if( $param{subject_captures}{subject} =~ m/(?<encoding>=\?ISO-8859-1\?.\?)/i )
+	      if( $param{subject_captures}{subject} =~ m/(?<encoding>=\?([^?]*)\?.\?)/i )
 		{
 		  $both_still_to_be_printed_p = 0;
 
