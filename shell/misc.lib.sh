@@ -6,7 +6,7 @@
 
 JHget_key_value()
 {
-  perl -s -ne 'm/^ \s* ${lhs} \s* = \s* (?<q>")? (?<rhs>[^"]*?) $+{q}? \s* $/x && print "$+{rhs}\n"; ' \
+  perl -s -ne 'm/^ \s* ${lhs} \s* = \s* (?<q>")? (?<rhs>[^"]*?) \g{q}? \s* $/x && print "$+{rhs}\n"; ' \
     -- \
     "-lhs=$1" \
     "$2";
