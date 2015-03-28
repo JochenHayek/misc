@@ -11,6 +11,7 @@ JHget_key_value()
     if( m/^ \s* ${lhs} \s* = \s* (?<q>")? (?<rhs>[^"]*?) \g{q}? \s* $/x )
       {
         print "$+{rhs}\n";
+        $matched_lhs_p = 1;
       }
 
     ' \
