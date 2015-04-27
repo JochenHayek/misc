@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-04-27 18:32:48 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-04-27 23:39:02 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.67 2015/04/27 19:32:51 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.68 2015/04/27 21:40:34 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.67 2015/04/27 19:32:51 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/04/27 19:32:51 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.68 2015/04/27 21:40:34 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/04/27 21:40:34 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -497,7 +497,7 @@ sub print_entry
 		    ,exists($param{From_captures}{month}) ? $param{From_captures}{month} : '{MONTH}'
 		    ,exists($param{From_captures}{year})  ? $param{From_captures}{year}  : '9999'
 		    ;
-	  printf "%s // From_captures\n"
+	  printf "%s // using From_captures for date+time\n"
 	    ,$date
 	    ;
 	}
@@ -530,8 +530,9 @@ sub print_entry
 	}
       else
 	{
-	##printf "\t%s %s [_] %s: %s;\n" .
-	  printf "\t%s {{From_captures{time}}} [_] %s: %s;\n" .
+	  printf "\t// using From_captures\n"
+	    if 0;
+	  printf "\t%s [_] %s: %s;\n" .
 	    "\t\t %s:%s;\n" .
 	    "\t\t %s:%s;\n" .
 	    ''
