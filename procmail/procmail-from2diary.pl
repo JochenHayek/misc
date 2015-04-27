@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-04-27 23:39:02 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-04-27 23:53:13 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.68 2015/04/27 21:40:34 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.69 2015/04/27 21:55:27 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.68 2015/04/27 21:40:34 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/04/27 21:40:34 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.69 2015/04/27 21:55:27 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/04/27 21:55:27 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -268,6 +268,15 @@ sub job_anon
       # DATE={ Mon, 09 Mar 2015 16:51:15 +0100}
       # DATE={ Mon, 9 Mar 2015 16:51:03 +0100}
 
+      elsif(m/^DATE=\{\}$/)
+	{
+	  chomp;
+
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'empty {Date:} header field, so we are going to use From_captures to extract date+time'
+	    if 1;
+	}
       elsif(m/^DATE=\{ \s*  ( (?<wday>\w+) , \s+ )? (?<mday>\w+) \s+ (?<month>\w+) \s+ (?<year>\d+) \s+ (?<time>[\d:]+) \s+ (?<DST>.*) \}$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
@@ -497,7 +506,8 @@ sub print_entry
 		    ,exists($param{From_captures}{month}) ? $param{From_captures}{month} : '{MONTH}'
 		    ,exists($param{From_captures}{year})  ? $param{From_captures}{year}  : '9999'
 		    ;
-	  printf "%s // using From_captures for date+time\n"
+	##printf "%s // using From_captures for date+time\n"
+	  printf "%s\n"
 	    ,$date
 	    ;
 	}
