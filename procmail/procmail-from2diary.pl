@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-03-25 06:28:48 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2015-04-27 18:32:48 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.66 2015/03/25 05:29:04 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.67 2015/04/27 19:32:51 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.66 2015/03/25 05:29:04 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/03/25 05:29:04 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.67 2015/04/27 19:32:51 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/04/27 19:32:51 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -515,16 +515,33 @@ sub print_entry
 
       ${$param{ref_last_date}} = $date;
 
-      printf "\t%s %s [_] %s: %s;\n" .
-	"\t\t %s:%s;\n" .
-	"\t\t %s:%s;\n" .
-	''
-	,              exists($param{DATE_captures}{time})       ? $param{DATE_captures}{time}       : '{!exists(DATE_captures{time})}'
-	,              exists($param{DATE_captures}{DST})        ? $param{DATE_captures}{DST}        : '{!exists(DATE_captures{DST})}'
-	, 'From'    =>                                             $param{From_captures}{From}
-	, 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
-	, 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
-	;
+      if(exists($param{DATE_captures}{time}))
+	{
+	  printf "\t%s %s [_] %s: %s;\n" .
+	    "\t\t %s:%s;\n" .
+	    "\t\t %s:%s;\n" .
+	    ''
+	    ,              exists($param{DATE_captures}{time})       ? $param{DATE_captures}{time}       : '{!exists(DATE_captures{time})}'
+	    ,              exists($param{DATE_captures}{DST})        ? $param{DATE_captures}{DST}        : '{!exists(DATE_captures{DST})}'
+	    , 'From'    =>                                             $param{From_captures}{From}
+	    , 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
+	    , 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
+	    ;
+	}
+      else
+	{
+	##printf "\t%s %s [_] %s: %s;\n" .
+	  printf "\t%s {{From_captures{time}}} [_] %s: %s;\n" .
+	    "\t\t %s:%s;\n" .
+	    "\t\t %s:%s;\n" .
+	    ''
+	    ,              exists($param{From_captures}{time})       ? $param{From_captures}{time}       : '{!exists(From_captures{time})}'
+	  ##,              exists($param{From_captures}{DST})        ? $param{From_captures}{DST}        : '{!exists(From_captures{DST})}'
+	    , 'From'    =>                                             $param{From_captures}{From}
+	    , 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
+	    , 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
+	    ;
+	}
 
       if   (  exists($param{subject_captures}{subject}) &&  exists($param{SUBJECT_captures}{SUBJECT}) )
 	{
