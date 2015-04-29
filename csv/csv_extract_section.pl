@@ -10,7 +10,7 @@ use warnings FATAL => 'all';
 
 ##use English;
 
-use utf8;
+##use utf8;
 
 {
 ##local($INPUT_RECORD_SEPARATOR) = "\r\n";
@@ -20,7 +20,7 @@ use utf8;
 
   my($current_section) = 0;
 
-  binmode( STDIN  , ":encoding(cp850)" ); # guessing from Encode::Supported
+  binmode( STDIN  , ":encoding(ISO-8859-1)" ); # guessing from Encode::Supported
 ##binmode( STDOUT , ":encoding(UTF-8)" );
   binmode( STDOUT , ":encoding(ISO-8859-1)" );
 
