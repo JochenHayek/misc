@@ -8,7 +8,7 @@
 use strict;
 use warnings FATAL => 'all';
 
-use English;
+##use English;
 
 use utf8;
 
@@ -20,8 +20,9 @@ use utf8;
 
   my($current_section) = 0;
 
-  binmode( STDIN  , ":encoding(UTF-8)" );
-  binmode( STDOUT , ":encoding(UTF-8)" );
+  binmode( STDIN  , ":encoding(cp850)" ); # guessing from Encode::Supported
+##binmode( STDOUT , ":encoding(UTF-8)" );
+  binmode( STDOUT , ":encoding(ISO-8859-1)" );
 
 ##while(<>)	# cannot use <>, because "binmode(STDIN,...)" does not apply on it
   while(<STDIN>)
@@ -33,8 +34,8 @@ use utf8;
         '...'
         if 0;
 
-      if($_ eq '')
-    ##if(m/^\s*$/)
+    ##if($_ eq '')
+      if(m/^\s*$/)
 	{
 	  $current_section++;
 	}
