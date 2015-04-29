@@ -10,19 +10,30 @@ use warnings FATAL => 'all';
 
 use English;
 
+use utf8;
+
 {
-  local($INPUT_RECORD_SEPARATOR) = "\r\n";
+##local($INPUT_RECORD_SEPARATOR) = "\r\n";
 ##local($OUTPUT_RECORD_SEPARATOR) = "\n";
 
   our($section);		# gets its value through -s : "enable rudimentary parsing for switches after programfile"
 
   my($current_section) = 0;
 
-  while(<>)
+  binmode( STDIN  , ":encoding(UTF-8)" );
+  binmode( STDOUT , ":encoding(UTF-8)" );
+
+  while(<STDIN>)
     {
       chomp;
 
+      printf STDERR "*** %s=>{%s} // %s\n",
+        'length($_)' => length($_),
+        '...'
+        ;
+
       if($_ eq '')
+    ##if(m/^\s*$/)
 	{
 	  $current_section++;
 	}
