@@ -3,6 +3,10 @@
 {
   my($rec) = '';
 
+  our(%gigaset_elements_homes) =
+    ( 'Jochens Home' =>  'Jochen_s_Home' ,
+    );
+
   while(<>)
     {
       if(m/^(\S)(.*)/)
@@ -42,13 +46,17 @@ sub func
 
   $param{rec} =~ s,
 
-		 From: \s+ (?<From>info\@gigaset-elements\.com); \s+
+	  \] \s+ From: \s+ (?<From>info\@gigaset-elements\.com); \s+
 		 FROM: \s+         info\@gigaset-elements\.com ; \s+
 		 TO: \s+ jochenPLUSgigaset-elements-001\@hayek\.name; \s+
-		 SUBJECT:(?<SUBJECT>.*); \s+
+		 SUBJECT: (?<SUBJECT> \s* (?<SUBJECT_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
 		 Folder: \s+ \.folder-topics\.admin\/.*
 
-    ,From: $+{From}; SUBJECT:$+{SUBJECT},gix;
+    ,\,$gigaset_elements_homes{$+{SUBJECT_home}}] SUBJECT: $+{SUBJECT_rem},gix;
+
+  ##,\,$+{SUBJECT_home}] SUBJECT: $+{SUBJECT_rem},gix;
+
+  ##,\,`$+{SUBJECT_home} =~ tr/ /_/`] SUBJECT: $+{SUBJECT_rem},gix;
 
   # postbank.de
 
