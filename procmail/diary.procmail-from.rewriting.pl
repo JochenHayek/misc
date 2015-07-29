@@ -54,7 +54,7 @@ sub func
 		 FROM	: \s+ (?<callee>"Jochen \s+ Hayek's \s+ FRITZ!Box \s+ 7490 \s+ \@BER") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
 		 TO  	: \s+ <Jochen\+(FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion)\@Hayek\.name>\,; \s+
 		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
-		 Folder : \s+ \.folder-topics\.(?<topic>admin)\/.*
+		 Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
 
     ,From: "$+{caller}"; To: $+{callee}; SUBJECT: Telefon-$+{what} …,gix;
 
@@ -65,17 +65,31 @@ sub func
 ##my($rewritten_gigaset_home) = exists( $gigaset_elements_homes{$+{SUBJECT_gigaset_home}} ) ? $gigaset_elements_homes{$+{SUBJECT_gigaset_home}} : "{{$+{SUBJECT_gigaset_home}}}";
 
   if(
-    $param{rec} =~ s{
+    $param{rec} =~ m{
 
 	    \[_\] \s+ From   : \s+ (?<From>info\@gigaset-elements\.com); \s+
 		      FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
 		      TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
 		      SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-		      Folder: \s+ \.folder-topics\.(?<topic>admin)\/.*
+		      Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
 
-      }{[$gigaset_elements_homes{$+{SUBJECT_gigaset_home}}] $+{SUBJECT_rem}}gix
+      }gix
     ) 
     {
+      my(%plus) = %+;
+
+      $plus{SUBJECT_rem} =~ y/ /_/;
+
+      $param{rec} =~ s{
+
+	      \[_\] \s+ From   : \s+ (?<From>info\@gigaset-elements\.com); \s+
+			FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
+			TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
+			SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
+			Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+
+	}{[$gigaset_elements_homes{$+{SUBJECT_gigaset_home}},$plus{SUBJECT_rem}]}gix;
+
       printf "// %s=>{$+{SUBJECT_gigaset_home}}\n",
 	'$+{SUBJECT_gigaset_home}' => $+{SUBJECT_gigaset_home} ,
 	if !exists($gigaset_elements_homes{$+{SUBJECT_gigaset_home}});
@@ -97,7 +111,7 @@ sub func
                    FROM	  : \s+ (?<FROM>OkCupid \s+ <bounces\@mail1\.oknotify2\.com>); \s+
 		   TO  	  : \s+ (?<TO>.*); \s+
 		   SUBJECT:     (?<SUBJECT>.*); \s+
-		   Folder : \s+ \.folder-topics\.(?<topic>social_networking)\/.*
+		   Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>social_networking)\/\S*)
 
     }{,OkCupid] From: $+{From}; SUBJECT:$+{SUBJECT};}gix;
 
@@ -111,9 +125,27 @@ sub func
 		   FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
 		   TO  	  : \s+ (?<TO>.*); \s+
 		   SUBJECT:     (?<SUBJECT>.*); \s+
-		   Folder : \s+ \.folder-topics\.(?<topic>money)\/.*
+		   Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>money)\/\S*)
 
     }{,banking] From: $+{From}; TO: $+{TO}; SUBJECT:$+{SUBJECT};}gix;
+
+  ################################################################################
+
+  # using folder-topics.$+{topic} as tag
+
+  $param{rec} =~ s{
+
+	    \] \s+ From	  : \s+ (?<From>[^;]*); \s+
+		   FROM	  : \s+ (?<FROM>[^;]*); \s+
+		   TO  	  : \s+ (?<TO>.*); \s+
+		   SUBJECT:     (?<SUBJECT>.*); \s+
+		   Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>[^\/]*)\/\S*)
+
+    }{,$+{topic}] From: $+{From};
+\t\tFROM: $+{FROM}
+\t\tTO: $+{TO};
+\t\tSUBJECT:$+{SUBJECT};
+\t\tFolder: $+{Folder};}gix;
 
   ################################################################################
   
