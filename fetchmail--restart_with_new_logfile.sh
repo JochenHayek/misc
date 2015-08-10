@@ -1,12 +1,14 @@
 :
 
-# Time-stamp: <2015-08-10 13:25:12 johayek>
-# $Id: fetchmail--restart_with_new_logfile.sh 1.1 2015/08/10 11:26:51 johayek Exp $
+# Time-stamp: <2015-08-10 13:28:48 johayek>
+# $Id: fetchmail--restart_with_new_logfile.sh 1.2 2015/08/10 11:28:58 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/RCS/fetchmail--restart_with_new_logfile.sh $
 
-# this script is supposed to be run on www.B.shuttle.de
-
-# old log files are supposed to be archived at /media/NAS/johayek/ARCHIVE/www.b.shuttle.de-non-dated/var/log
+# * supposed to be run on www.B.shuttle.de
+#
+# * version controlled on HayekY at $HOME/Computers/Software/Operating_Systems/Unix/Shell/
+#
+# * old log files are supposed to be archived at /media/NAS/johayek/ARCHIVE/www.b.shuttle.de-non-dated/var/log
 
 ################################################################################
 
