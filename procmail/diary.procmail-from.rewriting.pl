@@ -51,7 +51,7 @@ sub func
   $param{rec} =~ s,
 
 		 From	: \s+ Jochen\+FRITZ-Box-Absender\@Hayek\.name; \s+
-		 FROM	: \s+ (?<callee>"Jochen \s+ Hayek's \s+ FRITZ!Box \s+ 7490 \s+ \@BER") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
+		 FROM	: \s+ (?<callee>"[^"]*") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
 		 TO  	: \s+ <Jochen\+(FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion)\@Hayek\.name>\,; \s+
 		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
 		 Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
