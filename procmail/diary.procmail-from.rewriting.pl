@@ -19,6 +19,7 @@
 
   our(%gigaset_elements_homes) =
     ( 'Jochens Home' =>  'Jochen_s_Home' ,
+      'Gigaset elements' =>  'Gigaset_elements_Jochen_s_Home' ,
     );
 
   while(<>)
