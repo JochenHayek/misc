@@ -1,0 +1,22 @@
+:
+
+set -x
+
+export JENKINS_HOME=$HOME/JENKINS_HOME_000
+export JENKINS_HOME=$HOME/JENKINS_HOME_001
+export JENKINS_HOME=$HOME/JENKINS_HOME_002
+export JENKINS_HOME=$HOME/JENKINS_HOME_003
+export JENKINS_HOME=$HOME/JENKINS_HOME_004
+export JENKINS_HOME=$HOME/JENKINS_HOME_005
+export JENKINS_WARS=$HOME/JENKINS_WARS
+export JENKINS_BACKUPS=$HOME/JENKINS_BACKUPS
+
+mkdir --verbose "$JENKINS_HOME"
+
+##--argumentsRealm.passwd.johayek=blablabla
+##--argumentsRealm.roles.johayek=admin
+
+exec java -jar $JENKINS_WARS/jenkins-1-644.war \
+  --httpsPort=8099 --httpPort=-1 \
+  --prefix=/jenkins \
+  ;
