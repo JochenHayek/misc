@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.3 2016/02/01 16:47:26 johayek Exp $
+# $Id: rcjenkins2 1.4 2016/02/01 17:00:10 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -99,19 +99,17 @@ case "$1" in
     ;;
 
   stop | stop_with_pidfile)
-    if test -e "$pidfile" && test -d /proc/$( head -1 "$pidfile" )
+    pid=$( head -1 "${pidfile}" )
+
+    if test -e "${pidfile}" && test -d /proc/${pid}
     then
       echo -n "Shutting down ${short_base} "
-      kill $( head -1 "$pidfile" )
-      if test -d /proc/$pidfile
+      kill ${pid}
+      if test -d /proc/${pidfile}
       then :
-	echo -n "(unsuccessfully) "
+	echo "(unsuccessfully)"
       else :
-	rm --verbose "$pidfile"
-	if test -f "$LOCKFILE"
-	then
-	  rm --verbose "$LOCKFILE"
-	fi
+	rm --verbose "${pidfile}"
       fi
     ##rc_status -v # supposedly this should run right after the "kill" command
     else
@@ -127,11 +125,16 @@ case "$1" in
 
   status | status_with_pidfile)
     echo -n "Checking for ${short_base} "
-    if test -e "$pidfile" && test -d /proc/$( head -1 "$pidfile" )
+    if test -e "${pidfile}"
     then
-      pid=$( head -1 "$pidfile" )
-      logfile=$( tail -1 "$pidfile" )
-      echo " seems running, PID: $pid, logfile: $logfile"
+      pid=$( head -1 "${pidfile}" )
+      logfile=$( tail -1 "${pidfile}" )
+      if test -d /proc/${pid}
+      then :
+        echo " seems running, PID: ${pid}, logfile: ${logfile}"
+      else :
+        echo " not running"
+      fi
     else
       echo " not running"
     fi
