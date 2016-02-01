@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.5 2016/02/01 17:02:36 johayek Exp $
+# $Id: rcjenkins2 1.6 2016/02/01 17:02:50 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -124,7 +124,7 @@ case "$1" in
     sleep 1
     $0 start
     ;;
-
+    
   status | status_with_pidfile)
     echo -n "Checking for ${short_base} "
     if test -e "${pidfile}"
