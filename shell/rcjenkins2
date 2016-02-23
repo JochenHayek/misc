@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.7 2016/02/01 17:22:27 johayek Exp $
+# $Id: rcjenkins2 1.8 2016/02/23 23:16:16 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -10,40 +10,35 @@
 # we will use this for various purposes throughout this script:
 
 short_base=jenkins
+application_server_prefix=jenkins
 
 ################################################################################
 
 # access your Jenkins server like this:
 #
-#   https://HOST:${https_port}/jenkins
+#   https://HOST:${httpsPort}/${application_server_prefix}
 
-https_port=8099
+# any port with a value of -1 actually means: this port will be disabled
 
-# the "/jenkins" part is called prefix,
+controlPort=8001
+httpsPort=8099
+httpPort=-1
+
+# the "/jenkins" part is called application_server_prefix,
 # and during the navigation through the Jenkins server,
-# pieces get appended to this prefix.
+# pieces get appended to this application_server_prefix.
 #
-# Q: why do we suggest using a prefix?
+# Q: why do we suggest using an application_server_prefix?
 # A: you can have various web servers running on your machine,
-#    and just from the prefix "everybody" can see, it's about Jenkins.
-
-################################################################################
-
-# we store all the jenkins WARS we use(d) in this directory,
-# so in case of trouble we can always fall back to an older version:
-
-appl_version=1-646
-appl_wars=$HOME/JENKINS_WARS
-
-# of course after a while old versions can get purged.
+#    and just from the application_server_prefix "everybody" can see, it's about Jenkins.
 
 ################################################################################
 
 # Q: where will live our PID file and our logfile?
 # A: $HOME/var/run/ resp. $HOME/var/log/
 
-pidfile=$HOME/var/run/${short_base}-${https_port}.pid
-logfile=$HOME/var/log/${short_base}.$( date '+%Y%m%d%H%M%S' ).log
+pidfile=$HOME/var/run/${short_base}-${httpsPort}.pid
+logfile=$HOME/var/log/${short_base}-${httpsPort}.$( date '+%Y%m%d%H%M%S' ).log
 
 ################################################################################
 
@@ -64,23 +59,37 @@ logfile=$HOME/var/log/${short_base}.$( date '+%Y%m%d%H%M%S' ).log
 
 ################################################################################
 
+# we needed a while, until we found "our proper way",
+# each time a new JENKINS_HOME:
+
+export JENKINS_HOME=$HOME/JENKINS_HOME_000
+export JENKINS_HOME=$HOME/JENKINS_HOME_001
+export JENKINS_HOME=$HOME/JENKINS_HOME_002
+export JENKINS_HOME=$HOME/JENKINS_HOME_003
+export JENKINS_HOME=$HOME/JENKINS_HOME_004
+export JENKINS_HOME=$HOME/JENKINS_HOME_005
+
+mkdir --verbose --parents "$JENKINS_HOME"
+
+################################################################################
+
 case "$1" in
   start | start_with_pidfile)
-    echo "Starting ${short_base} ..."
+    echo "Starting ${short_base} on https port ${httpsPort} with control port ${controlPort} and prefix ${application_server_prefix} ..."
 
     ################################################################################
 
-    # we needed a while, until we found "our proper way",
-    # each time a new JENKINS_HOME:
+    # we store all the jenkins WARS we use(d) in this directory,
+    # so in case of trouble we can always fall back to an older version:
 
-    export JENKINS_HOME=$HOME/JENKINS_HOME_000
-    export JENKINS_HOME=$HOME/JENKINS_HOME_001
-    export JENKINS_HOME=$HOME/JENKINS_HOME_002
-    export JENKINS_HOME=$HOME/JENKINS_HOME_003
-    export JENKINS_HOME=$HOME/JENKINS_HOME_004
-    export JENKINS_HOME=$HOME/JENKINS_HOME_005
+    our_appl_version=${short_base}-1-647.war
 
-    mkdir --verbose --parents "$JENKINS_HOME"
+    appl_wars=$HOME/JENKINS_WARS
+    latest_appl_available=$(/bin/ls -1 $HOME/JENKINS_WARS | tail -1)
+
+    echo "\$our_appl_version=>{$our_appl_version},\$latest_appl_available=>[$latest_appl_available}"
+
+    # of course after a while old versions can get purged.
 
     ################################################################################
 
@@ -90,14 +99,23 @@ case "$1" in
 
     ################################################################################
 
-    nohup java -jar ${appl_wars}/${short_base}-${appl_version}.war \
-      --httpsPort=${https_port} --httpPort=-1 \
-      --prefix=/${short_base} \
+    nohup java \
+      -jar ${appl_wars}/${our_appl_version} \
+      --controlPort=${controlPort} \
+      --httpsPort=${httpsPort} \
+      --httpPort=${httpPort} \
+      --prefix=/${application_server_prefix} \
       --logfile=${logfile} \
       &
+
+    # INFO: NO JSP Support for /jenkins, did not find org.apache.jasper.servlet.JspServlet
+
+    # looks like this: https://issues.jenkins-ci.org/browse/JENKINS-24357
+    # but actually afterwards everything seems fine.
+
     echo $!           >  ${pidfile}
     echo "${logfile}" >> ${pidfile}
-    echo "Started ${short_base} on https port ${https_port}, PID: $!, logfile: ${logfile}"
+    echo "Started ${short_base} with PID: $!, logfile: ${logfile}"
     ;;
 
   stop | stop_with_pidfile)
@@ -129,7 +147,7 @@ case "$1" in
     echo -n "Checking for ${short_base} "
     if test -e "${pidfile}"
     then
-      pid=$( head -1 "${pidfile}" )
+          pid=$( head -1 "${pidfile}" )
       logfile=$( tail -1 "${pidfile}" )
       if test -d /proc/${pid}
       then :
@@ -142,8 +160,44 @@ case "$1" in
     fi
   ;;
 
+  winstone_shutdown)
+
+    # from Jenkins TDG, ch. 3
+
+    java \
+      -classpath "$JENKINS_HOME/war/winstone.jar" \
+      winstone.tools.WinstoneControl shutdown \
+      --host=localhost \
+      "--port=${controlPort}" \
+      ;
+  ;;
+
+  winstone_reload)
+
+    # from Jenkins TDG, ch. 3
+
+    java \
+      -classpath "$JENKINS_HOME/war/winstone.jar" \
+      winstone.tools.WinstoneControl reload:${application_server_prefix} \
+      --host=localhost \
+      "--port=${controlPort}" \
+      ;
+  ;;
+
+  winstone_illegal_hello)
+
+    # from Jenkins TDG, ch. 3 // they do not recommend winstone_illegal_hello, but that's where I learned about its command interface
+
+    java \
+      -classpath "$JENKINS_HOME/war/winstone.jar" \
+      winstone.tools.WinstoneControl illegal_hello \
+      --host=localhost \
+      "--port=${controlPort}" \
+      ;
+  ;;
+
   *)
-    echo "Usage: $0 {start|stop|restart|status}"
+    echo "Usage: $0 {start|stop|restart|status|winstone_shutdown|winstone_reload|winstone_illegal_hello}"
     exit 1
     ;;
 esac
