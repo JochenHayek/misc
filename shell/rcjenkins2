@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.8 2016/02/23 23:16:16 johayek Exp $
+# $Id: rcjenkins2 1.9 2016/03/21 15:20:51 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -83,6 +83,8 @@ case "$1" in
     # so in case of trouble we can always fall back to an older version:
 
     our_appl_version=${short_base}-1-647.war
+
+    # /ber.jochen.hayek.name:JENKINS_WARS/
 
     appl_wars=$HOME/JENKINS_WARS
     latest_appl_available=$(/bin/ls -1 $HOME/JENKINS_WARS | tail -1)
