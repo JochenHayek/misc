@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.9 2016/03/21 15:20:51 johayek Exp $
+# $Id: rcjenkins2 1.10 2016/03/23 09:29:40 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -11,6 +11,11 @@
 
 short_base=jenkins
 application_server_prefix=jenkins
+
+# we store all the jenkins WARS we use(d) in this directory,
+# so in case of trouble we can always fall back to an older version:
+
+our_appl_version=${short_base}-1-654.war
 
 ################################################################################
 
@@ -78,11 +83,6 @@ case "$1" in
     echo "Starting ${short_base} on https port ${httpsPort} with control port ${controlPort} and prefix ${application_server_prefix} ..."
 
     ################################################################################
-
-    # we store all the jenkins WARS we use(d) in this directory,
-    # so in case of trouble we can always fall back to an older version:
-
-    our_appl_version=${short_base}-1-647.war
 
     # /ber.jochen.hayek.name:JENKINS_WARS/
 
