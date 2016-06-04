@@ -77,7 +77,7 @@ sub m0
 
   print $h,"\n";
 
-  print $param{'target_folder'},"\n";
+  print $param{'target_folder__remote'},"\n";
 
   if(0)
     {
