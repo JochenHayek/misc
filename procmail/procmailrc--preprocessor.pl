@@ -61,9 +61,24 @@ sub m0
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  my($e_mail_address_re) = $param{e_mail_address_re};
+  my($return_path_re) = '';
 
-  my($return_path_re) = "* ^Return-Path: <${e_mail_address_re}>\$";
+  if(exists($param{e_mail_address_raw}))
+    {
+      my($e_mail_address_re) = $param{e_mail_address_raw};
+
+      $e_mail_address_re =~ s/ ([\.\+]) /\\$1/gx;
+
+      $return_path_re = "* ^Return-Path: <${e_mail_address_re}>\$";
+    }
+  elsif(exists($param{e_mail_address_re}))
+    {
+      $return_path_re = "* ^Return-Path: <$param{e_mail_address_re}>\$";
+    }
+  else
+    {
+      die "... // !exists(\$param{target_folder__remote})";
+    }
 
   printf "*** %s => %s\n",
     '$return_path_re' => $return_path_re,
@@ -77,7 +92,18 @@ sub m0
     }
   else
     {
-      warn "\${e_mail_address_re}=>{${e_mail_address_re}} // !exists(\$param{target_folder__remote})";
+      if(exists($param{e_mail_address_raw}))
+	{
+	  warn "\$param{e_mail_address_raw}=>{$param{e_mail_address_raw}} // !exists(\$param{target_folder__remote})";
+	}
+      elsif(exists($param{e_mail_address_re}))
+	{
+	  warn "\$param{e_mail_address_re}=>{$param{e_mail_address_re}} // !exists(\$param{target_folder__remote})";
+	}
+      else
+	{
+	  die "... // !exists(\$param{target_folder__remote})";
+	}
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
