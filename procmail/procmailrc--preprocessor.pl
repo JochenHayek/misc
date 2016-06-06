@@ -61,27 +61,27 @@ sub m0
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  print "\n:0\n";
+  my($e_mail_address_re) = $param{e_mail_address_re};
 
-  my($h) = $param{'Return-Path'};
+  my($return_path_re) = $e_mail_address_re;
 
   my($prefix) = '* ^Return-Path: ';
 
-  $h =~ s/^ \^ (?<remainder>) /${prefix}$+{remainder}/x;
+  $return_path_re =~ s/^ \^ (?<remainder>) /${prefix}$+{remainder}/x;
 
   printf "*** %s => %s\n",
-    '$h' => $h,
+    '$return_path_re' => $return_path_re,
     if 0;
-
-  print $h,"\n";
 
   if(exists($param{target_folder__remote}))
     {
+      print "\n:0\n";
+      print "$return_path_re\n";
       print $param{target_folder__remote},"\n";
     }
   else
     {
-      warn "\$param{'Return-Path'}=>{$param{'Return-Path'}} // !exists(\$param{target_folder__remote})";
+      warn "\${e_mail_address_re}=>{${e_mail_address_re}} // !exists(\$param{target_folder__remote})";
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
