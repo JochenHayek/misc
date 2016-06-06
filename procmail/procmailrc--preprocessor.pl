@@ -63,11 +63,7 @@ sub m0
 
   my($e_mail_address_re) = $param{e_mail_address_re};
 
-  my($return_path_re) = $e_mail_address_re;
-
-  my($prefix) = '* ^Return-Path: ';
-
-  $return_path_re =~ s/^ \^ (?<remainder>) /${prefix}$+{remainder}/x;
+  my($return_path_re) = "* ^Return-Path: <${e_mail_address_re}>\$";
 
   printf "*** %s => %s\n",
     '$return_path_re' => $return_path_re,
