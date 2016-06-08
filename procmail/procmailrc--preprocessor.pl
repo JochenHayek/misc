@@ -59,6 +59,12 @@ sub m0
 
   my(%param) = @_;
 
+  # comment
+  # e_mail_address_raw
+  # e_mail_address_re
+  # target_folder__remote
+  # target_folder__local
+
   my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
@@ -90,21 +96,40 @@ sub m0
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
 
-      print "\n"; 
-      print ":0\n"; 
-      print $return_path_re,"\n";
-      print $param{target_folder__remote},"\n";
+      &bla( e_mail_address_re => $return_path_re , target_folder => $param{target_folder__remote} );
 
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
 
-      print "\n";
-      print ":0\n"; 
-      print $return_path_re,"\n";
-      print $param{target_folder__local},"\n";
+      &bla( e_mail_address_re => $return_path_re , target_folder => $param{target_folder__local} );
 
     }
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub bla
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  # e_mail_address_re
+  # target_folder
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  print "\n"; 
+  print ":0\n"; 
+  print $param{e_mail_address_re},"\n";
+  print $param{target_folder},"\n";
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
