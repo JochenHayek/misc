@@ -70,7 +70,7 @@ sub m0
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  my($return_path_core_re) = '';
+  my($return_path_core_re_0);
 
   if(exists($param{e_mail_address_raw}))
     {
@@ -81,15 +81,13 @@ sub m0
 	{
 	}
 
-      my($e_mail_address_re) = $param{e_mail_address_raw};
+      $return_path_core_re_0 = $param{e_mail_address_raw};
 
-      $e_mail_address_re =~ s/ ([\.\+]) /\\$1/gx;
-
-      $return_path_core_re = ${e_mail_address_re}     ;
+      $return_path_core_re_0 =~ s/ ([\.\+]) /\\$1/gx;
     }
   elsif(exists($param{e_mail_address_re}))
     {
-      $return_path_core_re = $param{e_mail_address_re};
+      $return_path_core_re_0 = $param{e_mail_address_re};
     }
   else
     {
@@ -97,19 +95,19 @@ sub m0
     }
 
   printf "*** %s => %s\n",
-    '$return_path_core_re' => $return_path_core_re,
+    '$return_path_core_re_0' => $return_path_core_re_0,
     if 0;
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
 
-      &print_rule( e_mail_address_re => $return_path_core_re , target_folder => $param{target_folder__remote} );
+      &print_rule( e_mail_address_re => $return_path_core_re_0 , target_folder => $param{target_folder__remote} );
 
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
 
-      &print_rule( e_mail_address_re => $return_path_core_re , target_folder => $param{target_folder__local} );
+      &print_rule( e_mail_address_re => $return_path_core_re_0 , target_folder => $param{target_folder__local} );
 
     }
 
