@@ -70,6 +70,8 @@ sub m0
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
+  my(@list_of_return_path_core_re);
+
   my($return_path_core_re_0);
   my($return_path_core_re_1);
 
@@ -79,6 +81,8 @@ sub m0
 
       $return_path_core_re_0 =~ s/ ([\.\+]) /\\$1/gx;
 
+      push( @list_of_return_path_core_re , $return_path_core_re_0 );
+
       if($param{e_mail_address_raw} =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
 	{
 	  my($h) = "$+{after}=$+{before}";
@@ -86,11 +90,15 @@ sub m0
 	  $h =~ s/ ([\.\+]) /\\$1/gx;
 
 	  $return_path_core_re_1 = ".*=${h}\@.*";
+
+	  push( @list_of_return_path_core_re , $return_path_core_re_1 );
 	}
     }
   elsif(exists($param{e_mail_address_re}))
     {
       $return_path_core_re_0 = $param{e_mail_address_re};
+
+      push( @list_of_return_path_core_re , $return_path_core_re_0 );
     }
   else
     {
@@ -103,24 +111,17 @@ sub m0
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
-
-      &print_rule( e_mail_address_re => $return_path_core_re_0 , target_folder => $param{target_folder__remote} );
-
-      # creating an extra, SPFified rule:
-
-      &print_rule( e_mail_address_re => $return_path_core_re_1 , target_folder => $param{target_folder__remote} )
-	if defined($return_path_core_re_1)
+      foreach my $e (@list_of_return_path_core_re)
+	{
+	  &print_rule( e_mail_address_re => $e , target_folder => $param{target_folder__remote} );
+	}
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
-
-      &print_rule( e_mail_address_re => $return_path_core_re_0 , target_folder => $param{target_folder__local} );
-
-      # creating an extra, SPFified rule:
-
-      &print_rule( e_mail_address_re => $return_path_core_re_1 , target_folder => $param{target_folder__remote} )
-	if defined($return_path_core_re_1)
-
+      foreach my $e (@list_of_return_path_core_re)
+	{
+	  &print_rule( e_mail_address_re => $e , target_folder => $param{target_folder__local} );
+	}
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
