@@ -80,7 +80,7 @@ sub m0
     }
   else
     {
-      die "... // !exists(\$param{target_folder__remote})";
+      die "... // !exists(\$param{e_mail_address_raw}) && !exists(\$param{e_mail_address_re})";
     }
 
   printf "*** %s => %s\n",
@@ -89,13 +89,21 @@ sub m0
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
-      print "\n",":0","\n",$return_path_re,"\n";
+
+      print "\n"; 
+      print ":0\n"; 
+      print $return_path_re,"\n";
       print $param{target_folder__remote},"\n";
+
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
-      print "\n",":0","\n",$return_path_re,"\n";
+
+      print "\n";
+      print ":0\n"; 
+      print $return_path_re,"\n";
       print $param{target_folder__local},"\n";
+
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
