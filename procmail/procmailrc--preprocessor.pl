@@ -72,11 +72,11 @@ sub m0
 
       $e_mail_address_re =~ s/ ([\.\+]) /\\$1/gx;
 
-      $return_path_re = "* ^Return-Path: <${e_mail_address_re}>\$";
+      $return_path_re = '* ^Return-Path: <' . ${e_mail_address_re}      . '>$';
     }
   elsif(exists($param{e_mail_address_re}))
     {
-      $return_path_re = "* ^Return-Path: <$param{e_mail_address_re}>\$";
+      $return_path_re = '* ^Return-Path: <' . $param{e_mail_address_re} . '>$';
     }
   else
     {
