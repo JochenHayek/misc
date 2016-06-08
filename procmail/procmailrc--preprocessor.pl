@@ -71,19 +71,22 @@ sub m0
     if 0 && $main::options{debug};
 
   my($return_path_core_re_0);
+  my($return_path_core_re_1);
 
   if(exists($param{e_mail_address_raw}))
     {
-      if($param{e_mail_address_raw} =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
-	{
-	}
-      else
-	{
-	}
-
       $return_path_core_re_0 = $param{e_mail_address_raw};
 
       $return_path_core_re_0 =~ s/ ([\.\+]) /\\$1/gx;
+
+      if($param{e_mail_address_raw} =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
+	{
+	  my($h) = "$+{after}=$+{before}";
+
+	  $h =~ s/ ([\.\+]) /\\$1/gx;
+
+	  $return_path_core_re_1 = ".*=${h}\@.*";
+	}
     }
   elsif(exists($param{e_mail_address_re}))
     {
@@ -103,11 +106,20 @@ sub m0
 
       &print_rule( e_mail_address_re => $return_path_core_re_0 , target_folder => $param{target_folder__remote} );
 
+      # creating an extra, SPFified rule:
+
+      &print_rule( e_mail_address_re => $return_path_core_re_1 , target_folder => $param{target_folder__remote} )
+	if defined($return_path_core_re_1)
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
 
       &print_rule( e_mail_address_re => $return_path_core_re_0 , target_folder => $param{target_folder__local} );
+
+      # creating an extra, SPFified rule:
+
+      &print_rule( e_mail_address_re => $return_path_core_re_1 , target_folder => $param{target_folder__remote} )
+	if defined($return_path_core_re_1)
 
     }
 
