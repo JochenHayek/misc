@@ -134,9 +134,16 @@ sub m0
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
-      foreach my $e (@list_of_return_path_core_re)
+      if($#list_of_return_path_core_re == 0)
 	{
-	  &print_rule( e_mail_address_misc_re => $e , target_folder => $param{target_folder__remote} );
+	  my($e) = $list_of_return_path_core_re[0];
+	  &print_rule( e_mail_address_misc_re => ${e} , target_folder => $param{target_folder__remote} );
+	}
+      elsif($#list_of_return_path_core_re > 0)
+	{
+	  my($h0) = join( '|' , @list_of_return_path_core_re );
+	  my($h1) = '(' . ${h0} . ')';
+	  &print_rule( e_mail_address_misc_re => ${h1} , target_folder => $param{target_folder__remote} );
 	}
 
       if($#list_SPFified_of_return_path_core_re == 0)
