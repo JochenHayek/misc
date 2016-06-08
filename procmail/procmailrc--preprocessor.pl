@@ -71,6 +71,7 @@ sub m0
     if 0 && $main::options{debug};
 
   my(@list_of_return_path_core_re);
+  my(@list_SPFified_of_return_path_core_re);
 
   if(exists($param{e_mail_address_list_raw}))
     {
@@ -88,7 +89,9 @@ sub m0
 
 	      $h0 =~ s/ ([\.\+]) /\\$1/gx;
 
-	      push( @list_of_return_path_core_re , ".*=${h0}\@.*" );
+	    ##push( @list_SPFified_of_return_path_core_re , ".*=${h0}\@.*" );
+
+	      push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
 	    }
 	}
     }
@@ -106,7 +109,9 @@ sub m0
 
 	  $h0 =~ s/ ([\.\+]) /\\$1/gx;
 
-	  push( @list_of_return_path_core_re , ".*=${h0}\@.*" );
+	##push( @list_SPFified_of_return_path_core_re , ".*=${h0}\@.*" );
+
+	  push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
 	}
     }
   elsif(exists($param{e_mail_address_misc_re}))
@@ -133,12 +138,20 @@ sub m0
 	{
 	  &print_rule( e_mail_address_misc_re => $e , target_folder => $param{target_folder__remote} );
 	}
+      foreach my $e (@list_SPFified_of_return_path_core_re)
+	{
+	  &print_rule( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $param{target_folder__remote} );
+	}
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
       foreach my $e (@list_of_return_path_core_re)
 	{
 	  &print_rule( e_mail_address_misc_re => $e , target_folder => $param{target_folder__local} );
+	}
+      foreach my $e (@list_SPFified_of_return_path_core_re)
+	{
+	  &print_rule( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $param{target_folder__local} );
 	}
     }
 
