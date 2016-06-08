@@ -96,13 +96,13 @@ sub m0
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
 
-      &bla( e_mail_address_re => $return_path_re , target_folder => $param{target_folder__remote} );
+      &print_rule( e_mail_address_re => $return_path_re , target_folder => $param{target_folder__remote} );
 
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
 
-      &bla( e_mail_address_re => $return_path_re , target_folder => $param{target_folder__local} );
+      &print_rule( e_mail_address_re => $return_path_re , target_folder => $param{target_folder__local} );
 
     }
 
@@ -112,7 +112,7 @@ sub m0
   return $return_value;
 }
 #
-sub bla
+sub print_rule
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
