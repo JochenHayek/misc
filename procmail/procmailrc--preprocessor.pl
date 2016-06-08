@@ -60,7 +60,7 @@ sub m0
   my(%param) = @_;
 
   # comment
-  # e_mail_address_raw
+  # e_mail_address_single_raw
   # e_mail_address_re
   # target_folder__remote
   # target_folder__local
@@ -72,18 +72,18 @@ sub m0
 
   my(@list_of_return_path_core_re);
 
-  if(exists($param{e_mail_address_raw}))
+  if(exists($param{e_mail_address_single_raw}))
     {
       my($return_path_core_re_0);
       my($return_path_core_re_1);
 
-      $return_path_core_re_0 = $param{e_mail_address_raw};
+      $return_path_core_re_0 = $param{e_mail_address_single_raw};
 
       $return_path_core_re_0 =~ s/ ([\.\+]) /\\$1/gx;
 
       push( @list_of_return_path_core_re , $return_path_core_re_0 );
 
-      if($param{e_mail_address_raw} =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
+      if($param{e_mail_address_single_raw} =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
 	{
 	  my($h) = "$+{after}=$+{before}";
 
@@ -100,7 +100,7 @@ sub m0
     }
   else
     {
-      die "... // !exists(\$param{e_mail_address_raw}) && !exists(\$param{e_mail_address_re})";
+      die "... // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_re})";
     }
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
