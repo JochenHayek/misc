@@ -72,26 +72,41 @@ sub m0
 
   my(@list_of_return_path_core_re);
 
-  if(exists($param{e_mail_address_single_raw}))
+  if(exists($param{e_mail_address_list_raw}))
     {
-      my($return_path_core_re_0);
-      my($return_path_core_re_1);
+      foreach my $e (@{ $param{e_mail_address_list_raw} })
+	{
+	  my($h1) = $e;
 
-      $return_path_core_re_0 = $param{e_mail_address_single_raw};
+	  $h1 =~ s/ ([\.\+]) /\\$1/gx;
 
-      $return_path_core_re_0 =~ s/ ([\.\+]) /\\$1/gx;
+	  push( @list_of_return_path_core_re , $h1 );
 
-      push( @list_of_return_path_core_re , $return_path_core_re_0 );
+	  if($e =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
+	    {
+	      my($h0) = "$+{after}=$+{before}";
+
+	      $h0 =~ s/ ([\.\+]) /\\$1/gx;
+
+	      push( @list_of_return_path_core_re , ".*=${h0}\@.*" );
+	    }
+	}
+    }
+  elsif(exists($param{e_mail_address_single_raw}))
+    {
+      my($h1) = $param{e_mail_address_single_raw};
+
+      $h1 =~ s/ ([\.\+]) /\\$1/gx;
+
+      push( @list_of_return_path_core_re , $h1 );
 
       if($param{e_mail_address_single_raw} =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
 	{
-	  my($h) = "$+{after}=$+{before}";
+	  my($h0) = "$+{after}=$+{before}";
 
-	  $h =~ s/ ([\.\+]) /\\$1/gx;
+	  $h0 =~ s/ ([\.\+]) /\\$1/gx;
 
-	  $return_path_core_re_1 = ".*=${h}\@.*";
-
-	  push( @list_of_return_path_core_re , $return_path_core_re_1 );
+	  push( @list_of_return_path_core_re , ".*=${h0}\@.*" );
 	}
     }
   elsif(exists($param{e_mail_address_misc_re}))
