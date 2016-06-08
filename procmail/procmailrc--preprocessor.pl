@@ -1,6 +1,9 @@
 #! /usr/bin/perl -w
 
 
+our($creating_remote_procmailrc_p) = 1;
+our($creating_local_procmailrc_p)  = 0;
+
 {
   my(@macro_lines) = ();
 
@@ -84,26 +87,15 @@ sub m0
     '$return_path_re' => $return_path_re,
     if 0;
 
-  if(exists($param{target_folder__remote}))
+  if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
-      print "\n:0\n";
-      print "$return_path_re\n";
+      print "\n",":0","\n",$return_path_re,"\n";
       print $param{target_folder__remote},"\n";
     }
-  else
+  elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
-      if(exists($param{e_mail_address_raw}))
-	{
-	  warn "\$param{e_mail_address_raw}=>{$param{e_mail_address_raw}} // !exists(\$param{target_folder__remote})";
-	}
-      elsif(exists($param{e_mail_address_re}))
-	{
-	  warn "\$param{e_mail_address_re}=>{$param{e_mail_address_re}} // !exists(\$param{target_folder__remote})";
-	}
-      else
-	{
-	  die "... // !exists(\$param{target_folder__remote})";
-	}
+      print "\n",":0","\n",$return_path_re,"\n";
+      print $param{target_folder__local},"\n";
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
