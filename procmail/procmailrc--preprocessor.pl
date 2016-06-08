@@ -61,7 +61,7 @@ sub m0
 
   # comment
   # e_mail_address_single_raw
-  # e_mail_address_re
+  # e_mail_address_misc_re
   # target_folder__remote
   # target_folder__local
 
@@ -94,27 +94,36 @@ sub m0
 	  push( @list_of_return_path_core_re , $return_path_core_re_1 );
 	}
     }
-  elsif(exists($param{e_mail_address_re}))
+  elsif(exists($param{e_mail_address_misc_re}))
     {
-      push( @list_of_return_path_core_re , $param{e_mail_address_re} );
+      push( @list_of_return_path_core_re , $param{e_mail_address_misc_re} );
     }
   else
     {
-      die "... // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_re})";
+      warn "...,\$param{target_folder__remote}=>{$param{target_folder__remote}} // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_misc_re})"
+	if exists($param{target_folder__remote});
+
+      warn "...,\$param{target_folder__local}=>{$param{target_folder__local}} // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_misc_re})"
+	if exists($param{target_folder__local});
+
+      warn "... // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_misc_re})"
+	if !exists($param{target_folder__remote}) && !exists($param{target_folder__local});
+
+      return $return_value;
     }
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
       foreach my $e (@list_of_return_path_core_re)
 	{
-	  &print_rule( e_mail_address_re => $e , target_folder => $param{target_folder__remote} );
+	  &print_rule( e_mail_address_misc_re => $e , target_folder => $param{target_folder__remote} );
 	}
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
       foreach my $e (@list_of_return_path_core_re)
 	{
-	  &print_rule( e_mail_address_re => $e , target_folder => $param{target_folder__local} );
+	  &print_rule( e_mail_address_misc_re => $e , target_folder => $param{target_folder__local} );
 	}
     }
 
@@ -130,7 +139,7 @@ sub print_rule
 
   my(%param) = @_;
 
-  # e_mail_address_re
+  # e_mail_address_misc_re
   # target_folder
 
   my($return_value) = 0;
@@ -140,7 +149,7 @@ sub print_rule
 
   print "\n"; 
   print ":0\n"; 
-  print '* ^Return-Path: <',$param{e_mail_address_re},'>$',"\n";
+  print '* ^Return-Path: <',$param{e_mail_address_misc_re},'>$',"\n";
   print $param{target_folder},"\n";
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
