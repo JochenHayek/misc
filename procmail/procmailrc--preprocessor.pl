@@ -60,7 +60,9 @@ sub m0
   my(%param) = @_;
 
   # comment
+  # e_mail_address_list_raw
   # e_mail_address_single_raw
+  # e_mail_address_single_AT_re
   # e_mail_address_misc_re
   # target_folder__remote
   # target_folder__local
@@ -89,8 +91,6 @@ sub m0
 
 	      $h0 =~ s/ ([\.\+]) /\\$1/gx;
 
-	    ##push( @list_SPFified_of_return_path_core_re , ".*=${h0}\@.*" );
-
 	      push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
 	    }
 	}
@@ -109,7 +109,16 @@ sub m0
 
 	  $h0 =~ s/ ([\.\+]) /\\$1/gx;
 
-	##push( @list_SPFified_of_return_path_core_re , ".*=${h0}\@.*" );
+	  push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
+	}
+    }
+  elsif(exists($param{e_mail_address_single_AT_re}))
+    {
+      push( @list_of_return_path_core_re , $param{e_mail_address_single_AT_re} );
+
+      if($param{e_mail_address_single_AT_re} =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
+	{
+	  my($h0) = "$+{after}=$+{before}";
 
 	  push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
 	}
@@ -118,7 +127,7 @@ sub m0
     {
       push( @list_of_return_path_core_re , $param{e_mail_address_misc_re} );
     }
-  else
+  elsif(0)
     {
       warn "...,\$param{target_folder__remote}=>{$param{target_folder__remote}} // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_misc_re})"
 	if exists($param{target_folder__remote});
@@ -160,9 +169,16 @@ sub m0
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
-      foreach my $e (@list_of_return_path_core_re)
+      if($#list_of_return_path_core_re == 0)
 	{
-	  &print_rule( e_mail_address_misc_re => $e , target_folder => $param{target_folder__local} );
+	  my($e) = $list_of_return_path_core_re[0];
+	  &print_rule( e_mail_address_misc_re => ${e} , target_folder => $param{target_folder__local} );
+	}
+      elsif($#list_of_return_path_core_re > 0)
+	{
+	  my($h0) = join( '|' , @list_of_return_path_core_re );
+	  my($h1) = '(' . ${h0} . ')';
+	  &print_rule( e_mail_address_misc_re => ${h1} , target_folder => $param{target_folder__local} );
 	}
 
       if($#list_SPFified_of_return_path_core_re == 0)
