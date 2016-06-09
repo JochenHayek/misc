@@ -1,5 +1,6 @@
 #! /usr/bin/perl -w
 
+our($debug) = 0;
 
 our($creating_remote_procmailrc_p) = 1;
 our($creating_local_procmailrc_p)  = 0;
@@ -15,6 +16,9 @@ our($creating_local_procmailrc_p)  = 0;
 	}
       elsif(m/^##shuttle-macro-begin$/)
 	{
+	  warn "matching macro-begin"
+	    if $debug;
+
 	  print '# orig: ',$_
 	    if 0;
 
