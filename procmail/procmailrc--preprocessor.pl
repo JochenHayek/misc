@@ -167,7 +167,8 @@ sub m0
       elsif($#list_SPFified_of_return_path_core_re > 0)
 	{
 	  my($h0) = join( '|' , @list_SPFified_of_return_path_core_re );
-	  &print_rule( e_mail_address_misc_re => ".*=(${h0})\@.*" , target_folder => $param{target_folder__remote} );
+	  my($h1) = '(' . ${h0} . ')';
+	  &print_rule( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $param{target_folder__remote} );
 	}
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
@@ -192,7 +193,8 @@ sub m0
       elsif($#list_SPFified_of_return_path_core_re > 0)
 	{
 	  my($h0) = join( '|' , @list_SPFified_of_return_path_core_re );
-	  &print_rule( e_mail_address_misc_re => ".*=(${h0})\@.*" , target_folder => $param{target_folder__local} );
+	  my($h1) = '(' . ${h0} . ')';
+	  &print_rule( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $param{target_folder__local} );
 	}
     }
 
