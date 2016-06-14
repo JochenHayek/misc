@@ -147,54 +147,58 @@ sub m0
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
+      my($target_folder) = $param{target_folder__remote};
+
       if($#list_of_return_path_core_re == 0)
 	{
 	  my($e) = $list_of_return_path_core_re[0];
-	  &print_rule( e_mail_address_misc_re => ${e} , target_folder => $param{target_folder__remote} );
+	  &print_rule( e_mail_address_misc_re => ${e} , target_folder => $target_folder );
 	}
       elsif($#list_of_return_path_core_re > 0)
 	{
 	  my($h0) = join( '|' , @list_of_return_path_core_re );
 	  my($h1) = '(' . ${h0} . ')';
-	  &print_rule( e_mail_address_misc_re => ${h1} , target_folder => $param{target_folder__remote} );
+	  &print_rule( e_mail_address_misc_re => ${h1} , target_folder => $target_folder );
 	}
 
       if($#list_SPFified_of_return_path_core_re == 0)
 	{
 	  my($e) = $list_SPFified_of_return_path_core_re[0];
-	  &print_rule( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $param{target_folder__remote} );
+	  &print_rule( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $target_folder );
 	}
       elsif($#list_SPFified_of_return_path_core_re > 0)
 	{
 	  my($h0) = join( '|' , @list_SPFified_of_return_path_core_re );
 	  my($h1) = '(' . ${h0} . ')';
-	  &print_rule( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $param{target_folder__remote} );
+	  &print_rule( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $target_folder );
 	}
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
+      my($target_folder) = $param{target_folder__local};
+
       if($#list_of_return_path_core_re == 0)
 	{
 	  my($e) = $list_of_return_path_core_re[0];
-	  &print_rule( e_mail_address_misc_re => ${e} , target_folder => $param{target_folder__local} );
+	  &print_rule( e_mail_address_misc_re => ${e} , target_folder => $target_folder );
 	}
       elsif($#list_of_return_path_core_re > 0)
 	{
 	  my($h0) = join( '|' , @list_of_return_path_core_re );
 	  my($h1) = '(' . ${h0} . ')';
-	  &print_rule( e_mail_address_misc_re => ${h1} , target_folder => $param{target_folder__local} );
+	  &print_rule( e_mail_address_misc_re => ${h1} , target_folder => $target_folder );
 	}
 
       if($#list_SPFified_of_return_path_core_re == 0)
 	{
 	  my($e) = $list_SPFified_of_return_path_core_re[0];
-	  &print_rule( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $param{target_folder__local} );
+	  &print_rule( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $target_folder );
 	}
       elsif($#list_SPFified_of_return_path_core_re > 0)
 	{
 	  my($h0) = join( '|' , @list_SPFified_of_return_path_core_re );
 	  my($h1) = '(' . ${h0} . ')';
-	  &print_rule( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $param{target_folder__local} );
+	  &print_rule( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $target_folder );
 	}
     }
 
