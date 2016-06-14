@@ -99,7 +99,8 @@ sub m0
 	    }
 	}
     }
-  elsif(exists($param{e_mail_address_single_raw}))
+
+  if(exists($param{e_mail_address_single_raw}))
     {
       my($h1) = $param{e_mail_address_single_raw};
 
@@ -116,7 +117,8 @@ sub m0
 	  push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
 	}
     }
-  elsif(exists($param{e_mail_address_single_AT_re}))
+
+  if(exists($param{e_mail_address_single_AT_re}))
     {
       push( @list_of_return_path_core_re , $param{e_mail_address_single_AT_re} );
 
@@ -127,22 +129,10 @@ sub m0
 	  push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
 	}
     }
-  elsif(exists($param{e_mail_address_misc_re}))
+
+  if(exists($param{e_mail_address_misc_re}))
     {
       push( @list_of_return_path_core_re , $param{e_mail_address_misc_re} );
-    }
-  elsif(0)
-    {
-      warn "...,\$param{target_folder__remote}=>{$param{target_folder__remote}} // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_misc_re})"
-	if exists($param{target_folder__remote});
-
-      warn "...,\$param{target_folder__local}=>{$param{target_folder__local}} // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_misc_re})"
-	if exists($param{target_folder__local});
-
-      warn "... // !exists(\$param{e_mail_address_single_raw}) && !exists(\$param{e_mail_address_misc_re})"
-	if !exists($param{target_folder__remote}) && !exists($param{target_folder__local});
-
-      return $return_value;
     }
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
