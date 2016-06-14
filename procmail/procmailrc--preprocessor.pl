@@ -147,59 +147,21 @@ sub m0
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
-      my($target_folder) = $param{target_folder__remote};
-
-      if($#list_of_return_path_core_re == 0)
-	{
-	  my($e) = $list_of_return_path_core_re[0];
-	  &print_rule( e_mail_address_misc_re => ${e} , target_folder => $target_folder );
-	}
-      elsif($#list_of_return_path_core_re > 0)
-	{
-	  my($h0) = join( '|' , @list_of_return_path_core_re );
-	  my($h1) = '(' . ${h0} . ')';
-	  &print_rule( e_mail_address_misc_re => ${h1} , target_folder => $target_folder );
-	}
-
-      if($#list_SPFified_of_return_path_core_re == 0)
-	{
-	  my($e) = $list_SPFified_of_return_path_core_re[0];
-	  &print_rule( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $target_folder );
-	}
-      elsif($#list_SPFified_of_return_path_core_re > 0)
-	{
-	  my($h0) = join( '|' , @list_SPFified_of_return_path_core_re );
-	  my($h1) = '(' . ${h0} . ')';
-	  &print_rule( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $target_folder );
-	}
+      &print_rule__high_level(
+	 local_or_remote => 'remote' ,
+	 target_folder => $param{target_folder__remote} ,
+	 list_of_return_path_core_re => \@list_of_return_path_core_re ,
+	 list_SPFified_of_return_path_core_re => \@list_SPFified_of_return_path_core_re ,
+	 );
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
-      my($target_folder) = $param{target_folder__local};
-
-      if($#list_of_return_path_core_re == 0)
-	{
-	  my($e) = $list_of_return_path_core_re[0];
-	  &print_rule( e_mail_address_misc_re => ${e} , target_folder => $target_folder );
-	}
-      elsif($#list_of_return_path_core_re > 0)
-	{
-	  my($h0) = join( '|' , @list_of_return_path_core_re );
-	  my($h1) = '(' . ${h0} . ')';
-	  &print_rule( e_mail_address_misc_re => ${h1} , target_folder => $target_folder );
-	}
-
-      if($#list_SPFified_of_return_path_core_re == 0)
-	{
-	  my($e) = $list_SPFified_of_return_path_core_re[0];
-	  &print_rule( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $target_folder );
-	}
-      elsif($#list_SPFified_of_return_path_core_re > 0)
-	{
-	  my($h0) = join( '|' , @list_SPFified_of_return_path_core_re );
-	  my($h1) = '(' . ${h0} . ')';
-	  &print_rule( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $target_folder );
-	}
+      &print_rule__high_level( 
+	 local_or_remote => 'local' ,
+	 target_folder => $param{target_folder__local} ,
+	 list_of_return_path_core_re => \@list_of_return_path_core_re ,
+	 list_SPFified_of_return_path_core_re => \@list_SPFified_of_return_path_core_re ,
+	 );
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
@@ -208,14 +170,61 @@ sub m0
   return $return_value;
 }
 #
-sub print_rule
+sub print_rule__high_level
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
   my(%param) = @_;
 
-  # e_mail_address_misc_re
-  # target_folder
+  # $param{local_or_remote}
+  # $param{target_folder}
+  # $param{list_of_return_path_core_re}
+  # $param{list_SPFified_of_return_path_core_re}
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if($#{$param{list_of_return_path_core_re}} == 0)
+    {
+      my($e) = $param{list_of_return_path_core_re}[0];
+      &print_rule__low_level( e_mail_address_misc_re => ${e} , target_folder => $param{target_folder} );
+    }
+  elsif($#{$param{list_of_return_path_core_re}} > 0)
+    {
+      my($h0) = join( '|' , @{$param{list_of_return_path_core_re}} );
+      my($h1) = '(' . ${h0} . ')';
+      &print_rule__low_level( e_mail_address_misc_re => ${h1} , target_folder => $param{target_folder} );
+    }
+
+  if   ($#{$param{list_SPFified_of_return_path_core_re}} == 0)
+    {
+      my($e) = $param{list_SPFified_of_return_path_core_re}[0];
+      &print_rule__low_level( e_mail_address_misc_re => ".*=${e}\@.*" , target_folder => $param{target_folder} );
+    }
+  elsif($#{$param{list_SPFified_of_return_path_core_re}} > 0)
+    {
+      my($h0) = join( '|' , @{$param{list_SPFified_of_return_path_core_re}} );
+      my($h1) = '(' . ${h0} . ')';
+      &print_rule__low_level( e_mail_address_misc_re => ".*=${h1}\@.*" , target_folder => $param{target_folder} );
+    }
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub print_rule__low_level
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  # $param{local_or_remote}
+  # $param{e_mail_address_misc_re}
+  # $param{target_folder}
 
   my($return_value) = 0;
 
