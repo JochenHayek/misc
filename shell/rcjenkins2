@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.17 2016/06/18 12:46:09 johayek Exp $
+# $Id: rcjenkins2 1.18 2016/06/18 13:10:31 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -33,6 +33,10 @@ our_appl_version=${short_base}-2-009.war
 ##JAVA=java
   JAVA=/var/packages/Java7/target/j2sdk-image/bin/java
 ##JAVA=/var/packages/Java8/target/j2sdk-image/bin/java
+
+echo "********************************************************************************"
+echo "*** consider looking into the Java7 vs Java8 problem!"
+echo "********************************************************************************"
 
 ################################################################################
 
