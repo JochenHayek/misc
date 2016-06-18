@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.16 2016/06/18 12:39:35 johayek Exp $
+# $Id: rcjenkins2 1.17 2016/06/18 12:46:09 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -19,8 +19,16 @@ our_appl_version=${short_base}-2-009.war
 
 ################################################################################
 
+# Java7 vs Java8 complications
+# 
 # for the time being this script is not compatible with Java8,
 # so we have to make sure, we are making use of Java7.
+# 
+# http://stackoverflow.com/questions/28665783/starting-https-jenkins-server-on-127-0-0-1
+# 
+# I also made sure to set the httpsKeyStore and httpsKeyStorePassword properties after creating a selfsigned certificate (instructions here under Using SSL: Installing and Configuring Jenkins)
+# 
+#  https://wiki.wocommunity.org/display/documentation/Installing+and+Configuring+Jenkins
 
 ##JAVA=java
   JAVA=/var/packages/Java7/target/j2sdk-image/bin/java
