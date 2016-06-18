@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.15 2016/05/09 12:56:20 johayek Exp $
+# $Id: rcjenkins2 1.16 2016/06/18 12:39:35 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -15,7 +15,16 @@ application_server_prefix=jenkins
 # we store all the jenkins WARS we use(d) in this directory,
 # so in case of trouble we can always fall back to an older version:
 
-our_appl_version=${short_base}-2-002.war
+our_appl_version=${short_base}-2-009.war
+
+################################################################################
+
+# for the time being this script is not compatible with Java8,
+# so we have to make sure, we are making use of Java7.
+
+##JAVA=java
+  JAVA=/var/packages/Java7/target/j2sdk-image/bin/java
+##JAVA=/var/packages/Java8/target/j2sdk-image/bin/java
 
 ################################################################################
 
@@ -82,6 +91,7 @@ mkdir --verbose --parents "$JENKINS_HOME"
 case "$1" in
   start | start_with_pidfile)
     echo "Starting ${short_base} on https port ${httpsPort} with control port ${controlPort} and prefix ${application_server_prefix} ..."
+  ##echo "Starting ${short_base} on https port ${httpsPort} with prefix ${application_server_prefix} ..."
 
     ################################################################################
 
@@ -102,12 +112,13 @@ case "$1" in
 
     ################################################################################
 
-    nohup java \
+    ##--controlPort=${controlPort}
+
+    nohup "${JAVA}" \
       -Djava.io.tmpdir=$HOME/tmp-java \
       -Duser.timezone=Europe/Berlin \
       -jar ${appl_wars}/${our_appl_version} \
       \
-      --controlPort=${controlPort} \
       --httpsPort=${httpsPort} \
       --httpPort=${httpPort} \
       --prefix=/${application_server_prefix} \
@@ -170,7 +181,7 @@ case "$1" in
 
     # from Jenkins TDG, ch. 3
 
-    java \
+    "${JAVA}" \
       -classpath "$JENKINS_HOME/war/winstone.jar" \
       winstone.tools.WinstoneControl shutdown \
       --host=localhost \
@@ -182,7 +193,7 @@ case "$1" in
 
     # from Jenkins TDG, ch. 3
 
-    java \
+    "${JAVA}" \
       -classpath "$JENKINS_HOME/war/winstone.jar" \
       winstone.tools.WinstoneControl reload:${application_server_prefix} \
       --host=localhost \
@@ -194,7 +205,7 @@ case "$1" in
 
     # from Jenkins TDG, ch. 3 // they do not recommend winstone_illegal_hello, but that's where I learned about its command interface
 
-    java \
+    "${JAVA}" \
       -classpath "$JENKINS_HOME/war/winstone.jar" \
       winstone.tools.WinstoneControl illegal_hello \
       --host=localhost \
