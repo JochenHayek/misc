@@ -179,27 +179,43 @@ sub print_rule__high_level
   if($#{$param{list_of_return_path_core_re}} == 0)
     {
       my($e) = $param{list_of_return_path_core_re}[0];
-      &print_rule__low_level( e_mail_address_misc_re => ${e} , target_folder => $param{target_folder} );
+      &print_rule__low_level(
+	straight_or_SPFified => 'straight' ,
+	e_mail_address_misc_re => ${e} ,
+	target_folder => $param{target_folder} ,
+	);
     }
   elsif($#{$param{list_of_return_path_core_re}} > 0)
     {
       my($h0) = join( '|' , @{$param{list_of_return_path_core_re}} );
       my($h1) = '(' . ${h0} . ')';
-      &print_rule__low_level( e_mail_address_misc_re => ${h1} , target_folder => $param{target_folder} );
+      &print_rule__low_level(
+	straight_or_SPFified => 'straight' ,
+	e_mail_address_misc_re => ${h1} ,
+	target_folder => $param{target_folder} ,
+	);
     }
 
   if   ($#{$param{list_SPFified_of_return_path_core_re}} == 0)
     {
       my($e) = $param{list_SPFified_of_return_path_core_re}[0];
-    ##&print_rule__low_level( e_mail_address_misc_re => ".*=${e}\@udag\.de"  , target_folder => $param{target_folder} );
-      &print_rule__low_level( e_mail_address_misc_re => ".*=${e}\@.*"        , target_folder => $param{target_folder} );
+      &print_rule__low_level(
+	straight_or_SPFified => 'SPFified' ,
+      ##e_mail_address_misc_re => ".*=${e}\@udag\.de"  ,
+	e_mail_address_misc_re => ".*=${e}\@.*"        ,
+	target_folder => $param{target_folder} ,
+	);
     }
   elsif($#{$param{list_SPFified_of_return_path_core_re}} > 0)
     {
       my($h0) = join( '|' , @{$param{list_SPFified_of_return_path_core_re}} );
       my($h1) = '(' . ${h0} . ')';
-    ##&print_rule__low_level( e_mail_address_misc_re => ".*=${h1}\@udag\.de" , target_folder => $param{target_folder} );
-      &print_rule__low_level( e_mail_address_misc_re => ".*=${h1}\@.*"       , target_folder => $param{target_folder} );
+      &print_rule__low_level(
+	straight_or_SPFified => 'SPFified' ,
+      ##e_mail_address_misc_re => ".*=${h1}\@udag\.de" ,
+	e_mail_address_misc_re => ".*=${h1}\@.*"       ,
+	target_folder => $param{target_folder} ,
+	);
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
@@ -214,7 +230,8 @@ sub print_rule__low_level
 
   my(%param) = @_;
 
-  # $param{local_or_remote}
+  # $param{straight_or_SPFified}
+  # $param{local_or_remote} // unused?!
   # $param{e_mail_address_misc_re}
   # $param{target_folder}
 
