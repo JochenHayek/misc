@@ -1,9 +1,10 @@
 :
 
-# $Id: rcjenkins2 1.18 2016/06/18 13:10:31 johayek Exp $
+# $Id: rcjenkins2 1.19 2016/07/05 22:50:19 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
+# -> https://wiki.wocommunity.org/display/documentation/Installing+and+Configuring+Jenkins
 
 ################################################################################
 
@@ -15,7 +16,7 @@ application_server_prefix=jenkins
 # we store all the jenkins WARS we use(d) in this directory,
 # so in case of trouble we can always fall back to an older version:
 
-our_appl_version=${short_base}-2-009.war
+our_appl_version=${short_base}-2-012.war
 
 ################################################################################
 
@@ -29,6 +30,8 @@ our_appl_version=${short_base}-2-009.war
 # I also made sure to set the httpsKeyStore and httpsKeyStorePassword properties after creating a selfsigned certificate (instructions here under Using SSL: Installing and Configuring Jenkins)
 # 
 #  https://wiki.wocommunity.org/display/documentation/Installing+and+Configuring+Jenkins
+#
+# -> httpsKeyStore / httpsKeyStorePassword resp. httpsCertificate / httpsPrivateKey
 
 ##JAVA=java
   JAVA=/var/packages/Java7/target/j2sdk-image/bin/java
