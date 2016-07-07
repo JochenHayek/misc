@@ -130,6 +130,24 @@ sub m0
 	}
     }
 
+  if(exists($param{e_mail_address_list_of_domains_with_possible_wildcard_subdomain}))
+    {
+      foreach my $e (@{ $param{e_mail_address_list_of_domains_with_possible_wildcard_subdomain} })
+	{
+	  ################################################################################
+	  # work in progress
+	  ################################################################################
+
+	  my($h1) = $e;
+
+	  $h1 =~ s/ ([\.\+]) /\\$1/gx;
+
+	  push( @list_of_return_path_core_re          , ".*@(|.*\\.)${h1}" );
+
+	  push( @list_SPFified_of_return_path_core_re , "(|.*\\.)${h1}=.*" );
+	}
+    }
+
   if(exists($param{e_mail_address_misc_re}))
     {
       push( @list_of_return_path_core_re , $param{e_mail_address_misc_re} );
