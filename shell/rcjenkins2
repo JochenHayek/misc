@@ -1,6 +1,6 @@
 :
 
-# $Id: rcjenkins2 1.19 2016/07/05 22:50:19 johayek Exp $
+# $Id: rcjenkins2 1.20 2016/07/18 10:24:50 johayek Exp $
 # $Source: /var/services/homes/johayek/git-servers/github.com/JochenHayek/misc/shell/RCS/rcjenkins2 $
 
 # -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
@@ -16,7 +16,7 @@ application_server_prefix=jenkins
 # we store all the jenkins WARS we use(d) in this directory,
 # so in case of trouble we can always fall back to an older version:
 
-our_appl_version=${short_base}-2-012.war
+our_appl_version=${short_base}-2-014.war
 
 ################################################################################
 
