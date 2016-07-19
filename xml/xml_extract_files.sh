@@ -15,17 +15,17 @@
 #
 #   It is then easy to write a post-processor to split this into separate XML files.
 #
-# now here is an implementation of this post-processor usint xmlstarlet
+# now here is an implementation of this post-processor using xmlstarlet
 
 ##XML=$HOME/Computers/Software/Operating_Systems/Unix/Shell/xml_extract_files.t/in/0.xml
 
 for XML in "$@"
 do :
-  : echo "*** ${XML}:"
+  echo "*** extracting from ${XML}:"
 
   for fn in $( xml sel -t -v 'outputs/output-file/@filename' -n "${XML}" )
   do :
-    : echo "*** ${fn}:"
+    test -n "$VERBOSE" && echo "*** extracting from ${XML}: ${fn}:"
 
     xml sel -t -v "outputs/output-file[@filename='${fn}']" -n "${XML}" > "${fn}"
   done
