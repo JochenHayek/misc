@@ -1,5 +1,8 @@
 :
 
+# $Source$
+# $Revision$
+
 bn0=$(basename "$0")
 
 for i
