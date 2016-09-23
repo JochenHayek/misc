@@ -1,12 +1,14 @@
 :
 
+# -> README--rename.txt
+
+# https://github.com/JochenHayek/misc/
+
 ################################################################################
 
 # $ exif --xml-output *.jpg | fgrep -i '<Date_and_Time'
 
 ################################################################################
-
-##filename=Being_Geek.pdf
 
 ##Date=CreateDate
 ##Date=DateTimeOriginal
@@ -55,5 +57,5 @@ do
       }
 
   ' \
-  -- -Date=${Date} -filename=${filename}
+  -- -Date=${Date} "-filename=${filename}"
 done

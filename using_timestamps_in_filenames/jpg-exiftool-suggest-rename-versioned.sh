@@ -6,11 +6,9 @@
 
 ################################################################################
 
-# $ exif --xml-output *.jpg | fgrep -i '<Date_and_Time'
+# $ exiftool -s *.jpg | fgrep -i date
 
 ################################################################################
-
-##filename=Being_Geek.pdf
 
 ##Date=CreateDate
 ##Date=DateTimeOriginal
@@ -29,37 +27,37 @@
 # SubSecCreateDate                : 2014:08:30 10:04:37.29
 # SubSecDateTimeOriginal          : 2014:08:30 10:04:37.29
 # SubSecModifyDate                : 2014:08:30 10:04:37.29
-
-
-
-
-  ##if(m/^ \s* < (?<left>\w+) > \s* (?<Date>[^<]*) \s* < (?<left>\w+) > \s* $ : \s+ (?<Y>....).(?<m>..).(?<d>..).(?<H>..).(?<M>..).(?<S>..) /x)
-
   
 for filename
 do
 
   echo "*** ${filename}:"
 
-  exif --xml-output "${filename}" | 
+##exiftool -s -${Date}   -FileName "${filename}" | 
+  exiftool -s \
+    -FileName \
+    -CreateDate -DateTimeOriginal -FileAccessDate -FileInodeChangeDate -FileModifyDate -ModifyDate -PowerUpTime -SubSecCreateDate -SubSecDateTimeOriginal -SubSecModifyDate \
+    "${filename}" | 
 
   perl \
     -s \
     -ne '
 
-    # <Date_and_Time__Original_>2010:08:19 13:57:49</Date_and_Time__Original_>
+    if(m/^ FileName   \s* : \s+ (?<FileName>.*)                 /x)
+      {
+	$FileName = $+{FileName};
 
-    $FileName = "${filename}";
-
-    if(m/^ \s* < (?<left>Date_and_Time[^>]*) > (?<Date> (?<Y>....).(?<m>..).(?<d>..).(?<H>..).(?<M>..).(?<S>..) ) <\/ (?<right>[^>]+) > \s* $ /x)
+        $FileName =~ s/\.jpg//;
+      }
+    elsif(m/^ (?<Date>\S*) \s* : \s+ (?<Y>....).(?<m>..).(?<d>..).(?<H>..).(?<M>..).(?<S>..) /x)
       {
 	$Date = $+{Date};
 
       ##$time_stamp = "$+{Y}$2$3$4$5$6";
 	$time_stamp = "$+{Y}$+{m}$+{d}$+{H}$+{M}$+{S}";
 
-      ##print "mv \"${FileName}\" \"${time_stamp}--${FileName}\" # \$Date=>{$Date}\n";
-	print "mv \"${FileName}\" \"999990-000--${time_stamp}--${FileName}\" # \$+{left}=>{$+{left}},\$Date=>{$Date}\n";
+      ##print "mv \"${filename}\" \"${FileName}.${time_stamp}.jpg\" # \$Date=>{$Date}\n";
+	print "mv \"${filename}\" \"${FileName}.${time_stamp}.jpg\" # \$Date=>{$Date}\n";
       }
 
   ' \

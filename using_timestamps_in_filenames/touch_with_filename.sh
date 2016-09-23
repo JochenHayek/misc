@@ -2,6 +2,10 @@
 
 bn0=$(basename "$0")
 
+# M-x setenv
+#   PATH
+#   …
+
 for i
 do :
    false && echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}}"

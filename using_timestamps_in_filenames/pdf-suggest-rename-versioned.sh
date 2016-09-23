@@ -2,12 +2,14 @@
 
 # -> README--rename.txt
 
+# https://github.com/JochenHayek/misc/
+
 ################################################################################
 
 if true
 then :
   pdfinfo -rawdates 1> /dev/null 2> /dev/null
-  if test $? -eq 99		# if the option is available, 99 gets returned as exit code
+  if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
   then :
     pdfinfo_options='-meta -rawdates' # the option is available, so let's use it!
   else :
@@ -34,11 +36,11 @@ then :
   esac
 fi
 
-##filename=Being_Geek.pdf
-
 ##for filename in "${@}"
 for filename
 do
+
+  test -f "${filename}" || continue
 
   echo "*** ${filename}:"
 
@@ -47,7 +49,7 @@ do
 
   pdfinfo ${pdfinfo_options} "${filename}" |
 
-##perl -MFile::Basename -s -ne ' ${basename} = basename(${filename},".pdf"); chomp; m/ ^ (?<n>.*Date): \s* D: (?<v>\d+) (-.*|Z)? $ /x && printf                "# %20s=>{%s} // %s\n"					 ,$+{n},$+{v},${filename};' -- -filename=${filename}
+##perl -MFile::Basename -s -ne ' ${basename} = basename(${filename},".pdf"); chomp; m/ ^ (?<n>.*Date): \s* D: (?<v>\d+) (-.*|Z)? $ /x && printf                "# %20s=>{%s} // %s\n"					 ,$+{n},$+{v},${filename};' -- "-filename=${filename}"
 
   perl -MFile::Basename \
     -s \
@@ -82,7 +84,7 @@ do
 
            # caveat: not yet tested here!!!
 
-	   printf "mv %s %s/%s.%s.%s # %20s=>{%s} // %s\n",
+	   printf "mv \"%s\" \"%s/%s.%s.%s\" # %20s=>{%s} // %s\n",
 	     $filename,
 	     $dirname,$basename,$YYYY.$mm.$dd.$HH.$MM.$SS,"pdf",
 	     $+{n},$+{v},
@@ -103,7 +105,7 @@ do
 
            # caveat: not yet tested here!!!
 
-	   printf "mv %s %s/%s.%s.%s # %20s=>{%s} // %s\n",
+	   printf "mv \"%s\" \"%s/%s.%s.%s\" # %20s=>{%s} // %s\n",
 	     $filename,
 	     $dirname,$basename,$YYYY.$mm.$dd.$HH.$MM.$SS,"pdf",
 	     $+{n},$+{v},
@@ -124,7 +126,7 @@ do
 	   $MM   = $+{MM};
 	   $SS   = $+{SS};
 
-	   printf "mv %s %s/%s.%s.%s # %20s=>{%s} // %s\n",
+	   printf "mv \"%s\" \"%s/%s.%s.%s\" # %20s=>{%s} // %s\n",
 	     ${filename},
 	     $dirname,$basename,$YYYY.$mm.$dd.$HH.$MM.$SS,"pdf",
 	     $+{n},$+{v},
@@ -138,7 +140,7 @@ do
 
        if( m/ ^ (?<n>.*Date): \s* D: (?<v>\d+) (.*) $ /x )
          {
-	   printf "mv %s %s/%s.%s.%s # %20s=>{%s} // %s\n",
+	   printf "mv \"%s\" \"%s/%s.%s.%s\" # %20s=>{%s} // %s\n",
 	     ${filename},
 	     $dirname,$basename,$+{v},"pdf",
 	     $+{n},$+{v},
@@ -161,7 +163,7 @@ do
 	   $MM   = substr($+{v},14,2);
 	   $SS   = substr($+{v},17,2);
 
-	   printf "mv %s %s/%s.%s.%s # %20s=>{%s} // %s\n",
+	   printf "mv \"%s\" \"%s/%s.%s.%s\" # %20s=>{%s} // %s\n",
 	     ${filename},
 	     $dirname,$basename,$YYYY.$mm.$dd.$HH.$MM.$SS,"pdf",
 	     $+{n0},$+{v},
@@ -170,5 +172,5 @@ do
          }
 
     ' \
-    -- -filename=${filename}
+    -- "-filename=${filename}"
 done
