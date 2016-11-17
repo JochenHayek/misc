@@ -1,7 +1,7 @@
 #! /usr/local/perlbrew/perls/stable/bin/perl
 #! /usr/bin/perl
 
-# $Id: JHgen_diary_frame.pl 1.24 2014/03/15 23:39:20 johayek Exp $
+# $Id: JHgen_diary_frame.pl 1.25 2016/11/17 16:13:24 johayek Exp $
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
 
 # Q: until what year do we run here?
@@ -55,9 +55,9 @@
 	  , $mday
 	  ;
 
-      next if($date__YYYY_MM_DD lt '2015-00-00'); # "first year"
+      next if($date__YYYY_MM_DD lt '2017-00-00'); # "first year"
 
-      last if($date__YYYY_MM_DD gt '2015-99-99'); # "last year"
+      last if($date__YYYY_MM_DD gt '2017-99-99'); # "last year"
 
       print
       ##$i,' ',
