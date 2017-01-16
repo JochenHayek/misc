@@ -28,7 +28,7 @@ printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
   '...' \
   ;
 
-##shopt -s extglob
+shopt -s extglob
 
 ##date=$( date '+%Y%m%d%H%M%S' )
 
