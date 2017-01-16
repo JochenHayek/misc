@@ -2,7 +2,7 @@
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# $Id: create_snapshot.sh 1.28 2016/12/21 11:04:58 johayek Exp johayek $
+# $Id: create_snapshot.sh 1.29 2017/01/16 20:33:14 johayek Exp johayek $
 
 #                           /scp:localhost#2222:/home/jochen_hayek/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
 # /scp:www.b.shuttle.de:/var/www/customers/jh2005/www/Hayek/Jochen/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
