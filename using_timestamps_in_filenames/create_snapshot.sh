@@ -17,13 +17,18 @@
 
 ################################################################################
 
+# the busybox shell does not support LINENO
+if test -z "$LINENO"
+then LINENO=0
+fi
+
 false &&
 printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
   '$#' "$#" \
   '...' \
   ;
 
-shopt -s extglob
+##shopt -s extglob
 
 ##date=$( date '+%Y%m%d%H%M%S' )
 
@@ -55,8 +60,16 @@ do :
   date=$( perl -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
 
   case "$i" in
-  ##*.~+([0-9])~ | *.~+([0-9]).+([0-9])~ | *.~+([0-9]).+([0-9]).~ )
+
+# w/o "shopt -s extglob", e.g. for the busybox shell:
+
+  ##      *.~[0-9]~  |       *.~[0-9][0-9]~  |       *.~[0-9][0-9][0-9]~  | \
+  ##*.~[0-9].[0-9]~  | *[0-9]..~[0-9][0-9]~  | *[0-9]..~[0-9][0-9][0-9]~  | \
+  ##*.~[0-9].[0-9].~ | *[0-9]..~[0-9][0-9].~ | *[0-9]..~[0-9][0-9][0-9].~ )
+
+####*.~+([0-9])~ | *.~+([0-9]).+([0-9])~ | *.~+([0-9]).+([0-9]).~ )
     *.~+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]]).~ )
+
       dn=$( dirname  "$i" )
       bn=$( basename "$i" | perl -ne 's/^(.*)(\.~[\.\d]+\.?~)$/$1/ && print $1,"\n"' )
       if test -e "$dn/$bn.$date"
