@@ -2,7 +2,7 @@
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# $Id: create_snapshot.sh 1.29 2017/01/16 20:33:14 johayek Exp johayek $
+# $Id: create_snapshot.sh 1.31 2017/01/16 20:47:08 johayek Exp johayek $
 
 #                           /scp:localhost#2222:/home/jochen_hayek/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
 # /scp:www.b.shuttle.de:/var/www/customers/jh2005/www/Hayek/Jochen/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
@@ -17,18 +17,28 @@
 
 ################################################################################
 
-# the busybox shell does not support LINENO
+# CAVEAT: which shell is it?
+
+# Bash:
+#
+if test -n "$BASH_VERSINFO"
+then shopt -s extglob
+fi
+
+# a simple shell like the BusyBox ash does not have $LINENO,
+# so we want at least to set it to 0:
+#
 if test -z "$LINENO"
 then LINENO=0
 fi
+
+################################################################################
 
 false &&
 printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
   '$#' "$#" \
   '...' \
   ;
-
-shopt -s extglob
 
 ##date=$( date '+%Y%m%d%H%M%S' )
 
