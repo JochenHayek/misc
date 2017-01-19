@@ -1,4 +1,4 @@
-:
+#! /bin/sh
 
 # $ ~/bin/purge_snapshots.sh DIR
 
@@ -28,10 +28,15 @@ do :
       continue
     fi
 
-    if cmp --silent "$old" "$i"
+  ##if cmp --silent "$old" "$i"
+    if cmp  -s      "$old" "$i"
     then :
-    ##echo "*** $0 : going to rm {$i}"
+
       rm --verbose "$i"
+
+      echo "*** $0 : going to rm {$i}"
+      rm "$i"
+
     else :
       old="$i"
     fi
