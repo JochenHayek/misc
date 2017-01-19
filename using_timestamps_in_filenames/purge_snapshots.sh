@@ -32,7 +32,7 @@ do :
     if cmp  -s      "$old" "$i"
     then :
 
-      rm --verbose "$i"
+    ##rm --verbose "$i"
 
       echo "*** $0 : going to rm {$i}"
       rm "$i"
