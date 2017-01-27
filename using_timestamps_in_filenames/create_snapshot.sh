@@ -2,10 +2,11 @@
 #! /bin/ksh
 #! /usr/bin/ksh
 
+# Time-stamp: <2017-01-27 10:24:16 jhayek>
+
 # $Id: create_snapshot.sh 1.31 2017/01/16 20:47:08 johayek Exp johayek $
 
-#                           /scp:localhost#2222:/home/jochen_hayek/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
-# /scp:www.b.shuttle.de:/var/www/customers/jh2005/www/Hayek/Jochen/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
+# $HOME/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
 
 ################################################################################
 
@@ -40,8 +41,6 @@ printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
   '...' \
   ;
 
-##date=$( date '+%Y%m%d%H%M%S' )
-
 for i
 do :
   if   test -h "$i"
@@ -63,22 +62,32 @@ do :
     '...' \
     ;
 
+  ################################################################################
+
+  # use the OS mtime AKA "modification time" (stamp):
+
   # you may want to use either of them:
   # * gmtime
   # * localtime
 
   date=$( perl -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
 
+  # use a Microsoft .xslx or .docx or ... file's "modified" timestamp:
+
+##date=$( unzip -p "$i" docProps/core.xml | "$xmlstarlet" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
+
+  ################################################################################
+
   case "$i" in
 
 # w/o "shopt -s extglob", e.g. for the busybox shell:
 
-  ##      *.~[0-9]~  |       *.~[0-9][0-9]~  |       *.~[0-9][0-9][0-9]~  | \
-  ##*.~[0-9].[0-9]~  | *[0-9]..~[0-9][0-9]~  | *[0-9]..~[0-9][0-9][0-9]~  | \
-  ##*.~[0-9].[0-9].~ | *[0-9]..~[0-9][0-9].~ | *[0-9]..~[0-9][0-9][0-9].~ )
+          *.~[0-9]~  |       *.~[0-9][0-9]~  |       *.~[0-9][0-9][0-9]~  | \
+    *.~[0-9].[0-9]~  | *[0-9]..~[0-9][0-9]~  | *[0-9]..~[0-9][0-9][0-9]~  | \
+    *.~[0-9].[0-9].~ | *[0-9]..~[0-9][0-9].~ | *[0-9]..~[0-9][0-9][0-9].~ )
 
 ####*.~+([0-9])~ | *.~+([0-9]).+([0-9])~ | *.~+([0-9]).+([0-9]).~ )
-    *.~+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]]).~ )
+  ##*.~+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]]).~ )
 
       dn=$( dirname  "$i" )
       bn=$( basename "$i" | perl -ne 's/^(.*)(\.~[\.\d]+\.?~)$/$1/ && print $1,"\n"' )
@@ -151,5 +160,5 @@ do :
 done
 
 # Local variables:
-# coding:utf-8-unix
+# coding: utf-8-unix
 # End:
