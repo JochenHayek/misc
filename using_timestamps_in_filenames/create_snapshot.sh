@@ -1,8 +1,9 @@
+#! /bin/sh
 #! /bin/bash
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# Time-stamp: <2017-01-27 10:24:16 jhayek>
+# Time-stamp: <2017-01-27 10:27:34 jhayek>
 
 # $Id: create_snapshot.sh 1.31 2017/01/16 20:47:08 johayek Exp johayek $
 
