@@ -1,13 +1,13 @@
+#! /bin/sh
 #! /bin/bash
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# Time-stamp: <2017-01-18 18:23:12 jhayek>
+# Time-stamp: <2017-01-27 10:22:51 jhayek>
 
-# $Id: create_snapshot.sh 1.31 2017/01/16 20:47:08 johayek Exp johayek $
+# $Id: create_snapshot_from_xml.sh 999.999 2017/01/16 20:47:08 johayek Exp johayek $
 
-#                           /scp:localhost#2222:/home/jochen_hayek/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
-# /scp:www.b.shuttle.de:/var/www/customers/jh2005/www/Hayek/Jochen/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
+# $HOME/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot_from_xml.sh
 
 ################################################################################
 
@@ -19,7 +19,7 @@
 
 ################################################################################
 
-alias xml=~jhayek/opt/xmlstarlet-1.6.1/xml
+xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
 
 ################################################################################
 
@@ -46,8 +46,6 @@ printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
   '...' \
   ;
 
-##date=$( date '+%Y%m%d%H%M%S' )
-
 for i
 do :
   if   test -h "$i"
@@ -69,13 +67,21 @@ do :
     '...' \
     ;
 
+  ################################################################################
+
+  # use the OS mtime AKA "modification time" (stamp):
+
   # you may want to use either of them:
   # * gmtime
   # * localtime
 
 ##date=$( perl -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
 
-  date=$( unzip -p "$i" docProps/core.xml | xml sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
+  # use a Microsoft .xslx or .docx or ... file's "modified" timestamp:
+
+  date=$( unzip -p "$i" docProps/core.xml | "$xmlstarlet" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
+
+  ################################################################################
 
   case "$i" in
 
