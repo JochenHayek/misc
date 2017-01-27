@@ -1,6 +1,18 @@
 misc
 ====
 
+create_snapshot.sh
+==================
+create a copy of a file (the snapshot)
+using the OS mtime AKA "modification time" (stamp) as extra extension.
+
+create_snapshot_from_xml.sh
+===========================
+assuming the file in question is a Microsoft .xslx or .docx or ... file
+(actually a ZIP file containing docProps/core.xml)
+create a copy of a file (the snapshot)
+using cp:coreProperties/dcterms:modified .
+
 \*-suggest-rename-*.sh
 =====================
 they are to be applied to JPEG resp. PDF files.
