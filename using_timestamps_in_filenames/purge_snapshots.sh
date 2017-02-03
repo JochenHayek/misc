@@ -1,8 +1,8 @@
 #! /bin/sh
 
-# Time-stamp: <2017-01-27 10:11:00 jhayek>
+# Time-stamp: <2017-02-03 10:10:36 jhayek>
 
-# $ ~/bin/purge_snapshots.sh DIR
+# $ ~/bin/purge_snapshots.sh DIR ...
 
 ################################################################################
 
@@ -15,54 +15,65 @@ fi
 
 ################################################################################
 
-if test $# -eq 1
+if test $# -ge 1
 then :
-  dir="$1"
+##dir="$1"
 else :
   printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
     '$#' "$#" \
-    'should be 1, exiting' \
+    'should be >= 1, exiting' \
     ;
   exit 1
 fi
 
-$HOME/bin/short_list_of_files_without_timestamp_extension.sh "$dir" |
+################################################################################
 
-while read f
+for dir
 do :
   printf 1>&2 "\n"
   printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
-    '$f' "$f" \
-    '...' \
-    ;
+    '$dir' "$dir" \
+    '...'
 
-  old=
-  for i in ${f}.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
+  $HOME/bin/short_list_of_files_without_timestamp_extension.sh "$dir" |
+
+  while read f
   do :
-    printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
-      '$i' "$i" \
-      '...' \
-      ;
+    printf 1>&2 "\n"
+    printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+      '$dir' "$dir" \
+      '$f' "$f" \
+      '...'
 
-    if test -z "$old"
-    then
-      old="$i"
-      continue
-    fi
-
-  ##if cmp --silent "$old" "$i"
-    if cmp  -s      "$old" "$i"
-    then :
-
-      printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
+    old=
+    for i in ${f}.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
+    do :
+      printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+	'$dir' "$dir" \
+	'$f' "$f" \
 	'$i' "$i" \
-	'going to rm' \
-	;
-    ##rm --verbose "$i"
-      rm "$i"
+	'...'
 
-    else :
-      old="$i"
-    fi
+      if test -z "$old"
+      then
+	old="$i"
+	continue
+      fi
+
+    ##if cmp --silent "$old" "$i"
+      if cmp  -s      "$old" "$i"
+      then :
+
+	printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
+	  '$i' "$i" \
+	  'going to rm'
+
+      ##rm --verbose "$i"
+	rm "$i"
+
+      else :
+	old="$i"
+      fi
+    done
   done
 done
