@@ -31,8 +31,6 @@ do :
 
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // leading timestamp"
 
-       # perl-5.10 was not able to parenthesize all parts and use a named capture for it
-
        ts_modern=$(echo ${i_bn} |
 	    perl -ne '
 
@@ -62,13 +60,15 @@ do :
             ')
 
        if test -z "${ts_modern}"
-       then 
-	 echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // leading timestamp -- ???"
+
+       then echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // leading timestamp -- ???"
+
        elif test "${use_traditional_time_string_p}" = true
-       then
-	 touch -t "${ts_traditional}" "${i}"
-       else
-	 touch "--date=${ts_modern}" "${i}"
+
+       then touch -t "${ts_traditional}" "${i}"
+
+       else touch "--date=${ts_modern}"  "${i}"
+
        fi
        ;;
 
@@ -78,8 +78,6 @@ do :
 
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // leading booking# + timestamp"
 
-       # perl-5.10 was not able to parenthesize all parts and use a named capture for it
-
        ts_modern=$(echo ${i_bn} |
 	    perl -ne '
 
@@ -109,13 +107,14 @@ do :
             ')
 
        if test -z "${ts_modern}"
-       then 
-	 echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // leading booking# + timestamp -- ???"
+
+       then echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // leading booking# + timestamp -- ???"
+
        elif test "${use_traditional_time_string_p}" = true
-       then
-	 touch -t "${ts_traditional}" "${i}"
-       else
-	 touch "--date=${ts_modern}" "${i}"
+
+       then touch -t "${ts_traditional}" "${i}"
+
+       else touch "--date=${ts_modern}" "${i}"
        fi
        ;;
 
@@ -125,8 +124,6 @@ do :
 
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // trailing timestamp"
 
-       # perl-5.10 was not able to parenthesize all parts and use a named capture for it
-
        ts_modern=$(echo ${i_bn} |
 	    perl -ne '
 
@@ -150,29 +147,28 @@ do :
             ')
 
        if test -z "${ts_modern}"
-       then 
-	 echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // trailing timestamp -- ???"
+
+       then echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // trailing timestamp -- ???"
+
        elif test "${use_traditional_time_string_p}" = true
-       then
-	 touch -t "${ts_traditional}" "${i}"
-       else
-	 touch "--date=${ts_modern}" "${i}"
+
+       then touch -t "${ts_traditional}" "${i}"
+
+       else touch "--date=${ts_modern}" "${i}"
+
        fi
        ;;
 
      ################################################################################
 
-     *.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].??? | \
-     *.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].???? )
+     *.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].* )
 
-       echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // trailing timestamp + 3-/4-letter extension"
-
-       # perl-5.10 was not able to parenthesize all the parts and use a named capture for it
+       echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // trailing timestamp + multi-letter single-word extension"
 
        ts_modern=$(echo ${i_bn} |
 	    perl -ne '
 
-              if(m/^ (.*) \. (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) \. (?<extension>.{3,4}) $/x)
+              if(m/^ (.*) \. (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) \. (?<extension>\w+) $/x)
                 {
                   my(%plus) = %+;
                   print "$plus{YYYY}-$plus{mm}-$plus{dd} $plus{HH}:$plus{MM}:$plus{SS}\n"
@@ -183,7 +179,7 @@ do :
        ts_traditional=$(echo ${i_bn} |
 	    perl -ne '
 
-              if(m/^ (.*) \. (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) \. (?<extension>.{3,4}) $/x)
+              if(m/^ (.*) \. (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) \. (?<extension>\w+) $/x)
                 {
                   my(%plus) = %+;
                   print "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}\n"
@@ -192,13 +188,15 @@ do :
             ')
 
        if test -z "${ts_modern}"
-       then 
-	 echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // trailing timestamp + 3-/4-letter extension -- ???"
+
+       then echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // trailing timestamp + multi-letter single-word extension -- ???"
+
        elif test "${use_traditional_time_string_p}" = true
-       then
-	 touch -t "${ts_traditional}" "${i}"
-       else
-	 touch "--date=${ts_modern}" "${i}"
+
+       then touch -t "${ts_traditional}" "${i}"
+
+       else touch "--date=${ts_modern}" "${i}"
+
        fi
        ;;
 
