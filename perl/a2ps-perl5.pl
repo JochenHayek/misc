@@ -7,7 +7,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl5.pl 1.46 2009/04/16 11:36:14 johayek Exp $;
+;; $rcsid = q$Id: a2ps-perl5.pl 1.47 2017/02/22 19:31:51 johayek Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
@@ -54,7 +54,9 @@ $jisconvert = 0;
 @param_a4_ff = ( 7.77,  8.56, 1.20, 1.2, 6.60, 9.8, 0.29, 0.22, 0.05, 'a4');
 sub paper {
     local(*param) = 'param_' . $_[0];
-    die "Unknown paper type: $_[0]\n" unless defined @param;
+    die "Unknown paper type: $_[0]\n" 
+    ##unless defined @param;
+      unless	     @param;
     ($width, $height, $lmargin, $smargin, $fontsize_l, $fontsize_p,
      $portrait_header, $landscape_header, $paper_adjust, $paper_tray) = @param;
 }
@@ -94,6 +96,9 @@ $re_jout   = '\e\([BJ]';
 
 @font{'n', 'b', 'u'} = ('C', 'B', 'O');		# normal, bold, underline
 @font_number{'C', 'B', 'O'} = (0, 1, 2);	# Courier, Bold, Oblique
+
+use utf8;
+use open IO => ':utf8';
 
 while ($_ = $ARGV[0], s/^-(.+)$/$1/ && shift) {
     next if $_ eq '';
