@@ -49,8 +49,6 @@ do
 
   pdfinfo ${pdfinfo_options} "${filename}" |
 
-##perl -MFile::Basename -s -ne ' ${basename} = basename(${filename},".pdf"); chomp; m/ ^ (?<n>.*Date): \s* D: (?<v>\d+) (-.*|Z)? $ /x && printf                "# %20s=>{%s} // %s\n"					 ,$+{n},$+{v},${filename};' -- "-filename=${filename}"
-
   perl -MFile::Basename \
     -s \
     -ne '
