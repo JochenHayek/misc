@@ -39,6 +39,7 @@ fi
 ##for filename in "${@}"
 for filename
 do
+
   test -f "${filename}" || continue
 
   echo "*** ${filename}:"
@@ -54,18 +55,20 @@ do
     -s \
     -ne '
 
-       use warnings FATAL => 'all';
+       use warnings FATAL => "all";
        use strict;
+
+       use v5.16; # if this requirement makes this script fail, get rid of the old perl (again!!!) in favour of a newer perl on your PATH!
+
+       my($display_case_p) = 0;
 
        my(%month_name2no) = ("Jan"=>"01","Feb"=>"02","Mar"=>"03","Apr"=>"04","May"=>"05","Jun"=>"06","Jul"=>"07","Aug"=>"08","Sep"=>"09","Oct"=>"10","Nov"=>"11","Dec"=>"12");
 
        our($filename);
 
-       my($basename) = basename($filename,".pdf");
-       my($dirname)  = dirname($filename);
+       my($basename) = basename(${filename},".pdf");
+       my($dirname)  = dirname(${filename});
        chomp;
-
-       my($YYYY,$mm,$dd,$HH,$MM,$SS);
 
        # "pdfinfo" delivers this:
        #
@@ -73,17 +76,20 @@ do
 
        if( m/ ^ (?<n>.*Date): \s+ (?<v>  (?<YY>\w+) \. (?<mm>\w+) \. (?<dd>\w+) ,  (?<HH>\d\d) : (?<MM>\d\d) : (?<SS>\d\d) ) .* $ /x )
 	 {
-	   $YYYY = '20' . $+{YY};
-	   $mm   = $+{mm};
-	   $dd   = $+{dd};
-	   $HH   = $+{HH};
-	   $MM   = $+{MM};
-	   $SS   = $+{SS};
+           my(%plus) = %+;
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
+
+	   $plus{YYYY} = "20" . $plus{YY};
 
 	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
 	     $filename,
-	     $dirname,"999990-000",$YYYY.$mm.$dd.$HH.$MM.$SS,$basename,"pdf",
-	     $+{n},$+{v},
+	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
+	     $plus{n} => $plus{v},
 	     $filename,
 	     ;
 	 }
@@ -92,17 +98,18 @@ do
 
        if( m/ ^ (?<n>.*Date): \s+ (?<v> (?<dd>\w+) \/ (?<mm>\w+) \/ (?<YYYY>\w+) \s+  (?<HH>\d\d) : (?<MM>\d\d) : (?<SS>\d\d) ) $ /x )
 	 {
-	   $YYYY = $+{YYYY};
-	   $mm   = $+{mm};
-	   $dd   = $+{dd};
-	   $HH   = $+{HH};
-	   $MM   = $+{MM};
-	   $SS   = $+{SS};
+           my(%plus) = %+;
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
 
 	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
 	     $filename,
-	     $dirname,"999990-000",$YYYY.$mm.$dd.$HH.$MM.$SS,$basename,"pdf",
-	     $+{n},$+{v},
+	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
+	     $plus{n} => $plus{v},
 	     $filename,
 	     ;
 	 }
@@ -113,18 +120,22 @@ do
 
        if( m/ ^ (?<n>.*Date): \s+ (?<v> (?<weekday>\w+) \s+ (?<monthname>\w+) \s+ (?<day_of_month>\w+) \s+  (?<HH>\d\d) : (?<MM>\d\d) : (?<SS>\d\d) \s+ (?<YYYY>\w+) ) $ /x )
 	 {
-	   $YYYY = $+{YYYY};
-	   $mm   = $month_name2no{ $+{monthname} };
-	   $dd   = sprintf "%02.2d",$+{day_of_month};
-	   $HH   = $+{HH};
-	   $MM   = $+{MM};
-	   $SS   = $+{SS};
+           my(%plus) = %+;
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
+
+	   $plus{mm}   = $month_name2no{ $+{monthname} };
+	   $plus{dd}   = sprintf "%02.2d",$+{day_of_month};
 
 	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     $filename,
-	     $dirname,"999990-000",$YYYY.$mm.$dd.$HH.$MM.$SS,$basename,"pdf",
-	     $+{n},$+{v},
-	     $filename,
+	     ${filename},
+	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
+	     $plus{n} => $plus{v},
+	     ${filename},
 	     ;
 	 }
 
@@ -134,11 +145,19 @@ do
 
        if( m/ ^ (?<n>.*Date): \s* D: (?<v>\d+) (.*) $ /x )
 	 {
+           my(%plus) = %+;
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
+
 	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     $filename,
+	     ${filename},
 	     $dirname,"999990-000",$+{v},$basename,"pdf",
-	     $+{n},$+{v},
-	     $filename,
+	     $plus{n} => $plus{v},
+	     ${filename},
 	     ;
 	 }
 
@@ -148,29 +167,28 @@ do
 
        # <dc:date>2014-07-01T16:45:02+02:00</dc:date>
 
-     ##if(m/ ^ \s* <xmp:CreateDate> /ix)
-     ##  {
-     ##    print "***{",$_,"}***\n";
-     ##  }
-     ##else
-     ##  {
-     ##    print "???{",$_,"}???\n";
-     ##  }
-
        if( m/ ^ \s* < (?<n0> \w+ :\w* Date) > (?<v>.*) <\/ (?<n1> \w+ : \w* Date) > /ix )
 	 {
-	   $YYYY = substr($+{v}, 0,4);
-	   $mm   = substr($+{v}, 5,2);
-	   $dd   = substr($+{v}, 8,2);
-	   $HH   = substr($+{v},11,2);
-	   $MM   = substr($+{v},14,2);
-	   $SS   = substr($+{v},17,2);
+           my(%plus);
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
+
+	   $plus{YYYY} = substr($+{v}, 0,4);
+	   $plus{mm}   = substr($+{v}, 5,2);
+	   $plus{dd}   = substr($+{v}, 8,2);
+	   $plus{HH}   = substr($+{v},11,2);
+	   $plus{MM}   = substr($+{v},14,2);
+	   $plus{SS}   = substr($+{v},17,2);
 
 	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     $filename,
-	     $dirname,"999990-000",$YYYY.$mm.$dd.$HH.$MM.$SS,$basename,"pdf",
+	     ${filename},
+	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
 	     $+{n0},$+{v},
-	     $filename,
+	     ${filename},
 	     ;
 	 }
 
