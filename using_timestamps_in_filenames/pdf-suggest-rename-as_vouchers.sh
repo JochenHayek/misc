@@ -49,8 +49,6 @@ do
 
   pdfinfo ${pdfinfo_options} "${filename}" |
 
-##perl -MFile::Basename -s -ne ' ${basename} = basename(${filename},".pdf"); chomp; m/ ^ (?<n>.*Date): \s* D: (?<v>\d+) (-.*|Z)? $ /x && printf                "# %20s=>{%s} // %s\n"					 ,$+{n},$+{v},${filename};' -- "-filename=${filename}"
-
   perl -MFile::Basename \
     -s \
     -ne '
@@ -128,8 +126,8 @@ do
              "..."
              if $display_case_p;
 
-	   $plus{mm}   = $month_name2no{ $+{monthname} };
-	   $plus{dd}   = sprintf "%02.2d",$+{day_of_month};
+	   $plus{mm}   = $month_name2no{  $plus{monthname} };
+	   $plus{dd}   = sprintf "%02.2d",$plus{day_of_month};
 
 	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
 	     ${filename},
@@ -155,7 +153,7 @@ do
 
 	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
 	     ${filename},
-	     $dirname,"999990-000",$+{v},$basename,"pdf",
+	     $dirname,"999990-000",$plus{v},$basename,"pdf",
 	     $plus{n} => $plus{v},
 	     ${filename},
 	     ;
@@ -167,9 +165,9 @@ do
 
        # <dc:date>2014-07-01T16:45:02+02:00</dc:date>
 
-       if( m/ ^ \s* < (?<n0> \w+ :\w* Date) > (?<v>.*) <\/ (?<n1> \w+ : \w* Date) > /ix )
+       if( m/ ^ \s* < (?<n> \w+ :\w* Date) > (?<v>.*) <\/ (?<n1> \w+ : \w* Date) > /ix )
 	 {
-           my(%plus);
+           my(%plus) = %+;
 
            printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
              "\$plus{n}" => $plus{n},
@@ -177,17 +175,17 @@ do
              "..."
              if $display_case_p;
 
-	   $plus{YYYY} = substr($+{v}, 0,4);
-	   $plus{mm}   = substr($+{v}, 5,2);
-	   $plus{dd}   = substr($+{v}, 8,2);
-	   $plus{HH}   = substr($+{v},11,2);
-	   $plus{MM}   = substr($+{v},14,2);
-	   $plus{SS}   = substr($+{v},17,2);
+	   $plus{YYYY} = substr($plus{v}, 0,4);
+	   $plus{mm}   = substr($plus{v}, 5,2);
+	   $plus{dd}   = substr($plus{v}, 8,2);
+	   $plus{HH}   = substr($plus{v},11,2);
+	   $plus{MM}   = substr($plus{v},14,2);
+	   $plus{SS}   = substr($plus{v},17,2);
 
 	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
 	     ${filename},
 	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
-	     $+{n0},$+{v},
+	     $plus{n} => $plus{v},
 	     ${filename},
 	     ;
 	 }
