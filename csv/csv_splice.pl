@@ -34,9 +34,9 @@
       ##chomp;		# did not get it working
       s/\s+$//g;
 
-      my(@F)              = splice( $ENV{SEPARATOR} , $ENV{OFFSET} , $ENV{LENGTH} );
+      my(@F)              = split( $ENV{SEPARATOR} );
 
-      shift(@F);
+      splice( @F , $ENV{OFFSET} , $ENV{LENGTH} );
 
       my($resulting_line) =   join( $ENV{SEPARATOR} ,@F);
 
