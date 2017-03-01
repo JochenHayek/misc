@@ -34,11 +34,11 @@
       ##chomp;		# did not get it working
       s/\s+$//g;
 
-      my(@F)              = split( $ENV{SEPARATOR} );
+      my(@F)              = splice( $ENV{SEPARATOR} , $ENV{OFFSET} , $ENV{LENGTH} );
 
       shift(@F);
 
-      my($resulting_line) =  join( $ENV{SEPARATOR} ,@F);
+      my($resulting_line) =   join( $ENV{SEPARATOR} ,@F);
 
       print $resulting_line,"\n";
     }
