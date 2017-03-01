@@ -23,7 +23,7 @@
   exists($ENV{SEPARATOR}) || die "!exists(\$ENV{SEPARATOR})";
   
   # do these two conflict / overlap?
-  binmode( ARGV   , ":encoding(UTF-8)" );
+  binmode( ARGV   , ":encoding(UTF-8)" );		# not naming ":crlf" here may cause problems
 ##binmode( STDIN  , ":encoding(UTF-8)" );
   binmode( STDIN  , ":crlf:encoding(UTF-8)" );
 
