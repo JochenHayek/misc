@@ -26,7 +26,7 @@
 ##binmode( STDIN  , ":encoding(UTF-8)" );
   binmode( STDIN  , ":crlf:encoding(UTF-8)" );
 
-  binmode( STDOUT , ":encoding(UTF-8)" );
+  binmode( STDOUT , ":crlf:encoding(UTF-8)" );
 
   while(<>)
     {
