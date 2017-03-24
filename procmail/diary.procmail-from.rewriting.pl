@@ -18,12 +18,30 @@
   my($rec) = '';
 
   our(%gigaset_elements_homes) =
-    ( 'Jochens Home' =>  'Jochen_s_Home' ,
+    ( 'Jochens Home'     =>  'Jochen_s_Home' ,
       'Gigaset elements' =>  'Gigaset_elements_Jochen_s_Home' ,
+      'motion'           =>  'Gigaset_elements_Jochen_s_Home_motion' ,
+    );
+
+  our(%fritz_box_messages) =
+    ( 'Anruf' => 'phone_call' ,
+      'Nachricht' => 'phone_message' ,
+      'Fax' => 'fax' ,
     );
 
   while(<>)
     {
+      if(m/^ (?<prefix>.*) \s From: \s+ (?<addr>.*) ; $/x)
+	{
+	  my(%plus) = %+;
+
+	  my($new_addr) = &SPF_bullshit__rewrite_addr('addr' => $plus{addr});
+
+	  $_ = "$plus{prefix} From: $new_addr;\n";
+	}
+
+      ################################################################################
+
       if(m/^(\S)(.*)/)
 	{
 	  &func('rec' => $rec);
@@ -49,15 +67,77 @@ sub func
 
   # fritz.box / Anruf von …
 
-  $param{rec} =~ s,
+  #- : \[?<tags>[^\]]*?\] \s+
+  #? : \[(?<tags>[^\]]*?)\] \s+
+  #+ : [^\]]*?
+  #+ : \[_.SPF_mangled] \s+
 
+  if( $param{rec} =~ m,
+
+	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ Jochen\+FRITZ-Box-Absender\@Hayek\.name; \s+
-		 FROM	: \s+ (?<callee>"[^"]*") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
-		 TO  	: \s+ <Jochen\+(FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion)\@Hayek\.name>\,; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
-		 Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
 
-    ,From: "$+{caller}"; To: $+{callee}; SUBJECT: Telefon-$+{what} …,gix;
+    ,gix)
+    {
+      $param{rec} =~ s,
+
+	         \[(?<tags>[^\]]*?)] \s+
+		 From	: \s+ Jochen\+FRITZ-Box-Absender\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*)\@Hayek\.name ) >\,; \s+
+		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
+		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+
+	,[$+{tags}\,telecom\,$fritz_box_messages{$+{what}}] From: "$+{caller}"; To: +$+{phone_number}; SUBJECT: Telefon-$+{what} …,gix;
+    }
+  else
+    {
+      $param{rec} =~ s,
+
+	         \[(?<tags>[^\]]*?)] \s+
+		 From	: \s+ Jochen\+FRITZ-Box-Absender\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) (.*) \@Hayek\.name ) >\,; \s+
+		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
+		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+
+	,[$+{tags}\,telecom\,$fritz_box_messages{$+{what}}] From: "$+{caller}"; To: $+{callee_0} / $+{callee_1}; SUBJECT: Telefon-$+{what} …,gix;
+    }
+
+  ################################################################################
+
+  # SUBJECT: Synology DSM Alert: IP address [79.137.80.222] of DiskStation003 has been blocked by SSH;
+
+  if(
+    $param{rec} =~ m{
+
+	         \[(?<tags>[^\]]*?)] \s+
+	    	 From   : \s+     (?<From>jochen\.hayek\@hayek\.b\.shuttle\.de) ; \s+
+		 FROM   : [^<]* < (?<FROM>jochen\.hayek\@hayek\.b\.shuttle\.de) > \s+
+		 TO     : \s+   < (?<TO>  jochen\.hayek\@hayek\.b\.shuttle\.de)   >; \s+
+		 SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
+		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+
+      }gix
+    ) 
+    {
+      my(%plus) = %+;
+
+      $param{rec} =~ s{
+
+	         \[(?<tags>[^\]]*?)] \s+
+	    	 From   : \s+     (?<From>jochen\.hayek\@hayek\.b\.shuttle\.de) ; \s+
+		 FROM   : [^<]* < (?<FROM>jochen\.hayek\@hayek\.b\.shuttle\.de) > \s+
+		 TO     : \s+   < (?<TO>  jochen\.hayek\@hayek\.b\.shuttle\.de)   >; \s+
+		 SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
+		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+
+	}{[Synology_DSM_Alert_IP_address_blocked] $plus{SUBJECT}}gix;
+    }
 
   ################################################################################
 
@@ -68,32 +148,36 @@ sub func
   if(
     $param{rec} =~ m{
 
-	    \[_\] \s+ From   : \s+ (?<From>info\@gigaset-elements\.com); \s+
-		      FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
-		      TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
-		      SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-		      Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+	         \[(?<tags>[^\]]*?)] \s+
+	    	 From   : \s+ (?<From>info\@gigaset-elements\.com); \s+
+		 FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
+		 TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
+		 SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
+		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
 
       }gix
     ) 
     {
+      my($home) = exists( $gigaset_elements_homes{$+{SUBJECT_gigaset_home}} ) ? $gigaset_elements_homes{$+{SUBJECT_gigaset_home}} : "\$gigaset_elements_homes{$+{SUBJECT_gigaset_home}}";
+
       my(%plus) = %+;
 
       $plus{SUBJECT_rem} =~ y/ /_/;
 
       $param{rec} =~ s{
 
-	      \[_\] \s+ From   : \s+ (?<From>info\@gigaset-elements\.com); \s+
-			FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
-			TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
-			SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-			Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+	         \[(?<tags>[^\]]*?)] \s+
+	      	 From   : \s+ (?<From>info\@gigaset-elements\.com); \s+
+		 FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
+		 TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
+		 SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
+		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
 
-	}{[$gigaset_elements_homes{$+{SUBJECT_gigaset_home}},$plus{SUBJECT_rem}]}gix;
+	}{[${home},$plus{SUBJECT_rem}]}gix;
 
       printf "// %s=>{$+{SUBJECT_gigaset_home}}\n",
 	'$+{SUBJECT_gigaset_home}' => $+{SUBJECT_gigaset_home} ,
-	if !exists($gigaset_elements_homes{$+{SUBJECT_gigaset_home}});
+	if 0 && !exists($gigaset_elements_homes{$+{SUBJECT_gigaset_home}});
     }
 
   ##,\,$gigaset_elements_homes{$+{SUBJECT_gigaset_home}}] SUBJECT: $+{SUBJECT_rem},gix;
@@ -108,13 +192,14 @@ sub func
 
   $param{rec} =~ s{
 
-            \] \s+ From	  : \s+ (?<From>             bounces\@mail1\.oknotify2\.com ); \s+
-                   FROM	  : \s+ (?<FROM>OkCupid \s+ <bounces\@mail1\.oknotify2\.com>); \s+
-		   TO  	  : \s+ (?<TO>.*); \s+
-		   SUBJECT:     (?<SUBJECT>.*); \s+
-		   Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>social_networking)\/\S*)
+                 \] \s+
+            	 From	  : \s+ (?<From>             bounces\@mail1\.oknotify2\.com ); \s+
+                 FROM	  : \s+ (?<FROM>OkCupid \s+ <bounces\@mail1\.oknotify2\.com>); \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.* new \s+ message \s+ from \s+ (?<okcupid_account>.*) ); \s+
+		 Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>social_networking)\/\S*)
 
-    }{,OkCupid] From: $+{From}; SUBJECT:$+{SUBJECT};}gix;
+    }{,OkCupid,$+{okcupid_account}] From: ___ AKA $+{okcupid_account};}gix;
 
   ################################################################################
 
@@ -122,11 +207,23 @@ sub func
 
   $param{rec} =~ s{
 
-	    \] \s+ From	  : \s+ (?<From>direkt\@postbank\.de); \s+
-		   FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
-		   TO  	  : \s+ (?<TO>.*); \s+
-		   SUBJECT:     (?<SUBJECT>.*); \s+
-		   Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>money)\/\S*)
+	         \] \s+
+	    	 From	  : \s+ (?<From>direkt\@postbank\.de); \s+
+		 FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.*); \s+
+		 Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>money)\/\S*)
+
+    }{,banking] From: $+{From}; TO: $+{TO}; SUBJECT:$+{SUBJECT};}gix;
+
+  $param{rec} =~ s{
+
+	         \] \s+
+	    	 From	  : \s+ (?<From>direkt\@postbank\.de); \s+
+		 FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.*); \s+
+		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
 
     }{,banking] From: $+{From}; TO: $+{TO}; SUBJECT:$+{SUBJECT};}gix;
 
@@ -136,11 +233,31 @@ sub func
 
   $param{rec} =~ s{
 
-	    \] \s+ From	  : \s+ (?<From>[^;]*); \s+
-		   FROM	  : \s+ (?<FROM>[^;]*); \s+
-		   TO  	  : \s+ (?<TO>.*); \s+
-		   SUBJECT:     (?<SUBJECT>.*); \s+
-		   Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>[^\/]*)\/\S*)
+	         \] \s+
+	    	 From	  : \s+ (?<From>[^;]*); \s+
+		 FROM	  : \s+ (?<FROM>[^;]*); \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.*); \s+
+		 Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>[^\/]*)\/\S*)
+
+    }{,$+{topic}] From: $+{From};
+\t\tFROM: $+{FROM}
+\t\tTO: $+{TO};
+\t\tSUBJECT:$+{SUBJECT};
+\t\tFolder: $+{Folder};}gix;
+
+  ################################################################################
+
+  # using folders-fam.$+{topic} as tag
+
+  $param{rec} =~ s{
+
+	         \] \s+
+	    	 From	  : \s+ (?<From>[^;]*); \s+
+		 FROM	  : \s+ (?<FROM>[^;]*); \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.*); \s+
+		 Folder : \s+ (?<Folder>\.folders-fam\.(?<topic>[^\/]*)\/\S*)
 
     }{,$+{topic}] From: $+{From};
 \t\tFROM: $+{FROM}
@@ -151,6 +268,24 @@ sub func
   ################################################################################
   
   print $param{rec};
+}
+
+sub SPF_bullshit__rewrite_addr
+{
+  my(%param) = @_;
+
+  my($new_addr) = '';
+
+  if($param{addr} =~ m/^ (\w+?) \+ (\w+?) = (\w+?) = (?<after>.*?) = (?<before>.*) @ (.*) $/x)
+    {
+      $new_addr = "$+{before}\@$+{after}";
+    }
+  else
+    {
+      $new_addr = $param{addr};
+    }
+  
+  return $new_addr;
 }
   
 __END__
