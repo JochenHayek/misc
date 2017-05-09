@@ -26,6 +26,8 @@ do :
 
   case "${invoice_pdf_orig}" in
 
+    # ... but we want to exclude this case
+
     Rechnung_*.*.pdf )
       echo 1>&2 "*** $0: {${invoice_pdf_orig}} // do not rename a file, that is already versioned"
       ;;
