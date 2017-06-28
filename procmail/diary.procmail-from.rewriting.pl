@@ -75,8 +75,8 @@ sub func
   if( $param{rec} =~ m,
 
 	         \[(?<tags>[^\]]*?)] \s+
-		 From	: \s+ Jochen\+FRITZ-Box-Absender\@Hayek\.name; \s+
-		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
+		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
 		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
 		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
@@ -86,8 +86,8 @@ sub func
       $param{rec} =~ s,
 
 	         \[(?<tags>[^\]]*?)] \s+
-		 From	: \s+ Jochen\+FRITZ-Box-Absender\@Hayek\.name; \s+
-		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
+		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
 		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*)\@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
 		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
@@ -99,8 +99,8 @@ sub func
       $param{rec} =~ s,
 
 	         \[(?<tags>[^\]]*?)] \s+
-		 From	: \s+ Jochen\+FRITZ-Box-Absender\@Hayek\.name; \s+
-		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box-Absender\@Hayek\.name>; \s+
+		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
 		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) (.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
 		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
@@ -111,15 +111,17 @@ sub func
   ################################################################################
 
   # SUBJECT: Synology DSM Alert: IP address [79.137.80.222] of DiskStation003 has been blocked by SSH;
+  # SUBJECT: Synology DSM Alert: IP address [174.63.79.159] of DiskStation003 has been blocked by SSH;
+  # SUBJECT: Synology DSM Alert: DSM update is ready to be installed on DiskStation003;
 
   if(
     $param{rec} =~ m{
 
 	         \[(?<tags>[^\]]*?)] \s+
 	    	 From   : \s+     (?<From>jochen\.hayek\@hayek\.b\.shuttle\.de) ; \s+
-		 FROM   : [^<]* < (?<FROM>jochen\.hayek\@hayek\.b\.shuttle\.de) > \s+
+		 FROM   : [^<]* < (?<FROM>jochen\.hayek\@hayek\.b\.shuttle\.de) > ; \s+
 		 TO     : \s+   < (?<TO>  jochen\.hayek\@hayek\.b\.shuttle\.de)   >; \s+
-		 SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
+		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
 		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
 
       }gix
@@ -131,12 +133,12 @@ sub func
 
 	         \[(?<tags>[^\]]*?)] \s+
 	    	 From   : \s+     (?<From>jochen\.hayek\@hayek\.b\.shuttle\.de) ; \s+
-		 FROM   : [^<]* < (?<FROM>jochen\.hayek\@hayek\.b\.shuttle\.de) > \s+
+		 FROM   : [^<]* < (?<FROM>jochen\.hayek\@hayek\.b\.shuttle\.de) > ; \s+
 		 TO     : \s+   < (?<TO>  jochen\.hayek\@hayek\.b\.shuttle\.de)   >; \s+
 		 SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
 		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
 
-	}{[Synology_DSM_Alert_IP_address_blocked] $plus{SUBJECT}}gix;
+	}{[$plus{tags},Synology_DSM_Alert] $plus{SUBJECT}}gix;
     }
 
   ################################################################################
@@ -193,11 +195,11 @@ sub func
   $param{rec} =~ s{
 
                  \] \s+
-            	 From	  : \s+ (?<From>             bounces\@mail1\.oknotify2\.com ); \s+
-                 FROM	  : \s+ (?<FROM>OkCupid \s+ <bounces\@mail1\.oknotify2\.com>); \s+
+            	 From	  : \s+ (?<From>             bounces.*\@.*\.oknotify2\.com ); \s+
+                 FROM	  : \s+ (?<FROM>[^<]*       <bounces.*\@.*\.oknotify2\.com>); \s+
 		 TO  	  : \s+ (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.* new \s+ message \s+ from \s+ (?<okcupid_account>.*) ); \s+
-		 Folder : \s+ (?<Folder>\.folder-topics\.(?<topic>social_networking)\/\S*)
+		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
     }{,OkCupid,$+{okcupid_account}] From: ___ AKA $+{okcupid_account};}gix;
 
