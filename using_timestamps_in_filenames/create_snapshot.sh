@@ -3,7 +3,7 @@
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# https://github.com/JochenHayek/misc/blob/master/using_timestamps_in_filenames/create_snapshot.sh
+# https://github.com/JochenHayek/misc/raw/master/using_timestamps_in_filenames/create_snapshot.sh
 
 # $HOME/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot.sh
 
