@@ -3,11 +3,11 @@
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# Time-stamp: <2017-01-27 10:22:51 jhayek>
+# Time-stamp: <2017-06-29 16:16:20 johayek>
 
-# $Id: create_snapshot_from_xml.sh 999.999 2017/01/16 20:47:08 johayek Exp johayek $
+# https://github.com/JochenHayek/misc/blob/master/using_timestamps_in_filenames/create_snapshot_from_OOXML.sh
 
-# $HOME/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot_from_xml.sh
+# $HOME/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot_from_OOXML.sh
 
 ################################################################################
 
@@ -19,7 +19,8 @@
 
 ################################################################################
 
-xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
+##xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
+  xmlstarlet=/sw/bin/xml
 
 ################################################################################
 
@@ -77,7 +78,9 @@ do :
 
 ##date=$( perl -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
 
-  # use a Microsoft .xslx or .docx or ... file's "modified" timestamp:
+  # https://en.wikipedia.org/wiki/Office_Open_XML_file_formats – "OOXML" – used by Microsoft Office (.xslx, .docx, …)
+
+  # use an OOXML file's "modified" timestamp:
 
   date=$( unzip -p "$i" docProps/core.xml | "$xmlstarlet" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
 
