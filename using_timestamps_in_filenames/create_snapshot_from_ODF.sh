@@ -3,11 +3,11 @@
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# Time-stamp: <2017-06-29 16:04:17 johayek>
+# Time-stamp: <2017-06-29 16:16:19 johayek>
 
-# $Id: create_snapshot_from_ODF.sh 1.4 2017/06/29 14:06:56 johayek Exp $
+# https://github.com/JochenHayek/misc/blob/master/using_timestamps_in_filenames/create_snapshot_from_ODF.sh
 
-# $HOME/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot_from_xml.sh
+# $HOME/Computers/Software/Operating_Systems/Unix/Shell/create_snapshot_from_ODF.sh
 
 ################################################################################
 
