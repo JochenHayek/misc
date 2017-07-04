@@ -128,7 +128,8 @@ sub func
     ) 
 ##		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
     {
-      warn "I am here";
+      warn "I am here"
+	if 0;
 
       my(%plus) = %+;
 
