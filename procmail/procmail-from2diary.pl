@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2015-04-27 23:53:13 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2017-07-04 15:48:31 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.69 2015/04/27 21:55:27 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.70 2017/07/04 13:53:30 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.69 2015/04/27 21:55:27 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2015/04/27 21:55:27 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.70 2017/07/04 13:53:30 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2017/07/04 13:53:30 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -74,6 +74,8 @@ our($emacs_Time_stamp) = 'Time-stamp: <2015-04-27 23:53:13 johayek>' =~ m/<(.*)>
 #
 #  * "=?${ENCODING}?(?=B)?...=?=", where "..." are all supposedly base64 letters
 #
+#  env TEXT='Re: =?utf-8?b?VW50ZXJzdMO8dHp1bmcA?= im Produkt - Support gesucht!' perl -MEncode -e 'print encode("utf8",decode("MIME-Header",$ENV{TEXT})), "\n"'
+#
 #  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -MEncode -e 'print encode("utf8",decode("MIME-Header",$ENV{TEXT})), "\n"'
 #
 #  env TEXT='=?UTF-8?B?IC0gMjIuMTEuMjAxMiwgMTQ6MDM=?=' perl -MEncode -e 'print decode("MIME-Header", $ENV{TEXT}), "\n"'
@@ -96,7 +98,7 @@ our $std_formatting_options = { 'separator' => ',', 'assign' => '=>', 'quoteLeft
   use Carp;
 ##use English;
 ##use FileHandle;
-##use Encode;
+use Encode;
 ##use File::Basename;  
 ##use File::Stat; # OOP interface for Perl's built-in stat() functions
 
@@ -362,7 +364,7 @@ sub job_anon
 
 	  %folder_captures = %+;
 	  
-	  &print_entry(
+	  &high_level_print_entry(
 	    'ref_last_date'    => \$last_date,
 	    'FROM_captures'    => \%FROM_captures,
 	    'MSG_TO_captures'  => \%MSG_TO_captures,
@@ -396,7 +398,7 @@ sub job_anon
 
 	  %folder_captures = %+;
 	  
-	  &print_entry(
+	  &high_level_print_entry(
 	    'ref_last_date'    => \$last_date,
 	    'FROM_captures'    => \%FROM_captures,
 	    'MSG_TO_captures'  => \%MSG_TO_captures,
@@ -437,28 +439,7 @@ sub job_anon
   return $return_value;
 }
 #
-sub backslash_e_mail_address
-{
-  my($package,$filename,$line,$proc_name) = caller(0);
-
-  my(%param) = @_;
-
-  my($return_value) = 0;
-
-  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
-    if 0 && $main::options{debug};
-
-  $return_value = $param{address};
-
-  $return_value =~ s/ ([\.\+]) /\\$1/gx;
-
-  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
-    if 0 && $main::options{debug};
-
-  return $return_value;
-}
-#
-sub print_entry
+sub high_level_print_entry
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
@@ -481,6 +462,11 @@ sub print_entry
 
   if(exists($param{From_captures}{From}))
     {
+      my($From_captures__From) = $param{From_captures}{From};
+
+      my($From_captures__From__rewritten) = &SPF_bullshit__rewrite_addr('addr' => $From_captures__From);
+
+      my($From_captures__From__mangled_p) = $From_captures__From__rewritten ne $From_captures__From ? 'SPF_mangled' : 'not_SPF_mangled';
 
       # in earlier times I used $From_captures{mday} etc,
       # but %From_captures reflects the arrival date+time, not the send date+time.
@@ -527,13 +513,14 @@ sub print_entry
 
       if(exists($param{DATE_captures}{time}))
 	{
-	  printf "\t%s %s [_] %s: %s;\n" .
+	  printf "\t%s %s [_,%s] %s: %s;\n" .
 	    "\t\t %s:%s;\n" .
 	    "\t\t %s:%s;\n" .
 	    ''
 	    ,              exists($param{DATE_captures}{time})       ? $param{DATE_captures}{time}       : '{!exists(DATE_captures{time})}'
 	    ,              exists($param{DATE_captures}{DST})        ? $param{DATE_captures}{DST}        : '{!exists(DATE_captures{DST})}'
-	    , 'From'    =>                                             $param{From_captures}{From}
+	    , $From_captures__From__mangled_p
+	    , 'From'    =>                                             $From_captures__From__rewritten
 	    , 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
 	    , 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
 	    ;
@@ -542,13 +529,14 @@ sub print_entry
 	{
 	  printf "\t// using From_captures\n"
 	    if 0;
-	  printf "\t%s [_] %s: %s;\n" .
+	  printf "\t%s [_,%s] %s: %s;\n" .
 	    "\t\t %s:%s;\n" .
 	    "\t\t %s:%s;\n" .
 	    ''
 	    ,              exists($param{From_captures}{time})       ? $param{From_captures}{time}       : '{!exists(From_captures{time})}'
 	  ##,              exists($param{From_captures}{DST})        ? $param{From_captures}{DST}        : '{!exists(From_captures{DST})}'
-	    , 'From'    =>                                             $param{From_captures}{From}
+	    , $From_captures__From__mangled_p
+	    , 'From'    =>                                             $From_captures__From__rewritten
 	    , 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
 	    , 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
 	    ;
@@ -556,6 +544,10 @@ sub print_entry
 
       if   (  exists($param{subject_captures}{subject}) &&  exists($param{SUBJECT_captures}{SUBJECT}) )
 	{
+	##my($subject_captures__subject__decoded) = encode("utf8",decode("MIME-Header", $param{subject_captures}{subject} ));
+	  my($subject_captures__subject__decoded) = 		  decode("MIME-Header", $param{subject_captures}{subject} ) ;
+	  $param{subject_captures}{subject} = $subject_captures__subject__decoded;
+
 	  my($both_still_to_be_printed_p) = 1;
 
 	  {
@@ -619,6 +611,13 @@ sub print_entry
 		  $both_still_to_be_printed_p = 0;
 
 		  printf 
+		    "\t\t %s: %s; // %s=>{%s},%s=>{%s} // %s\n"
+		    , 'Subject' => $param{subject_captures}{subject}
+		    , 'encoding' => $+{encoding}
+		    , '$subject_captures__subject__decoded' => $subject_captures__subject__decoded
+		    , '*** WILL BE REMOVED, BECAUSE IT IS ENCODED ***'
+		    if 0;
+		  printf 
 		    "\t\t %s: %s; // %s=>{%s} // %s\n"
 		    , 'Subject' => $param{subject_captures}{subject}
 		    , 'encoding' => $+{encoding}
@@ -660,8 +659,8 @@ sub print_entry
 	, 'Folder'  =>                                             $param{folder_captures}{folder}
 	;
 
-      &print_shuttle_procmailrc_entry(
-	'from0' => $param{From_captures}{From},
+      &middle_level_print_entry(
+	'from0' => $From_captures__From__rewritten,
 	'from1' => $param{FROM_captures}{FROM},
 	);
     }
@@ -672,7 +671,7 @@ sub print_entry
   return $return_value;
 }
 #
-sub print_shuttle_procmailrc_entry
+sub middle_level_print_entry
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
@@ -688,29 +687,17 @@ sub print_shuttle_procmailrc_entry
 
   if(fileno($main::fh_procmailrc))
     {
-      unless(exists( $main::all_addresses{ $param{from0} } ))
-	{
-	  $main::all_addresses{ $param{from0} } = 1;
-
-	  printf $main::fh_procmailrc "#\n";
-	  printf $main::fh_procmailrc "# %s=>{%s}\n"
-	    , '$param{from0}' => $param{from0}
-	    ;
-	  printf $main::fh_procmailrc "#\n";
-	  printf $main::fh_procmailrc "##shuttle:\n";
-	  printf $main::fh_procmailrc "##shuttle: :0\n";
-	  printf $main::fh_procmailrc "##shuttle: * ^Return-Path: <%s>\$\n"
-	    , &backslash_e_mail_address( 'address' => $param{from0} )
-	    ;
-	  print $main::fh_procmailrc "##shuttle: .folder-biz.prio-9/\n";
-	}
+      &low_level_high_level_print_entry
+	( e_mail_address => $param{from0} ,
+	  from => $param{from0} ,
+	);
 
       if(defined($param{from1}))
 	{
 	  my($h) = $param{from1};
 
 	  my($rp);
-	  if($param{from1} =~ m/^ .* < (.*) > $/x)
+	  if($param{from1} =~ m/^ \s* .* < (.*) > \s* $/x)
 	    {
 	      $rp = $1;
 	    }
@@ -720,22 +707,10 @@ sub print_shuttle_procmailrc_entry
 	      $rp =~ s/^ \s+ //x;
 	    }
 
-	  unless(exists( $main::all_addresses{ $rp } ))
-	    {
-	      $main::all_addresses{ $rp } = 1;
-
-	      printf $main::fh_procmailrc "#\n";
-	      printf $main::fh_procmailrc "# %s=>{%s}\n"
-		, '$param{from1}' => $param{from1}
-		;
-	      printf $main::fh_procmailrc "#\n";
-	      printf $main::fh_procmailrc "##shuttle:\n";
-	      printf $main::fh_procmailrc "##shuttle: :0\n";
-	      printf $main::fh_procmailrc "##shuttle: * ^Return-Path: <%s>\$\n"
-		, &backslash_e_mail_address( 'address' => $rp )
-		;
-	      print $main::fh_procmailrc "##shuttle: .folder-biz.prio-9/\n";
-	    }
+	  &low_level_high_level_print_entry
+	    ( e_mail_address => $rp ,
+	      from => $param{from1} ,
+	    );
 	}
     }
 
@@ -743,6 +718,88 @@ sub print_shuttle_procmailrc_entry
     if 0 && $main::options{debug};
 
   return $return_value;
+}
+#
+sub low_level_high_level_print_entry
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  # $param{e_mail_address}
+  # $param{from}
+
+  unless(exists( $main::all_addresses{ $param{e_mail_address} } ))
+    {
+      $main::all_addresses{ $param{e_mail_address} } = 1;
+
+      print $main::fh_procmailrc <<EOF;
+
+##shuttle-macro: m0(
+##shuttle-macro:   orgName => '',
+##shuttle-macro:   comment => '$param{from}',
+##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
+####shuttle-macro: e_mail_address_misc_re => '.*@(|.*\.)___\.',
+####shuttle-macro: e_mail_address_list_of_domains_with_possible_wildcard_subdomain => [ '$param{e_mail_address}' ],
+####shuttle-macro: e_mail_address_list_of_simple_domains => [ '$param{e_mail_address}' ],
+##shuttle-macro:   e_mail_address_list_raw => [ '$param{e_mail_address}' ],
+##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
+####shuttle-macro: target_folder__local  => 'foo',
+##shuttle-macro:   );
+EOF
+    }
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub backslash_e_mail_address
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  $return_value = $param{address};
+
+  $return_value =~ s/ ([\.\+]) /\\$1/gx;
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub SPF_bullshit__rewrite_addr
+{
+  my(%param) = @_;
+
+  my($new_addr) = '';
+
+  # the regexp is also being used within message-rewrite-return-path.pl,
+  # which also has some (more) thorough testing (with test cases).
+
+  if($param{addr} =~ m/^ ([^+]*) \+ ([^=]*) = ([^=]*) =  (?<after>.*?) = (?<before>.*) @ (.*) $/x)
+    {
+      $new_addr = "$+{before}\@$+{after}";
+    }
+  else
+    {
+      $new_addr = $param{addr};
+    }
+  
+  return $new_addr;
 }
 
 
