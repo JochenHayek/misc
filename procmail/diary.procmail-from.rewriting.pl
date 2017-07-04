@@ -117,28 +117,31 @@ sub func
   if(
     $param{rec} =~ m{
 
-	         \[(?<tags>[^\]]*?)] \s+
-	    	 From   : \s+     (?<From>jochen\.hayek\@hayek\.b\.shuttle\.de) ; \s+
-		 FROM   : [^<]* < (?<FROM>jochen\.hayek\@hayek\.b\.shuttle\.de) > ; \s+
-		 TO     : \s+   < (?<TO>  jochen\.hayek\@hayek\.b\.shuttle\.de)   >; \s+
-		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+                 \[(?<tags>[^\]]*?)] \s+
+                 From   : \s+     (?<From> ( .* | jochen\.hayek\@hayek\.b\.shuttle\.de | noreply\@synologynotification\.com                 ) )  ; \s+
+                 FROM   : [^<]* < (?<FROM> ( .* | jochen\.hayek\@hayek\.b\.shuttle\.de | noreply\@synologynotification\.com                 ) ) >; \s+
+                 TO     : [^<]* < (?<TO>   ( .* | jochen\.hayek\@hayek\.b\.shuttle\.de | jochen\+diskstation\d{3}-push-service\@hayek\.name ) ) >; \s+
+                 SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
+		 Folder: \s+ (?<Folder>\. (folder-topics|.*) \.(?<subtopic>admin|.*)\/\S*)
 
       }gix
     ) 
+##		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
     {
+      warn "I am here";
+
       my(%plus) = %+;
 
       $param{rec} =~ s{
 
-	         \[(?<tags>[^\]]*?)] \s+
-	    	 From   : \s+     (?<From>jochen\.hayek\@hayek\.b\.shuttle\.de) ; \s+
-		 FROM   : [^<]* < (?<FROM>jochen\.hayek\@hayek\.b\.shuttle\.de) > ; \s+
-		 TO     : \s+   < (?<TO>  jochen\.hayek\@hayek\.b\.shuttle\.de)   >; \s+
-		 SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+                 \[(?<tags>[^\]]*?)] \s+
+                 From   : \s+     (?<From> ( .* | jochen\.hayek\@hayek\.b\.shuttle\.de | noreply\@synologynotification\.com                 ) )  ; \s+
+                 FROM   : [^<]* < (?<FROM> ( .* | jochen\.hayek\@hayek\.b\.shuttle\.de | noreply\@synologynotification\.com                 ) ) >; \s+
+                 TO     : [^<]* < (?<TO>   ( .* | jochen\.hayek\@hayek\.b\.shuttle\.de | jochen\+diskstation\d{3}-push-service\@hayek\.name ) ) >; \s+
+                 SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
+		 Folder: \s+ (?<Folder>\. (folder-topics|.*) \.(?<subtopic>admin|.*)\/\S*)
 
-	}{[$plus{tags},Synology_DSM_Alert] $plus{SUBJECT}}gix;
+	}{[$plus{tags},Synology] $plus{SUBJECT}}gix;
     }
 
   ################################################################################
@@ -155,7 +158,7 @@ sub func
 		 FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
 		 TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
 		 SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+		 Folder: \s+ (?<Folder>\. (folder-topics|.*) \.(?<subtopic>admin|.*)\/\S*)
 
       }gix
     ) 
@@ -173,7 +176,7 @@ sub func
 		 FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
 		 TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
 		 SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-		 Folder: \s+ (?<Folder>\.folder-topics\.(?<topic>admin)\/\S*)
+		 Folder: \s+ (?<Folder>\. (folder-topics|.*) \.(?<topic>subadmin|.*)\/\S*)
 
 	}{[${home},$plus{SUBJECT_rem}]}gix;
 
