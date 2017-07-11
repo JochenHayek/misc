@@ -1,12 +1,12 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2017-07-04 15:48:31 johayek>' =~ m/<(.*)>/;
+our($emacs_Time_stamp) = 'Time-stamp: <2017-07-11 10:49:02 johayek>' =~ m/<(.*)>/;
 
-# $Id: procmail-from2diary.pl 1.70 2017/07/04 13:53:30 johayek Exp $ Jochen Hayek
+# $Id: procmail-from2diary.pl 1.71 2017/07/11 08:50:40 johayek Exp $ Jochen Hayek
 # $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
 
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.70 2017/07/04 13:53:30 johayek Exp $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2017/07/04 13:53:30 $'))[1..2])));
+##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.71 2017/07/11 08:50:40 johayek Exp $'))[1..6])));
+##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2017/07/11 08:50:40 $'))[1..2])));
 ##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 ##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
 ##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
@@ -740,6 +740,7 @@ sub low_level_high_level_print_entry
 
       print $main::fh_procmailrc <<EOF;
 
+##shuttle-macro-begin
 ##shuttle-macro: m0(
 ##shuttle-macro:   orgName => '',
 ##shuttle-macro:   comment => '$param{from}',
@@ -751,6 +752,7 @@ sub low_level_high_level_print_entry
 ##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
 ####shuttle-macro: target_folder__local  => 'foo',
 ##shuttle-macro:   );
+##shuttle-macro-end
 EOF
     }
 
