@@ -1,6 +1,6 @@
 :
 
-# https://github.com/JochenHayek/misc/raw/master/using_timestamps_in_filenames/list_diffs.sh
+# misc/using_timestamps_in_filenames/list_diffs.sh
 
 old=
 for i

@@ -1,6 +1,7 @@
+:
 #! /bin/sh
 
-# Time-stamp: <2017-02-03 10:10:36 jhayek>
+# misc/using_timestamps_in_filenames/purge_snapshots.sh
 
 # $ ~/bin/purge_snapshots.sh DIR ...
 

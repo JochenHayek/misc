@@ -1,8 +1,8 @@
 :
 
-# -> README--rename.txt
+# misc/using_timestamps_in_filenames/jpg-exif-suggest-rename-as_vouchers.sh
 
-# https://github.com/JochenHayek/misc/
+# -> README--rename.txt
 
 ################################################################################
 

@@ -1,6 +1,6 @@
 :
 
-# https://github.com/JochenHayek/misc/raw/master/using_timestamps_in_filenames/diff_last_2.sh
+# misc/using_timestamps_in_filenames/diff_last_2.sh
 
 bn0=$(basename "$0")
 
