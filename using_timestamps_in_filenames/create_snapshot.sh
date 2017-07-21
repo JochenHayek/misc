@@ -3,7 +3,7 @@
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# https://github.com/JochenHayek/misc/raw/master/using_timestamps_in_filenames/create_snapshot.sh
+# misc/using_timestamps_in_filenames/create_snapshot.sh
 
 ################################################################################
 
@@ -60,6 +60,7 @@ do :
     ;
 
   ################################################################################
+  ################################################################################
 
   # use the OS mtime AKA "modification time" (stamp):
 
@@ -69,22 +70,35 @@ do :
 
   date=$( perl -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
 
-  # use a Microsoft .xslx or .docx or ... file's "modified" timestamp:
+  ################################################################################
+
+  # https://en.wikipedia.org/wiki/Office_Open_XML_file_formats – "OOXML" – used by Microsoft Office (.xslx, .docx, …)
+
+  # use an OOXML file's "modified" timestamp:
 
 ##date=$( unzip -p "$i" docProps/core.xml | "$xmlstarlet" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
 
+  ################################################################################
+
+  # https://en.wikipedia.org/wiki/OpenDocument – "ODF" – used by OpenOffice (.odt, .ods, …)
+
+  # use an ODF file's "modified" timestamp:
+
+##date=$( unzip -p "$i" meta.xml | "$xmlstarlet" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | perl -pe 's/^(.*)\..*$/$1/' )
+
+  ################################################################################
   ################################################################################
 
   case "$i" in
 
 # w/o "shopt -s extglob", e.g. for the busybox shell:
 
-          *.~[0-9]~  |       *.~[0-9][0-9]~  |       *.~[0-9][0-9][0-9]~  | \
-    *.~[0-9].[0-9]~  | *[0-9]..~[0-9][0-9]~  | *[0-9]..~[0-9][0-9][0-9]~  | \
-    *.~[0-9].[0-9].~ | *[0-9]..~[0-9][0-9].~ | *[0-9]..~[0-9][0-9][0-9].~ )
+  ##      *.~[0-9]~  |       *.~[0-9][0-9]~  |       *.~[0-9][0-9][0-9]~  | \
+  ##*.~[0-9].[0-9]~  | *[0-9]..~[0-9][0-9]~  | *[0-9]..~[0-9][0-9][0-9]~  | \
+  ##*.~[0-9].[0-9].~ | *[0-9]..~[0-9][0-9].~ | *[0-9]..~[0-9][0-9][0-9].~ )
 
 ####*.~+([0-9])~ | *.~+([0-9]).+([0-9])~ | *.~+([0-9]).+([0-9]).~ )
-  ##*.~+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]]).~ )
+    *.~+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]]).~ )
 
       dn=$( dirname  "$i" )
       bn=$( basename "$i" | perl -ne 's/^(.*)(\.~[\.\d]+\.?~)$/$1/ && print $1,"\n"' )
