@@ -6,8 +6,15 @@ create_snapshot.sh
 create a copy of a file (the snapshot)
 using the OS mtime AKA "modification time" (stamp) as extra extension.
 
-create_snapshot_from_xml.sh
+create_snapshot_from_ODF.sh
 ===========================
+assuming the file in question is an Open Office .odf or .ods or ... file
+(actually a ZIP file containing meta.xml)
+create a copy of a file (the snapshot)
+using office:document-meta/office:meta/dc:date .
+
+create_snapshot_from_OOXML.sh
+=============================
 assuming the file in question is a Microsoft .xslx or .docx or ... file
 (actually a ZIP file containing docProps/core.xml)
 create a copy of a file (the snapshot)
