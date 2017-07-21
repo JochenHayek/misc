@@ -191,5 +191,8 @@ do
 	 }
 
     ' \
-    -- "-filename=${filename}"
+    -- "-filename=${filename}" |
+
+    sort
+
 done
