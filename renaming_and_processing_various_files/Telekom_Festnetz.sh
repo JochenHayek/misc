@@ -2,6 +2,8 @@
 
 script=$(basename "$0")
 
+xmlstarlet=xml
+
 for pdf in *.pdf
 do :
 
@@ -41,7 +43,7 @@ do :
       "${invoice}" \
     > "${invoice_xml}"
 
-  xml sel --template \
+  "${xmlstarlet}" sel --template \
     --value-of 'sum(/telekom_rechnung/positionsteil/position/@nettogesamtbetrag) * 1.19' \
     --nl \
       "${invoice_xml}" \
