@@ -1,5 +1,10 @@
 :
 
+/media/diskstation003/johayek/ARCHIVE/_banks/BIC-PBNKDEFF/IBAN-DE81100100100637224104/vouchers--SKR03-1200/999999-000--209999________--Telekom_Mobilfunk--period-209999.PLACEHOLDER.dir/p.sh
+                        $HOME/ARCHIVE/_banks/BIC-PBNKDEFF/IBAN-DE81100100100637224104/vouchers--SKR03-1200/999999-000--209999________--Telekom_Mobilfunk--period-209999.PLACEHOLDER.dir/p.sh
+
+################################################################################
+
 set -x
 
 ################################################################################
