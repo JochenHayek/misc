@@ -7,10 +7,6 @@
 
 ################################################################################
 
-PERL=perl
-
-################################################################################
-
 # wishlist:
 # * accept files from STDIN, if none are on the command list
 
@@ -18,6 +14,8 @@ PERL=perl
 # -> ~/Computers/Software/Operating_Systems/Unix/Shell/README--diff_and_snapshot.txt
 
 ################################################################################
+
+PERL=perl
 
 ##xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
   xmlstarlet=/sw/bin/xml
@@ -85,7 +83,7 @@ do :
 
   # use an OOXML file's "modified" timestamp:
 
-  date=$( unzip -p "$i" docProps/core.xml | "$xmlstarlet" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
+  date=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
 
   ################################################################################
 
@@ -93,7 +91,7 @@ do :
 
   # use an ODF file's "modified" timestamp:
 
-##date=$( unzip -p "$i" meta.xml | "$xmlstarlet" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
+##date=$( unzip -p "$i" meta.xml | "${xmlstarlet}" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
 
   ################################################################################
   ################################################################################
