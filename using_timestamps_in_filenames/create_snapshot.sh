@@ -16,8 +16,10 @@
 ################################################################################
 
 PERL=perl
+##alias perl='"c:/Program Files/Git/usr/bin/diff.exe"'
 
 ##xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
+##xmlstarlet=$USERPROFILE/opt/xmlstarlet-1.6.1/xml.exe
   xmlstarlet=/sw/bin/xml
 
 ################################################################################

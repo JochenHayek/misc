@@ -18,6 +18,7 @@
 PERL=perl
 
 ##xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
+##xmlstarlet=$USERPROFILE/opt/xmlstarlet-1.6.1/xml.exe
   xmlstarlet=/sw/bin/xml
 
 ################################################################################
