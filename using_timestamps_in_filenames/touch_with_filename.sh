@@ -2,6 +2,12 @@
 
 # misc/using_timestamps_in_filenames/touch_with_filename.sh
 
+################################################################################
+
+PERL=perl
+
+################################################################################
+
 bn0=$(basename "$0")
 
 # on OS X 
@@ -34,7 +40,7 @@ do :
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // leading timestamp"
 
        ts_modern=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) -- (.*) $/x)
                 {
@@ -48,7 +54,7 @@ do :
             ')
 
        ts_traditional=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) -- (.*) $/x)
                 {
@@ -81,7 +87,7 @@ do :
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // leading booking# + timestamp"
 
        ts_modern=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ (?<book_no>\d{6}) - (?<sub_book_no>\d{3}) -- (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) -- (.*) $/x)
                 {
@@ -95,7 +101,7 @@ do :
             ')
 
        ts_traditional=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ (?<book_no>\d{6}) - (?<sub_book_no>\d{3}) -- (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) -- (.*) $/x)
                 {
@@ -127,7 +133,7 @@ do :
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // trailing timestamp"
 
        ts_modern=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ (.*) \. (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) $/x)
                 {
@@ -138,7 +144,7 @@ do :
             ')
 
        ts_traditional=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ (.*) \. (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) $/x)
                 {
@@ -168,7 +174,7 @@ do :
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // trailing timestamp + multi-letter single-word extension"
 
        ts_modern=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ (.*) \. (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) \. (?<extension>\w+) $/x)
                 {
@@ -179,7 +185,7 @@ do :
             ')
 
        ts_traditional=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ (.*) \. (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) \. (?<extension>\w+) $/x)
                 {

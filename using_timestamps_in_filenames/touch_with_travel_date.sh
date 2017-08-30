@@ -2,6 +2,12 @@
 
 # misc/using_timestamps_in_filenames/touch_with_travel_date.sh
 
+################################################################################
+
+PERL=perl
+
+################################################################################
+
 bn0=$(basename "$0")
 
 # M-x setenv
@@ -27,7 +33,7 @@ do :
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // matching travel_date-..."
 
        ts=$(echo ${i_bn} |
-	    perl -ne '
+	    "${PERL}" -ne '
 
               if(m/^ .*--travel_date- (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (.*) $/x)
                 {

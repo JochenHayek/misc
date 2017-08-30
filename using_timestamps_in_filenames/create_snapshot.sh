@@ -7,6 +7,10 @@
 
 ################################################################################
 
+PERL=perl
+
+################################################################################
+
 # wishlist:
 # * accept files from STDIN, if none are on the command list
 
@@ -73,7 +77,7 @@ do :
   # * gmtime
   # * localtime
 
-  date=$( perl -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
+  date=$( "${PERL}" -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
 
   ################################################################################
 
@@ -89,7 +93,7 @@ do :
 
   # use an ODF file's "modified" timestamp:
 
-##date=$( unzip -p "$i" meta.xml | "$xmlstarlet" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | perl -pe 's/^(.*)\..*$/$1/' )
+##date=$( unzip -p "$i" meta.xml | "$xmlstarlet" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
 
   ################################################################################
   ################################################################################
@@ -106,7 +110,7 @@ do :
     *.~+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]]).~ )
 
       dn=$( dirname  "$i" )
-      bn=$( basename "$i" | perl -ne 's/^(.*)(\.~[\.\d]+\.?~)$/$1/ && print $1,"\n"' )
+      bn=$( basename "$i" | "${PERL}" -ne 's/^(.*)(\.~[\.\d]+\.?~)$/$1/ && print $1,"\n"' )
       if test -e "$dn/$bn.$date"
       then :
 	false &&
