@@ -11,6 +11,15 @@ then :
   pdfinfo -rawdates 1> /dev/null 2> /dev/null
   if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
   then :
+    pdfinfo_options='-rawdates' # the option is available, so let's use it!
+  else :
+    pdfinfo_options=''
+  fi
+elif true
+then :
+  pdfinfo -rawdates 1> /dev/null 2> /dev/null
+  if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+  then :
     pdfinfo_options='-meta -rawdates' # the option is available, so let's use it!
   else :
     pdfinfo_options='-meta'
