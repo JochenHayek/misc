@@ -15,12 +15,18 @@
 
 ################################################################################
 
-PERL=perl
-##alias perl='"c:/Program Files/Git/usr/bin/diff.exe"'
+##PERL='c:/Program Files/Git/usr/bin/perl.exe'
+  PERL=perl
 
 ##xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
-##xmlstarlet=$USERPROFILE/opt/xmlstarlet-1.6.1/xml.exe
-  xmlstarlet=/sw/bin/xml
+##xmlstarlet=$USERPROFILE/opt/xmlstarlet-1.6.1/xml
+##xmlstarlet=/sw/bin/xml
+  xmlstarlet=xmlstarlet
+
+##CP=/cygdrive/c/cygwin64/bin/cp
+  CP=cp
+##MV=/cygdrive/c/cygwin64/bin/mv
+  MV=mv
 
 ################################################################################
 
@@ -44,8 +50,7 @@ fi
 false &&
 printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
   '$#' "$#" \
-  '...' \
-  ;
+  '...'
 
 for i
 do :
@@ -57,16 +62,14 @@ do :
     false &&
     printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
       '$i' "$i" \
-      'does not exist, ignored' \
-      ;
+      'does not exist, ignored'
     continue
   fi
 
   false &&
   printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
     '$i' "$i" \
-    '...' \
-    ;
+    '...'
 
   ################################################################################
   ################################################################################
@@ -117,16 +120,19 @@ do :
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
-	  'snapshot already exists, removing ...' \
-	  ;
+	  'snapshot already exists, removing ...'
 	rm -f "$i"
       else :
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
-	  'renaming from ... to ...' \
-	  ;
-	mv "$i" $dn/$bn.$date
+	  'renaming from ... to ...'
+        "${MV}" --verbose "$i" $dn/$bn.$date ||
+	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+	  '$i' "$i" \
+	  '$dn/$bn.$date' "$dn/$bn.$date" \
+	  '$?' "$?" \
+	  '...'
       fi
       ;;
     *~ | *.old | *.bak )
@@ -142,16 +148,19 @@ do :
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
-	  'snapshot already exists, removing ...' \
-	  ;
+	  'snapshot already exists, removing ...'
 	rm -f "$i"
       else :
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
-	  'renaming from ... to ...' \
-	  ;
-	mv "$i" "$dn/$bn.$date"
+	  'renaming from ... to ...'
+        "${MV}" --verbose "$i" $dn/$bn.$date ||
+	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+	  '$i' "$i" \
+	  '$dn/$bn.$date' "$dn/$bn.$date" \
+	  '$?' "$?" \
+	  '...'
       fi
       ;;
     *)
@@ -161,19 +170,22 @@ do :
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$i.$date' "$i.$date" \
-	  'snapshot already exists' \
-	  ;
+	  'snapshot already exists'
       else :
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$i.$date' "$i.$date" \
-	  'copying from ... to ...' \
-	  ;
+	  'copying from ... to ...'
       ##cp -p         		   		"$i" $i.$date
       ##cp --preserve 		   		"$i" $i.$date
       ##cp --preserve=mode,ownership,timestamps "$i" $i.$date
       ##cp --preserve=ownership,timestamps      "$i" $i.$date	# in the cygwin world this works best, otherwise: cp: preserving permissions for '...': Permission denied
-      	cp -p "$i" "$i.$date"
+      	"${CP}" -p --verbose -p "$i" "$i.$date" ||
+	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+	  '$i' "$i" \
+	  '$i.$date' "$i.$date" \
+	  '$?' "$?" \
+	  '...'
       fi
       ;;
   esac
