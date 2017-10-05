@@ -12,8 +12,11 @@
 #   1st parameter: the name we will show as "titel"
 #   2nd parameter: from/chapter
 #   3rd parameter: from/verse
-#   4th parameter: to/chapter
+#   4th parameter: to/chapter – if from/chapter = to/chapter, we will not show to/chapter
 #   5th parameter: to/verse
+#
+#   there is no way to make tanach.us show an entire chapter w/o specifying from/verse .. to/vers,
+#   so we also do not support a simple way to show "the entire chapter".
 
 {
   while(<>)
