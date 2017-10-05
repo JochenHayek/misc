@@ -24,7 +24,7 @@
 	  print $url, "\n"
 	    if 0;
 
-	  print <<EOF
+	  print <<EOF;
 <ref name="tanach.us-parascha">{{Internetquelle
 | url=$url
 | titel=$plus{book_repl} $orig_within_book
@@ -34,7 +34,7 @@
 }}</ref>
 EOF
 
-	  print <<EOF
+	  print <<EOF;
 <ref name="tanach.us-haftara">{{Internetquelle
 | url=$url
 | titel=$plus{book_repl} $orig_within_book
