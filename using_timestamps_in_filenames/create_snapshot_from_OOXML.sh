@@ -128,7 +128,7 @@ do :
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
 	  'renaming from ... to ...'
-        "${MV}" --verbose "$i" $dn/$bn.$date ||
+        "${MV}" --verbose "$i" "$dn/$bn.$date" ||
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
@@ -155,7 +155,7 @@ do :
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
 	  'renaming from ... to ...'
-        "${MV}" --verbose "$i" $dn/$bn.$date ||
+        "${MV}" --verbose "$i" "$dn/$bn.$date" ||
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
