@@ -1,22 +1,8 @@
 #! /usr/bin/perl -w
 
-# currently it reads a line like this:
+# reads a line like this:
 #
 #   [[5. Buch Mose|Dewarim/Deuteronomium]] 1,1–3,22
-#
-# in the future it shall use this:
-#
-#   {{tanach | Isa | [[Jesaja|Jes]] | 1 | 1 | 1 | 27}}
-#
-#   0th parameter: abbreviation as used by tanach.us
-#   1st parameter: the name we will show as "titel"
-#   2nd parameter: from/chapter
-#   3rd parameter: from/verse
-#   4th parameter: to/chapter – if from/chapter = to/chapter, we will not show to/chapter
-#   5th parameter: to/verse
-#
-#   there is no way to make tanach.us show an entire chapter w/o specifying from/verse .. to/vers,
-#   so we also do not support a simple way to show "the entire chapter".
 
 {
   while(<>)
