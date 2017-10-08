@@ -15,10 +15,10 @@
 
 	  my($orig_within_book) = $plus{within_book};
 
-	  $plus{within_book} =~ tr/,/:/; 
-	  $plus{within_book} =~ s/–/-/g; 
+	  $plus{within_book} =~ tr/,/:/;
+	  $plus{within_book} =~ s/–/-/g;
 
-	  my($url) = 
+	  my($url) =
 	    "https://www.tanach.us/Tanach.xml?" .
 	    $plus{book_repl} .
 	    $plus{within_book};
