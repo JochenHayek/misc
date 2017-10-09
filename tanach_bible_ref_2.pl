@@ -18,7 +18,7 @@
 #   ... parameter: to/chapter – if from/chapter = to/chapter, we will not show to/chapter
 #   ... parameter: to/verse
 #
-#   there is no way to make tanach.us show an entire chapter w/o specifying from/verse .. to/vers.
+#   there is no way to make tanach.us show an entire chapter w/o specifying from/verse .. to/verse.
 
 $Codex_Leningradensis_already_linked_once_p = 0;
 
