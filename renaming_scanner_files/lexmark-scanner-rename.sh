@@ -10,6 +10,8 @@
 
 ################################################################################
 
+RENAME=c:/Users/jochen.hayek/opt/cygwin64/home/jochen.hayek/bin/rename--Tussle
+
 shopt -s nullglob
 
 set -x
@@ -19,15 +21,15 @@ do :
   case "$i" in
 
     image????-??-??-??????.[jp]?? )
-      c:/cygwin/home/jochen.hayek/bin/rename--Tussle 's/^ (?<p>image) (?<YYYY>20\d\d) - (?<mm>\d\d) - (?<dd>\d\d) - (?<HHMMSS>\d{6}) 		  \. (?<extension>.*) $ /999990-000--$+{YYYY}$+{mm}$+{dd}$+{HHMMSS}--___.$+{extension}/x'             "$i"
+      "${RENAME}" 's/^ (?<p>image) (?<YYYY>20\d\d) - (?<mm>\d\d) - (?<dd>\d\d) - (?<HHMMSS>\d{6}) 		  \. (?<extension>.*) $ /999990-000--$+{YYYY}$+{mm}$+{dd}$+{HHMMSS}--___.$+{extension}/x'             "$i"
       ;;
 
     image????-??-??-??????-?.[jp]?? )
-      c:/cygwin/home/jochen.hayek/bin/rename--Tussle 's/^ (?<p>image) (?<YYYY>20\d\d) - (?<mm>\d\d) - (?<dd>\d\d) - (?<HHMMSS>\d{6}) - (?<no>\d+)  \. (?<extension>.*) $ /999990-000--$+{YYYY}$+{mm}$+{dd}$+{HHMMSS}--___.0$+{no}of99.$+{extension}/x' "$i"
+      "${RENAME}" 's/^ (?<p>image) (?<YYYY>20\d\d) - (?<mm>\d\d) - (?<dd>\d\d) - (?<HHMMSS>\d{6}) - (?<no>\d+)  \. (?<extension>.*) $ /999990-000--$+{YYYY}$+{mm}$+{dd}$+{HHMMSS}--___.0$+{no}of99.$+{extension}/x' "$i"
       ;;
 
     image????-??-??-??????-??.[jp]?? )
-      c:/cygwin/home/jochen.hayek/bin/rename--Tussle 's/^ (?<p>image) (?<YYYY>20\d\d) - (?<mm>\d\d) - (?<dd>\d\d) - (?<HHMMSS>\d{6}) - (?<no>\d+)  \. (?<extension>.*) $ /999990-000--$+{YYYY}$+{mm}$+{dd}$+{HHMMSS}--___.$+{no}of99.$+{extension}/x' "$i"
+      "${RENAME}" 's/^ (?<p>image) (?<YYYY>20\d\d) - (?<mm>\d\d) - (?<dd>\d\d) - (?<HHMMSS>\d{6}) - (?<no>\d+)  \. (?<extension>.*) $ /999990-000--$+{YYYY}$+{mm}$+{dd}$+{HHMMSS}--___.$+{no}of99.$+{extension}/x' "$i"
       ;;
 
   esac

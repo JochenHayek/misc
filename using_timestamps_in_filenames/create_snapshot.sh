@@ -52,8 +52,7 @@ fi
 
 ################################################################################
 
-false &&
-printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
+: printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
   '$#' "$#" \
   '...'
 
@@ -64,15 +63,13 @@ do :
   elif test -f "$i"
   then :
   else :
-    false &&
-    printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
+    : printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
       '$i' "$i" \
       'does not exist, ignored'
     continue
   fi
 
-  false &&
-  printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
+  : printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
     '$i' "$i" \
     '...'
 
@@ -121,8 +118,7 @@ do :
       bn=$( basename "$i" | "${PERL}" -ne 's/^(.*)(\.~[\.\d]+\.?~)$/$1/ && print $1,"\n"' )
       if test -e "$dn/$bn.$date"
       then :
-	false &&
-	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+	: printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
 	  'snapshot already exists, removing ...'
@@ -132,7 +128,7 @@ do :
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
 	  'renaming from ... to ...'
-        "${MV}" --verbose "$i" $dn/$bn.$date ||
+        "${MV}" --verbose "$i" "$dn/$bn.$date" ||
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
@@ -149,8 +145,7 @@ do :
       esac
       if test -e "$dn/$bn.$date"
       then :
-	false &&
-	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+	: printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
 	  'snapshot already exists, removing ...'
@@ -160,7 +155,7 @@ do :
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
 	  'renaming from ... to ...'
-        "${MV}" --verbose "$i" $dn/$bn.$date ||
+        "${MV}" --verbose "$i" "$dn/$bn.$date" ||
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
@@ -171,8 +166,7 @@ do :
     *)
       if test -e "$i.$date"
       then :
-	false &&
-	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+	: printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$i.$date' "$i.$date" \
 	  'snapshot already exists'
