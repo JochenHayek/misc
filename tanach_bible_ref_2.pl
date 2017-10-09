@@ -20,6 +20,8 @@
 #
 #   there is no way to make tanach.us show an entire chapter w/o specifying from/verse .. to/vers.
 
+$Codex_Leningradensis_already_linked_once_p = 0;
+
 {
   while(<>)
     {
@@ -35,7 +37,7 @@
 	    '...'
 	    if 0;
 
-	  if( m/ ^ (?<before>.*?) <!-- \s+ \{\{ (?<content>tanach \s+ .*? ) \}\} \s+ --> (?<after>.*) $ /x )
+	  if( m/ ^ (?<before>.*?) (?<old_selection> [\d,–]+ ) <!-- \s+ \{\{ (?<content>tanach \s+ .*? ) \}\} \s+ --> (?<after>.*) $ /x )
 	    {
 	      my(%plus) = %+;
 
@@ -112,13 +114,17 @@ sub print_ref_2
 ##my($page_at_WP) = $name_to_show ne '' ? "${name_at_WP}|${name_to_show}" : "${name_at_WP}";
   my($page_at_WP) = $name_to_show ne '' ? 		 ${name_to_show}  :  ${name_at_WP};
 
+  my($string_Codex_Leningradensis) = $Codex_Leningradensis_already_linked_once_p ? 'Codex Leningradensis' : '[[Codex Leningradensis]]';
+
+  $Codex_Leningradensis_already_linked_once_p = 1;
+
   print <<EOF;
-${before}<!-- {{${content}}} --><ref>{{Internetquelle
+${before}${new_selection_to_display}<!-- {{${content}}} --><ref>{{Internetquelle
 | url=https://www.tanach.us/Tanach.xml?${name_at_the_server}${new_selection_within_url}
 | titel=${page_at_WP} ${new_selection_to_display}
-| titelerg=nach dem [[Codex Leningradensis]]
+| titelerg=nach dem ${string_Codex_Leningradensis}
 | werk=tanach.us
-| zugriff=2017-10-07
+| zugriff=2017-10-08
 }}</ref>${after}
 EOF
 
