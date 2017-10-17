@@ -1,10 +1,16 @@
 :
 
-# $Id: group_by_content.sh 1.4 2013/09/13 14:03:08 johayek Exp $
+# $Id: group_by_content.sh 1.5 2017/10/17 12:35:13 johayek Exp $
 
 # usage:
 #
-# md5sum * | ~/bin/group_by_content.sh
+#    md5sum * | ~/bin/group_by_content.sh
+#       sum * | ~/bin/group_by_content.sh
+# sha512sum * | ~/bin/group_by_content.sh
+#
+# instead of md5sum you may want to use "sum" or any of the "sha*sum"
+
+# quite similar to /Volumes/home/books-Linux/by-publisher/oreilly.com/by-isbn/oreilly--Classic_Shell_Scripting.20050611/sh/show-identical-files.sh
 
 sort |
 
