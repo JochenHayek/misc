@@ -129,27 +129,32 @@ use Time::Local;
 	{
 	}
 
-      elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*): \s+ what=>\{(?<what>Part.)\} /x)
+      elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*): \s+ what=>\{(?<what>[^}]*)\} /x)
 	{
 	  my(%plus) = %+;
 
 	  if   (0)
-	      {
-	      }
+	    {
+	    }
+
+	  elsif($plus{job} =~ m/,/)
+	    {
+	      next;
+	    }
 
 	  elsif($plus{marker} eq '>')
-	      {
-		$::table{ $plus{what} }{ start }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{what} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-	      }
+	    {
+	      $::table{ $plus{what} }{ start }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{what} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    }
 	  elsif($plus{marker} eq '<')
-	      {
-		$::table{ $plus{what} }{ end   }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{what} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    {
+	      $::table{ $plus{what} }{ end   }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{what} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
 
-		&display_row( what => $plus{what} )
-		  if 1;
-	      }
+	      &display_row( what => $plus{what} )
+		if 1;
+	    }
 	}
 
       elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>Part.): \s+ \/\/ \s+ (?<start_or_end>.*)/x)
@@ -160,36 +165,36 @@ use Time::Local;
 	  my(%plus) = %+;
 
 	  if   (0)
-	      {
-	      }
+	    {
+	    }
 
 	  elsif($plus{marker} eq '>')
-	      {
-		$::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-	      }
+	    {
+	      $::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    }
 	  elsif($plus{marker} eq '<')
-	      {
-		$::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    {
+	      $::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
 
-		&display_row( what => $plus{Part} )
-		  if 1;
-	      }
+	      &display_row( what => $plus{Part} )
+		if 1;
+	    }
 
 	  elsif($plus{start_or_end} eq 'start')
-	      {
-		$::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-	      }
+	    {
+	      $::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    }
 	  elsif($plus{start_or_end} eq 'end')
-	      {
-		$::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    {
+	      $::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
 
-		&display_row( what => $plus{Part} )
-		  if 1;
-	      }
+	      &display_row( what => $plus{Part} )
+		if 1;
+	    }
 	}
     }
 
