@@ -37,6 +37,15 @@
 # ***<2017-10-25 23:54:08,Part1: // ...
 
 ################################################################################
+
+# format V2:
+
+# ***>2017-10-25 22:52:23,convert: what=>{Part1}
+# ***>2017-10-25 22:52:31,convert: what=>{Part1.00001}
+# ***<2017-10-25 22:52:34,convert: what=>{Part1.00001}
+# ***<2017-10-25 23:54:08,convert: what=>{Part1}
+
+################################################################################
 ################################################################################
 ################################################################################
 
@@ -116,44 +125,76 @@ use Time::Local;
     {
       s/\s+$//;
 
-      if(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>Part.): \s+ \/\/ \s+ (?<start_or_end>.*)/x)
-    ##if(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>[^:]*): \s+ \/\/ \s+ (?<start_or_end>.*)/x)
-    ##if(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>Part.): \s+ \/\/ \s+ (?<start_or_end>start|end)/x)
-    ##if(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>[^:]*): \s+ \/\/ \s+ (?<start_or_end>start|end)/x)
+      if(0)
+	{
+	}
+
+      elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*): \s+ what=>\{(?<what>[^}]*)\} /x)
 	{
 	  my(%plus) = %+;
 
 	  if   (0)
-	      {
-	      }
+	    {
+	    }
+
+	  elsif($plus{job} =~ m/,/)
+	    {
+	      next;
+	    }
 
 	  elsif($plus{marker} eq '>')
-	      {
-		$::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-	      }
+	    {
+	      $::table{ $plus{what} }{ start }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{what} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    }
 	  elsif($plus{marker} eq '<')
-	      {
-		$::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    {
+	      $::table{ $plus{what} }{ end   }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{what} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
 
-		&display_row( Part => $plus{Part} )
-		  if 1;
-	      }
+	      &display_row( what => $plus{what} )
+		if 1;
+	    }
+	}
+
+      elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>Part.): \s+ \/\/ \s+ (?<start_or_end>.*)/x)
+    ##elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>[^:]*): \s+ \/\/ \s+ (?<start_or_end>.*)/x)
+    ##elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>Part.): \s+ \/\/ \s+ (?<start_or_end>start|end)/x)
+    ##elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>[^:]*): \s+ \/\/ \s+ (?<start_or_end>start|end)/x)
+	{
+	  my(%plus) = %+;
+
+	  if   (0)
+	    {
+	    }
+
+	  elsif($plus{marker} eq '>')
+	    {
+	      $::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    }
+	  elsif($plus{marker} eq '<')
+	    {
+	      $::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+
+	      &display_row( what => $plus{Part} )
+		if 1;
+	    }
 
 	  elsif($plus{start_or_end} eq 'start')
-	      {
-		$::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-	      }
+	    {
+	      $::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    }
 	  elsif($plus{start_or_end} eq 'end')
-	      {
-		$::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
-		$::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	    {
+	      $::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
 
-		&display_row( Part => $plus{Part} )
-		  if 1;
-	      }
+	      &display_row( what => $plus{Part} )
+		if 1;
+	    }
 	}
     }
 
@@ -174,7 +215,7 @@ sub display_row
     '...'
     if 0 && $main::options{debug};
 
-  my($elapsed_in_seconds) = $::table{ $param{Part} }{end}{in_seconds} - $::table{ $param{Part} }{start}{in_seconds};
+  my($elapsed_in_seconds) = $::table{ $param{what} }{end}{in_seconds} - $::table{ $param{what} }{start}{in_seconds};
 
   my($SS_only)    = $elapsed_in_seconds %   60;
   my($MM_SS_only) = $elapsed_in_seconds % 3660;
@@ -197,9 +238,9 @@ sub display_row
   print  $::separator_line;
 
   printf $::format_data_line,
-    $param{Part},
-    $::table{ $param{Part} }{start}{human_readable},
-    $::table{ $param{Part} }{end  }{human_readable},
+    $param{what},
+    $::table{ $param{what} }{start}{human_readable},
+    $::table{ $param{what} }{end  }{human_readable},
   ##'HH:MM:SS',
     $elapsed_human_readable,
     '',
@@ -269,6 +310,15 @@ __END__
 # ***>2017-10-25 22:52:31,Part1,Part1.00001: // ...
 # ***<2017-10-25 22:52:34,Part1,Part1.00001: // ...
 # ***<2017-10-25 23:54:08,Part1: // ...
+
+################################################################################
+
+# format V2:
+
+# ***>2017-10-25 22:52:23,convert: what=>{Part1}
+# ***>2017-10-25 22:52:31,convert: what=>{Part1.00001}
+# ***<2017-10-25 22:52:34,convert: what=>{Part1.00001}
+# ***<2017-10-25 23:54:08,convert: what=>{Part1}
 
 ################################################################################
 
