@@ -1,10 +1,11 @@
 #! /usr/bin/perl -w
 
-# -> /ber.jochen.hayek.name:ARCHIVE/Computers/Software/Groupware/Wiki/Wiki_Engines/PHP/MediaWiki/README--Vorlagen--Internetquelle--tanach-us.txt
+# -> ARCHIVE/Computers/Software/Groupware/Wiki/Wiki_Engines/PHP/MediaWiki/README--Vorlagen--Internetquelle--tanach-us.txt
 
 # reads text like this:
 #
 #   <!-- {{tanach | name_at_the_server | name_at_WP   | name_to_show          | selection | from_chapter | from_verse | to_chapter | to_verse}} -->
+#   1,9–5,7<!-- {{tanach | Isa | Jesaja | Jes | | 1 | 9 | 5 | 7}} -->
 #   <!-- {{tanach | Isa | Jesaja | Jes | 1 | 1 | 1 | 1 | 27}} -->
 #
 #   0th parameter: abbreviation as used by tanach.us
@@ -37,7 +38,7 @@ $Codex_Leningradensis_already_linked_once_p = 0;
 	    '...'
 	    if 0;
 
-	  if( m/ ^ (?<before>.*?) (?<old_selection> [\d,–]+ ) <!-- \s+ \{\{ (?<content>tanach \s+ .*? ) \}\} \s+ --> (?<after>.*) $ /x )
+	  if( m/ ^ (?<before>.*?) (?<old_selection> [\d\-,–]+ ) <!-- \s+ \{\{ (?<content>tanach \s+ .*? ) \}\} \s+ --> (?<after>.*) $ /x )
 	    {
 	      my(%plus) = %+;
 
@@ -124,7 +125,7 @@ ${before}${new_selection_to_display}<!-- {{${content}}} --><ref>{{Internetquelle
 | titel=${page_at_WP} ${new_selection_to_display}
 | titelerg=nach dem ${string_Codex_Leningradensis}
 | werk=tanach.us
-| zugriff=2017-10-08
+| zugriff=2017-10-09
 }}</ref>${after}
 EOF
 
