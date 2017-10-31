@@ -41,5 +41,6 @@ else
   while (<>)
   {
     s/${old}/${new}/g;
+    print;
   }
 }
