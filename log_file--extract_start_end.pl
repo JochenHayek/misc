@@ -81,7 +81,7 @@ use Time::Local;
   $::separator_line = 
     sprintf "${column_separator}"
           . "${krrr}%-20.20s${krrr}${column_separator}"
-          . "${krrr}%-20.20s${krrr}${column_separator}"
+          . "${krrr}%-30.30s${krrr}${column_separator}"
           . "${krrr}%-19.19s${krrr}${column_separator}"
           . "${krrr}%-19.19s${krrr}${column_separator}"
           . "${krrr}%-8.8s${krrr}${column_separator}"
@@ -116,7 +116,7 @@ use Time::Local;
   $::format_data_line = 
             "${column_separator}"
           . "${krrr}%-20.20s${krrr}${column_separator}"
-          . "${krrr}%-20.20s${krrr}${column_separator}"
+          . "${krrr}%-30.30s${krrr}${column_separator}"
           . "${krrr}%-19.19s${krrr}${column_separator}"
           . "${krrr}%-19.19s${krrr}${column_separator}"
           . "${krrr}%-8.8s${krrr}${column_separator}"
@@ -154,14 +154,18 @@ use Time::Local;
 	{
 	}
 
-      elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*): \s+ what=>\{(?<what>[^}]*)\} /x)
+    ##elsif(m/  (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*) : \s+                what => \{(?<what>[^}]*)\} /x)
+      elsif(m/^ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*) : \s+ (?<what_meta>[^=]+) => \{(?<what>[^}]*)\} /x)
 	{
 	  my(%plus) = %+;
 
-	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,
+	  $plus{job} =~ s/ , \d+ $//x; # remove line# if included
+
+	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,
 	    '$plus{marker}' => $plus{marker},
 	    '$plus{timestamp}' => $plus{timestamp},
 	    '$plus{job}' => $plus{job},
+	    '$plus{what_meta}' => $plus{what_meta},
 	    '$plus{what}' => $plus{what},
 	    '...'
 	    if 0 && $main::options{debug};
