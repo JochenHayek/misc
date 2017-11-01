@@ -1,0 +1,49 @@
+'''Bereschit'''  ({{heS|בראשית|de=Im Anfang}}) ist ein Leseabschnitt (''[[Parascha]]'' oder ''Sidra'') der [[Tora]] und umfasst den Text 
+[[1. Buch Mose|Gen/Bereschit]] 1,1–6,8<!-- {{tanach | Gen | 1. Buch Mose | Bereschit/Genesis | | 1 | 1 | 6 | 8}} --><ref name="tanach.us-parascha">{{Internetquelle
+| url=https://www.tanach.us/Tanach.xml?Gen1:1-6:8
+| titel=Gen/Bereschit 1,1–6,8
+| titelerg=nach dem [[Codex Leningradensis]]
+| werk=tanach.us
+| zugriff=2017-10-02
+}}</ref> ({{BB|Gen|1||BHS}}, {{BB|Gen|2||BHS}}, {{BB|Gen|3||BHS}}, {{BB|Gen|4||BHS}}, {{BB|Gen|5||BHS}}, {{BB|Gen|6|1-8|BHS}}).
+
+Es handelt sich um die Sidra des 4. oder 5. [[Sabbat|Schabbats]] im Monat [[Tischri]].
+
+== Wesentlicher Inhalt ==
+* [[Schöpfung]] von Himmel und Erde und der Einzeldinge in 6 Tagen, verbunden mit dem jeweiligen Schlusswort: "Gott sah, dass es gut war" (das nur beim zweiten Tag fehlt, dafür beim dritten Tag doppelt vorkommt)
+* Ruhe Gottes am siebten Tag als Begründung für den Schabbat
+* Schilderung der Schöpfung von [[Adam und Eva]] unter Hinweis auf die [[Monogamie|Einehe]]
+* Hinweis auf die Abstammung aller Menschen von nur einem Urelternpaar
+* Einsetzung der Menschen in den [[Garten Eden]]
+* Verführung durch die Schlange
+* Verwünschung von Schlange und Menschen, deren Vertreibung aus dem Garten
+* Geburt [[Kain]]s und [[Abel (Bibel)|Abels]]
+* Ermordung Abels
+* Geburt des [[Set (Bibel)|Set]]
+* Zehn Geschlechter der Nachkommen Sets bis [[Noach]]
+* Bosheit der Menschen, Begrenzung ihrer Lebenszeit auf 120 Jahre
+* Gottes Entschluss, seine Geschöpfe - bis auf Noach - zu vernichten
+
+== Haftara ==
+
+Die zugehörige [[Haftara]] ist 
+[[Jesaja|Jes]] 42,5–43,10<!-- {{tanach | Isa | Jesaja | Jes | 99 | 42 | 5 | 43 | 10}} -->.
+
+Die zugehörige [[Haftara]] ist 
+[[Jesaja|Jes]] 42,5–43,10<!-- {{tanach | Isa | Jesaja | Jes | 99 | 42 | 5 | 43 | 10}} --><ref name="tanach.us-haftara">{{Internetquelle
+| url=https://www.tanach.us/Tanach.xml?Isa42:5-43:10
+| titel=Jes 42,5–43,10
+| titelerg=nach dem [[Codex Leningradensis]]
+| werk=tanach.us
+| zugriff=2017-10-02
+}}</ref>.
+
+== Literatur ==
+* David Sander, Artikel ''BERESCHIT (Sidra)'', in: ''[[Jüdisches Lexikon]]'', Berlin 1927, I, 853 [http://sammlungen.ub.uni-frankfurt.de/freimann/content/pageview/362746 Online]
+
+== Einzelnachweise ==
+<references />
+
+[[Kategorie:Parascha]]
+
+{{Navigationsleiste Paraschijot}}

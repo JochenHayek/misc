@@ -17,17 +17,26 @@
 #
 # now here is an implementation of this post-processor using xmlstarlet
 
+if      test -e /sw/bin/xml
+then xmlstarlet=/sw/bin/xml
+else xmlstarlet=xml
+fi
+
 ##XML=$HOME/Computers/Software/Operating_Systems/Unix/Shell/xml_extract_files.t/in/0.xml
 
 for XML in "$@"
 do :
   echo "*** extracting from ${XML}:"
 
-  for fn in $( xml sel -t -v 'outputs/output-file/@filename' -n "${XML}" )
+  for fn in $( "${xmlstarlet}" sel -t -v 'outputs/output-file/@filename' -n "${XML}" )
   do :
     test -n "$VERBOSE" && echo "*** extracting from ${XML}: ${fn}:"
 
-    xml sel -t -v "outputs/output-file[@filename='${fn}']" -n "${XML}" > "${fn}"
+  ##"${xmlstarlet}" sel --template --value-of "outputs/output-file[@filename='${fn}']" --nl "${XML}" > "${fn}"
+  ##"${xmlstarlet}" sel --template --value-of "outputs/output-file[@filename='${fn}']"      "${XML}" > "${fn}"
+    "${xmlstarlet}" sel --template --copy-of  "outputs/output-file[@filename='${fn}']"      "${XML}" |
+    perl -pe 's,^ <output-file \s+ [^>]*> ,,x; s, </output-file> ,,x;'                   > "${fn}"
+  ##"${xmlstarlet}" sel --template --copy-of  "outputs/output-file[@filename='${fn}']/*"    "${XML}" > "${fn}"
   done
 
 done
