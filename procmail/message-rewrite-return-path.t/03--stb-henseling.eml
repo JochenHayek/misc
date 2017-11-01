@@ -1,0 +1,98 @@
+Return-Path: <SRS0+m+zo=SA=stb-henseling.de=Carmen.Mayer@udag.de>
+X-Original-To: jochen.hayek@hayek.b.shuttle.de
+Delivered-To: jh2005@rs2.shuttle.de
+Received: from mfilter-100-2-2.mx.srv.dfn.de (mfilter-100-2-2.mx.srv.dfn.de [IPv6:2001:638:d:c302:acdc:1979:2:2])
+	by rs2.shuttle.de (Postfix) with ESMTPS id 1DF7A4122
+	for <jochen.hayek@hayek.b.shuttle.de>; Wed,  8 Jun 2016 14:00:40 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mfilter-100-2-2.mx.srv.dfn.de (Postfix) with ESMTP id 08590110B
+	for <jochen.hayek@hayek.b.shuttle.de>; Wed,  8 Jun 2016 14:00:40 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mgw1-tub.srv.dfn.de
+X-Spam-Flag: NO
+X-Spam-Score: -0.61
+X-Spam-Level:
+X-Spam-Status: No, score=-0.61 tagged_above=-100 required=6.2
+	tests=[AWL=-0.529, BAYES_50=0.8, BOGO_UNSURE=-0.01,
+	HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
+	MIME_HTML_MOSTLY=0.428, RCVD_IN_DNSWL_LOW=-0.7, RP_MATCHES_RCVD=-0.6,
+	SPF_PASS=-0.001] autolearn=disabled
+Received: from mfilter-100-2-2.mx.srv.dfn.de ([127.0.0.1])
+	by localhost (mgw1-tub.srv.dfn.de [127.0.0.1]) (amavisd-new, port 11002)
+	with ESMTP id eROWulXX0sMs for <jochen.hayek@hayek.b.shuttle.de>;
+	Wed,  8 Jun 2016 14:00:39 +0200 (CEST)
+Received: from anubis.udag.de (anubis.udag.de [62.146.106.21])
+	by mfilter-100-2-2.mx.srv.dfn.de (Postfix) with ESMTPS id 7079B1160
+	for <jochen.hayek@hayek.b.shuttle.de>; Wed,  8 Jun 2016 14:00:39 +0200 (CEST)
+Received: from idvmailout01.datevnet.de (idvmailout01.datevnet.de [193.27.50.76])
+	by anubis.udag.de (Postfix) with ESMTP id EFFB18023C
+	for <Jochen.Hayek@aleph-soft.com>; Wed,  8 Jun 2016 14:00:38 +0200 (CEST)
+Received: from idsmailproxy12.services.datevnet.de (idsmailproxy12.services.datevnet.de [10.252.82.170])
+	by idvmailout01.services.datevnet.de (Postfix) with ESMTP id 3rPn7p68TjzvMp
+	for <Jochen.Hayek@aleph-soft.com>; Wed,  8 Jun 2016 14:00:38 +0200 (CEST)
+X-Virus-Scanned: amavisd-new-2.10.1 on idsmailproxy12.services.datevnet.de
+Received: from remote.stb-henseling.de (30.225.35.10.in-addr.arpa [10.35.225.30])
+	by idsmailproxy12.services.datevnet.de (Postfix) with ESMTP id 3rPn7p4Y6Lz6hj
+	for <Jochen.Hayek@aleph-soft.com>; Wed,  8 Jun 2016 14:00:38 +0200 (CEST)
+Received: from SBS2008.kanzlei.local ([fe80::183f:98b3:2c55:3789]) by
+ SBS2008.kanzlei.local ([fe80::183f:98b3:2c55:3789%10]) with mapi; Wed, 8 Jun
+ 2016 14:00:38 +0200
+From: Carmen Mayer <Carmen.Mayer@stb-henseling.de>
+To: Jochen Hayek <Jochen.Hayek@aleph-soft.com>
+Date: Wed, 8 Jun 2016 14:00:37 +0200
+Subject: Gelesen: Jochen Hayek / Abrechnung 2016-05 / auch:
+ Umsatzsteuer-Voranmeldung
+Thread-Topic: Jochen Hayek / Abrechnung 2016-05 / auch:
+ Umsatzsteuer-Voranmeldung
+Thread-Index: AdHBaTDHhZeLkfsAToqJna2QBdMhZwAFC3Ho
+Message-ID: <57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123B@SBS2008.kanzlei.local>
+Accept-Language: de-DE
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: multipart/report;
+	boundary="_000_57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123BSBS2008kanz_";
+	report-type=disposition-notification
+MIME-Version: 1.0
+
+--_000_57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123BSBS2008kanz_
+Content-Type: multipart/alternative;
+	boundary="_002_57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123BSBS2008kanz_"
+
+--_002_57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123BSBS2008kanz_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Ihre Nachricht wurde gelesen um Mittwoch, 8. Juni 2016 14:00:37 (GMT+01:00)=
+ Amsterdam, Berlin, Bern, Rom, Stockholm, Wien.
+
+--_002_57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123BSBS2008kanz_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3Diso-8859-1">
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from text -->
+<style>.EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left: #800=
+000 2px solid; }</style></head>
+<body>
+<font size=3D"2"><div class=3D"PlainText">Ihre Nachricht wurde gelesen um M=
+ittwoch, 8. Juni 2016 14:00:37 (GMT&#43;01:00) Amsterdam, Berlin, Bern, Rom=
+, Stockholm, Wien.</div></font>
+</body>
+</html>
+
+--_002_57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123BSBS2008kanz_--
+
+--_000_57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123BSBS2008kanz_
+Content-Type: message/disposition-notification
+
+Final-recipient: RFC822; Carmen.Mayer@stb-henseling.de
+Disposition: automatic-action/MDN-sent-automatically; displayed
+X-MSExch-Correlation-Key: JX/ym0eLYUW/nZnuN032sA==
+Original-Message-ID:
+ <20160608113037.Horde.nxZ2FZe8osTUg4IymyenOg1@mail.shuttle.de>
+X-Display-Name: Carmen Mayer
+
+
+--_000_57CE7E25F3112B4D8A9F39D8377CBDB6019E9CD9123BSBS2008kanz_--
