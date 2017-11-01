@@ -1,7 +1,12 @@
-#! /usr/bin/perl -w
+#! /usr/bin/perl -ws
 
-# $ gzip -cd typescript.load_tar_ball.20171026085300.gz | $USERPROFILE/git-servers/github.com/JochenHayek/misc/log_file--extract_start_end.pl
-# $ gzip -cd typescript.load_tar_ball.20171026085300.gz | $HOME/bin/log_file--extract_start_end.pl
+# $ gzip -cd typescript.load_tar_ball.20171026085300.gz | $USERPROFILE/git-servers/github.com/JochenHayek/misc/log_file--extract_start_end.pl -job_is_word_only_p
+# $ gzip -cd typescript.load_tar_ball.20171026085300.gz | $USERPROFILE/git-servers/github.com/JochenHayek/misc/log_file--extract_start_end.pl -job_is_word_only_p=1
+# $ gzip -cd typescript.load_tar_ball.20171026085300.gz | $USERPROFILE/git-servers/github.com/JochenHayek/misc/log_file--extract_start_end.pl -job_is_word_only_p=0
+
+# $ gzip -cd typescript.load_tar_ball.20171026085300.gz | $HOME/bin/log_file--extract_start_end.pl -job_is_word_only_p
+# $ gzip -cd typescript.load_tar_ball.20171026085300.gz | $HOME/bin/log_file--extract_start_end.pl -job_is_word_only_p=1
+# $ gzip -cd typescript.load_tar_ball.20171026085300.gz | $HOME/bin/log_file--extract_start_end.pl -job_is_word_only_p=0
 
 # $ ~/bin/create_snapshot.sh *~ log_file--extract_start_end.pl
 
@@ -54,6 +59,18 @@ use Time::Local;
 {
   my($package,$filename,$line,$proc_name) = ('','','','');
 
+  ################################################################################
+
+  $::job_is_word_only_p = 0
+    unless defined($::job_is_word_only_p);
+
+  printf STDERR "=%s,%03.03d,%07.07d: %s=>{%s} // %s\n",__FILE__,__LINE__,0,
+    '$::job_is_word_only_p' => $::job_is_word_only_p,
+    '...'
+    if 0;
+
+  ################################################################################
+
   %::table =();
 
   ################################################################################
@@ -64,13 +81,17 @@ use Time::Local;
   $::separator_line = 
     sprintf "${column_separator}"
           . "${krrr}%-20.20s${krrr}${column_separator}"
+          . "${krrr}%-20.20s${krrr}${column_separator}"
           . "${krrr}%-19.19s${krrr}${column_separator}"
           . "${krrr}%-19.19s${krrr}${column_separator}"
           . "${krrr}%-8.8s${krrr}${column_separator}"
           . "${krrr}%-20.20s${krrr}${column_separator}"
           . "\n",
 
-  ##'(1st ...)',
+  ##'what',
+    '-' x 100,
+
+  ##'job',
     '-' x 100,
 
   ##'2017-10-25 22:52:23',
@@ -95,6 +116,7 @@ use Time::Local;
   $::format_data_line = 
             "${column_separator}"
           . "${krrr}%-20.20s${krrr}${column_separator}"
+          . "${krrr}%-20.20s${krrr}${column_separator}"
           . "${krrr}%-19.19s${krrr}${column_separator}"
           . "${krrr}%-19.19s${krrr}${column_separator}"
           . "${krrr}%-8.8s${krrr}${column_separator}"
@@ -103,7 +125,10 @@ use Time::Local;
 
   printf $::format_data_line,
 
-  ##'(1st ...)',
+  ##'what',
+    '',
+
+  ##'job',
     '',
 
   ##'2017-10-25 22:52:23',
@@ -133,66 +158,37 @@ use Time::Local;
 	{
 	  my(%plus) = %+;
 
+	  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,
+	    '$plus{marker}' => $plus{marker},
+	    '$plus{timestamp}' => $plus{timestamp},
+	    '$plus{job}' => $plus{job},
+	    '$plus{what}' => $plus{what},
+	    '...'
+	    if 0 && $main::options{debug};
+
 	  if   (0)
 	    {
 	    }
 
-	  elsif($plus{job} =~ m/,/)
+	  elsif($::job_is_word_only_p && $plus{job} =~ m/,/) # we are not dealing with "TASK,..." for the time being
 	    {
 	      next;
 	    }
 
 	  elsif($plus{marker} eq '>')
 	    {
-	      $::table{ $plus{what} }{ start }{human_readable} =                                $plus{timestamp};
-	      $::table{ $plus{what} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	      $::table{ $plus{what} }{ $plus{job} }{ start }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{what} }{ $plus{job} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
 	    }
 	  elsif($plus{marker} eq '<')
 	    {
-	      $::table{ $plus{what} }{ end   }{human_readable} =                                $plus{timestamp};
-	      $::table{ $plus{what} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
+	      $::table{ $plus{what} }{ $plus{job} }{ end   }{human_readable} =                                $plus{timestamp};
+	      $::table{ $plus{what} }{ $plus{job} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
 
-	      &display_row( what => $plus{what} )
-		if 1;
-	    }
-	}
-
-      elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>Part.): \s+ \/\/ \s+ (?<start_or_end>.*)/x)
-    ##elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>[^:]*): \s+ \/\/ \s+ (?<start_or_end>.*)/x)
-    ##elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>Part.): \s+ \/\/ \s+ (?<start_or_end>start|end)/x)
-    ##elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<Part>[^:]*): \s+ \/\/ \s+ (?<start_or_end>start|end)/x)
-	{
-	  my(%plus) = %+;
-
-	  if   (0)
-	    {
-	    }
-
-	  elsif($plus{marker} eq '>')
-	    {
-	      $::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
-	      $::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-	    }
-	  elsif($plus{marker} eq '<')
-	    {
-	      $::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
-	      $::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-
-	      &display_row( what => $plus{Part} )
-		if 1;
-	    }
-
-	  elsif($plus{start_or_end} eq 'start')
-	    {
-	      $::table{ $plus{Part} }{ start }{human_readable} =                                $plus{timestamp};
-	      $::table{ $plus{Part} }{ start }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-	    }
-	  elsif($plus{start_or_end} eq 'end')
-	    {
-	      $::table{ $plus{Part} }{ end   }{human_readable} =                                $plus{timestamp};
-	      $::table{ $plus{Part} }{ end   }{in_seconds}     = &timestamp2epoch( timestamp => $plus{timestamp} );
-
-	      &display_row( what => $plus{Part} )
+	      &display_row(
+		what => $plus{what} ,
+		job => $plus{job} ,
+		)
 		if 1;
 	    }
 	}
@@ -207,6 +203,8 @@ sub display_row
 
   my(%param) = @_;
 
+  # $param{what}
+  # $param{job}
   # $param{...}
 
   my($return_value) = 0;
@@ -215,7 +213,7 @@ sub display_row
     '...'
     if 0 && $main::options{debug};
 
-  my($elapsed_in_seconds) = $::table{ $param{what} }{end}{in_seconds} - $::table{ $param{what} }{start}{in_seconds};
+  my($elapsed_in_seconds) = $::table{ $param{what} }{ $param{job} }{end}{in_seconds} - $::table{ $param{what} }{ $param{job} }{start}{in_seconds};
 
   my($SS_only)    = $elapsed_in_seconds %   60;
   my($MM_SS_only) = $elapsed_in_seconds % 3660;
@@ -239,8 +237,9 @@ sub display_row
 
   printf $::format_data_line,
     $param{what},
-    $::table{ $param{what} }{start}{human_readable},
-    $::table{ $param{what} }{end  }{human_readable},
+    $param{job},
+    $::table{ $param{what} }{ $param{job} }{start}{human_readable},
+    $::table{ $param{what} }{ $param{job} }{end  }{human_readable},
   ##'HH:MM:SS',
     $elapsed_human_readable,
     '',
