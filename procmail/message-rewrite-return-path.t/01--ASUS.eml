@@ -1,0 +1,386 @@
+Return-Path: <SRS0+HTcn=R5=mail.neweredm.com=Return.EID2c252534.Job@udag.de>
+X-Original-To: jochen.hayek@hayek.b.shuttle.de
+Delivered-To: jh2005@rs2.shuttle.de
+Received: from mfilter-100-2-1.mx.srv.dfn.de (mfilter-100-2-1.mx.srv.dfn.de [194.95.232.33])
+	by rs2.shuttle.de (Postfix) with ESMTPS id 58A524166
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 10:05:27 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mfilter-100-2-1.mx.srv.dfn.de (Postfix) with ESMTP id 175671C0145
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 10:05:27 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mgw1-han.srv.dfn.de
+X-Spam-Flag: YES
+X-Spam-Score: 7.969
+X-Spam-Level: *******
+X-Spam-Status: Yes, score=7.969 tagged_above=-100 required=6.2
+	tests=[AWL=-0.848, BAYES_80=3.8, BOGO_SPAM=5, DKIM_SIGNED=0.1,
+	DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FROM_EXCESS_BASE64=0.979,
+	HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_IMAGE_RATIO_02=0.437,
+	HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RP_MATCHES_RCVD=-0.6,
+	SPF_PASS=-0.001] autolearn=disabled
+Received: from mfilter-100-2-1.mx.srv.dfn.de ([127.0.0.1])
+	by localhost (mgw1-han.srv.dfn.de [127.0.0.1]) (amavisd-new, port 11002)
+	with ESMTP id HP83Il-MhHhV for <jochen.hayek@hayek.b.shuttle.de>;
+	Sun,  5 Jun 2016 10:05:24 +0200 (CEST)
+Received: from argos.udag.de (argos.udag.de [62.146.106.23])
+	by mfilter-100-2-1.mx.srv.dfn.de (Postfix) with ESMTPS id 9CFD11C0144
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 10:05:24 +0200 (CEST)
+Received: from d242.neweredm.com (d242.neweredm.com [220.228.144.242])
+	by argos.udag.de (Postfix) with ESMTP id ADBB714065A
+	for <Jochen+asus@Hayek.name>; Sun,  5 Jun 2016 10:05:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; q=dns/txt; 
+	d=nedm.asus.com; s=s1024; 
+	h=message-id:from:mime-version; 
+	bh=nMqwdPd5yxCgjUMnqA1W7Z09x+c=; 
+	b=geEOIwYfG3utr3Izq/PXa8VTCMvsDzkduhFStqACv5t9aERf4lUDqn2rlNVK7h0j0WIr
+	SesZNMyc89bs8fJzA8lzZPaWzsX4wfXCVUeTLrtQvz0DPkoY6fYwgLgm1J8B+JYouBjouT
+	SVUxPBxtQjtzHNDi/OYJcXGRPaMkp3pO0=
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; 
+	d=nedm.asus.com; s=s1024; 
+	h=message-id:from:mime-version; 
+	b=B+XuEJa/IXLVriNVf48gngcoKs4xlNWllRnzp5KRfjaJRKWF23C5pHIEGdAuhNxLf5Kw
+	nRNHXAqdNy32rcqlxOTedDzX7iTcNc7PHop/n1u0XywAEFzTs+W6Hipv7APZ9jphyIt3dj
+	PRcHTxPN/GDrVCknHOp1B72sGlCpTvNEg=
+Date: Sun, 5 Jun 2016 16:05:09 +0800
+Message-ID: <0I2c252534I0I3f1a4aI3f44e3I37c783I1292I1370.0I2c2525@nedm.asus.com>
+Subject: =?utf-8?B?TWFjaCBkaWNoIEZpdCBmw7xyIGRlbiBGdcOfYmFsbC1Tb21tZXIuIDIwJSBSYWJhdHQgaW0gYWRpZGFzIFNob3Au?=
+From: "=?utf-8?B?QVNVUw==?="<ASUS_DEU@nedm.asus.com>
+To: <Jochen+asus@Hayek.name>
+MIME-Version: 1.0
+List-Unsubscribe: <mailto:Unsubscribe@newermail.com?subject=ECode%3D0I2c252534I0I3f1a4aI3f44e3I37c783I1292>,
+	<http://crm.itpison.com/Aspweb/Unsubscribe/Unsubscribe.asp?SetPage=Unsubscribe&ECode=0I2c252534I0I3f1a4aI3f44e3I37c783I1292I1370>
+Content-Type: multipart/alternative; boundary=0004d99b0b6-d669-4860-a211-dbac7ac8606f
+
+--0004d99b0b6-d669-4860-a211-dbac7ac8606f
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Newsletter wird nicht korrekt dargestellt?  Bitte hier klicken.
+<http://crm.itpison.com/HL/4ff5fd8/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.
+htm> .
+
+MyAsus
+<http://crm.itpison.com/HL/4ff5fd9/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.
+htm>
+
+Hi ,
+<http://crm.itpison.com/HL/4ff5fda/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.htm>
+
+Mach dich Fit fr den Fuball-Sommer.
+
+Die Fuball-Welt blickt im Sommer nach Frankreich und adidas bietet die best=
+en
+Styles =A1V auf dem Platz und daneben. Und fr all das gibt es fr euch 20 %*
+Rabatt. Wie es funktioniert: einfach Gutscheincode unter folgendem Link
+anfordern und auf adidas.de shoppen gehen.
+Im adidas Onlineshop findest du bis zu 7000 verschiedene Produkte.
+
+zum adidas-Store
+<http://crm.itpison.com/HL/4ff5fdb/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.htm>
+<http://crm.itpison.com/HL/4ff5fdc/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.htm>
+
+Wie entsteht eigentlich ein Notebook?
+
+Das neue ASUS ZenMag ist online. Mit vier Geschichten, die mehr als nur
+lesenswert sind. Digitale Dynamik stt auf meditative Selbsterforschung, der
+Alltag weicht kreativer Freiheit. Das alles online =A1V im neuen ASUS ZenMa=
+g.
+
+hier lesen
+<http://crm.itpison.com/HL/4ff5fdd/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.htm>
+<http://crm.itpison.com/HL/4ff5fde/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.htm>
+
+Top Angebot am Montag
+
+Auch diesmal gibt es wieder den Deal des Tages:
+Die ZenWatch2 fr nur 119,- anstatt 169,- =A3=E1.
+Also Beeilung - das Angebot ist streng limitiert und gilt wie immer nur von
+Montag 12:30 bis Dienstag 12:30 solange der Vorrat reicht.
+
+zum Angebot
+<http://crm.itpison.com/HL/4ff5fdf/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.htm>
+
+ASUSTeK Computer Inc. Alle Rechte vorbehalten.
+Wenn Sie diesen Newsletter nicht mehr erhalten mchten, bitte hier klicken
+<http://crm.itpison.com/HL/4ff5fe0/2c252534/0/3f1a4a/3f44e3/37c783/1292/137=
+0/800.
+htm> .
+
+
+--0004d99b0b6-d669-4860-a211-dbac7ac8606f
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mach dich Fit f=C3=BCr den Fu=C3=9Fball-Sommer. 20% Rabatt im ad=
+idas Shop.</title>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+
+</head>
+<body bgcolor=3D"#ebebeb" leftmargin=3D"0" topmargin=3D"0" marginwidth=3D"0=
+" marginheight=3D"0">
+    <style>
+        body, p {
+            font-family: "Segoe UI", "Helvetica", "Arial", "sans-serif";
+            font-size: 14px;
+            color: #7b7b7b;
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        body {
+         /*   background-color: #F0F0F0;*/
+        }
+        #outlook a {
+            padding: 0;
+        }
+        .ReadMsgBody {
+            width: 100%;
+        }
+
+        .ExternalClass {
+            width: 100%;
+        }
+            .ExternalClass, .ExternalClass p, .ExternalClass span, .Externa=
+lClass font, .ExternalClass td, .ExternalClass div {
+                line-height: 100%;
+            }
+        body, table, td, p, a, li, blockquote {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+        img {
+            -ms-interpolation-mode: bicubic;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            vertical-align: top;
+        }
+
+        table {
+            border-collapse: collapse !important;
+        }
+
+        body, #bodyTable, #bodyCell, .bodyTable {
+            height: 100% !important;
+            margin: 0;
+            padding: 0;
+            width: 100% !important;
+        }
+
+        #bodyCell {
+            padding: 20px;
+        }
+
+        .templateColumnContainer {
+            width: 344px;
+            /*display: inline;*/
+        }
+
+
+       =20
+        .templateColumnContainer img{
+            display:inline;
+            height:auto;
+            max-width:344px;
+       =20
+        }
+
+        #templateWrapper {
+            width: 700px;
+        }
+       =20
+        .templateColumns{
+       =20
+        }
+        @media only screen and (max-width: 480px) {
+            body, table, td, p, a, li, blockquote {
+                -webkit-text-size-adjust: none !important;
+            }
+            body {
+                width: 100% !important;
+                min-width: 100% !important;
+            }
+            #bodyCell {
+                padding: 10px !important;
+            }
+           =20
+            #templateWrapper {
+                max-width: 800px !important;
+                 width: 95% !important;
+                padding: 10px;
+            }
+
+
+            .columnTable{
+                width: 100% !important;
+            }
+
+            #templateContainer,
+            .templateContainer,
+            .templateColumnContainer
+             {
+                max-width: 700px !important;
+                width: 100% !important;
+                margin: 0 auto;
+                /*padding: 10px;*/
+                display: block;
+            }
+
+            #templateContainer img,
+            .templateContainer img,
+            #templateWrapper img {
+                width: 100%;
+                height: auto;
+                max-width: 100%;
+            }
+        }
+    </style>
+
+    <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"bodyTable=
+">
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                <table id=3D"templateContainer" width=3D"700" align=3D"cent=
+er" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" bgcolor=3D"#F0F0F0">
+                    <tr>
+                        <td width=3D"700" height=3D"32" align=3D"right" val=
+ign=3D"middle">
+                            <span style=3D"width:700px; margin:0 auto; text=
+-align:right; line-height:31px; font-size:12px;">Newsletter wird nicht korr=
+ekt dargestellt? =C2=A0Bitte <a href=3D"http://crm.itpison.com/HL/4ff5fd8/2=
+c252534/0/3f1a4a/3f44e3/37c783/1292/1370/800.htm" style=3D"color:#00a8ff;">=
+hier klicken.</a>.    </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width=3D"100%" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" style=3D"border-bottom:1px solid #C4C5C5;">
+                                <tr>
+                                    <td width=3D"16%" style=3D"padding-left=
+: 10px;"><img src=3D"http://event.asus.com/edm/edmimages/logo.png" width=3D=
+"110" height=3D"73" alt=3D"logo"></td>
+                                    <td width=3D"84%" align=3D"right" valig=
+n=3D"middle" style=3D"padding-right: 10px;">
+                                         &nbsp;&nbsp;&nbsp;&nbsp;<a style=
+=3D"color:#595959; font-size:12px"  href=3D"http://crm.itpison.com/HL/4ff5f=
+d9/2c252534/0/3f1a4a/3f44e3/37c783/1292/1370/800.htm">MyAsus</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=3D"padding-left: 10px; padding-right:10px=
+; padding-top: 10px; padding-bottom: 15px;">
+                            <p>Hi ,</p>
+                        </td>
+                    </tr>
+                         <tr><td style=3D"padding-top:10px"><a href=3D"http=
+://crm.itpison.com/HL/4ff5fda/2c252534/0/3f1a4a/3f44e3/37c783/1292/1370/800=
+=2Ehtm"><img src=3D"http://event.asus.com/edm/edmimages/1461627328219/14615=
+98531132_1.jpg" width=3D"700" height=3D"300" alt=3D""></a></td></tr><tr><td=
+ valign=3D"top" bgcolor=3D"#ffffff" ><div style=3D"padding-left:25px; paddi=
+ng-right:25px; padding-top:25px; mso-para-margin:25px;mso-para-margin-botto=
+m:.0001pt;  display:block"><h2  style=3D"color:#1e1e1e; font-size:16px; mar=
+gin:0; font-weight:normal;">Mach dich Fit f=C3=BCr den Fu=C3=9Fball-Sommer.=
+</h2><p>Die Fu=C3=9Fball-Welt blickt im Sommer nach Frankreich und adidas b=
+ietet die besten Styles =E2=80=93 auf dem Platz und daneben. Und f=C3=BCr a=
+ll das gibt es f=C3=BCr euch 20 %* Rabatt. Wie es funktioniert: einfach Gut=
+scheincode unter folgendem Link anfordern und auf adidas.de shoppen gehen.<=
+br>Im adidas Onlineshop findest du bis zu  7000 verschiedene Produkte. <br>=
+</p><div style=3D"text-align:right; line-height:10px;"><a style=3D"text-dec=
+oration: none;color:#00a8ff;" href=3D"http://crm.itpison.com/HL/4ff5fdb/2c2=
+52534/0/3f1a4a/3f44e3/37c783/1292/1370/800.htm">zum adidas-Store</a></div> =
+</div> <img width=3D"100%" src=3D"http://www.asus.com//media/img/2015/image=
+s/space.gif" height=3D"30" alt=3D"" style=3D"width:100%;height:20px"></td><=
+/tr><tr><td><img width=3D"100%" src=3D"http://www.asus.com//media/img/2015/=
+images/space.gif" height=3D"10" alt=3D"" style=3D"width:100%;height:10px"><=
+/td></tr><tr><td style=3D"padding-top:10px"  height=3D"437"><table width=3D=
+"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td width=3D"34=
+4" valign=3D"top" align=3D"left"   class=3D"templateColumnContainer left"><=
+table width=3D"344" border=3D"0" align=3D"left" cellpadding=3D"0" cellspaci=
+ng=3D"0"  class=3D"columnTable leftColumnTable"><tr><td><a href=3D"http://c=
+rm.itpison.com/HL/4ff5fdc/2c252534/0/3f1a4a/3f44e3/37c783/1292/1370/800.htm=
+"><img src=3D"http://event.asus.com/edm/edmimages/1461627328219/14648834871=
+82_1.jpg" width=3D"344" height=3D"221"  alt=3D"ZenMag"></a></td></tr><tr><t=
+d bgcolor=3D"#FFFFFF"  height=3D"180" valign=3D"top"> <table width=3D"100%"=
+ border=3D"0" cellspacing=3D"0" cellpadding=3D"25" align=3D"center" bgcolor=
+=3D""><tr><td><h2 style=3D"color:#1e1e1e; font-size:16px; margin:0; font-we=
+ight:normal;">Wie entsteht eigentlich ein Notebook?</h2> <p>Das neue ASUS Z=
+enMag ist online. Mit vier Geschichten, die mehr als nur lesenswert sind. D=
+igitale Dynamik st=C3=B6=C3=9Ft auf meditative Selbsterforschung, der Allta=
+g weicht kreativer Freiheit. Das alles online =E2=80=93 im neuen ASUS ZenMa=
+g. </p></td></tr><tr><td align=3D"right"><a style=3D"text-decoration: none;=
+color:#00a8ff;" href=3D"http://crm.itpison.com/HL/4ff5fdd/2c252534/0/3f1a4a=
+/3f44e3/37c783/1292/1370/800.htm">hier lesen</a></td></tr></table></td></tr=
+></table></td><td width=3D"344" valign=3D"top" align=3D"right" class=3D"tem=
+plateColumnContainer right"><table width=3D"344" border=3D"0" align=3D"righ=
+t" cellpadding=3D"0" cellspacing=3D"0" class=3D"columnTable rightColumnTabl=
+e"><tr><td><a href=3D"http://crm.itpison.com/HL/4ff5fde/2c252534/0/3f1a4a/3=
+f44e3/37c783/1292/1370/800.htm"><img src=3D"http://event.asus.com/edm/edmim=
+ages/1461627328219/1464883487182_2.jpg" width=3D"344" height=3D"221"  alt=
+=3D"Top Angebote im ASUS Shop"></a></td></tr><tr><td bgcolor=3D"#FFFFFF"  h=
+eight=3D"180" valign=3D"top"> <table width=3D"100%" border=3D"0" cellspacin=
+g=3D"0" cellpadding=3D"25" align=3D"center" bgcolor=3D""><tr><td><h2 style=
+=3D"color:#1e1e1e; font-size:16px; margin:0; font-weight:normal;">Top Angeb=
+ot am Montag</h2> <p>Auch diesmal gibt es wieder den Deal des Tages: <br>Di=
+e ZenWatch2 f=C3=BCr nur 119,- anstatt 169,- =E2=82=AC. <br>Also Beeilung -=
+ das Angebot ist streng limitiert und gilt wie immer nur von Montag 12:30 b=
+is Dienstag 12:30 solange der Vorrat reicht. </p></td></tr><tr><td align=3D=
+"right"><a style=3D"text-decoration: none;color:#00a8ff;" href=3D"http://cr=
+m.itpison.com/HL/4ff5fdf/2c252534/0/3f1a4a/3f44e3/37c783/1292/1370/800.htm"=
+>zum Angebot</a></td></tr></table></td></tr></table></td></tr></table></td>=
+ </tr><tr> <td style=3D"padding-top:10px"><a href=3D""><img src=3D"http://e=
+vent.asus.com/edm/edmimages/1461627328219/1464883492943_1.jpg" width=3D"700=
+" height=3D"300"  alt=3D""></a></td></tr>
+
+                    <tr>
+                        <td  align=3D"left" style=3D"font-size:12px; color:=
+#949494; line-height:1.5em; padding:1.5em; 0">&copy;ASUSTeK Computer Inc. A=
+lle Rechte vorbehalten. <br> Wenn Sie diesen Newsletter nicht mehr erhalten=
+ m=C3=B6chten, bitte  <a href=3D"http://crm.itpison.com/HL/4ff5fe0/2c252534=
+/0/3f1a4a/3f44e3/37c783/1292/1370/800.htm" style=3D"color:#00a8ff;">hier kl=
+icken</a>. </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+<Div><img src=3D"http://crm.itpison.com/HL/0/2c252534/0/3f1a4a/3f44e3/37c78=
+3/1292/1370.jpg"></Div></body>
+</html>
+
+--0004d99b0b6-d669-4860-a211-dbac7ac8606f--

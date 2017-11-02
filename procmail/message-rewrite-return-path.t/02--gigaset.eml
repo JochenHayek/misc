@@ -1,0 +1,136 @@
+Return-Path: <SRS0+v9Fb=R5=gigaset-elements.com=info@udag.de>
+X-Original-To: jochen.hayek@hayek.b.shuttle.de
+Delivered-To: jh2005@rs2.shuttle.de
+Received: from mfilter-100-2-3.mx.srv.dfn.de (mfilter-100-2-3.mx.srv.dfn.de [IPv6:2001:638:d:c303:acdc:1979:2:2])
+	by rs2.shuttle.de (Postfix) with ESMTPS id 1EFF8407E
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 15:21:46 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mfilter-100-2-3.mx.srv.dfn.de (Postfix) with ESMTP id F10421600E4
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 15:21:45 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mgw1-erl.srv.dfn.de
+X-Amavis-Alert: BAD HEADER SECTION, Missing required header field: "Date"
+X-Spam-Flag: NO
+X-Spam-Score: 3.642
+X-Spam-Level: ***
+X-Spam-Status: No, score=3.642 tagged_above=-100 required=6.2
+	tests=[AWL=0.768, BAYES_60=2.2, BOGO_UNSURE=-0.01, DKIM_SIGNED=0.1,
+	DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+	HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
+	MIME_HTML_ONLY=0.723, MISSING_DATE=1.36, RCVD_IN_DNSWL_LOW=-0.7,
+	RP_MATCHES_RCVD=-0.6, SPF_PASS=-0.001] autolearn=disabled
+Received: from mfilter-100-2-3.mx.srv.dfn.de ([127.0.0.1])
+	by localhost (mgw1-erl.srv.dfn.de [127.0.0.1]) (amavisd-new, port 11002)
+	with ESMTP id mXaS1ZMMaTm9 for <jochen.hayek@hayek.b.shuttle.de>;
+	Sun,  5 Jun 2016 15:21:45 +0200 (CEST)
+Received: from apofis.udag.de (apofis.udag.de [62.146.106.22])
+	by mfilter-100-2-3.mx.srv.dfn.de (Postfix) with ESMTPS id 4FD9B1600E1
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 15:21:45 +0200 (CEST)
+Received: from smtp1.gigaset-elements.com (smtp1.gigaset-elements.com [78.137.103.177])
+	by apofis.udag.de (Postfix) with ESMTP id 0500820809
+	for <jochenplusgigaset-elements-001@hayek.name>; Sun,  5 Jun 2016 15:21:44 +0200 (CEST)
+Received: from dkrc2.reef (dkrc2.reef [172.24.3.95])
+	by smtp1.gigaset-elements.com (Postfix) with ESMTP id 8FAAE204ED
+	for <jochenplusgigaset-elements-001@hayek.name>; Sun,  5 Jun 2016 15:21:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gigaset-elements.com;
+	s=default; t=1465132904;
+	bh=jqbCABUdmXe9It+8TLI0x/iEF5inxkxYuP9uYv9RCe8=; h=From:To:Subject;
+	b=wi96VuTDwiwQqAH9cPcJDXy/sPs4xp48XRR2yXjxdDOg2kde4XVwPMqf67Y02wxqZ
+	 Z8C2UaRgaUGafN9Fca2IuWeXL3P8ZV17+ka7/21hCfdJ+mXQYYSaVamId/0jU9/ZeY
+	 6TQQD3vQiPljdhsRLUi/QscCP2EM7pABRX59iWpc=
+Received: from ce2a2f4d91f3 (unknown [172.17.0.67])
+	by dkrc2.reef (Postfix) with ESMTP id 88D0425ED0D
+	for <jochenplusgigaset-elements-001@hayek.name>; Sun,  5 Jun 2016 15:21:44 +0200 (CEST)
+From: info@gigaset-elements.com
+To: jochenplusgigaset-elements-001@hayek.name
+Message-ID: <265437758.827021465132904555.JavaMail.root@ce2a2f4d91f3>
+Subject: motion: motion detected
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a, a:active, a:hover { color: #f9a300; text-decoration:none; -webkit-transition: color 0.3s ease;-moz-transition: color 0.3s ease; -o-transition: color 0.3s ease; transition: color 0.3s ease; -webkit-transition: background 0.3s ease;-moz-transition: background 0.3s ease; -o-transition: background 0.3s ease; transition: background 0.3s ease;}
+
+.title {color: #f19100;}
+.door {color: #DD3221;}
+.motion {color: #FFC000;}
+.window {color: #33B6E5;}
+.base {color: #518ED8;}
+.siren {color: #a4c648;}
+.plug {color: #a4c648;}
+.endnode_name {font-style:italic;}
+
+-->
+</style>
+   </head>
+   <body style="margin:0; background:#f7f8f8;">
+      <table style="font-family:Helvetica, Arial, Verdana, sans-serif; color:#4f575b; font-size:17px; line-height:30px; font-weight:normal; background:#f7f8f8; margin: 10px 0;" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tbody>
+         <tr>
+            <td>
+               <table style="background-color:#ffffff;" align="center" border="0" cellpadding="0" cellspacing="0" width="620">
+                  <tbody>
+                     <tr>
+                        <td align="center" colspan="3" height="140">
+                           <img src="https://static.gigaset-elements.com/shop/media/wysiwyg/mails/images/gigaset-elements-header.jpg" style="display: block;">
+                        </td>
+                     </tr>
+                     <td width="70" style="background:url('http://static.gigaset-elements.com/shop/media/wysiwyg/mails/images/bg-pattern-left.jpg');"></td>
+                     <td width="480" style="background-color:#ffffff;">
+                        <img src="https://static.gigaset-elements.com/shop/media/wysiwyg/mails/images/03.png" style="display: block; margin: 28px auto;">
+
+
+<div style="text-align:center; margin: 20px 0 50px">
+
+<h1 style="color:#5c626c; font-size:25px; line-height:50px; font-weight: normal;">Motion detected</h1></div><p>
+Hello,
+<br/>
+<br/>
+you have a new message from Jochens Home:
+
+</p>
+
+<div style="background-color: #f2f2f2; padding: 8px ; -moz-border-radius: 8px; border-radius: 8px;">
+
+
+motion: motion was detected. <br /><br />
+You can log in at <a href='http://www.gigaset-elements.com/en/'>www.gigaset-elements.com/en/</a> for further details.
+<br/>
+
+</div>
+                        <p>
+                           Yours,
+                           <br />
+                           Gigaset elements
+                           <br/><br/>         
+         <span style="font-size:13px">
+        To unsubscribe, please Click <a href="https://api.gigaset-elements.de/api/v2/validation/revoke/email/fcb87ac2-982c-4aad-a044-52b4b17ba56e?lang=en">Here</a>
+         </span>
+                        </p>
+                     </td>
+                     <td width="70px" style="background:url('http://static.gigaset-elements.com/shop/media/wysiwyg/mails/images/bg-pattern-right.jpg');"></td>
+                     </tr>
+                     <tr>
+                        <td colspan="3" height="20px" align="center"><img src="http://static.gigaset-elements.com/shop/media/wysiwyg/mails/images/bg-footer.jpg" style="display: block;"></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <table style="text-align:center; font-size:16px; line-height:20px; color:#878f92;" align="center" width="606px">
+<tbody><tr><td height="30px"></td></tr>
+<tr><td height="20px" style="font-size:12px;">
+<a href="https://www.gigaset-elements.com/de/blog" target="_blank" style="color:#878f92; text-decoration:none;">Blog</a>&nbsp;|&nbsp;
+<a href="http://www.facebook.com/gigasetelements" target="_blank" style="color:#878f92; text-decoration:none;">Facebook</a>&nbsp;|&nbsp;
+<a href="http://twitter.com/gigaset" target="_blank" style="color:#878f92; text-decoration:none;">Twitter</a>&nbsp;|&nbsp;
+<a href="http://www.youtube.com/gigaset" target="_blank" style="color:#878f92; text-decoration:none;">Youtube</a>&nbsp;|&nbsp;
+<a href="https://www.gigaset-elements.com/en/privacy-policy.html" target="_blank" style="color:#878f92; text-decoration:none;">Privacy policy</a>
+</td>
+</tr>
+</tbody></table>
+</td></tr></tbody></table>
+   </body>
+</html>

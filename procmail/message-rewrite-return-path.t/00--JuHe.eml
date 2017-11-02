@@ -1,0 +1,795 @@
+Return-Path: <SRS0+JTFK=R5=mailer1104.agnitas.de=mailgun@udag.de>
+X-Original-To: jochen.hayek@hayek.b.shuttle.de
+Delivered-To: jh2005@rs2.shuttle.de
+Received: from mfilter-100-2-2.mx.srv.dfn.de (mfilter-100-2-2.mx.srv.dfn.de [194.95.234.33])
+	by rs2.shuttle.de (Postfix) with ESMTPS id 78914407E
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 15:09:04 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mfilter-100-2-2.mx.srv.dfn.de (Postfix) with ESMTP id 37A9A1145
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 15:09:04 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mgw1-tub.srv.dfn.de
+X-Spam-Flag: YES
+X-Spam-Score: 10.446
+X-Spam-Level: **********
+X-Spam-Status: Yes, score=10.446 tagged_above=-100 required=6.2
+	tests=[AWL=-2.905, BAYES_99=7.3, BAYES_999=1.2, BOGO_SPAM=5,
+	DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+	HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
+	RCVD_IN_DNSWL_LOW=-0.7, RP_MATCHES_RCVD=-0.6, SPF_PASS=-0.001,
+	URIBL_ABUSE_SURBL=1.25] autolearn=disabled
+Received: from mfilter-100-2-2.mx.srv.dfn.de ([127.0.0.1])
+	by localhost (mgw1-tub.srv.dfn.de [127.0.0.1]) (amavisd-new, port 11002)
+	with ESMTP id NqrYHlPfQdJr for <jochen.hayek@hayek.b.shuttle.de>;
+	Sun,  5 Jun 2016 15:09:02 +0200 (CEST)
+Received: from apofis.udag.de (apofis.udag.de [62.146.106.22])
+	by mfilter-100-2-2.mx.srv.dfn.de (Postfix) with ESMTPS id 9385D10DA
+	for <jochen.hayek@hayek.b.shuttle.de>; Sun,  5 Jun 2016 15:09:02 +0200 (CEST)
+Received: from mailer1104.agnitas.de (mailer1104.agnitas.de [83.169.45.91])
+	by apofis.udag.de (Postfix) with ESMTP id 2B9FC20A2F
+	for <jochen@hayek.name>; Sun,  5 Jun 2016 15:09:02 +0200 (CEST)
+Received: by mailer1104.agnitas.de for <jochen@hayek.name>; Sun,  5 Jun 2016 12:54:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=jugendherberge.de;
+	s=agn; t=1465131247; i=news@jugendherberge.de;
+	bh=VqhUAkgZGkJzC7gz86JqFiTpXZKrlxaPnR1ToO5q0CY=;
+	h=Message-ID:Date:From:To:Subject:List-Unsubscribe:List-ID:
+	 X-CSA-Complaints:X-Mailer:MIME-Version:Content-Type;
+	b=zsQH7Wltx3m4fRcL/vrR0Fmck2IqZhx+IxacNT/jjWmwBMYFVZP2NIlG0ZpJBw3BY
+	 OqbsOI2a5BH1zontX5ffKv9OzMkd+qhaNG8eJNrbz7Fr1kNV0LKPeDnn3CeVMABE06
+	 5TU3ATz4PGe62P1ezUfntpbP22Nh+rUryXb19vkE=
+Message-ID: <20160605140304_1-1.A.B.BILw.FaU.IR.brYN8n200PLQfl6LjVtKIg@agnitas.de>
+Date: Sun,  5 Jun 2016 12:54:00 GMT
+From: "Die Jugendherbergen" <news@jugendherberge.de>
+To: <jochen@hayek.name>
+Subject: =?UTF-8?Q?Die_sch=C3=B6nsten_Natur-Erlebnis-Reisen_?=
+List-Unsubscribe: <http://rdir.de/uq.html?uid=A.B.BILw.FaU.IR.XK5RCfi3xeO7Pd1mnraDag>, <mailto:mailgun@mailer1104.agnitas.de?subject=unsubscribe:A.B.BILw.FaU.IR.XK5RCfi3xeO7Pd1mnraDag>
+List-ID: "7919, MailingID: 295664" <7919-1.agnitas.com>
+X-CSA-Complaints: whitelist-complaints@eco.de
+X-Mailer: Agnitas EMM 16.04
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="-==AGNITASOUTER10756=="
+
+This is a multi-part message in MIME format.
+
+---==AGNITASOUTER10756==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Sehr geehrter Empf=C3=A4nger,
+
+dieser Newsletter erscheint im HTML-Format. Die meisten modernen
+Mailprogramme und FreeMail-Anbieter (z.B. GMX oder web.de) erm=C3=B6glich=
+en
+eine Ansicht von Mails in diesem Format - evtl. muss diese jedoch
+zun=C3=A4chst aktiviert werden.
+
+Alternativ dazu betrachten Sie Ihre Browserversion des Newsletters
+unter folgendem Link:
+http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7p.W5RRle4CIsl7iga73ToVFg
+
+Die Abmeldung aus dem Newsletterverteiler finden Sie hier:
+http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7q.j7oTcTxSwiXFxe65GgLlYw
+
+Vielen Dank f=C3=BCr Ihr Verst=C3=A4ndnis!
+---==AGNITASOUTER10756==
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Familien News</title>
+<style type=3D"text/css">
+=2EReadMsgBody { width: 100%; background-color: #ffffff; }
+=2EExternalClass { width: 100%; background-color: #ffffff; }
+body, #body_style {
+  width: 100%;
+  min-width: 0 !important;
+  min-height: 1000px;
+  background-color: #ffffff;
+  color: #005f94;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  font-family: Arial, Georgia, Times, serif;
+}
+
+#body_style { position: relative; margin: 0 auto; width: 800px; }
+
+p { margin: 0 0 0 0; }
+td { vertical-align: top; font-size: 12px; }
+img { border: 0; }
+body { line-height: 18px; }
+
+=2Ea1 img { width: 240px; }
+=2Ea1 h2 { margin: 6px 0 18px 0; }
+=2Ea1 p { margin-bottom: 24px; }
+=2Ea2-button { text-align: right; margin: 0 20px 0 0; }
+=2Esn-links { text-align: right; margin-top: 8px; }
+=2Efooter-grafiken { text-align: right; }
+
+@media only screen and (max-width: 660px)  {
+  body[yahoo] .table600 { width: 320px !important; }
+  body[yahoo] .table600 { width: 90% !important; }
+  body[yahoo] .small { width: 2% !important; }
+  body[yahoo] .spacer { width: 0 !important; height: 0 !important; displa=
+y: none !important; border: none !important; }
+  body[yahoo] .grid_block { width: 100% !important; display: block !impor=
+tant; border: none !important; }
+  body[yahoo] .grid_block_gelb { width: 100% !important; display: block !=
+important; border: none !important; background: none; }
+  #body_style { width: 100%; }
+
+  .header img { width: 100%; }
+  .special img { width: 100%; }
+  .gelbe-box { background-color: #ffd52f; margin-bottom: 5px; }
+  .gelbe-box-innen { border-bottom: 20px solid #ffd52f; }
+
+  .bt-blau { margin: 0 20px 27px 0 !important; }
+  .a1 { margin-right: 6px; }
+  .a1 img { margin-bottom: 0; width: 100%; }
+  .a1 h2 { margin: 6px 0 8px 0; }
+  .a1 p { margin-bottom: 16px; }
+  .a2-headline { margin-top: 6px; }
+  .a2-button { text-align: left; margin: 9px 0 13px 20px; }
+  .sn-links { text-align: left; margin: 8px 0 10px 11px; }
+
+  .footer-grafiken { text-align: center; }
+}
+
+=2EReadMsgBody { width: 100%; }
+=2EExternalClass { width: 100%; }
+=2EExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass f=
+ont, .ExternalClass td, .ExternalClass div { line-height: 100%; }
+#outlook a { padding: 0; }
+</style>
+</head>
+
+<body leftmargin=3D"0" topmargin=3D"0" marginwidth=3D"0" marginheight=3D"=
+0" yahoo=3D"fix" style=3D"background: #ffffff; min-height: 1000px; color:=
+ #000000; font-family: Arial, Helvetica, sans-serif; font-size: 12px" ali=
+nk=3D"#f29400" link=3D"#f29400" bgcolor=3D"#ffffff" text=3D"#000000"><img=
+ src=3D"http://rdir.de/g.html?uid=3DA.B.BILw.FaU.IR.XK5RCfi3xeO7Pd1mnraDa=
+g" alt=3D"" border=3D"0" height=3D"1" width=3D"1"/>
+
+<center>
+
+<span id=3D"body_style" style=3D"display: block; text-align: left">
+
+<!-- Newsletter im Browser -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"margin-left: 10px">
+<tr>
+  <td width=3D"800" bgcolor=3D"#ded9c8" style=3D"vertical-align: top; fon=
+t-size: 12px">
+    <div style=3D"margin: 10px 0; color: #005f94; text-align: center">
+      Der Newsletter wird nicht korrekt dargestellt? <a href=3D"http://rd=
+ir.de/r.html?uid=3DA.B.BILw.FaU.BQK7p.W5RRle4CIsl7iga73ToVFg" title=3D"Li=
+nk zur Browser-Version des Newsletters" style=3D"color: #005f94; font-wei=
+ght: bold; text-decoration: none">
+      Dann klicken Sie bitte hier</a>.
+    </div>
+  </td>
+</tr>
+</table>
+
+<!-- Header -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0">
+<tr>
+  <td width=3D"100%" class=3D"header" style=3D"vertical-align: top; font-=
+size: 12px; display: block; margin-bottom: 3px; margin-left: 10px">
+    <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7r.bOIfiEBAHnU=
+dXzY-faTbLA"><img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&name=3D=
+headline.jpg" alt=3D"" border=3D"0" /></a>
+  </td>
+</tr>
+</table>
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0">
+<tr>
+  <td width=3D"100%" class=3D"header" style=3D"vertical-align: top; font-=
+size: 12px; display: block; margin-bottom: 3px; margin-left: 10px">
+    <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQPaQ.Dqk1f-TQl_p=
+cJ_JlckQsHQ"><img alt=3D"" border=3D"0" src=3D"http://rdir.de/image?ci=3D=
+705&mi=3D295664&name=3DHeadergrafik_6-2016.jpg" /></a>
+  </td>
+</tr>
+</table>
+
+<!-- Soziale Netzwerke besuchen -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" bgcolor=3D"#ded9c8" style=3D"border-top: 17px solid #fff;=
+ margin-left: 10px">
+<tr>
+  <td class=3D"grid_block" style=3D"width: 70%; vertical-align: top; font=
+-size: 18px; line-height: 24px; text-transform: uppercase">
+    <p style=3D"margin: 10px 20px 9px 20px; color: #005f94"><strong>Immer=
+ aktuell</strong> Besuchen Sie unsere Seiten in diesen sozialen Netzwerke=
+n</p>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle; width: 30%">
+    <div class=3D"sn-links">
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7v.txNGLSIjx=
+hA5EIgQgIWvQA" title=3D"Link zu YouTube"><img src=3D"http://rdir.de/image=
+?ci=3D705&mi=3D295664&name=3Ds_youtube.jpg" alt=3D"" border=3D"0" /></a><=
+img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&name=3Dclear.gif" al=
+t=3D"" width=3D"17" height=3D"41" border=3D"0" /><a href=3D"http://rdir.d=
+e/r.html?uid=3DA.B.BILw.FaU.BQK8Q.PvLhoY52YZ3lTOaou3P6hQ" title=3D"Link z=
+u Twitter"><img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&name=3Ds=
+_twitter.jpg" alt=3D"" border=3D"0" /></a><img src=3D"http://rdir.de/imag=
+e?ci=3D705&mi=3D295664&name=3Dclear.gif" alt=3D"" width=3D"17" height=3D"=
+41" border=3D"0" /><a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQ=
+K7t.waOzTeOqzhf2Bb4lOxOhBA" title=3D"Link zu Facebook"><img src=3D"http:/=
+/rdir.de/image?ci=3D705&mi=3D295664&name=3Ds_facebook.jpg" alt=3D"" borde=
+r=3D"0" /></a><img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&name=3D=
+clear.gif" alt=3D"" width=3D"58" height=3D"41" border=3D"0" />
+    </div>
+  </td>
+</tr>
+</table>
+
+<!-- Angebote mit Abstand nach oben -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"3" class=3D"table60=
+0" bgcolor=3D"#d9e7ef" border=3D"0" style=3D"border-top: 25px solid #fff;=
+ margin-left: 10px">
+<tr>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block" width=3D"30%">
+    <h1 style=3D"font-size: 25px; color: #009dd4; margin: 11px 0 10px 0">=
+Angebote</h1>
+  </td>
+  <td class=3D"spacer" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"spacer" width=3D"30%">&nbsp;</td>
+  <td class=3D"spacer" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"spacer" width=3D"30%">&nbsp;</td>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+</tr>
+<tr>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block" width=3D"30%">
+    <div class=3D"a1" style=3D"font-size: 16px; line-height: 20px">
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQNYF.bpYWiAxIG=
+AvG5H6LitX7pQ"><img alt=3D"" border=3D"0" src=3D"http://rdir.de/image?ci=3D=
+705&mi=3D295664&name=3Dhan.jpg" /></a>
+      <h2 style=3D"font-size: 14px; color: #000000; text-transform: upper=
+case; margin-top: 6px"><a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.Fa=
+U.BQNYF.bpYWiAxIGAvG5H6LitX7pQ" style=3D"text-decoration: none; color: #0=
+00000">Familien-Wander-Spa&szlig;</a></h2>
+      <p style=3D"font-size: 12px; line-height: 17px; color: #000000">Myt=
+hen, Sagen, M&auml;rchen: Zu Fu&szlig; unterwegs durch die magische Gebir=
+gswelt, gibt es f&uuml;r Sie und Ihre Kinder vom 23.&ndash;30.07.2016 vie=
+l Spannendes zu erleben und entdecken. Rein ins Abenteuer Harz!</p>
+      <p class=3D"bt-blau" style=3D"line-height: 17px"><a href=3D"http://=
+rdir.de/r.html?uid=3DA.B.BILw.FaU.BQNYF.bpYWiAxIGAvG5H6LitX7pQ" style=3D"=
+text-decoration: none; font-size: 14px; font-weight: normal; color: #ffff=
+ff; background-color: #009dd1; border-top: 5px solid #009dd1; border-righ=
+t: 10px solid #009dd1; border-bottom: 5px solid #009dd1; border-left: 10p=
+x solid #009dd1; border-radius: 100px">Details</a></p>
+    </div>
+  </td>
+  <td class=3D"spacer" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block" width=3D"30%">
+    <div class=3D"a1" style=3D"font-size: 16px; line-height: 20px">
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQPab.z7hy7MI6I=
+j7Jf8lvA5IhGg" style=3D"color: #000000"><img alt=3D"" border=3D"0" src=3D=
+"http://rdir.de/image?ci=3D705&mi=3D295664&name=3Dhes.jpg" /></a>
+      <h2 style=3D"font-size: 14px; color: #000000; text-transform: upper=
+case; margin-top: 6px"><a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.Fa=
+U.BQPab.z7hy7MI6Ij7Jf8lvA5IhGg" style=3D"text-decoration: none; color: #0=
+00000">Abenteuer, Action, Outdoor</a></h2>
+      <p style=3D"font-size: 12px; line-height: 17px; color: #000000">Ner=
+venkitzel mitten im Taunus f&uuml;r 12-16 J. Erlebe Herausforderungen im =
+Hochseilgarten, spannende Wald-Abenteuer, Lagerfeuer und eine Nacht im se=
+lbstgebauten Biwak: 6 &Uuml;/VP 297 &euro; p.P.</p>
+      <p class=3D"bt-blau" style=3D"line-height: 17px"><a href=3D"http://=
+rdir.de/r.html?uid=3DA.B.BILw.FaU.BQPab.z7hy7MI6Ij7Jf8lvA5IhGg" style=3D"=
+text-decoration: none; font-size: 14px; font-weight: normal; color: #ffff=
+ff; background-color: #009dd1; border-top: 5px solid #009dd1; border-righ=
+t: 10px solid #009dd1; border-bottom: 5px solid #009dd1; border-left: 10p=
+x solid #009dd1; border-radius: 100px">Details</a></p>
+    </div>
+  </td>
+  <td class=3D"spacer" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block" width=3D"30%">
+    <div class=3D"a1" style=3D"font-size: 16px; line-height: 20px">
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQTVX.wyQ5adJDc=
+ww7I2gRrLHCAA"><img alt=3D"" border=3D"0" src=3D"http://rdir.de/image?ci=3D=
+705&mi=3D295664&name=3Dmvp.jpg" /></a>
+      <h2 style=3D"font-size: 14px; color: #000000; text-transform: upper=
+case; margin-top: 6px"><a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.Fa=
+U.BQTVX.wyQ5adJDcww7I2gRrLHCAA" style=3D"text-decoration: none; color: #0=
+00000">Farbenfroh und munter</a></h2>
+      <p style=3D"font-size: 12px; line-height: 17px; color: #000000">Fam=
+ilienurlaub in himbeerrot, leuchtorange, azurblau, sonnengelb in der Juge=
+ndherberge Ueckerm&uuml;nde? Entdecken Sie welche Farbkraft in den Pflanz=
+en steckt und wie sich aus Rotkohl oder Petersilie strahlende Naturfarben=
+ herstellen lassen.</p>
+      <p class=3D"bt-blau" style=3D"line-height: 17px"><a href=3D"http://=
+rdir.de/r.html?uid=3DA.B.BILw.FaU.BQTVX.wyQ5adJDcww7I2gRrLHCAA" style=3D"=
+text-decoration: none; font-size: 14px; font-weight: normal; color: #ffff=
+ff; background-color: #009dd1; border-top: 5px solid #009dd1; border-righ=
+t: 10px solid #009dd1; border-bottom: 5px solid #009dd1; border-left: 10p=
+x solid #009dd1; border-radius: 100px">Details</a></p>
+    </div>
+  </td>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+</tr>
+<tr>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block" width=3D"30%">
+    <div class=3D"a1" style=3D"font-size: 16px; line-height: 20px">
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQNZJ.H1xRdlc-r=
+cO0KTKONQx2NA"><img alt=3D"" border=3D"0" src=3D"http://rdir.de/image?ci=3D=
+705&mi=3D295664&name=3Dnmk.jpg" /></a>
+      <h2 style=3D"font-size: 14px; color: #000000; text-transform: upper=
+case; margin-top: 6px"><a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.Fa=
+U.BQNZJ.H1xRdlc-rcO0KTKONQx2NA" style=3D"text-decoration: none; color: #0=
+00000">Kinderfreizeiten im Norden</a></h2>
+      <p style=3D"font-size: 12px; line-height: 17px; color: #000000">In =
+M&ouml;lln mit Fun &amp; Action Englisch lernen. In Ratzeburg den Wind in=
+ den Segeln sp&uuml;ren. Oder eine Woche voller Strand-Aktionen auf Sylt =
+erleben. Unsere betreuten Kinderfreizeiten werden euch begeistern!</p>
+      <p class=3D"bt-blau" style=3D"line-height: 17px"><a href=3D"http://=
+rdir.de/r.html?uid=3DA.B.BILw.FaU.BQNZJ.H1xRdlc-rcO0KTKONQx2NA" style=3D"=
+text-decoration: none; font-size: 14px; font-weight: normal; color: #ffff=
+ff; background-color: #009dd1; border-top: 5px solid #009dd1; border-righ=
+t: 10px solid #009dd1; border-bottom: 5px solid #009dd1; border-left: 10p=
+x solid #009dd1; border-radius: 100px">Details</a></p>
+    </div>
+  </td>
+  <td class=3D"spacer" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block" width=3D"30%">
+    <div class=3D"a1" style=3D"font-size: 16px; line-height: 20px">
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQNZ3.03RWF973s=
+iDDA-FZjlntzg"><img alt=3D"" border=3D"0" src=3D"http://rdir.de/image?ci=3D=
+705&mi=3D295664&name=3Drhe.jpg" /></a>
+      <h2 style=3D"font-size: 14px; color: #000000; text-transform: upper=
+case; margin-top: 6px"><a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.Fa=
+U.BQNZ3.03RWF973siDDA-FZjlntzg" style=3D"text-decoration: none; color: #0=
+00000">Aktive Gruppenreisen</a></h2>
+      <p style=3D"font-size: 12px; line-height: 17px; color: #000000">GPS=
+-Verfolgungs-Challenge in K&ouml;ln oder lieber Kanutour auf der Rur? Bei=
+ mehr als 100 Erlebnisbausteinen ist f&uuml;r jede Gruppe ab 10 Personen =
+etwas dabei! Wochenend-Pauschale mit 2 &Uuml;/Programm/Verpflegung</p>
+      <p class=3D"bt-blau" style=3D"line-height: 17px"><a href=3D"http://=
+rdir.de/r.html?uid=3DA.B.BILw.FaU.BQNZ3.03RWF973siDDA-FZjlntzg" style=3D"=
+text-decoration: none; font-size: 14px; font-weight: normal; color: #ffff=
+ff; background-color: #009dd1; border-top: 5px solid #009dd1; border-righ=
+t: 10px solid #009dd1; border-bottom: 5px solid #009dd1; border-left: 10p=
+x solid #009dd1; border-radius: 100px">Details</a></p>
+    </div>
+  </td>
+  <td class=3D"spacer" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block" width=3D"30%">
+    <div class=3D"a1" style=3D"font-size: 16px; line-height: 20px">
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQNZ0.gXg-h4Ki5=
+39Ljeh_hZVyDQ"><img alt=3D"" border=3D"0" src=3D"http://rdir.de/image?ci=3D=
+705&mi=3D295664&name=3Drps.jpg" /></a>
+      <h2 style=3D"font-size: 14px; color: #000000; text-transform: upper=
+case; margin-top: 6px"><a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.Fa=
+U.BQNZ0.gXg-h4Ki539Ljeh_hZVyDQ" style=3D"text-decoration: none; color: #0=
+00000">Feriencamp Altenahr</a></h2>
+      <p style=3D"font-size: 12px; line-height: 17px; color: #000000">Auf=
+ Natur-Expedition gehen Kinder von 8-11 J. w&auml;hrend des Sommerferienc=
+amps im Naturschutzgebiet in Altenahr. Auf dem Programm stehen z.B. Waldl=
+ager-, Br&uuml;cken- und Staudammbau sowie Abenteuerspiele.</p>
+      <p class=3D"bt-blau" style=3D"line-height: 17px"><a href=3D"http://=
+rdir.de/r.html?uid=3DA.B.BILw.FaU.BQNZ0.gXg-h4Ki539Ljeh_hZVyDQ" style=3D"=
+text-decoration: none; font-size: 14px; font-weight: normal; color: #ffff=
+ff; background-color: #009dd1; border-top: 5px solid #009dd1; border-righ=
+t: 10px solid #009dd1; border-bottom: 5px solid #009dd1; border-left: 10p=
+x solid #009dd1; border-radius: 100px">Details</a></p>
+    </div>
+  </td>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+</tr>
+</table>
+
+<!-- Special 1 -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"margin-left: 10px">
+<tr>
+  <td width=3D"100%" colspan=3D"7" class=3D"special">
+    <a href=3D"http://m.exactag.com/cl.aspx?tc=3Dd7d9bf972edd288e189c45ee=
+23f4b1ea&url=3Dhttp://www.jako-o.de/"><img alt=3D"" border=3D"0" src=3D"h=
+ttp://rdir.de/image?ci=3D705&mi=3D295664&name=3Dnl-djh-banner-jako-800x30=
+0.jpg" /></a>
+  </td>
+</tr>
+</table>
+
+<!-- Headline 2 -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 25px solid #fff; margin-left: 10px">
+<tr>
+  <td width=3D"100%">
+    <div style=3D"font-size: 28px; background-color: #fef2da; line-height=
+: 28px; border-top: 11px solid #fef2da; border-right: 18px solid #fef2da;=
+ border-bottom: 11px solid #fef2da; border-left: 18px solid #fef2da"><h1 =
+style=3D"font-size: 25px; color: #eb6a0a; margin: 0 0 0 0">Weitere Angebo=
+te</h1></div>
+  </td>
+</tr>
+</table>
+
+<!-- 8 weitere Angebote -->
+
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 5px solid #fff; margin-left: 10px; b=
+ackground-color: #fbe1ce">
+<tr>
+  <td class=3D"grid_block" width=3D"80%">
+    <div style=3D"font-size: 12px; line-height: 18px; margin: 5px 18px 4p=
+x 18px">
+      <p class=3D"a2-headline" style=3D"margin: 0 0 0 0; color: #000000; =
+font-weight: bold; text-transform: uppercase"><a href=3D"http://rdir.de/r=
+=2Ehtml?uid=3DA.B.BILw.FaU.BQNYH.c6T_H6-bZmL7QcP1E4o-gw" style=3D"text-de=
+coration: none; color: #000000">Ferienfreizeit/Ferienlager: &bdquo;Sommer=
+spa&szlig; Spezial&ldquo;</a></p>
+      <p style=3D"margin: 0 0 0 0; color: #000000">03.-10.07.2016 | Naumb=
+urg | 7 &Uuml;/VP, tolles Programm: 249 &euro; pro Person (8-14 Jahre)</p=
+>
+    </div>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle">
+    <div class=3D"a2-button"><a href=3D"http://rdir.de/r.html?uid=3DA.B.B=
+ILw.FaU.BQNYH.c6T_H6-bZmL7QcP1E4o-gw" style=3D"text-decoration: none; fon=
+t-size: 14px; font-weight: normal; color: #ffffff; background-color: #eb6=
+a0a; border-top: 5px solid #eb6a0a; border-right: 10px solid #eb6a0a; bor=
+der-bottom: 5px solid #eb6a0a; border-left: 10px solid #eb6a0a; border-ra=
+dius: 100px">Jetzt buchen</a></div>
+  </td>
+</tr>
+</table>
+
+
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 5px solid #fff; margin-left: 10px; b=
+ackground-color: #fbe1ce">
+<tr>
+  <td class=3D"grid_block" width=3D"80%">
+    <div style=3D"font-size: 12px; line-height: 18px; margin: 5px 18px 4p=
+x 18px">
+      <p class=3D"a2-headline" style=3D"margin: 0 0 0 0; color: #000000; =
+font-weight: bold; text-transform: uppercase"><a href=3D"http://rdir.de/r=
+=2Ehtml?uid=3DA.B.BILw.FaU.BQTVU.jwSGF9npxVqWIntPNM9wCw" style=3D"text-de=
+coration: none; color: #000000">Letzte M&ouml;glichkeit f&uuml;r Ferienca=
+mps</a></p>
+      <p style=3D"margin: 0 0 0 0; color: #000000">Sommerferien | Burg-, =
+Berg- &amp; Wasser-Spa&szlig; | ab 6 &Uuml;/VP zu 199 &euro; pro Person</=
+p>
+    </div>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle">
+    <div class=3D"a2-button"><a href=3D"http://rdir.de/r.html?uid=3DA.B.B=
+ILw.FaU.BQTVU.jwSGF9npxVqWIntPNM9wCw" style=3D"text-decoration: none; fon=
+t-size: 14px; font-weight: normal; color: #ffffff; background-color: #eb6=
+a0a; border-top: 5px solid #eb6a0a; border-right: 10px solid #eb6a0a; bor=
+der-bottom: 5px solid #eb6a0a; border-left: 10px solid #eb6a0a; border-ra=
+dius: 100px">Jetzt buchen</a></div>
+  </td>
+</tr>
+</table>
+
+
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 5px solid #fff; margin-left: 10px; b=
+ackground-color: #fbe1ce">
+<tr>
+  <td class=3D"grid_block" width=3D"80%">
+    <div style=3D"font-size: 12px; line-height: 18px; margin: 5px 18px 4p=
+x 18px">
+      <p class=3D"a2-headline" style=3D"margin: 0 0 0 0; color: #000000; =
+font-weight: bold; text-transform: uppercase"><a href=3D"http://rdir.de/r=
+=2Ehtml?uid=3DA.B.BILw.FaU.BQTVY.xUf-1ulGAw7vmgEzMRagMg" style=3D"text-de=
+coration: none; color: #000000">Waldgefl&uuml;ster im Th&uuml;ringer Wald=
+</a></p>
+      <p style=3D"margin: 0 0 0 0; color: #000000">01.03.-13.07.2016 | Il=
+menau | 2 &Uuml;/VP, Bettw&auml;sche, Programm: ab 52 &euro; pro Person</=
+p>
+    </div>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle">
+    <div class=3D"a2-button"><a href=3D"http://rdir.de/r.html?uid=3DA.B.B=
+ILw.FaU.BQTVY.xUf-1ulGAw7vmgEzMRagMg" style=3D"text-decoration: none; fon=
+t-size: 14px; font-weight: normal; color: #ffffff; background-color: #eb6=
+a0a; border-top: 5px solid #eb6a0a; border-right: 10px solid #eb6a0a; bor=
+der-bottom: 5px solid #eb6a0a; border-left: 10px solid #eb6a0a; border-ra=
+dius: 100px">Jetzt buchen</a></div>
+  </td>
+</tr>
+</table>
+
+
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 5px solid #fff; margin-left: 10px; b=
+ackground-color: #fbe1ce">
+<tr>
+  <td class=3D"grid_block" width=3D"80%">
+    <div style=3D"font-size: 12px; line-height: 18px; margin: 5px 18px 4p=
+x 18px">
+      <p class=3D"a2-headline" style=3D"margin: 0 0 0 0; color: #000000; =
+font-weight: bold; text-transform: uppercase"><a href=3D"http://rdir.de/r=
+=2Ehtml?uid=3DA.B.BILw.FaU.BQNYL.Dv-DEI2XcNcBeqOy3FynFg" style=3D"text-de=
+coration: none; color: #000000">Nordsee-Urlaub im DJH-Resort: Jetzt 10% R=
+abatt!</a></p>
+      <p style=3D"margin: 0 0 0 0; color: #000000">27.06.-11.07.2016 | Ne=
+uharlingersiel | 7 &Uuml;/all-incl.: ab 378 &euro; pro Person (Rabattcode=
+: &bdquo;616&ldquo;)</p>
+    </div>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle">
+    <div class=3D"a2-button"><a href=3D"http://rdir.de/r.html?uid=3DA.B.B=
+ILw.FaU.BQNYL.Dv-DEI2XcNcBeqOy3FynFg" style=3D"text-decoration: none; fon=
+t-size: 14px; font-weight: normal; color: #ffffff; background-color: #eb6=
+a0a; border-top: 5px solid #eb6a0a; border-right: 10px solid #eb6a0a; bor=
+der-bottom: 5px solid #eb6a0a; border-left: 10px solid #eb6a0a; border-ra=
+dius: 100px">Jetzt buchen</a></div>
+  </td>
+</tr>
+</table>
+
+
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 5px solid #fff; margin-left: 10px; b=
+ackground-color: #fbe1ce">
+<tr>
+  <td class=3D"grid_block" width=3D"80%">
+    <div style=3D"font-size: 12px; line-height: 18px; margin: 5px 18px 4p=
+x 18px">
+      <p class=3D"a2-headline" style=3D"margin: 0 0 0 0; color: #000000; =
+font-weight: bold; text-transform: uppercase"><a href=3D"http://rdir.de/r=
+=2Ehtml?uid=3DA.B.BILw.FaU.BQNYK.-pBNF0v5gEeiY_v0htG_fQ" style=3D"text-de=
+coration: none; color: #000000">Winterberg-Weekend (Jugendherberge neu er=
+&ouml;ffnet)</a></p>
+      <p style=3D"margin: 0 0 0 0; color: #000000">ganzj&auml;hrig | Wint=
+erberg | 2 &Uuml;/VP, Eintritt Erlebnisberg, Sommerrodelbahn: ab 87 &euro=
+; pro Person</p>
+    </div>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle">
+    <div class=3D"a2-button"><a href=3D"http://rdir.de/r.html?uid=3DA.B.B=
+ILw.FaU.BQNYK.-pBNF0v5gEeiY_v0htG_fQ" style=3D"text-decoration: none; fon=
+t-size: 14px; font-weight: normal; color: #ffffff; background-color: #eb6=
+a0a; border-top: 5px solid #eb6a0a; border-right: 10px solid #eb6a0a; bor=
+der-bottom: 5px solid #eb6a0a; border-left: 10px solid #eb6a0a; border-ra=
+dius: 100px">Jetzt buchen</a></div>
+  </td>
+</tr>
+</table>
+
+
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 5px solid #fff; margin-left: 10px; b=
+ackground-color: #fbe1ce">
+<tr>
+  <td class=3D"grid_block" width=3D"80%">
+    <div style=3D"font-size: 12px; line-height: 18px; margin: 5px 18px 4p=
+x 18px">
+      <p class=3D"a2-headline" style=3D"margin: 0 0 0 0; color: #000000; =
+font-weight: bold; text-transform: uppercase"><a href=3D"http://rdir.de/r=
+=2Ehtml?uid=3DA.B.BILw.FaU.BQUyd.pByvOTuKAjVDbUwivMxe8Q" style=3D"text-de=
+coration: none; color: #000000">Familienspa&szlig; in Breisach</a></p>
+      <p style=3D"margin: 0 0 0 0; color: #000000">06.-13.08.16 | Breisac=
+h | 7 &Uuml;/VP inkl. Programm, 360 &euro; pro Person</p>
+    </div>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle">
+    <div class=3D"a2-button"><a href=3D"http://rdir.de/r.html?uid=3DA.B.B=
+ILw.FaU.BQUyd.pByvOTuKAjVDbUwivMxe8Q" style=3D"text-decoration: none; fon=
+t-size: 14px; font-weight: normal; color: #ffffff; background-color: #eb6=
+a0a; border-top: 5px solid #eb6a0a; border-right: 10px solid #eb6a0a; bor=
+der-bottom: 5px solid #eb6a0a; border-left: 10px solid #eb6a0a; border-ra=
+dius: 100px">Jetzt buchen</a></div>
+  </td>
+</tr>
+</table>
+
+
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 5px solid #fff; margin-left: 10px; b=
+ackground-color: #fbe1ce">
+<tr>
+  <td class=3D"grid_block" width=3D"80%">
+    <div style=3D"font-size: 12px; line-height: 18px; margin: 5px 18px 4p=
+x 18px">
+      <p class=3D"a2-headline" style=3D"margin: 0 0 0 0; color: #000000; =
+font-weight: bold; text-transform: uppercase"><a href=3D"http://rdir.de/r=
+=2Ehtml?uid=3DA.B.BILw.FaU.BQUya.WOeU3JOmjAUJHWhgi_f3RA" style=3D"text-de=
+coration: none; color: #000000">Aktivtage am Walchensee in den bayerische=
+n Voralpen</a></p>
+      <p style=3D"margin: 0 0 0 0; color: #000000">23.07.-13.08.2016 | Wa=
+lchensee | 7 &Uuml;/VP, Flo&szlig;bau, Radtour, Bach&uuml;berquerung m. S=
+eilbr&uuml;cke: 339 &euro; p.P.</p>
+    </div>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle">
+    <div class=3D"a2-button"><a href=3D"http://rdir.de/r.html?uid=3DA.B.B=
+ILw.FaU.BQUya.WOeU3JOmjAUJHWhgi_f3RA" style=3D"text-decoration: none; fon=
+t-size: 14px; font-weight: normal; color: #ffffff; background-color: #eb6=
+a0a; border-top: 5px solid #eb6a0a; border-right: 10px solid #eb6a0a; bor=
+der-bottom: 5px solid #eb6a0a; border-left: 10px solid #eb6a0a; border-ra=
+dius: 100px">Jetzt buchen</a></div>
+  </td>
+</tr>
+</table>
+
+
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 5px solid #fff; margin-left: 10px; b=
+ackground-color: #fbe1ce">
+<tr>
+  <td class=3D"grid_block" width=3D"80%">
+    <div style=3D"font-size: 12px; line-height: 18px; margin: 5px 18px 4p=
+x 18px">
+      <p class=3D"a2-headline" style=3D"margin: 0 0 0 0; color: #000000; =
+font-weight: bold; text-transform: uppercase"><a href=3D"http://rdir.de/r=
+=2Ehtml?uid=3DA.B.BILw.FaU.BQR0n.2XlSCNGPcp9KkuRSXOdN0Q" style=3D"text-de=
+coration: none; color: #000000">Kanu-Sommer</a></p>
+      <p style=3D"margin: 0 0 0 0; color: #000000">12.-18.08.2016 | Prebe=
+low | 6 &Uuml;/VP: ab 320 &euro; pro Person</p>
+    </div>
+  </td>
+  <td class=3D"grid_block" style=3D"vertical-align: middle">
+    <div class=3D"a2-button"><a href=3D"http://rdir.de/r.html?uid=3DA.B.B=
+ILw.FaU.BQR0n.2XlSCNGPcp9KkuRSXOdN0Q" style=3D"text-decoration: none; fon=
+t-size: 14px; font-weight: normal; color: #ffffff; background-color: #eb6=
+a0a; border-top: 5px solid #eb6a0a; border-right: 10px solid #eb6a0a; bor=
+der-bottom: 5px solid #eb6a0a; border-left: 10px solid #eb6a0a; border-ra=
+dius: 100px">Jetzt buchen</a></div>
+  </td>
+</tr>
+</table>
+
+
+<!-- Special 2 -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 25px solid #fff; margin-left: 10px">
+<tr>
+  <td width=3D"100%" colspan=3D"7" class=3D"special">
+    <a href=3D""></a>
+  </td>
+</tr>
+</table>
+
+<!-- Abstand -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0">
+<tr>
+  <td width=3D"100%"><img src=3D"http://rdir.de/image?ci=3D705&mi=3D29566=
+4&name=3Dclear.gif" alt=3D"" height=3D"0" border=3D"0" /></td>
+</tr>
+</table>
+
+
+
+<!-- Footer -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 2px solid #fff; margin-left: 10px">
+<tr>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block_gelb" style=3D"vertical-align: top; background-=
+color: #ffd52f" width=3D"30%">
+    <div class=3D"gelbe-box" style=3D"color: #000000">
+      <img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&name=3Daktion=
+=2Ejpg" alt=3D"" border=3D"0" width=3D"200" />
+      <div class=3D"gelbe-box-innen" style=3D"margin: 0 25px 20px 25px">
+        <p style=3D"font-size: 16px !important; line-height: 24px !import=
+ant; margin-bottom: 10px">Last Minute Sommerurlaub am Meer. Hier gibt es =
+noch freie Pl=C3=A4tze.</p>
+        <p class=3D"bt-blau" style=3D"float: none; margin-bottom: 10px"><=
+a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQS-2.MtbmGgDj3sV--lZJ=
+OjuNSA" style=3D"text-decoration: none; font-size: 14px; font-weight: nor=
+mal; color: #ffffff; background-color: #009dd1; border-top: 5px solid #00=
+9dd1; border-right: 10px solid #009dd1; border-bottom: 5px solid #009dd1;=
+ border-left: 10px solid #009dd1; border-radius: 100px">Jetzt informieren=
+!</a></p>
+      </div>
+    </div>
+  </td>
+  <td class=3D"spacer" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block_gelb" style=3D"vertical-align: top; background-=
+color: #ffd52f" width=3D"30%">
+    <div class=3D"gelbe-box" style=3D"color: #000000">
+      <img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&name=3Dempfeh=
+len.jpg" alt=3D"" border=3D"0" width=3D"200" />
+      <div class=3D"gelbe-box-innen" style=3D"margin: 0 25px 20px 25px; f=
+ont-size: 16px !important; line-height: 24px !important">
+        <p style=3D"margin-bottom: 10px">Empfehlen Sie uns weiter: <table=
+ border=3D"0" cellpadding=3D"0" cellspacing=3D"5"><tr><td><a href=3D"http=
+://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK8T.QF84bFPFWFGlcJY75_wbMg" target=
+=3D"_blank"><img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&name=3D=
+button_facebook-small.png" alt=3D"share on Facebook" width=3D"20" height=3D=
+"20" border=3D"0"></a></td><td><a href=3D"http://rdir.de/r.html?uid=3DA.B=
+=2EBILw.FaU.BQK8S.oq8P1SBaJ9L2GjHztYqsaQ" target=3D"_blank"><img src=3D"h=
+ttp://rdir.de/image?ci=3D705&mi=3D295664&name=3Dbutton_Twitter-small.png"=
+ alt=3D"share on Twitter" width=3D"20" height=3D"20" border=3D"0"></a></t=
+d><td><a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK8V.-hn2568BO=
+GPPaU_SntDiZg" target=3D"_blank"><img src=3D"http://rdir.de/image?ci=3D70=
+5&mi=3D295664&name=3Dbutton_googlePlus-small.png" alt=3D"share on Google+=
+" width=3D"20" height=3D"20" border=3D"0"></a></td></tr></table></p>
+      </div>
+    </div>
+  </td>
+  <td class=3D"spacer" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block_gelb" style=3D"vertical-align: top; background-=
+color: #ffd52f" width=3D"30%">
+    <div class=3D"gelbe-box" style=3D"color: #000000">
+      <img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&name=3Dinfo.j=
+pg" alt=3D"" border=3D"0" width=3D"200" />
+      <div class=3D"gelbe-box-innen" style=3D"margin: 0 25px 20px 25px">
+        <p style=3D"margin-bottom: 10px">Wenn Sie Fragen zum Newsletter h=
+aben, kontaktieren Sie uns bitte unter <a href=3D"mailto:news@jugendherbe=
+rge.de" style=3D"color: #009dd4; font-weight: bold; text-decoration: none=
+">news@jugendherberge.de</a>.<br />
+        Fragen zur Mitgliedschaft richten Sie bitte an <a href=3D"mailto:=
+djh-service@jugendherberge.de" style=3D"color: #009dd4; font-weight: bold=
+; text-decoration: none">djh-service@jugendherberge.de</a>.<br />
+        Ihr DJH Team</p>
+      </div>
+    </div>
+  </td>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+</tr>
+</table>
+
+<!-- Text und Logos -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"3" class=3D"table60=
+0" border=3D"0" style=3D"border-top: 33px solid #fff; ">
+<tr>
+  <td class=3D"small" width=3D"2.5%">&nbsp;</td>
+  <td class=3D"grid_block" width=3D"45%">
+    <div style=3D"margin: 0 20px 20px 20px; color: #a0a0a0">
+      <p style=3D"margin: 0 0 15px 0">Sie erhalten diesen Newsletter, wei=
+l Sie sich auf <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7m.=
+EW86nL59ZU_UyWrAWw4vzQ" style=3D"color: #e47822; font-weight: bold; text-=
+decoration: none">www.jugendherberge.de</a> angemeldet haben.
+      Ihre Privatssph=C3=A4re ist uns wichtig. Unsere Datenschutzerkl=C3=A4=
+rung finden Sie <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7s=
+=2EVst7QG1FBuYyKtCYaKSG1w" style=3D"color: #e47822; font-weight: bold; te=
+xt-decoration: none">hier</a>.
+      Und Sie k=C3=B6nnen sich nat=C3=BCrlich jederzeit vom Newsletter <a=
+ href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7q.j7oTcTxSwiXFxe65G=
+gLlYw" style=3D"color: #e47822; font-weight: bold; text-decoration: none"=
+>abmelden</a>.</p>
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK8R.PPLyl9NF4=
+6C0MmcjJeh8hg" style=3D"color: #e47822; font-weight: bold; text-decoratio=
+n: none">Impressum</a> | <a href=3D"mailto:news@jugendherberge.de" style=3D=
+"color: #e47822; font-weight: bold; text-decoration: none">Fragen zum New=
+sletter</a>
+    </div>
+  </td>
+  <td class=3D"grid_block" width=3D"50%">
+    <div class=3D"footer-grafiken">
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7u.zIbgUaJns=
+iZP0XT6608ugw" title=3D"Link zu www.hihostels.com" style=3D"position: rel=
+ative; top: 10px"><img src=3D"http://rdir.de/image?ci=3D705&mi=3D295664&n=
+ame=3Dhihostel.jpg" alt=3D"" border=3D"0" /></a>
+      <a href=3D"http://rdir.de/r.html?uid=3DA.B.BILw.FaU.BQK7o.rTuaODELa=
+wkA6I6P0W-tcg" title=3D"Link zu www.jugendherberge.de"><img src=3D"http:/=
+/rdir.de/image?ci=3D705&mi=3D295664&name=3Ddjh.jpg" alt=3D"" border=3D"0"=
+ /></a>
+    </div>
+  </td>
+</tr>
+</table>
+
+<!-- Abstand -->
+<table width=3D"800" cellspacing=3D"0" cellpadding=3D"0" class=3D"table60=
+0" border=3D"0">
+<tr>
+  <td width=3D"100%"><img src=3D"http://rdir.de/image?ci=3D705&mi=3D29566=
+4&name=3Dclear.gif" alt=3D"" height=3D"0" border=3D"0" /></td>
+</tr>
+</table>
+
+</span>
+
+</center>
+
+</body>
+
+</html>
+---==AGNITASOUTER10756==--
+
