@@ -154,8 +154,8 @@ use Time::Local;
 	{
 	}
 
-    ##elsif(m/  (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*) : \s+                what => \{(?<what>[^}]*)\} /x)
-      elsif(m/^ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*) : \s+ (?<what_meta>[^=]+) => \{(?<what>[^}]*)\} /x)
+    ##elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*) : \s+                what => \{(?<what>[^}]*)\} /x)
+      elsif(m/ (?<marker>.) (?<timestamp>\d+ [\d\s\-:]*) , (?<job>[^:]*) : \s+ (?<what_meta>[^=]+) => \{(?<what>[^}]*)\} /x)
 	{
 	  my(%plus) = %+;
 
