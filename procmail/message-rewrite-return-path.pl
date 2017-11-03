@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/perl -wi~
 
 # * to be run on an entire message
 # * rewriting only the "Return-Path:" header field
