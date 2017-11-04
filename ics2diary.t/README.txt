@@ -1,5 +1,7 @@
 # ...
 
+./ics2diary.pl * > ics2diary.sample-BAHN_Fahrplan.diary
+
 ./ics2diary.pl ics2diary.sample-BAHN_Fahrplan.ics > ics2diary.sample-BAHN_Fahrplan.diary
 
 ################################################################################
