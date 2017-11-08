@@ -2,7 +2,7 @@
 #! /usr/bin/perl
 
 # $Id: JHgen_diary_frame.pl 1.26 2016/11/17 16:18:19 johayek Exp $
-# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHgen_diary_frame.pl $
+# $Source: /Users/johayek/Computers/Programming/Languages/Perl/RCS/JHgen_diary_frame.pl $
 
 # Q: until what year do we run here?
 # A: search for "last year"!
