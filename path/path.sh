@@ -3,7 +3,7 @@
 ##time_stamp='Time-stamp: <2006-08-09 12:19:05 johayek>'
 ##      rcs_Id='$Id: path.sh 1.10 2011/09/28 09:55:55 johayek Exp $'
 ## rcs_RCSfile=$(echo '$RCSfile: path.sh $'|cut -d ' ' -f 2)
-##  rcs_Source=$(echo '$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/path/RCS/path.sh $'|cut -d ' ' -f 2)
+##  rcs_Source=$(echo '$Source: /Volumes/johayek/Computers/Software/Operating_Systems/Unix/Shell/RCS/path.sh $'|cut -d ' ' -f 2)
 ##  rcs_Locker=$(echo '$Locker:  $'|cut -d ' ' -f 2)
 ##rcs_Revision=$(echo '$Revision: 1.10 $'|cut -d ' ' -f 2)
 
