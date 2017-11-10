@@ -138,10 +138,10 @@ sub func
                  From   : \s+     (?<From> jochen\.hayek\@hayek\.b\.shuttle\.de )  ; \s+
                  FROM   : [^<]* < (?<FROM> jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
-                 SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
+		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
 		 Folder: \s+ (?<Folder>\. (folder-topics|.*) \.(?<subtopic>admin|.*)\/\S*)
 
-	}{[$plus{tags},Synology] $plus{SUBJECT}}gix;
+	}{[$plus{tags},Synology_DSM_Alert] $plus{SUBJECT}}gix;
     }
 
   if(
