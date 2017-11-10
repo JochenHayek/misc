@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-($#ARGV >= 2) || die "\$#ARGV=>$#ARGV, should: >= 2";
+($#ARGV >= 1) || die "\$#ARGV=>$#ARGV, should: >= 1";
 
 $old = shift;
 $new = shift;
