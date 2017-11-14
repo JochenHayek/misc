@@ -1,7 +1,9 @@
 # ...
 
-# /scp:localhost#2222:/home/jochen_hayek/Computers/Software/Operating_Systems/Unix/Shell/README--rename.txt
-#                                      ~/Computers/Software/Operating_Systems/Unix/Shell/README--rename.txt
+# ~/git-servers/github.com/JochenHayek/misc/renaming_scanner_files/README--rename.txt
+
+# ~/git-servers/github.com/JochenHayek/misc/shell/renumber_files.sh
+# ~/git-servers/github.com/JochenHayek/misc/shell/renumber_duplex_scanned_files.sh
 
 -> ~/Computers/Software/Operating_Systems/Unix/Shell/*rename*
 
