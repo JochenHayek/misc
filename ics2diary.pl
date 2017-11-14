@@ -22,7 +22,6 @@
 
 	##$table{ $+{name} } = \%plus;
 
-
 	  if   ($plus{name} eq 'BEGIN')
 	    {
 	      %table = ();
@@ -72,8 +71,50 @@
 		      printf "\t\t\t{%s}\n",$d;
 		    }
 
-		  printf "\n\t\t}\n",
+		  printf "\n\t\t}\n\n",
 		    ;
+
+		  my(%current_slot);
+
+		  foreach my $d (@DESCRIPTION)
+		    {
+		      printf "\t\t\t{%s}\n",$d
+			if 0;
+
+		      if($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?) ( \s+ \( (?<train>[^(]*) \) )? $/x)
+		    ##if($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?)			               $/x)
+			{
+			  my(%plus) = %+;
+
+			  $current_slot{ $plus{name} } = \%plus;
+
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			    "\$current_slot{ $plus{name} }{HH_MM}" => $current_slot{ $plus{name} }{HH_MM},
+			    '...'
+			    if 0;
+
+			  if   ($plus{name} eq 'ab')
+			    {
+			    }
+			  elsif($plus{name} eq 'an')
+			    {
+			      if(exists($current_slot{ab}{HH_MM}))
+				{
+				  printf "\t%s .. %s [%s,%s] %s -> %s\n",
+				    $current_slot{ab}{HH_MM},
+				    $current_slot{an}{HH_MM},
+
+				    'biz,travel,train,Auftrag=______',
+
+				    $current_slot{ab}{train},
+
+				    $current_slot{ab}{value},
+				    $current_slot{an}{value},
+				    ;
+				}
+			    }
+			}
+		    }
 		}
 	    }
 	}

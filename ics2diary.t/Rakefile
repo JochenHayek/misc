@@ -1,0 +1,29 @@
+# ...
+
+################################################################################
+
+desc "run create_snapshot.sh"
+
+task :create_snapshots do
+  sh %q(
+    $HOME/bin/create_snapshot.sh *~ diary Rakefile *.txt;
+  )
+end
+
+################################################################################
+
+desc "run tests"
+
+task :run do
+  sh %q(
+    for i in *.ics
+    do :
+      echo "*** $i:"
+      bn=$(basename "${i}" .ics)
+
+      ../ics2diary.pl "${i}" > "${bn}".diary
+    done
+  )
+end
+
+################################################################################
