@@ -18,7 +18,7 @@
 
   foreach my $line (@lines)
     {
-      printf "+ %-${max_line_length}s +\n",$line;
+      printf "| %-${max_line_length}s |\n",$line;
 
       printf "+-%-${max_line_length}s-+\n",'-' x ${max_line_length};
     }
