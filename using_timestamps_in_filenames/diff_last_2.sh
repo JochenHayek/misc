@@ -44,4 +44,6 @@ then :
     '...'
 fi
 
+set -x
+
 exec diff "${params[$n_min_2]}" "${params[$n_min_1]}"
