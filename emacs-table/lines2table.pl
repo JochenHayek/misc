@@ -1,5 +1,7 @@
 #! /usr/bin/perl -w
 
+# convert a couple of lines into a basic 1-column emacs table
+
 {
   my(@lines);
   my($max_line_length) = -1;
