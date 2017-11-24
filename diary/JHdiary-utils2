@@ -3,7 +3,7 @@
 
 ($emacs_Time_stamp) = 'Time-stamp: <2010-01-01 18:07:49 johayek>' =~ m/<(.*)>/;
 
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.14 2010/01/01 17:08:03 johayek Exp $'))[1..6])));
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.14 2010/01/01 17:08:03 johayek Exp johayek $'))[1..6])));
 #	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/01/01 17:08:03 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
