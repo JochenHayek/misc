@@ -5,7 +5,7 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2017-11-23 17:45:51 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2017-11-24 09:16:18 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
@@ -759,7 +759,7 @@ sub job_advent_etc
 
   my(@table) =
       ( { offset => -35 , name => 'Advent#-1 -- http://de.wikipedia.org/wiki/Volkstrauertag : ... seit 1952 ... -- Sunday after YYYY-11-11 -> http://de.wikipedia.org/wiki/Waffenstillstand_von_Compiègne' }
-      , { offset => -32 , name => 'Advent#-0.5 -- http://de.wikipedia.org/wiki/Buß-_und_Bettag' }
+      , { offset => -32 , name => 'Advent#-0.5 -- http://de.wikipedia.org/wiki/Buß-_und_Bettag // in manchen Bundesländern (Sachsen) ein Feiertag' }
       , { offset => -28 , name => 'Advent#0 -- http://de.wikipedia.org/wiki/Totensonntag -> http://de.wikipedia.org/wiki/Ewigkeitssonntag' }
       , { offset => -21 , name => 'Advent#1' }
       , { offset => -14 , name => 'Advent#2' }
