@@ -1,8 +1,11 @@
 :
 
-# misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
+# -> README--extracting_timestamps.txt
 
-# -> README--rename.txt
+# misc/using_timestamps_in_filenames/pdf-suggest-*.sh
+# misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
+# misc/using_timestamps_in_filenames/pdf-suggest-rename-versioned.sh
+# misc/using_timestamps_in_filenames/pdf-suggest-touch.sh
 
 ################################################################################
 
