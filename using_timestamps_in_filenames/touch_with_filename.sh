@@ -211,6 +211,47 @@ do :
 
      ################################################################################
 
+     [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].* )
+
+       echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // timestamp + multi-letter single-word extension"
+
+       ts_modern=$(echo ${i_bn} |
+	    "${PERL}" -ne '
+
+              if(m/^ (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) \. (?<extension>\w+) $/x)
+                {
+                  my(%plus) = %+;
+                  print "$plus{YYYY}-$plus{mm}-$plus{dd} $plus{HH}:$plus{MM}:$plus{SS}\n"
+                }
+
+            ')
+
+       ts_traditional=$(echo ${i_bn} |
+	    "${PERL}" -ne '
+
+              if(m/^ (?<YYYY>\d\d\d\d) (?<mm>\d\d) (?<dd>\d\d) (?<HH>..) (?<MM>..) (?<SS>..) \. (?<extension>\w+) $/x)
+                {
+                  my(%plus) = %+;
+                  print "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}\n"
+                }
+
+            ')
+
+       if test -z "${ts_modern}"
+
+       then echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}},\${ts_modern}=>{${ts_modern}} // trailing timestamp + multi-letter single-word extension -- ???"
+
+       elif test "${use_traditional_time_string_p}" = true
+
+       then touch -t "${ts_traditional}" "${i}"
+
+       else touch "--date=${ts_modern}" "${i}"
+
+       fi
+       ;;
+
+     ################################################################################
+
      *)
        echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // ???"
        ;;
