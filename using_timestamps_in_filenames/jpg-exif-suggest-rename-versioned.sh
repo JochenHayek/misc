@@ -1,8 +1,14 @@
 :
 
+# -> README--extracting_timestamps.txt
+
+# misc/using_timestamps_in_filenames/jpg-exif-suggest-*.sh
+# misc/using_timestamps_in_filenames/jpg-exif-suggest-rename-as_vouchers.sh
 # misc/using_timestamps_in_filenames/jpg-exif-suggest-rename-versioned.sh
 
-# -> README--rename.txt
+# misc/using_timestamps_in_filenames/jpg-exiftool-suggest-*.sh
+# misc/using_timestamps_in_filenames/jpg-exiftool-suggest-rename-as_vouchers.sh
+# misc/using_timestamps_in_filenames/jpg-exiftool-suggest-rename-versioned.sh
 
 ################################################################################
 

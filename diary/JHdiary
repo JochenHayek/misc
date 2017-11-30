@@ -1,0 +1,1710 @@
+#! /usr/bin/perl -w
+#! /usr/local/perlbrew/perls/stable/bin/perl
+#! /usr/bin/perl -w
+
+# OS X: /usr/bin/perl
+
+{
+  ($emacs_Time_stamp) = 'Time-stamp: <2017-11-24 09:16:18 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+
+  '' =~ m/`/;
+
+  ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
+
+    '$Id: JHdiary 1.114 2017/11/23 16:47:32 johayek Exp johayek $' =~
+
+      m(^ \ \s
+
+          (
+               (\S+)		# RCSfile
+            \s (\S+)		# Revision
+            \s (\S+ \s \S+)	# Date
+            \s (\S+)		# Author
+            \s (\S+)		# State
+            .*
+          )
+
+          \s \$ $)x;
+
+  '' =~ m/`/;
+}
+
+# usage: 
+#
+#     ...
+
+# purpose:
+#
+#     job_...
+
+# in:
+
+# out:
+
+# requirements:
+
+{
+  use English;
+  use FileHandle;
+  use strict;
+
+  %::month_names__short2no =
+    ('Jan' =>  1
+    ,'Feb' =>  2
+    ,'Mar' =>  3
+    ,'Apr' =>  4
+    ,'May' =>  5
+    ,'Jun' =>  6
+    ,'Jul' =>  7
+    ,'Aug' =>  8
+    ,'Sep' =>  9
+    ,'Oct' => 10
+    ,'Nov' => 11
+    ,'Dec' => 12
+    );
+
+  %::month_names__long2short =
+    ( 'January'   => 'Jan'
+     ,'February'  => 'Feb'
+     ,'March'     => 'Mar'
+     ,'April'     => 'Apr'
+     ,'May'       => 'May'
+     ,'June'      => 'Jun'
+     ,'July'      => 'Jul'
+     ,'August'    => 'Aug'
+     ,'September' => 'Sep'
+     ,'October'   => 'Oct'
+     ,'November'  => 'Nov'
+     ,'December'  => 'Dec'
+     );
+
+  @::short_month_names =
+    ( 'Jan','Feb','Mar','Apr','May','Jun'
+     ,'Jul','Aug','Sep','Oct','Nov','Dec'
+     );
+  unshift(@::short_month_names,''); # in order to have an easier mapping `number : name`
+
+  &main;
+}
+
+sub main
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  # described in:
+  #	camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
+
+  use Getopt::Long;
+  %options = ();
+
+  $main::options{debug} = 1;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$rcs_Id',$rcs_Id
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$emacs_Time_stamp',$emacs_Time_stamp
+    if 0 && $main::options{debug};
+
+  {
+    # defaults for the main::options;
+    
+    $main::options{dry_run}		       = 0;
+    $main::options{version}		       = 0;
+
+    $main::options{job_tag_match}              = 0;
+    $main::options{job_work_at}                = 0;
+    $main::options{job_yearly_events}          = 0;
+    $main::options{job_easter_etc}             = 0;
+    $main::options{job_advent_etc}             = 0;
+    $main::options{job_muttertag}        = 0;
+    $main::options{job_xdays_around_today}     = 0;
+
+    $main::options{echo_the_source_p}		= 1;
+
+    $main::options{this_year}			= 'yyyy';
+  ##$main::options{what_dow}			= undef;
+
+    $main::options{from}			= '0000-00-00';
+    $main::options{to}				= '9999-99-99';
+  }
+
+  my($result) =
+    &GetOptions
+      (\%main::options
+     ##,'job_xxx|jxxx!'
+       ,'job_tag_match!'
+       ,'job_work_at!'
+       ,'job_yearly_events!'
+       ,'job_easter_etc!'
+       ,'job_advent_etc!'
+       ,'job_muttertag!'
+       ,'job_xdays_around_today!'
+
+       ,'dry_run!'
+       ,'version!'
+
+       ,'company_tag=s'		# used by --job_work_at
+
+       ,'tag=s'			# used by --job_tag_match
+
+       ,'this_year|year=s'	# used by --job_yearly_events , --job_easter_etc , --job_advent_etc , --job_muttertag , --job_xdays_around_today
+
+       ,'what_dow=s'	        # used by 							      --job_xdays_around_today
+
+       ,'from=s'
+       ,'to=s'
+       );
+  $result || die 'GetMain::Options failed';
+
+  #
+  # example
+  # =======
+  #
+  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
+  # ~/Computers/Programming/Languages/Perl/JHdiary --from=2001-05-17 --to=2001-06-18 --job_tag_match --tag=biz,travel,flight
+  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1999-01-01 --to=1999-12-31 --job_tag_match --tag=biz,travel
+  #
+  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1999-01 --to=1999-01-99 --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/Computers/Programming/Languages/Perl/JHdiary                                --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/pts/10
+  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/console
+  #
+  ##################################################
+  #
+  # `--job_yearly_events' may ******only****** be applied to the region within diary,
+  # where we find the yearly events;
+  #
+  # ~/Computers/Programming/Languages/Perl/JHdiary --job_yearly_events --this_year=1997
+  #
+  # ~/Computers/Programming/Languages/Perl/JHdiary --job_easter_etc    --this_year=2004
+  #
+  # ~/Computers/Programming/Languages/Perl/JHdiary --job_advent_etc    --this_year=2004
+  #
+  # ~/Computers/Programming/Languages/Perl/JHdiary --job_muttertag    --this_year=2004
+  #
+  # ~/Computers/Programming/Languages/Perl/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
+
+  if($main::options{version})
+    {
+       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	 ,'$rcs_Id',$rcs_Id
+	 ;
+       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	 ,'$emacs_Time_stamp',$emacs_Time_stamp
+	 ;
+    }
+
+  if   ($main::options{job_tag_match	}) { &job_tag_match    ; }
+  elsif($main::options{job_work_at  	}) { &job_work_at      ; }
+  elsif($main::options{job_yearly_events}) { &job_yearly_events; }
+  elsif($main::options{job_easter_etc   }) { &job_easter_etc   ; }
+  elsif($main::options{job_advent_etc   }) { &job_advent_etc   ; }
+  elsif($main::options{job_muttertag   }) { &job_muttertag   ; }
+  elsif($main::options{job_xdays_around_today   }) { &job_xdays_around_today   ; }
+  else
+    {
+      die "You did not give me a job.";
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+}
+#
+sub job_tag_match
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(!exists($main::options{tag}))
+    {
+      die "I need at least a tag.";
+    }
+
+  while (<>)
+    {
+      my($tags);
+
+      if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
+	{
+	  $this_day     = $_;
+	  $day_of_month = $1;
+	  $month        = $::month_names__short2no{$2};
+	  $year         = $3;
+
+	  $date = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+
+	  if (0 && $main::options{debug})
+	    {
+	      printf STDERR "=%d: %s=>'%s',%s=>%d\n",__LINE__
+		,'$this_day',$this_day
+		,'$day_of_month',$day_of_month
+		;
+	    }
+	}
+      elsif( m/^[^\s]/ )
+	{
+	}
+
+      # extract the tag list;
+      # check whether the tag specified is included;
+      elsif( ( $tags ) = m/\[([^\]]+)\]/ )
+	{
+	  if( $main::options{from} le $date && $date le $main::options{to} )
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$date',$date
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	    }
+	  else
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$date',$date
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	      next;
+	    }
+
+	  if ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT
+	    {
+	      if( $printed_days{$this_day} )
+		{
+		}
+	      else
+		{
+		  print         $this_day;
+		  $printed_days{$this_day} = 1;
+		}
+
+	      print;
+	    }
+        }
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_work_at
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(!exists($main::options{company_tag}))
+    {
+      die "I need at least the company tag.";
+    }
+
+  my($company_tag) = $main::options{company_tag};
+  my($pure_company_tag);
+
+  $::total_work__min = 0;
+
+  my($break_min_today) = 0;
+  my($total_min_today) = 0;
+  my( $work_min_today) = 0;
+
+  &work_at::initialise;
+
+  # within this loop quite some `local'-s are being used,
+  # because this procedure was originally written in perl4;
+
+  my($date) = '    -  -  ';
+
+  while (<>)
+    {
+      chop;
+
+      my($other_tags);
+
+      if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
+	{
+	  $this_day     = $_;
+	  $day_of_month = $1;
+	  $month        = $::month_names__short2no{$2};
+	  $year         = $3;
+
+	  $date = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+
+	  if (0 && $main::options{debug})
+	    {
+	      printf STDERR "=%d: %s=>'%s',%s=>%d\n",__LINE__
+		,'$this_day',$this_day
+		,'$day_of_month',$day_of_month
+		;
+	    }
+
+	  $break_min_today = 0;
+	  $total_min_today = 0;
+	  $work_min_today  = 0;
+
+	  &work_at::set_day;
+	}
+      elsif(m/^\t(\d\d):(\d\d) \.\. (\d\d):(\d\d)=(\w\w):(\w\w)=(\w\w):(\w\w)\+(\d\d):(\d\d)--S:\w\w\w:\w\w\((\w\w\w)\) \[(work\@$company_tag(,.+)?)\]$/)
+	{
+	  local($start_hh,$start_mm) = ( $1, $2); local($start_min) = $start_hh * 60 + $start_mm;
+	  local($end_hh  ,$end_mm  ) = ( $3, $4); local($end_min  ) = $end_hh   * 60 + $end_mm;
+	  local($total_hh,$total_mm) = ( $5, $6);
+	  local($work_hh ,$work_mm ) = ( $7, $8);
+	  local($break_hh,$break_mm) = ( $9,$10);
+	  local($target_hhh        ) = ($11    );
+	  local($work_AT           ) = ($12);
+
+	  if( $main::options{from} le $date && $date le $main::options{to} )
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$date',$date
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	    }
+	  else
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$date',$date
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	      next;
+	    }
+
+	  my($other_tags_ALL,$other_tags_separator,$comment_tags);
+
+	  ($pure_company_tag,$other_tags_ALL,$other_tags_separator,$other_tags,$comment_tags) =
+	    $work_AT =~ m/^ work \@ (?<pure_company_tag>[^,]+) (?<other_tags_ALL> (,) (?<other_tags>[^\/]+) (?<comment_tags>.*) )? $/x;
+
+	  if(defined($other_tags_ALL))
+	    {
+	      $other_tags_alt_separator = '|';
+	      $other_tags           	=~ s/,/|/g;
+	    }
+	  else
+	    {
+	      $other_tags_ALL         = '';
+	      $other_tags_alt_separator = '';
+	      $other_tags           	= '';
+	    }
+
+	  local($total_min__computed) = $end_min - $start_min;
+
+	  if ("$total_hh:$total_mm" eq 'HH:MM') # concerns `total' time
+	    {
+	    }
+	  else
+	    {
+	      local($total_min) = $total_hh * 60 + $total_mm;
+
+	      if(   $main::options{complain_about_manual_computing}
+		 && ($total_min__computed != $total_min)
+		 )
+		{
+		  printf STDERR "=%d: %s=>%d,%s=>%d,%s=>%d\n",__LINE__
+		    ,'$.',$.
+		    ,'$total_min__computed',$total_min__computed
+		    ,'$total_min'          ,$total_min
+		    ;
+		  warn "manual computing is not that easy ... - sum";
+		}
+	    }
+
+	  local($total_min) = $total_min__computed;
+	  $total_min_today += $total_min;
+
+	  local($break_min)  = $break_hh  * 60 + $break_mm;
+	  $break_min_today += $break_min;
+
+	  local($work_min__computed) = $total_min__computed - $break_min;
+
+	  if ("$work_hh:$work_mm" eq 'HH:MM') # concerns `work' time
+	    {
+	    }
+	  else
+	    {
+	      local($work_min)   = $work_hh   * 60 + $work_mm ;
+
+	      if  (   (($work_min+$break_min) != $total_min)
+		   && $main::options{complain_about_manual_computing}
+		   )
+		{
+		  printf STDERR "=%d: %s=>%d,%s=>%d,%s=>%d,%s=>%d\n",__LINE__
+		    ,'$.',$.
+		    ,'$work_min' ,$work_min
+		    ,'$break_min',$break_min
+		    ,'$total_min',$total_min
+		    ;
+		  warn "manual computing is not that easy ... - sum-break";
+		}
+	    }
+
+	  local($work_min) = $work_min__computed;
+
+	  $work_min_today  += $work_min;
+
+	  $::total_work__min += $work_min;
+
+	  &work_at::proc_entry
+	    ( 'date' => $date
+
+	    , 'start_hh' => $start_hh , 'start_mm' => $start_mm
+	    ,   'end_hh' =>   $end_hh ,   'end_mm' =>   $end_mm
+
+	    , 'break_hh'  => $break_hh  , 'break_mm'        => $break_mm
+	    , 'break_min' => $break_min , 'break_min_today' => $break_min_today
+
+	    , 'total_min' => $total_min , 'total_min_today' => $total_min_today
+	    ,  'work_min' =>  $work_min ,  'work_min_today' =>  $work_min_today
+
+	    , 'total_work__min' => $::total_work__min
+	    , 'target_hhh' => $target_hhh
+
+	    , 'pure_company_tag'         => $pure_company_tag
+	    , 'other_tags_ALL'           => $other_tags_ALL
+	    , 'other_tags_alt_separator' => $other_tags_alt_separator
+	    , 'other_tags'               => $other_tags
+	    , 'comment_tags'             => defined($comment_tags) ? $comment_tags : ''
+
+	    , 'this_day' => $this_day
+	    );
+	}
+
+      # when does this match???
+
+      elsif (m/^\t\w\w:\w\w \.\. \w\w:\w\w=(\w\w):(\w\w)=(\w\w):(\w\w)\+\d\d:\d\d--S:\w\w\w:\w\w\(\w\w\w\) \[work\@$company_tag(,.+)?\]$/)
+	{
+	  print $_,"\n" if $main::options{echo_the_source_p};
+	}
+
+      elsif (m/work\@$company_tag/)
+	{
+	  printf STDERR "=%d: %s=>%d,%s=>'%s' // %s\n",__LINE__
+	    ,'$.',$.
+	    ,'$_',$_
+	    ,"mysteriously matching [work\@${company_tag}]"
+	    ;
+	  print $_,"\n" if $main::options{echo_the_source_p};
+	}
+      else
+	{
+	  print $_,"\n" if $main::options{echo_the_source_p};
+	}
+    }
+
+  &work_at::terminalise;
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_yearly_events
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  ##################################################
+  # may only be applied to the region within diary,
+  # where we find the yearly events;
+  ##################################################
+
+  while(<>)
+    {
+      chomp;
+
+      my($year,$month,$day,$text);
+      my($long_month_name);
+
+      if(($day,$month,$year,$text) = m/^%%\(diary-anniversary\s+(\d+)\s+(\d+)\s+(\d+)\)\s*(.*)$/)
+	{
+	  my($short_month_name) = $::short_month_names[$month];
+
+	  $text =~ s/\s*:\s*/: /;
+
+	  printf "%02.2d %s %s\n\tHH:MM %s\n"
+	    ,$day
+	    ,$short_month_name
+	    ,$main::options{this_year}
+	    ,$text
+	    ;
+	}
+      elsif(m/^%%\(diary-.*\)\s*$/)
+	{}
+      elsif(m/^\s*$/)
+	{
+	}
+      elsif(($day,$long_month_name,$text) = m/^(\d+)\s+(\S+)\s+(.+)$/)
+	{
+	  $text =~ s/\s*:\s*/: /;
+
+	  printf "%02.2d %s %s\n\tHH:MM %s\n"
+	    ,$day
+	    , $::month_names__long2short{$long_month_name}
+	    ,$main::options{this_year}
+	    ,$text
+	    ;
+	}
+      else
+	{
+	  warn;
+	}
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_easter_etc
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$main::options{this_year}',$main::options{this_year}
+    if 0 && $main::options{debug};
+
+  use Date::Calc qw( Easter_Sunday Add_Delta_Days );
+
+  my(@table) =
+      ( { offset => -48 , name => 'Carnival Monday = Rosenmontag = Veille du Mardi Gras'                     }
+      , { offset => -47 , name => 'Mardi Gras = Karnevalsdienstag = Mardi Gras'                              }
+      , { offset => -46 , name => 'Ash Wednesday = Aschermittwoch = Mercredi des Cendres'                    }
+      , { offset =>  -7 , name => 'Palm Sunday = Palmsonntag = Dimanche des Rameaux'                         }
+      , { offset =>  -2 , name => 'Good Friday = Karfreitag = Vendredi Saint'                                }
+      , { offset =>  -1 , name => 'Easter Saturday = Ostersamstag = Samedi de Paques'                        }
+      , { offset =>   0 , name => 'Easter Sunday = Ostersonntag = Dimanche de Paques'                        }
+      , { offset =>  +1 , name => 'Easter Monday = Ostermontag = Lundi de Paques'                            }
+      , { offset => +39 , name => 'Ascension Day = Christi Himmelfahrt (= Vatertag (-> BuHa!!!)) = Ascension'             }
+      , { offset => +49 , name => 'Whitsunday = Pfingstsonntag = Dimanche de Pentecote -- Karneval-Berlin.de'                      }
+      , { offset => +50 , name => 'Whitmonday = Pfingstmontag = Lundi de Pentecote'                          }
+      , { offset => +60 , name => 'Corpus Christi Day = Fronleichnam = Fete-Dieu -- arbeitsfreier Tag für Permies in Bayern, Hessen, ... (nicht Berlin), aber ...' }
+      );
+
+  foreach my $rec ( @table )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	,'$rec->{offset}',$rec->{offset}
+	if 0 && $main::options{debug};
+
+      my(%date);
+      ($date{year},$date{month},$date{day}) = Add_Delta_Days( Easter_Sunday($main::options{this_year}) , $rec->{offset} );;
+
+      printf STDERR "=%s,%d,%s: %s=>{%04d-%02d-%02d}\n",__FILE__,__LINE__,$proc_name
+
+	,$rec->{name}
+	,$date{year},$date{month},$date{day}
+
+	if 0 && $main::options{debug};
+
+      printf STDOUT "%02d %s %04d\n\tHH:MM name of day: %s\n"
+	,$date{day}
+	,$::short_month_names[$date{month}]
+	,$date{year}
+        ,$rec->{name}
+	;
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_advent_etc
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$main::options{this_year}',$main::options{this_year}
+    if 0 && $main::options{debug};
+
+  # we are seeking "Advent#4":
+  #
+  #   from http://de.wikipedia.org/wiki/Adventssonntag :
+  # 	... 
+  # 	Der letzte Sonntag vor dem 25. Dezember, womit sich als frühestmögliches Datum der 18. und als spätestmögliches der 24. Dezember ergibt. (JH: Sonntag zwischen YYYY-12-18..24)
+  # 	...
+
+# I derived my code here from
+#
+#   "man Date::Calc / 9)": How do I calculate the last and the next Saturday for any given date?
+#
+## ...
+##use Date::Calc qw( Today Day_of_Week Add_Delta_Days
+##		     Day_of_Week_to_Text Date_to_Text );
+## ...
+
+  use Date::Calc qw( Day_of_Week Add_Delta_Days
+		     Day_of_Week_to_Text Date_to_Text );
+
+  my($dow_of_Sunday) = 7; # 7 = Sunday
+
+  my(@YYYY_12_25) = ($main::options{this_year},12,25);
+
+  my($dow_of_YYYY_12_25) = Day_of_Week(@YYYY_12_25);
+  my(@prev);
+  my(@next);
+
+  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+    ,'$dow_of_YYYY_12_25',$dow_of_YYYY_12_25
+    ,'$dow_of_Sunday',$dow_of_Sunday
+    ,'...'
+    if 0 && $main::options{debug};
+
+  if   ($dow_of_YYYY_12_25 == $dow_of_Sunday) # i.e. is this YYYY-12-15 a Sunday
+    {
+      @prev = Add_Delta_Days(@YYYY_12_25,-7);
+      @next = Add_Delta_Days(@YYYY_12_25,+7);
+    }
+  elsif($dow_of_YYYY_12_25  < $dow_of_Sunday)
+    {
+      @next = Add_Delta_Days(@YYYY_12_25,
+			     $dow_of_Sunday - $dow_of_YYYY_12_25);
+      @prev = Add_Delta_Days(@next,-7);
+    }
+  elsif($dow_of_YYYY_12_25  > $dow_of_Sunday) # which isn't actually possible, as now dow code can be greater than that one of Sunday, but just for completeness, and because the original code included it ...
+    {
+      die '...';
+
+      @prev = Add_Delta_Days(@YYYY_12_25,
+			     $dow_of_Sunday - $dow_of_YYYY_12_25);
+      @next = Add_Delta_Days(@prev,+7);
+    }
+  else
+    {
+      die '...';
+    }
+
+  if(0)
+    {
+      my($dow_text_of_Sunday) = Day_of_Week_to_Text($dow_of_Sunday);
+
+      printf STDERR "=%s,%d,%s: %s=>({%s},{%s},{%s}) // %s\n",__FILE__,__LINE__,$proc_name
+	,'@next',$next[0],$next[1],$next[2]
+	,'...'
+	if 1 && $main::options{debug};
+
+      print
+	"YYYY_12_25 is:      " ,
+	' ' x length($dow_text_of_Sunday) ,
+	Date_to_Text(@YYYY_12_25) ,
+	"\n" ;
+      print "Last $dow_text_of_Sunday was:     ", Date_to_Text(@prev),  "\n";
+      print "Next $dow_text_of_Sunday will be: ", Date_to_Text(@next),  "\n";
+
+    ## This will print something like:
+
+    ##   YYYY_12_25 is:              Sun 12-Apr-1998
+    ##   Last Saturday was:     Sat 11-Apr-1998
+    }
+
+  my(@Advent_4) = @prev;
+
+  my(@table) =
+      ( { offset => -35 , name => 'Advent#-1 -- http://de.wikipedia.org/wiki/Volkstrauertag : ... seit 1952 ... -- Sunday after YYYY-11-11 -> http://de.wikipedia.org/wiki/Waffenstillstand_von_Compiègne' }
+      , { offset => -32 , name => 'Advent#-0.5 -- http://de.wikipedia.org/wiki/Buß-_und_Bettag // in manchen Bundesländern (Sachsen) ein Feiertag' }
+      , { offset => -28 , name => 'Advent#0 -- http://de.wikipedia.org/wiki/Totensonntag -> http://de.wikipedia.org/wiki/Ewigkeitssonntag' }
+      , { offset => -21 , name => 'Advent#1' }
+      , { offset => -14 , name => 'Advent#2' }
+      , { offset =>  -7 , name => 'Advent#3' }
+      , { offset =>   0 , name => sprintf 'Advent#4 -- the last Sunday before %s-12-25',$main::options{this_year} }
+      );
+
+  foreach my $rec ( @table )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	,'$rec->{offset}',$rec->{offset}
+	if 0 && $main::options{debug};
+
+      my(%date);
+      ($date{year},$date{month},$date{day}) = Add_Delta_Days( @Advent_4 , $rec->{offset} );;
+
+      printf STDERR "=%s,%d,%s: %s=>{%04d-%02d-%02d}\n",__FILE__,__LINE__,$proc_name
+
+	,$rec->{name}
+	,$date{year},$date{month},$date{day}
+
+	if 0 && $main::options{debug};
+
+      printf STDOUT "%02d %s %04d\n\tHH:MM name of day: %s\n"
+	,$date{day}
+	,$::short_month_names[$date{month}]
+	,$date{year}
+        ,$rec->{name}
+	;
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_muttertag
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$main::options{this_year}',$main::options{this_year}
+    if 0 && $main::options{debug};
+
+  # we are seeking "Muttertag":
+  #
+  #   according to http://de.wikipedia.org/wiki/Muttertag : 
+  # 	... 
+  # 	am zweiten Sonntag im Mai (JH: YYYY-05-08..14, the last Sunday before YYYY-05-15, because within -08..14 there MUST be two Sundays)
+  # 	...
+
+# I derived my code here from
+#
+#   "man Date::Calc / 9)": How do I calculate the last and the next Saturday for any given date?
+#
+## ...
+##use Date::Calc qw( Today Day_of_Week Add_Delta_Days
+##		     Day_of_Week_to_Text Date_to_Text );
+## ...
+
+  use Date::Calc qw( Day_of_Week Add_Delta_Days
+		     Day_of_Week_to_Text Date_to_Text );
+
+  my($dow_of_Sunday) = 7; # 7 = Sunday
+
+  my(@YYYY_05_15) = ($main::options{this_year},5,15);
+
+  my($dow_of_YYYY_05_15) = Day_of_Week(@YYYY_05_15);
+  my(@prev);
+  my(@next);
+
+  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+    ,'$dow_of_YYYY_05_15',$dow_of_YYYY_05_15
+    ,'$dow_of_Sunday',$dow_of_Sunday
+    ,'...'
+    if 0 && $main::options{debug};
+
+  if   ($dow_of_YYYY_05_15 == $dow_of_Sunday) # i.e. is this YYYY-11-23 a Sunday
+    {
+      @prev = Add_Delta_Days(@YYYY_05_15,-7);
+      @next = Add_Delta_Days(@YYYY_05_15,+7);
+    }
+  elsif($dow_of_YYYY_05_15  < $dow_of_Sunday)
+    {
+      @next = Add_Delta_Days(@YYYY_05_15,
+			     $dow_of_Sunday - $dow_of_YYYY_05_15);
+      @prev = Add_Delta_Days(@next,-7);
+    }
+  elsif($dow_of_YYYY_05_15  > $dow_of_Sunday)
+    {
+      @prev = Add_Delta_Days(@YYYY_05_15,
+			     $dow_of_Sunday - $dow_of_YYYY_05_15);
+      @next = Add_Delta_Days(@prev,+7);
+    }
+  else
+    {
+      die '...';
+    }
+
+  if(0)
+    {
+      my($dow_text_of_Sunday) = Day_of_Week_to_Text($dow_of_Sunday);
+
+      printf STDERR "=%s,%d,%s: %s=>({%s},{%s},{%s}) // %s\n",__FILE__,__LINE__,$proc_name
+	,'@next',$next[0],$next[1],$next[2]
+	,'...'
+	if 1 && $main::options{debug};
+
+      print
+	"YYYY_05_15 is:      " ,
+	' ' x length($dow_text_of_Sunday) ,
+	Date_to_Text(@YYYY_05_15) ,
+	"\n" ;
+      print "Last $dow_text_of_Sunday was:     ", Date_to_Text(@prev),  "\n";
+      print "Next $dow_text_of_Sunday will be: ", Date_to_Text(@next),  "\n";
+
+    ## This will print something like:
+
+    ##   YYYY_05_15 is:              Sun 12-Apr-1998
+    ##   Last Saturday was:     Sat 11-Apr-1998
+    }
+
+  my(@BuB) = @prev;
+
+  my(@table) =
+      ( { offset =>   0 , name => 'http://de.wikipedia.org/wiki/Muttertag' }
+      );
+
+  foreach my $rec ( @table )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	,'$rec->{offset}',$rec->{offset}
+	if 0 && $main::options{debug};
+
+      my(%date);
+      ($date{year},$date{month},$date{day}) = Add_Delta_Days( @BuB , $rec->{offset} );;
+
+      printf STDERR "=%s,%d,%s: %s=>{%04d-%02d-%02d}\n",__FILE__,__LINE__,$proc_name
+
+	,$rec->{name}
+	,$date{year},$date{month},$date{day}
+
+	if 0 && $main::options{debug};
+
+      printf STDOUT "%02d %s %04d\n\tHH:MM name of day: %s\n"
+	,$date{day}
+	,$::short_month_names[$date{month}]
+	,$date{year}
+        ,$rec->{name}
+	;
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_xdays_around_today
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+    ,'$main::options{this_year}',$main::options{this_year}
+    ,'$main::options{what_dow}',$main::options{what_dow}
+    ,'...'
+    if 0 && $main::options{debug};
+
+  use Date::Calc qw( Today Day_of_Week Add_Delta_Days
+		     Day_of_Week_to_Text Date_to_Text );
+
+##$searching_dow = 6; # 6 = Saturday
+  my($searching_dow) = $main::options{what_dow};
+
+  my(@today) = Today();
+
+  my($current_dow) = Day_of_Week(@today);
+  my(@prev,@next);
+
+  if ($searching_dow == $current_dow)
+    {
+      @prev = Add_Delta_Days(@today,-7);
+      @next = Add_Delta_Days(@today,+7);
+    }
+  elsif($searching_dow > $current_dow)
+    {
+      @next = Add_Delta_Days(@today,
+			     $searching_dow - $current_dow);
+      @prev = Add_Delta_Days(@next,-7);
+    }
+  elsif($searching_dow < $current_dow)
+    {
+      @prev = Add_Delta_Days(@today,
+			     $searching_dow - $current_dow);
+      @next = Add_Delta_Days(@prev,+7);
+    }
+  else
+    {
+      die '...';
+    }
+
+  my($dow) = Day_of_Week_to_Text($searching_dow);
+
+  print "Today is:      ", ' ' x length($dow),
+			       Date_to_Text(@today), "\n";
+  print "Last $dow was:     ", Date_to_Text(@prev),  "\n";
+  print "Next $dow will be: ", Date_to_Text(@next),  "\n";
+
+## This will print something like:
+## 
+##   Today is:              Sun 12-Apr-1998
+##   Last Saturday was:     Sat 11-Apr-1998
+##   Next Saturday will be: Sat 18-Apr-1998
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+package aux;
+
+sub min_2_hhh_mm
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  #my(%param) = @_;
+  my($min) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$file_name',$file_name
+      if 0 && $main::options{debug};
+
+  &discard_unused_variables($file_name) if 0;
+
+  my($mm) =  $min        % 60;
+  my($hh) = ($min - $mm) / 60;
+
+  $return_value = sprintf "%03.3d:%02.2d",$hh,$mm;
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub min_2_hh_mm
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  #my(%param) = @_;
+  my($min) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$file_name',$file_name
+      if 0 && $main::options{debug};
+
+  &discard_unused_variables($file_name) if 0;
+
+  my($mm) =  $min        % 60;
+  my($hh) = ($min - $mm) / 60;
+
+  $return_value = sprintf "%02.2d:%02.2d",$hh,$mm;
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub min_2_hhDOTmm
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  #my(%param) = @_;
+  my($min) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$file_name',$file_name
+      if 0 && $main::options{debug};
+
+  &discard_unused_variables($file_name) if 0;
+
+  $return_value = sprintf "%0.2f",($min/60);
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub print_structure
+{
+  my($fh,$prefix,$name,$ptr) = @_;
+
+  if(!defined($ptr))
+    {
+      die "cannot print this structure";
+    }
+  elsif(ref($ptr) eq 'ARRAY')
+    {
+      foreach (0 .. $#{$ptr})
+	{
+	  &print_structure
+	    ($fh
+	    ,$prefix
+	    , $name . '[' . $_ . ']'
+	    ,$ptr->[$_]
+	    );
+	}
+    }
+  elsif(ref($ptr) eq 'HASH')
+    {
+      foreach(sort keys %{$ptr})
+	{
+	  &print_structure
+	    ($fh
+	    ,$prefix
+	    , $name . '{' . $_ . '}'
+	    ,$ptr->{$_}
+	    );
+	}
+    }
+  else
+    {
+      print $fh "$prefix$name=>{$ptr}\n";
+    }
+}
+#
+package work_at;
+
+sub initialise
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  $::fh_tbl_roff_mm = new FileHandle ">$ENV{'HOME'}/diary.month-tbl" ||
+    die "cannot open month tbl: $! -";
+
+  $::fh_tbl_jhts = new FileHandle ">$ENV{'HOME'}/diary.JHts" ||
+    die "cannot open month tbl: $! -";
+
+  $::fh_csv0 = new FileHandle ">$ENV{'HOME'}/diary.work_at.CitiElite.csv" ||
+    die "cannot open month tbl #1: $! -";
+
+  $::fh_csv1 = new FileHandle ">$ENV{'HOME'}/diary.work_at.commerzbankDOTcom.csv" ||
+    die "cannot open month tbl #1: $! -";
+
+  $::fh_csv2 = new FileHandle ">$ENV{'HOME'}/diary.work_at.IDS.csv" ||
+    die "cannot open month tbl #1: $! -";
+
+  $tbl_roff_mm__day_separator = '';
+  $tbl_jhts__day_separator = '';
+
+  %::t = ();
+
+  #                             |           |           |     |work/acc. [min]
+  #                             |           |           |work/acc. |
+  #                             |break/acc. |present/acc.     |    |     |work on code/acc. [min]
+  # date      |start|end  |break|     |present    |work |     |    |work on code/acc.
+  # 2013-06-06|08:45|09:00|00:00|00:00|00:15|00:15|00:15|00:15|0015|HH:MM|0000|06 Jun 2013  Thursday|period-201306|Im_Int_Opr_Maint.Prod.HTTP_listeners
+  # 2013-06-06|09:00|10:00|00:00|00:00|01:00|01:15|01:00|01:15|0060|HH:MM|0000|06 Jun 2013  Thursday|period-201306|Im_Int_Opr_Team
+  # 2013-06-06|10:00|18:00|00:45|00:45|08:00|09:15|07:15|08:30|0435|HH:MM|0000|06 Jun 2013  Thursday|period-201306|Im_Int_Opr_Maint.Prod.HTTP_listeners
+
+  print STDERR <<'prologue';
+
+                            |           |           |     |work/acc. [min]
+                            |           |           |work/acc. |
+                            |break/acc. |present/acc.     |    |     |work on code/acc. [min]
+date      |start|end  |break|     |present    |work |     |    |work on code/acc.
+prologue
+
+  if(1)
+    {                           # >= 2000-03-01        
+      %::CoBa__activity2code =
+        ( 'administration'              => '101'
+        , 'analysis'                    => '102'
+        , 'backup & archiving'          => '103'
+        , 'check operating manual'      => '104'
+        , 'daily system check'          => '105'
+        , 'development'                 => '106'
+        , 'documentation'               => '107'
+        , 'firewall administration'     => '108'
+        , 'firewall cleaning'           => '109'
+        , 'hardware installation'       => '110'
+        , 'IP addresses'                => '111'
+        , 'maintenance'                 => '112'
+        , 'managing'                    => '113'
+        , 'meeting'                     => '114'
+        , 'movement'                    => '115'
+        , 'network architecture'        => '116'
+        , 'network components'          => '117'
+        , 'network management'          => '118'
+        , 'operating'                   => '119'
+        , 'planning'                    => '120'
+        , 'process management'          => '121'
+        , 'project managing'            => '122'
+        , 'quality management'          => '123'
+        , 'scripting'                   => '124'
+        , 'software installation'       => '125'
+        , 'support'                     => '126'
+        , 'testing'                     => '127'
+        , 'training'                    => '128'
+        , 'user account administration' => '129'
+        , 'user account modelling'      => '130'
+        , 'other activities'            => '131'
+        , 'Vacation or Sickness'        => '132'
+        , 'Change Management'           => '133'
+        );
+      %::CoBa__project2code =
+        ( 'business contingency & continuity' => '101'
+        , 'GL&TL Tasks'                       => '102'
+        , 'controlling'                       => '103'
+        , 'resources planning'                => '104'
+        , 'business process'                  => '105'
+        , 'integration process'               => '106'
+        , 'central documentation'             => '107'
+        , 'production tools'                  => '108'
+        , 'help desk 1st level support'       => '109'
+        , 'help desk 2nd level support'       => '110'
+        , 'user accounts SC'                  => '111'
+        , '24h-operating'                     => '112'
+        , 'unix server'                       => '113'
+        , 'unix client'                       => '114'
+        , 'Win NT support production'         => '115'
+        , 'Win NT support ZGO'                => '116'
+        , 'Auftragsformular ZFO'              => '117'
+        , 'logical network'                   => '118'
+        , 'physical network'                  => '119'
+        , 'telecommunication'                 => '120'
+        , 'interfaces & middleware'           => '121'
+        , 'Bloomberg'                         => '122'
+        , 'CARS'                              => '123'
+        , 'Cedel Connect'                     => '124'
+        , 'CODOS web'                         => '125'
+        , 'Computron'                         => '126'
+        , 'Contribution'                      => '127'
+        , 'Eurex / DTB'                       => '128'
+        , 'Euro MTS'                          => '129'
+        , 'GL'                                => '130'
+        , 'Global One'                        => '131'
+        , 'Gloss'                             => '132'
+        , 'Gloss HV'                          => '133'
+        , 'Lotus Notes'                       => '134'
+        , 'Margin Man'                        => '135'
+        , 'MIDOS'                             => '136'
+        , 'MIPS'                              => '137'
+        , 'Murex Bonds'                       => '138'
+        , 'Murex Cash'                        => '139'
+        , 'Murex Currency'                    => '140'
+        , 'Murex Equities'                    => '141'
+        , 'Murex hist. sim.'                  => '142'
+        , 'Paribas'                           => '143'
+        , 'PRIST / MARI'                      => '144'
+        , 'PRIST'                             => '144' # JH's shortcut to the official code 'PRIST / MARI'
+        , 'Reuters'                           => '145'
+        , 'RTS'                               => '146'
+        , 'Secitity'                          => '147'
+        , 'Summit ZGB'                        => '148'
+        , 'Summit ZTD'                        => '149'
+        , 'Swift'                             => '150'
+        , 'Swiskey'                           => '151'
+        , 'Sybase'                            => '152'
+        , 'user account modelling'            => '153'
+        , 'XETRA'                             => '154'
+        , 'ZBS'                               => '155'
+        , 'ZGB'                               => '156'
+        , 'ZGE'                               => '157'
+        , 'ZGO'                               => '158'
+        , 'ZRC'                               => '159'
+        , 'ZRC reporting'                     => '160'
+        , 'ZRev'                              => '161'
+        , 'ZTD'                               => '162'
+        , 'WTS'                               => '163'
+        , 'Login'                             => '164'
+        , 'back office / risk applications'   => '165'
+        , 'projects in PDF'                   => '166'
+        , 'quality management'                => '167'
+        , 'application development & cust'    => '168'
+        , 'backup & archiving'                => '169'
+        , 'Oracle'                            => '170'
+        , 'EMC disk usage assessment'         => '171'
+        , 'Open Positions'                    => '172'
+        , 'AutoSys'                           => '173'
+        , 'Monitoring Reliability'            => '174'
+        , 'PCM'                               => '175' # JH's shortcut to the official code 'OTC ... Collateral ...'
+        , 'OTC Collateral'                    => '175' # to be renamed
+        , 'WARP'                              => '176'
+        , 'Panorama Collateral Management'    => '177' # to be deleted
+        , 'holiday'                           => '199'
+        );
+    }
+  else
+    {                           # < 2000-03-01
+      %::CoBa__activity2code =
+        ( 'Administration'                            => '02'
+        , 'Application_Support'                       => '03'
+        , 'Development                              ' => '04'
+        , 'Documentation                            ' => '05'
+        , 'Software Installation                    ' => '06'
+        , 'Level-1 Support / Helpdesk               ' => '07'
+        , 'Meeting                                  ' => '08'
+        , 'Problem_Solving'                           => '09'
+        , 'Project Management                       ' => '10'
+        , 'Training                                 ' => '11'
+        , '24H-Operating                            ' => '12'
+        , 'Daily_System_Check'                        => '13'
+        , 'On-Call Support                          ' => '14'
+        , 'Backup/Restore                           ' => '15'
+        , 'Movement                                 ' => '16'
+        , 'Testing                                  ' => '17'
+        , 'Planning                                 ' => '18'
+        , 'Firewall administration                  ' => '19'
+        , 'Hardware Installation.Maintenance, Moving' => '20'
+        , 'Scripting                                ' => '21'
+        , 'Other Activity                           ' => '22'
+        );
+
+      %::CoBa__project2code =
+        ( 'Cars                       ' => '??'
+        , 'Bloomberg                  ' => '??'
+        , 'Cedel                      ' => '??'
+        , 'Computron                  ' => '??'
+        , 'Contribution               ' => '??'
+        , 'Eurex /DTB                 ' => '??'
+        , 'GL                         ' => '??'
+        , 'Global One                 ' => '??'
+        , 'Gloss                      ' => '??'
+        , 'Lotus Notes                ' => '??'
+        , 'MIPS                       ' => '??'
+        , 'Murex Cash                 ' => '??'
+        , 'Murex Currency             ' => '??'
+        , 'Murex Equities             ' => '??'
+        , 'Murex Historical Simulation' => '??'
+        , 'Network                    ' => '??'
+        , 'Reuters                    ' => '??'
+        , 'Risk_Control'                => '19'
+        , 'Summit ZGB                 ' => '??'
+        , 'Summit ZTD                 ' => '??'
+        , 'Swift-Alliance             ' => '??'
+        , 'Swiskey                    ' => '??'
+        , 'Sybase                     ' => '??'
+        , 'Unix                       ' => '??'
+        , 'Win NT ZDV                 ' => '??'
+        , 'Win NT ZGO                 ' => '??'
+        , 'Xetra                      ' => '??'
+        , '24H-Operating              ' => '??'
+        , 'Development Support        ' => '??'
+        , 'Other Projects             ' => '??'
+        );
+    }
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub terminalise
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if (1)
+    {
+      printf STDERR "=%d: %s=>%04.4d,%s=>%s\n",__LINE__
+	,'$::total_work__min',$::total_work__min
+	,'$::total_work__{hh,mm}' ,&aux::min_2_hhh_mm($::total_work__min)
+	;
+
+      printf $::fh_tbl_roff_mm
+	 "=\n|||||||%s|%s|%4.4d\n"
+	,&aux::min_2_hh_mm($::total_work__min)
+	,&aux::min_2_hh_mm($::total_work__min)
+	,$::total_work__min
+	;
+      printf $::fh_tbl_roff_mm
+	 ".\\\" =%d: %s=>%04.4d,%s=>%s // %s\n",__LINE__
+	,'$::total_work__min',$::total_work__min
+	,'$::total_work__{hh,mm}',&aux::min_2_hhh_mm($::total_work__min)
+	,&aux::min_2_hhh_mm($::total_work__min)
+	if 0;
+
+      printf $::fh_tbl_jhts
+	 "-----------+-------+-------+-------+-------+-------+-------+-------+-------+-------+----------\n"
+        ."                             Geleistete Gesamtstundenzahl: |%-6s |%-6s |  %4.4d |\n"
+	,&aux::min_2_hh_mm($::total_work__min)
+	,&aux::min_2_hh_mm($::total_work__min)
+	,$::total_work__min
+	;
+    }
+
+  &aux::print_structure
+    (\*STDERR
+     ,(sprintf "=%s,%d,%s: ",__FILE__,__LINE__,$proc_name)
+     ,'$::t'
+     ,\%::t
+     ) if 0;
+
+  if(1)
+    {
+      {
+	# the header line
+
+	$::fh_csv0->print("\t,");	# the column title for the row titles
+	$::fh_csv0->print( join( ','
+			       , map { "^$_" }
+				     (sort keys %{ $::t{days} })
+			       ) );
+	$::fh_csv0->print(",^*\n");
+      }
+
+      my     ($tag);
+      foreach $tag (sort keys %{ $::t{tags} })
+	{
+	  $::fh_csv0->print("'$tag\t,");
+
+	  $::fh_csv0->print( join( ','
+				 , map {
+				         sprintf "%6.2f"
+					   , ( exists($::t{days}{$_}{$tag}) ? $::t{days}{$_}{$tag}{work_min} / 60 : 0 )
+				       }
+				       (sort keys %{ $::t{days} })
+				 ) );
+
+	  $::fh_csv0->print( ','
+			   , ( sprintf "%6.2f", ( $::t{tags}{$tag}{work_min} / 60 ) )
+			   , "\n"
+			   );
+	}
+
+      if(exists($::t{work_min}))
+	{
+	  # the footer line with all the sums
+
+	  $::fh_csv0->print("'*\t,");	# the column title for the row titles
+	  $::fh_csv0->print( join( ','
+				 , map {
+					 sprintf "%6.2f", ( $::t{days}{$_}{work_min} / 60 )
+				       }
+				       (sort keys %{ $::t{days} })
+				 ) );
+	  $::fh_csv0->print( ','
+			   , ( sprintf "%6.2f", ( $::t{work_min} / 60 ) )
+			   ,"\n");
+	}
+    }
+
+  $::fh_tbl_roff_mm->close;
+  $::fh_tbl_jhts->close;
+  $::fh_csv0->close;
+  $::fh_csv1->close;
+  $::fh_csv2->close;
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub set_day
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  print $_,"\n" if $main::options{echo_the_source_p};
+
+  print $::fh_tbl_roff_mm $tbl_roff_mm__day_separator;
+  $tbl_roff_mm__day_separator = "_\n";
+
+  print $::fh_tbl_jhts $tbl_jhts__day_separator;
+  $tbl_jhts__day_separator = "-----------+-------+-------+-------+-------+-------+-------+-------+-------+-------+----------\n";
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub proc_entry
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  my($start) = sprintf "%02.2d:%02.2d",$param{start_hh},$param{start_mm};
+  my(  $end) = sprintf "%02.2d:%02.2d",$param{  end_hh},$param{  end_mm};
+  my($break) = sprintf "%02.2d:%02.2d",$param{break_hh},$param{break_mm};
+
+  push( @{ $::t{days}{ $param{date} }{ $param{other_tags} }{blocks} }
+      , { 'start' => $start , 'end' => $end , 'break' => $break
+	, 'work_min' => $param{work_min}
+	}
+      );
+  $::t{days}{ $param{date} }                      {work_min}  = $param{work_min_today};
+  $::t{days}{ $param{date} }{ $param{other_tags} }{work_min} += $param{work_min	     };
+  $::t                                            {work_min} += $param{work_min	     };
+  $::t{tags}                { $param{other_tags} }{work_min} += $param{work_min	     };
+
+  printf STDERR
+    ( "%s|%s|%s"
+     ."|%s|%s"			# breaks
+     ."|%s|%s"			# total 
+
+     ."|%s"			# worked in this period
+
+     ."|%s"			# worked in total per day
+     ."|%4.4d"			# worked in total per day [minutes]
+
+     ."|%s"			# worked on this code in total per day 
+     ."|%4.4d"			# worked on this code in total per day [minutes]
+
+     ."|%s%s%s%s\n"
+     )
+
+    ,$param{date},$start,$end
+
+    ,&aux::min_2_hh_mm($param{break_min      })
+    ,&aux::min_2_hh_mm($param{break_min_today})
+
+    ,&aux::min_2_hh_mm($param{total_min      })
+    ,&aux::min_2_hh_mm($param{total_min_today})
+
+    ,&aux::min_2_hh_mm($param{work_min      })
+
+    ,&aux::min_2_hh_mm($param{work_min_today})
+    ,                  $param{work_min      }
+
+    ,&aux::min_2_hh_mm($::t{days}{ $param{date} }{ $param{other_tags} }{work_min})
+    ,                  $::t{days}{ $param{date} }{ $param{other_tags} }{work_min}
+
+    ,$param{this_day}
+
+    ,$param{other_tags_alt_separator}
+    ,$param{other_tags}
+    ,$param{comment_tags}
+    ;
+
+  printf $::fh_tbl_roff_mm
+
+      "%s|%s|%s"
+    . "|%s|%s"
+    . "|%s|%s"
+    . "|%s|%s|%4.4d"
+    . "%s%s\n"
+
+    ,$param{date},$start,$end
+
+    ,&aux::min_2_hh_mm($param{break_min      })
+    ,&aux::min_2_hh_mm($param{break_min_today})
+    
+    ,&aux::min_2_hh_mm($param{total_min      })
+    ,&aux::min_2_hh_mm($param{total_min_today})
+    
+    ,&aux::min_2_hh_mm($param{work_min      })
+    ,&aux::min_2_hh_mm($param{work_min_today})
+    ,                  $param{work_min      }
+    
+    ,$param{other_tags_alt_separator}
+    ,$param{other_tags}
+    ;
+
+  printf $::fh_tbl_jhts
+
+      "%s | %s | %s"
+    . " | %s | %s"
+    . " | %s | %s"
+    . " | %s | %s |  %4.4d"
+    . " %s %s\n"
+
+    ,$param{date},$start,$end
+
+    ,&aux::min_2_hh_mm($param{break_min      })
+    ,&aux::min_2_hh_mm($param{break_min_today})
+    
+    ,&aux::min_2_hh_mm($param{total_min      })
+    ,&aux::min_2_hh_mm($param{total_min_today})
+    
+    ,&aux::min_2_hh_mm($param{work_min      })
+    ,&aux::min_2_hh_mm($param{work_min_today})
+    ,                  $param{work_min      }
+    
+    ,$param{other_tags_alt_separator}
+    ,$param{other_tags}
+    ;
+
+  {
+    my(@date_as_list) = split(/-/,$param{date});
+
+    my(@other_tags) = split(/\|/,$param{other_tags});
+    $other_tags[0] =~ s/ +$//;
+
+    # there is a somehow weird `:' right in the end of the line,
+    # but the commerzbank.com timesheet file lines also have it (obviously for whatever *other* reason),
+    # but anyway, I don't need to care so far;
+
+    my($project)  = $other_tags[0];
+    my($activity) = $other_tags[1];
+    if($project eq 'projects in PDF')
+      {
+	$activity = 'other activities';
+      }
+
+    printf $::fh_csv1
+
+	"%s:%s:%s"
+      . ":%s"
+      . ":%s"
+      . ":%s"
+      . ":%s:%s\n"
+
+      ,$date_as_list[0]
+      , ('(index=0)'
+	,'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
+	)[ $date_as_list[1] ]
+      ,$date_as_list[2]
+
+      ,exists($::CoBa__activity2code{ $activity }) ? $::CoBa__activity2code{ $activity } : "{$activity ???}"
+
+      ,&aux::min_2_hhDOTmm($param{work_min      })
+
+      ,exists($::CoBa__project2code { $project }) ? $::CoBa__project2code { $project } : "{$project ???}"
+
+      ,defined($other_tags[2]) ? $other_tags[2] : ''
+      if 0;
+
+    printf $::fh_csv2
+
+	"%s,%s,%s,%s,%s\n"
+
+      ,$param{date}
+      ,&aux::min_2_hhDOTmm($param{work_min      })
+
+      , defined($other_tags[0]) ? $other_tags[0] : ''
+      , defined($other_tags[1]) ? $other_tags[0] : ''
+      , defined($other_tags[2]) ? $other_tags[0] : ''
+      if 1;
+  }
+
+  printf "\t%s .. %s=%s=%s+%s--S:%s(%s) [%s%s]\n"
+
+    ,$start,$end
+
+    ,&aux::min_2_hh_mm($param{total_min})
+    ,&aux::min_2_hh_mm($param{ work_min})
+
+    ,$break
+
+    ,&aux::min_2_hhh_mm($param{total_work__min}) , $param{target_hhh}
+
+    ,'work' . '@' . $param{pure_company_tag} , $param{other_tags_ALL}
+
+    if $main::options{echo_the_source_p};
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+package local_templates;
+
+sub aux_
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$file_name',$file_name
+      if 0 && $main::options{debug};
+
+  &discard_unused_variables($file_name) if 0;
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}

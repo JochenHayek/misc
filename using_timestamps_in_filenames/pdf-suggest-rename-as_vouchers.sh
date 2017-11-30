@@ -1,49 +1,41 @@
 :
 
-# misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
+# -> README--extracting_timestamps.txt
 
-# -> README--rename.txt
+# misc/using_timestamps_in_filenames/pdf-suggest-*.sh
+# misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
+# misc/using_timestamps_in_filenames/pdf-suggest-rename-versioned.sh
+# misc/using_timestamps_in_filenames/pdf-suggest-touch.sh
 
 ################################################################################
 
-if true
-then :
-  pdfinfo -rawdates 1> /dev/null 2> /dev/null
-  if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
-  then :
-    pdfinfo_options='-rawdates' # the option is available, so let's use it!
-  else :
-    pdfinfo_options=''
-  fi
-elif true
-then :
-  pdfinfo -rawdates 1> /dev/null 2> /dev/null
-  if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
-  then :
-    pdfinfo_options='-meta -rawdates' # the option is available, so let's use it!
-  else :
-    pdfinfo_options='-meta'
-  fi
-elif true
-then :
-  pdfinfo_version=$(pdfinfo -v 2>&1)
+pdfinfo_options=''
 
-  case "$pdfinfo_version" in
-    'pdfinfo version 3.0'*)	# on a Synology Diskstation -- there it lives in the package "xpdf"
-      pdfinfo_options='-meta'
-      ;;
-    'pdfinfo version 0.2'?.*)	# on my other Linuxes etc. (wherever applicable)
-      pdfinfo_options='-meta -rawdates'
-    ##pdfinfo_options='-meta'
-      ;;
-    *)
-      printf 1>&2 "*** %s,%d: %s=>{%s} // %s\n" "$0" "$LINENO" \
-	"\$pdfinfo_version" "$pdfinfo_version" \
-	'unexpected'
-      exit 1
-      ;;
-  esac
+pdfinfo -meta 1> /dev/null 2> /dev/null
+if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+then :
+  pdfinfo_options="${pdfinfo_options} -meta"
 fi
+
+pdfinfo -rawdates 1> /dev/null 2> /dev/null
+if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+then :
+  pdfinfo_options="${pdfinfo_options} -rawdates"
+fi
+#
+# CreationDate:   D:20121116141348+01'00'
+
+# this script does not yet deal with "-isodates"
+
+##pdfinfo -isodates 1> /dev/null 2> /dev/null
+##if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+##then :
+##  pdfinfo_options="${pdfinfo_options} -isodates"
+##fi
+#
+# CreationDate:   2012-11-16T14:13:48+01
+
+################################################################################
 
 ##for filename in "${@}"
 for filename
@@ -52,9 +44,6 @@ do
   test -f "${filename}" || continue
 
   echo "*** ${filename}:"
-
-##pdfinfo -meta -rawdates "${filename}" |
-##pdfinfo -meta 	  "${filename}" |
 
   pdfinfo ${pdfinfo_options} "${filename}" |
 

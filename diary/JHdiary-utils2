@@ -1,0 +1,667 @@
+#! /usr/bin/perl -w
+#! /dvlp/gnu/SunOS5/bin/perl -w
+
+($emacs_Time_stamp) = 'Time-stamp: <2010-01-01 18:07:49 johayek>' =~ m/<(.*)>/;
+
+          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.14 2010/01/01 17:08:03 johayek Exp johayek $'))[1..6])));
+#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/01/01 17:08:03 $'))[1..2])));
+#     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
+#	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
+#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
+
+# usage: 
+#
+#     ...
+
+# purpose:
+#
+#     job_...
+
+# in:
+
+# out:
+
+# requirements:
+
+# restrictions:
+#
+#     ...
+
+{
+  use English;
+  use FileHandle;
+  use strict;
+
+  ##use Date::Calc qw(Add_Delta_Days Today Day_of_Week Day_of_Week_to_Text);
+  ##use Date::Calc qw(Today Add_Delta_Days);
+
+  ##use File::Basename;
+
+  &main;
+}
+#
+sub main
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  # described in:
+  #	camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
+
+  use Getopt::Long;
+  %options = ();
+
+  $main::options{debug} = 1;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$rcs_Id',$rcs_Id
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$emacs_Time_stamp',$emacs_Time_stamp
+    if 0 && $main::options{debug};
+
+  {
+    # defaults for the main::options;
+    
+    $main::options{verbose}			= 0;
+    $main::options{dry_run}		       	= 0;
+    $main::options{version}		       	= 0;
+
+    $main::options{help}			= 0;
+
+    $main::options{job_diff}	= 0;
+    $main::options{job_merge}	= 0;
+    $main::options{job_check_against_duplicate_date_lines}	= 0;
+    $main::options{job_remove_duplicate_date_lines}	= 0;
+  }
+
+  # a problem I found find GetOptions:
+  # you cannot abbreviate aliases and abbreviations of boolean options;
+
+  my($result) =
+    &GetOptions
+      (\%main::options
+       ,'job_diff!'
+       ,'job_merge!'
+       ,'job_check_against_duplicate_date_lines!'
+       ,'job_remove_duplicate_date_lines!'
+
+       ,'left_operand=s'
+       ,'right_operand|operand=s'
+
+       ,'value_to_be_matched=s@'
+
+       ,'summit_report=s'	# 'fx', 'inv'
+
+       ,'dry_run!'
+       ,'version!'
+       ,'debug!'
+       ,'verbose!'
+       ,'help!'
+
+       # some shortcuts:
+
+     ##,'product=s'
+       );
+  $result || die 'GetMain::Options failed';
+
+  #
+  # example
+  # =======
+  #
+  # PROG --verbose --job_diff
+  # PROG --verbose --job_merge
+  # PROG --verbose --job_check_against_duplicate_date_lines
+  # PROG --verbose --job_remove_duplicate_date_lines
+
+  if($main::options{version})
+    {
+       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	 ,'$rcs_Id',$rcs_Id
+	 ;
+       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	 ,'$emacs_Time_stamp',$emacs_Time_stamp
+	 ;
+    }
+
+  if   ($main::options{help               }) { &help                                ; }
+  elsif($main::options{job_diff})
+    {                 &job_diff; }
+  elsif($main::options{job_merge})
+    {                 &job_merge; }
+  elsif($main::options{job_check_against_duplicate_date_lines})
+    {                 &job_check_against_duplicate_date_lines; }
+  elsif($main::options{job_remove_duplicate_date_lines})
+    {                 &job_remove_duplicate_date_lines; }
+  else
+    {
+      die "You did not give me a job.";
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+}
+#
+sub job_diff
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+  my(%param) = @_;
+  $return_value = 0;
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  defined($main::options{left_operand}) || die "!defined(\$main::options{left_operand})";
+  defined($main::options{right_operand}) || die "!defined(\$main::options{right_operand})";
+
+  my($left_fh) = new FileHandle;
+  $left_fh->open($main::options{left_operand}) or die "cannot open {$main::options{left_operand}}";
+
+  my($right_fh) = new FileHandle;
+  $right_fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+##  while(<$left_fh>)
+##    {
+##      print "\t",$_;
+##    }
+
+  my($left_line );
+  my($right_line);
+
+  for(;;)
+    {
+      # in case I want to signal I read it already:
+
+      if(!defined($left_line))
+	 {
+	   $left_line  = <$left_fh> ;
+	 }
+      if(!defined($right_line))
+	 {
+	   $right_line  = <$right_fh> ;
+	 }
+
+      printf "=%s,%d,%s: %s=>%d,%s=>%d\n",__FILE__,__LINE__,$proc_name
+	, '$left_fh->input_line_number', $left_fh->input_line_number
+	,'$right_fh->input_line_number',$right_fh->input_line_number
+	if 0;
+
+      ################################################################################
+
+      if(!defined($left_line))
+	{
+	  printf "=%s,%d,%s: %s=>%d,%s=>%d // %s\n",__FILE__,__LINE__,$proc_name
+	    , '$left_fh->input_line_number', $left_fh->input_line_number
+	    ,'$right_fh->input_line_number',$right_fh->input_line_number
+	    ,'!defined(\$left_line)'
+	    if 1;
+	}
+      if(!defined($right_line))
+	{
+	  printf "=%s,%d,%s: %s=>%d,%s=>%d // %s\n",__FILE__,__LINE__,$proc_name
+	    , '$left_fh->input_line_number', $left_fh->input_line_number
+	    ,'$right_fh->input_line_number',$right_fh->input_line_number
+	    ,'!defined(\$right_line)'
+	    if 1;
+	}
+
+      if(!defined($left_line) && !defined($right_line))
+	{
+	  printf "*** stop in sync (__LINE__=>%d).\n",__LINE__;
+	  exit(0);
+	}
+      elsif(!defined($left_line) || !defined($right_line))
+	{
+	  printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
+	  exit(1);
+	}
+
+      ################################################################################
+
+      chomp($left_line);
+      chomp($right_line);
+
+      ################################################################################
+
+      if( ($left_line =~ m/^\s*$/) && ($right_line =~ m/^\s*$/) )
+	{
+
+	  if($left_line eq $right_line)
+	    {
+	      printf "*** %s=>%d,%s=>%d // %s\n"
+		, '$left_fh->input_line_number', $left_fh->input_line_number
+		,'$right_fh->input_line_number',$right_fh->input_line_number
+		,'left and right are both blank and the same'
+		if 0;
+	    }
+	  else
+	    {
+	      printf "*** %s=>%d,%s=>%d // %s\n"
+		, '$left_fh->input_line_number', $left_fh->input_line_number
+		,'$right_fh->input_line_number',$right_fh->input_line_number
+		,'left and right are both blank but not the same'
+		if 1;
+
+	      print '<{',$left_line,"}\n";
+	      print '>{',$right_line,"}\n";
+	    }
+
+	  undef($left_line);
+	  undef($right_line);
+
+	  next;
+	}
+
+      if( ($left_line =~ m/^\S/) || ($right_line =~ m/^\S/) )
+	{
+	  if($left_line eq $right_line)
+	    {}
+	  else
+	    {
+	      printf "*** %s=>%d,%s=>%d // %s\n"
+		, '$left_fh->input_line_number', $left_fh->input_line_number
+		,'$right_fh->input_line_number',$right_fh->input_line_number
+		,'left and right are not the same'
+		if 1;
+
+	      print '<{',$left_line,"}\n";
+	      print '>{',$right_line,"}\n";
+
+	      printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
+	      exit(1);
+	    }
+
+	  $left_day  = $left_line;
+	  $right_day = $right_line;
+	}
+
+      if($left_line eq $right_line)
+	{
+	  undef($left_line);
+	  undef($right_line);
+	}
+      elsif(1)
+	{
+	  my  (@left_lines);
+	  push(@left_lines,$left_line);
+	  my  (@right_lines);
+	  push(@right_lines,$right_line);
+
+	  while(<$left_fh>)
+	    {
+	      m/^\S/ && last;
+	      chomp;
+	      push(@left_lines,$_);
+	    }
+	  $left_line = $_;	# so it will be used as next line
+	  
+	  while(<$right_fh>)
+	    {
+	      m/^\S/ && last;
+	      chomp;
+	      push(@right_lines,$_);
+	    }
+	  $right_line = $_;	# so it will be used as next line
+
+	  printf "*** %s=>%d,%s=>%d // %s\n"
+	    , '$left_fh->input_line_number', $left_fh->input_line_number
+	    ,'$right_fh->input_line_number',$right_fh->input_line_number
+	    ,'left and right are not the same'
+	    if 1;
+
+	  print '<',$left_day  ,"\n";
+	  for(@left_lines)
+	    {
+	      print '<',$_,"\n";
+	    }
+
+	  print '>',$right_day  ,"\n";
+	  for(@right_lines)
+	    {
+	      print '<',$_,"\n";
+	    }
+
+	  if(0)
+	    {
+	      printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
+	      exit(1);
+	    }
+	}
+      else
+	{
+	  printf "*** %s=>%d,%s=>%d // %s\n"
+	    , '$left_fh->input_line_number', $left_fh->input_line_number
+	    ,'$right_fh->input_line_number',$right_fh->input_line_number
+	    ,'left and right are not the same'
+	    if 1;
+
+	  print '<',$left_day  ,"\n";
+	  print '<',$left_line ,"\n";
+	  print '>',$right_day ,"\n";
+	  print '>',$right_line,"\n";
+
+	  printf "*** stop out of sync (__LINE__=>%d).\n",__LINE__;
+	  exit(1);
+	}
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  return $return_value;
+}
+#
+sub job_merge
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+  my(%param) = @_;
+  $return_value = 0;
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  defined($main::options{left_operand}) || die "!defined(\$main::options{left_operand})";
+  defined($main::options{right_operand}) || die "!defined(\$main::options{right_operand})";
+
+  my($left_fh) = new FileHandle;
+  $left_fh->open($main::options{left_operand}) or die "cannot open {$main::options{left_operand}}";
+
+  my($right_fh) = new FileHandle;
+  $right_fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+  printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+    ,'CAVEAT: there are a few simplifying and sometimes false assumptions like *strong* monotony for the right side -- USE WITH CAUTION'
+    if 1 || $main::options{debug};
+
+  my($left_line );
+  my($right_line);
+
+  # the  "left file" contains a frame with an entry for every single day of the resp. year.
+  # the "right file" contains entries for holidays.
+  # both files are sorted.
+  # both files are strictly monotous, i.e. every day appears only once.
+
+  $right_line = <$right_fh> ;
+  chomp($right_line);
+  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+    ,'$right_line',$right_line
+    ,'read'
+    if 1 && $main::options{debug};
+
+  for(;;)
+    {
+      $left_line = <$left_fh> ;
+
+      if(!defined($left_line))
+	{
+	  last; # according to our pre-conditions there are no more lines left in the right file.
+	}
+      elsif($left_line =~ m/^${right_line}/)
+	{
+	  print $left_line;
+
+	  # yes, forget this right line,
+	  # but print all entries of that day of the right file!
+
+	  for(;;)
+	    {
+	      $right_line = <$right_fh> ;
+	      if(1 && $main::options{debug})
+		{
+		  my($aux__right_line) = $right_line;
+
+		  chomp($aux__right_line)
+		    if defined($aux__right_line);
+
+		  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		    ,'$aux__right_line', defined($aux__right_line) ? $aux__right_line : ''
+		    , defined($aux__right_line) ? 'read' : 'read but !defined($aux__right_line)'
+		    if 1 && $main::options{debug};
+
+		  printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+		    , "I guess, the previous message is nothing to worry"
+		    if 1 && $main::options{debug};
+		}
+
+	      if(!defined($right_line))
+		{
+		  # print the remainder of the left file.
+
+		  for(;;)
+		    {
+		      $left_line = <$left_fh> ;
+
+		      defined($left_line) || last;
+
+		      print $left_line;
+		    }
+
+		  last;
+		}
+
+
+	      if($right_line =~ m/^\S/)
+		{
+		  chomp($right_line);
+		  last;
+		}
+
+	      print $right_line;
+	      if(1 && $main::options{debug})
+		{
+		  my($aux__right_line) = $right_line;
+
+		  chomp($aux__right_line)
+		    if defined($aux__right_line);
+
+		  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+		    ,'$aux__right_line', defined($aux__right_line) ? $aux__right_line : ''
+		    , defined($aux__right_line) ? 'printed' : 'printed but !defined($aux__right_line)'
+		    if 1 && $main::options{debug};
+		}
+	      $right_line = undef;
+	    }
+	}
+      else
+	{
+	  print $left_line;
+	}
+    }
+
+  ################################################################################
+
+  # we left the loop, because there is no further left line.
+  # but what about the remaining right lines?!?
+
+  ################################################################################
+
+  # before I properly handled those remaining right lines,
+  # I lost specifically the remainder of non-monotonous right files.
+  # now, that I do handle them properly,
+  # a "diff" on the original and the merged new file at least show a substantial difference in the end.
+
+  my($printed_the_announcement_p) = 0;
+
+  if(defined($right_line))
+    {
+      if(!$printed_the_announcement_p)
+	{
+	  printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'now printing the remaining right lines ...'
+	    if 1 && $main::options{debug};
+
+	  $printed_the_announcement_p = 1;
+	}
+
+      print $right_line,"\n";
+      if(1 && $main::options{debug})
+	{
+	  my($aux__right_line) = $right_line;
+
+	  chomp($aux__right_line);
+
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$aux__right_line', $aux__right_line
+	    ,'read&printed'
+	    if 1 && $main::options{debug};
+	}
+
+      $right_line = undef;
+    }
+
+  for(;;)
+    {
+      $right_line = <$right_fh> ;
+
+      if(!defined($right_line))
+	{
+	  last;
+	}
+
+      if(!$printed_the_announcement_p)
+	{
+	  printf STDERR "=%s,%d,%s: // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'now printing the remaining right lines ...'
+	    if 1 && $main::options{debug};
+
+	  $printed_the_announcement_p = 1;
+	}
+
+      print $right_line;
+      if(1 && $main::options{debug})
+	{
+	  my($aux__right_line) = $right_line;
+
+	  chomp($aux__right_line);
+
+	  printf STDERR "=%s,%d,%s: %s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'$aux__right_line', $aux__right_line
+	    ,'read&printed'
+	    if 1 && $main::options{debug};
+	}
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  return $return_value;
+}
+#
+sub job_check_against_duplicate_date_lines
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+  my(%param) = @_;
+  $return_value = 0;
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  defined($main::options{right_operand}) || die "!defined(\$main::options{right_operand})";
+
+  my($fh) = new FileHandle;
+  $fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+  my($current_line);
+
+  my($last_date_line);
+
+  for(;;)
+    {
+      $current_line = <$fh> ;
+
+      defined($current_line) || last;
+
+      $current_line =~ m/^\s+/ && next;
+
+      if(defined($last_date_line) && ($current_line eq $last_date_line))
+	{
+	  chomp($current_line);
+	  die "\$current_line=>{$current_line} // \$current_line eq \$last_date_line";
+	}
+
+      $last_date_line = $current_line;
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  return $return_value;
+}
+#
+sub job_remove_duplicate_date_lines # earlier this function was called "job_establish_strict_monotony", but that wasn't really what it actually did.
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+  my(%param) = @_;
+  $return_value = 0;
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  defined($main::options{right_operand}) || die "!defined(\$main::options{right_operand})";
+
+  my($fh) = new FileHandle;
+  $fh->open($main::options{right_operand}) or die "cannot open {$main::options{right_operand}}";
+
+  my($current_line);
+
+  my($last_date_line);
+
+  for(;;)
+    {
+      $current_line = <$fh> ;
+
+      defined($current_line) || last;
+
+      if($current_line =~ m/^\s+/)
+	{
+	  print $current_line;
+	  next;
+	}
+
+      if(defined($last_date_line) && ($current_line eq $last_date_line))
+	{
+	  next;
+	}
+
+      print $current_line;
+
+      $last_date_line = $current_line;
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  return $return_value;
+}
+#
+sub dummy
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}

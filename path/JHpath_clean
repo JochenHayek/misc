@@ -1,0 +1,63 @@
+#!/usr/bin/perl
+
+# $Id: JHpath_clean 1.8 1999/08/12 15:33:54 johayek Exp $
+# $Source: /home/jochen_hayek/comp.lang.perl/RCS/JHpath_clean $
+# Time-stamp: <1999-08-12 17:33:52 johayek>
+
+# Usage: JHpath_clean path_value
+
+# in:
+#     `path_value' is any value like $PATH,
+#     that is of the form `a:b:c'
+
+# out:
+#   eliminated duplicates
+#       (identical names, or just a path name pointing to the same i-node)
+#   and non-{,existing }directories;
+
+# requirements:
+
+{
+  $debug = 1;
+  
+  local(@split_path_value);
+  local(%set_of_dir);
+  local(%set_of_id);
+
+  local($elem);
+  foreach $elem (split(/:/,$ARGV[0]))
+    {
+    ##if($elem eq '.')
+    ##  {
+    ##    # don't imply allowance to find files for execution in the currend working directory!
+    ##    next;
+    ##  }
+
+      @stat = stat($elem);
+	
+      if(-d _)
+	{
+	  if    (defined($set_of_dir{$elem}))
+	    {
+	      # eliminate duplicates (identical names)
+	    }
+	  elsif (defined($set_of_id{ "@stat[0..1]" }))
+	    {
+	      # eliminate duplicates (identical `dev,i-node' pairs)
+	    }
+	  else
+	    {
+	      $set_of_id{ "@stat[0..1]" } = 1;
+	      $set_of_dir{$elem} = 1;
+	      push(@split_path_value,$elem);
+	    }
+	}
+      else
+	{
+	  # eliminate non-existing directories,
+	  # ..., non-directories, ...
+	}
+    }
+
+  print join(':',@split_path_value),"\n";
+}

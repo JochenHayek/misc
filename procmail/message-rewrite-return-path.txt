@@ -1,0 +1,36 @@
+# ...
+
+cd message-rewrite-return-path.t/
+
+./run.sh
+
+################################################################################
+
+if(m/^Return-Path:\s+<(?<RP>.*)>\r$/) { $RP = $+{RP}; if($RP =~ m/^ (\w+) \+ (\w+) = (\w+) = (?<after>.*) = (?<before>.*) @ (.*) $/x) { print "Return-Path: <$+{before}\@$+{after}>\r\n"; } else { print "Return-Path: <$RP>\r\n"; } } else { print }
+
+if(m/^Return-Path:\s+<(?<RP>.*)>\r$/)
+  {
+    $RP = $+{RP}; 
+    if($RP =~ m/^ (\w+) \+ (\w+) = (\w+) = (?<after>.*) = (?<before>.*) @ (.*) $/x)
+      {
+        print "Return-Path: <$+{before}\@$+{after}>\r\n"; }
+    else
+      {
+        print "Return-Path: <$RP>\r\n";
+      }
+  }
+else
+  {
+    print
+  }
+
+
+
+################################################################################
+
+$ ~/Computers/Programming/Languages/Perl/procmail-restore-return-path.pl 0--*.eml | cat -nev
+     1  Return-Path: <mailgun@mailer1104.agnitas.de>^M$
+$ ~/Computers/Programming/Languages/Perl/procmail-restore-return-path.pl 1--*.eml | cat -nev
+     1  Return-Path: <Return.EID2c252534.Job@mail.neweredm.com>^M$
+$ ~/Computers/Programming/Languages/Perl/procmail-restore-return-path.pl 2--*.eml | cat -nev
+     1  Return-Path: <info@gigaset-elements.com>^M$

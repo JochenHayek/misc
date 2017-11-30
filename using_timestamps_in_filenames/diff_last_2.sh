@@ -1,10 +1,21 @@
 :
 
-# misc/using_timestamps_in_filenames/diff_last_2.sh
+# .../diff_last_2.sh Rakefile.20*
 
 bn0=$(basename "$0")
 
-false && echo 1>&2 "*** ${bn0},${LINENO}: \$#=>{$#}"
+if test $# -ge 2
+then :
+  false &&
+  printf 1>&2 "=%s,%03.3d: %s=>{%s} // %s\n" "${bn0}" $LINENO \
+    '$#' $# \
+    '...'
+else
+  printf 1>&2 "=%s,%03.3d: %s=>{%s} // %s\n" "${bn0}" $LINENO \
+    '$#' $# \
+    'expecting $# >= 2'
+  exit 1
+fi
 
 declare -a params=( "$@" )
 
@@ -15,12 +26,24 @@ n_min_2=$(( n - 2))
 
 if false
 then :
-  echo 1>&2 "*** ${bn0},${LINENO}: \$n_min_2=>{$n_min_2}"
-  echo 1>&2 "*** ${bn0},${LINENO}: \$n_min_1=>{$n_min_1}"
-  echo 1>&2 "*** ${bn0},${LINENO}: \$n=>{$n}"
+  printf 1>&2 "=%s,%03.3d: %s=>{%s} // %s\n" "${bn0}" $LINENO \
+    '${n_min_2}' "${n_min_2}" \
+    '...'
+  printf 1>&2 "=%s,%03.3d: %s=>{%s} // %s\n" "${bn0}" $LINENO \
+    '${n_min_1}' "${n_min_1}" \
+    '...'
+  printf 1>&2 "=%s,%03.3d: %s=>{%s} // %s\n" "${bn0}" $LINENO \
+    '${n}' "${n}" \
+    '...'
 
-  echo 1>&2 "*** ${bn0},${LINENO}: \${params[$n_min_2]}=>{${params[$n_min_2]}}"
-  echo 1>&2 "*** ${bn0},${LINENO}: \${params[$n_min_1]}=>{${params[$n_min_1]}}"
+  printf 1>&2 "=%s,%03.3d: %s=>{%s} // %s\n" "${bn0}" $LINENO \
+    "\${params[$n_min_2]}" "${params[$n_min_2]}" \
+    '...'
+  printf 1>&2 "=%s,%03.3d: %s=>{%s} // %s\n" "${bn0}" $LINENO \
+    "\${params[$n_min_2]}" "${params[$n_min_2]}" \
+    '...'
 fi
+
+set -x
 
 exec diff "${params[$n_min_2]}" "${params[$n_min_1]}"
