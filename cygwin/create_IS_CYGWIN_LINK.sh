@@ -8,6 +8,10 @@
 #   git-servers
 #   git-servers.IS_CYGWIN_LINK
 
+# special treatment of a couple of directories:
+#
+#   $USERPROFILE/git-servers/
+
 ##set -x
 
 find . -maxdepth 1 -type l |
@@ -23,9 +27,19 @@ do :
 
   if(m/^ \.\/(?<lhs>.*?) : \s* symbolic \s+ link \s+ to \s+ (?<rhs>.*)  $/x)
     {
-      print $+{rhs},"\n";
+      my(%plus) = %+;
+
+      # CAVEAT / TBD: should this not be right-anchored?!!
+
+      if($plus{rhs} =~ s,^ (\.\./)* git-servers ,\$USERPROFILE/git-servers,x)
+        {
+        }
+
+      print $plus{rhs},"\n";
     }
 
 '
+
+  touch --reference="${l}" "${l}.IS_CYGWIN_LINK"
 
 done
