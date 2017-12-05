@@ -1,6 +1,6 @@
 :
 
-# -> $HOME/git-servers/github.com/JochenHayek/misc/renaming_scanner_files/README--rename.txt
+# -> README--rename.txt
 
 ################################################################################
 
