@@ -40,6 +40,11 @@ do :
 
 '
 
-  touch --reference="${l}" "${l}.IS_CYGWIN_LINK"
+  if touch --reference="${l}" "${l}.IS_CYGWIN_LINK"
+  then :
+  else :
+    echo 1>&2 "*** $0: {${l}} : touch : \$?=>$?"
+    rm --verbose "${l}" "${l}.IS_CYGWIN_LINK"
+  fi
 
 done
