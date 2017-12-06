@@ -1,0 +1,8 @@
+# …
+
+$ cd /Users/johayek/Downloads/_telecom_and_energy/_DFN-Verein/incoming
+$ ../p.sh
+
+/ber.jochen.hayek.name:ARCHIVE/_banks/BIC-PBNKDEFF/IBAN-DE81100100100637224104/
+
+vouchers--SKR03-1200/*--DFN-Verein--period-*
