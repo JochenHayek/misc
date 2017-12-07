@@ -1,12 +1,6 @@
 :
 
-# -> ~/Computers/Software/Operating_Systems/Unix/Shell/README--rename.txt
-
-################################################################################
-
-# /scp:localhost#2222:Computers/Software/Operating_Systems/Unix/Shell/Telefax-rename.sh
-# /scp:localhost#2222:Computers/Software/Operating_Systems/Unix/Shell/
-# ~/Downloads/_fax/Telefax-rename.sh
+# -> README--rename.txt
 
 ################################################################################
 
@@ -31,7 +25,7 @@
 
 set -x
 
-~/Computers/Programming/Languages/Perl/rename \
+~/bin/rename \
   \
   's/^
      (?<dd>\d\d) \. (?<mm>\d\d) \. (?<YY>\d\d) _ (?<HH>\d\d) \. (?<MM>\d\d)

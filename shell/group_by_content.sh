@@ -1,7 +1,5 @@
 :
 
-# $Id: group_by_content.sh 1.6 2017/11/14 11:45:58 johayek Exp johayek $
-
 # usage:
 #
 #    md5sum * | ~/bin/group_by_content.sh

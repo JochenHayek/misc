@@ -9,6 +9,13 @@
 
 ################################################################################
 
+pdfinfo 2>/dev/null
+if test $? -eq 127		# the shell cannot find the utility
+then :
+  echo 1>&2 "*** $0: cannot find pdfinfo"
+  exit 1
+fi
+
 if test -z "${pdfinfo_options}"
 then :
 
@@ -41,6 +48,8 @@ then :
 fi
 
 ################################################################################
+
+shopt -s nullglob
 
 ##for filename in "${@}"
 for filename
