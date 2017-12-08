@@ -4,14 +4,14 @@
 
 # Time-stamp: <2007-04-10 16:00:13 johayek>
 # $Id: xml_multi_utility.pl 1.64 2013/01/21 15:54:27 johayek Exp $
-# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $
+# $Source: /home/jochen_hayek/Computers/Programming/Languages/Perl/RCS/xml_multi_utility.pl $
 
           $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.64 2013/01/21 15:54:27 johayek Exp $'))[1..6])));
 #	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/01/21 15:54:27 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.64 $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
-#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/xml/RCS/xml_multi_utility.pl $'))[1])));
+#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/Computers/Programming/Languages/Perl/RCS/xml_multi_utility.pl $'))[1])));
 
 ############################################################################################################################################
 
