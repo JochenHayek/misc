@@ -1,5 +1,13 @@
 :
 
+#            ~/git-servers/github.com/JochenHayek/misc/renaming_and_processing_various_files/Telekom_Festnetz.sh
+
+this_dir=$HOME/git-servers/github.com/JochenHayek/misc/renaming_and_processing_various_files
+
+################################################################################
+
+shopt -s nullglob
+
 script=$(basename "$0")
 
 xmlstarlet=xml
@@ -39,9 +47,9 @@ do :
     'invoice_xml' "${invoice_xml}" \
     '...'
 
-  $HOME/Computers/Programming/Languages/Perl/xml_multi_utility.pl \
+  ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl \
     --job_telekom_reo \
-    --xml_file=$HOME/Business/Telecommunications/Carriers/telekom.de/CSV-Rechnung.20090827.pl.xml \
+    --xml_file=${this_dir}/Telekom_Festnetz.CSV-Rechnung.20090827.pl.xml \
       "${invoice}" \
     > "${invoice_xml}"
 
