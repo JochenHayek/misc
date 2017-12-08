@@ -68,9 +68,6 @@ sub main
 
   printf STDERR ">%d,%s\n",__LINE__,$proc_name
     if 0 && $main::options{debug};
-  printf STDERR "=%d,%s: %s=>{%s}\n",__LINE__,$proc_name
-    ,'$rcs_Id' => $rcs_Id
-    if 0 && $main::options{debug};
 
   {
     # defaults for the main::options;
