@@ -6,6 +6,8 @@ this_dir=$HOME/git-servers/github.com/JochenHayek/misc/renaming_and_processing_v
 
 ################################################################################
 
+shopt -s nullglob
+
 xmlstarlet=xml
 
 set -x
@@ -25,7 +27,11 @@ do :
     "${invoice_csv}" \
     > ${invoice_csv}.xml.NEW
 
-  "${xmlstarlet}" sel -t -v "rechnung/summenteil/untersumme[@bezeichnung='Zu zahlender Betrag ']/@betrag" -n ${invoice_csv}.xml.NEW > ${invoice_csv}.calc.txt
+  "${xmlstarlet}" \
+    sel -t -v "rechnung/summenteil/untersumme[@bezeichnung='Zu zahlender Betrag ']/@betrag" \
+    -n \
+    ${invoice_csv}.xml.NEW \
+    > ${invoice_csv}.calc.txt
 
 done
 
