@@ -11,7 +11,9 @@ do :
     'pdf' "${pdf}" \
     '...'
 
-  ~/bin/pdf-suggest-rename-versioned.sh "${pdf}" | fgrep ModDate | sh -x
+##~/bin/pdf-suggest-rename-versioned.sh "${pdf}" | fgrep ModDate | sh -x
+##env pdfinfo_options='-meta -rawdates' ~/bin/pdf-suggest-rename-versioned.sh "${pdf}" | fgrep ModDate | sh -x
+  env pdfinfo_options='-rawdates'       ~/bin/pdf-suggest-rename-versioned.sh "${pdf}" | fgrep ModDate | sh -x
 
 done
 
