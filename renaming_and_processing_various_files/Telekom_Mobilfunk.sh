@@ -1,7 +1,6 @@
 :
 
-# /media/diskstation003/johayek/ARCHIVE/_banks/BIC-PBNKDEFF/IBAN-DE81100100100637224104/vouchers--SKR03-1200/999999-000--209999________--Telekom_Mobilfunk--period-209999.PLACEHOLDER.dir/p.sh
-#                         $HOME/ARCHIVE/_banks/BIC-PBNKDEFF/IBAN-DE81100100100637224104/vouchers--SKR03-1200/999999-000--209999________--Telekom_Mobilfunk--period-209999.PLACEHOLDER.dir/p.sh
+# ~/git-servers/github.com/JochenHayek/misc/renaming_and_processing_various_files/Telekom_Mobilfunk.sh
 
 ################################################################################
 
@@ -40,7 +39,9 @@ do :
       ;;
 
     * )
-      ~/bin/pdf-suggest-rename-versioned.sh "${invoice_pdf_orig}" | fgrep CreationDate | sh -x
+      # problems with "-meta" (pdfinfo / version ...) , so leave it out
+      env pdfinfo_options=-rawdates \
+	~/bin/pdf-suggest-rename-versioned.sh "${invoice_pdf_orig}" | fgrep CreationDate | sh -x
       ;;
 
   esac
