@@ -1,48 +1,37 @@
 #! /usr/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2013-01-21 16:54:17 johayek>' =~ m/<(.*)>/;
-
-# Time-stamp: <2007-04-10 16:00:13 johayek>
-# $Id: xml_multi_utility.pl 1.64 2013/01/21 15:54:27 johayek Exp $
-# $Source: /home/jochen_hayek/Computers/Programming/Languages/Perl/RCS/xml_multi_utility.pl $
-
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: xml_multi_utility.pl 1.64 2013/01/21 15:54:27 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/01/21 15:54:27 $'))[1..2])));
-#     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#   $rcs_Revision=(join(' ',((split(/\s/,'$Revision: 1.64 $'))[1])));
-#	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: xml_multi_utility.pl $'))[1])));
-#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/Computers/Programming/Languages/Perl/RCS/xml_multi_utility.pl $'))[1])));
+# ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_pl_validate     --xml_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+# $ ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl --job_pl_validate     --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl --job_pl_validate     --xml_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo    --xml_file=$HOME/Business/Telecommunications/Carriers/t-mobile.de/CSV-Rechnung--20070129.xml \
+# $ ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl --job_t_mobile_reo    --xml_file=$HOME/Business/Telecommunications/Carriers/t-mobile.de/CSV-Rechnung--20070129.xml \
 #       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv \
 #     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999990-000--2007mmdd--T-Mobile--period-200703/Rechnung_03621149012691.csv.xml.NEW
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_telekom_reo     --xml_file=$HOME/Business/Telecommunications/Carriers/telekom.de/CSV-Rechnung--200x.xml \
+# $ ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl --job_telekom_reo     --xml_file=$HOME/Business/Telecommunications/Carriers/telekom.de/CSV-Rechnung--200x.xml \
 #       /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv \
 #     > /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/002261-000--20070327--Telekom-BLN-4968976753--period-200704/2007_04_Rechnung_4968976753.csv.xml.NEW
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+# $ ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml
+# $ ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
 #       --test_cases=thetakeoverpanel_0
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
+# $ ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl --job_regression_test --xml_file=$HOME/usr/src/IDS_cronus_projects/200701--oo_files_pl/regression_test_configuration.xml \
 #       --create_reference_files_p \
 #       --test_case=bloomberg--fields.csv--header--0 --test_case=bloomberg--lookup.out--header--0
 
 ############################################################################################################################################
 
-# $ ~/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_itunes_whatever --xml_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
+# $ ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl --job_itunes_whatever --xml_file=$HOME/Computers/Data_Formats/Markup_Languages/SGML/PropertyList/membran--chanson--contentsdb.xml
 
 ############################################################################################################################################
 
@@ -81,9 +70,6 @@ sub main
     if 0 && $main::options{debug};
   printf STDERR "=%d,%s: %s=>{%s}\n",__LINE__,$proc_name
     ,'$rcs_Id' => $rcs_Id
-    if 0 && $main::options{debug};
-  printf STDERR "=%d,%s: %s=>{%s}\n",__LINE__,$proc_name
-    ,'$emacs_Time_stamp' => $emacs_Time_stamp
     if 0 && $main::options{debug};
 
   {
