@@ -1,6 +1,8 @@
 :
 
-# ~/git-servers/github.com/JochenHayek/misc/renaming_and_processing_various_files/Telekom_Mobilfunk.sh
+#            ~/git-servers/github.com/JochenHayek/misc/renaming_and_processing_various_files/Telekom_Mobilfunk.sh
+
+this_dir=$HOME/git-servers/github.com/JochenHayek/misc/renaming_and_processing_various_files
 
 ################################################################################
 
@@ -17,7 +19,11 @@ do :
 
   invoice_basename=$(basename "${invoice_csv}" .csv)
 
-  $HOME/Computers/Programming/Languages/Perl/xml_multi_utility.pl --job_t_mobile_reo --xml_file=$HOME/Business/Telecommunications/Carriers/t-mobile.de/CSV-Rechnung.effective-20130722.pl.xml "${invoice_csv}" > ${invoice_csv}.xml.NEW
+  ~/git-servers/github.com/JochenHayek/misc/xml/xml_multi_utility.pl \
+    --job_t_mobile_reo \
+    --xml_file=${this_dir}/Telekom_Mobilfunk.CSV-Rechnung.effective-20130722.pl.xml \
+    "${invoice_csv}" \
+    > ${invoice_csv}.xml.NEW
 
   "${xmlstarlet}" sel -t -v "rechnung/summenteil/untersumme[@bezeichnung='Zu zahlender Betrag ']/@betrag" -n ${invoice_csv}.xml.NEW > ${invoice_csv}.calc.txt
 
