@@ -1,5 +1,5 @@
-#! /bin/sh
 #! /bin/bash
+#! /bin/sh
 #! /bin/ksh
 #! /usr/bin/ksh
 
