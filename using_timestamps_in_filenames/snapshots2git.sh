@@ -28,6 +28,8 @@ do :
     'git_date' "${git_date}" \
     '...'
 
+  chmod --verbose u+w "$i"
+
   echo
 
   echo 1>&2 '+' mv --verbose "$i" "${name}"
