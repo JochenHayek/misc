@@ -3,6 +3,10 @@
 # usage:
 #
 #   ics2diary.pl ics2diary.sample-BAHN_Fahrplan.ics > ics2diary.sample-BAHN_Fahrplan.diary
+#
+# to be called within emacs dired-mode like this
+#
+#   ~/git-servers/github.com/JochenHayek/misc/ics2diary.pl ? > $(echo ? ).diary
 
 {
   my(%table);
