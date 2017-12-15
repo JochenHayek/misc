@@ -1,16 +1,11 @@
 :
 
-# -> ~/Computers/Software/Operating_Systems/Unix/Shell/README--rename.txt
+# -> README--rename.txt
 
 ################################################################################
 
-#                   ~/Computers/Software/Operating_Systems/Unix/Shell/QScan-rename.sh
-# /scp:localhost#2222:Computers/Software/Operating_Systems/Unix/Shell/QScan-rename.sh
-# /scp:localhost#2222:Computers/Software/Operating_Systems/Unix/Shell/
-
-################################################################################
-
-RENAME=c:/Users/jochen.hayek/opt/cygwin64/home/jochen.hayek/bin/rename--Tussle
+##RENAME=c:/Users/jochen.hayek/opt/cygwin64/home/jochen.hayek/bin/rename--Tussle
+  RENAME=$HOME/bin/rename
 
 shopt -s nullglob
 

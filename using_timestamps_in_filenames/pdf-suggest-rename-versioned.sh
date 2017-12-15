@@ -9,33 +9,47 @@
 
 ################################################################################
 
-pdfinfo_options=''
-
-pdfinfo -meta 1> /dev/null 2> /dev/null
-if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+pdfinfo 2>/dev/null
+if test $? -eq 127		# the shell cannot find the utility
 then :
-  pdfinfo_options="${pdfinfo_options} -meta"
+  echo 1>&2 "*** $0: cannot find pdfinfo"
+  exit 1
 fi
 
-pdfinfo -rawdates 1> /dev/null 2> /dev/null
-if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+if test -z "${pdfinfo_options}"
 then :
-  pdfinfo_options="${pdfinfo_options} -rawdates"
+
+  ##pdfinfo_options=''
+
+  pdfinfo -meta 1> /dev/null 2> /dev/null
+  if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+  then :
+    pdfinfo_options="${pdfinfo_options} -meta"
+  fi
+
+  pdfinfo -rawdates 1> /dev/null 2> /dev/null
+  if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+  then :
+    pdfinfo_options="${pdfinfo_options} -rawdates"
+  fi
+  #
+  # CreationDate:   D:20121116141348+01'00'
+
+  # this script does not yet deal with "-isodates"
+
+  ##pdfinfo -isodates 1> /dev/null 2> /dev/null
+  ##if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
+  ##then :
+  ##  pdfinfo_options="${pdfinfo_options} -isodates"
+  ##fi
+  #
+  # CreationDate:   2012-11-16T14:13:48+01
+
 fi
-#
-# CreationDate:   D:20121116141348+01'00'
-
-# this script does not yet deal with "-isodates"
-
-##pdfinfo -isodates 1> /dev/null 2> /dev/null
-##if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
-##then :
-##  pdfinfo_options="${pdfinfo_options} -isodates"
-##fi
-#
-# CreationDate:   2012-11-16T14:13:48+01
 
 ################################################################################
+
+shopt -s nullglob
 
 ##for filename in "${@}"
 for filename

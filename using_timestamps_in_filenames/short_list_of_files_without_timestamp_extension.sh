@@ -3,6 +3,10 @@
 
 # misc/using_timestamps_in_filenames/short_list_of_files_without_timestamp_extension.sh
 
+# CAVEAT:
+#
+# does not work for "DOT files".
+
 ################################################################################
 
 ##PERL='c:/Program Files/Git/usr/bin/perl.exe'

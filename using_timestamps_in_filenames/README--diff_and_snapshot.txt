@@ -41,7 +41,7 @@ $ ~/bin/purge_snapshots.sh DIR
 
 # for single arguments only:
 
-$ ~/list_snapshot_diffs.sh a.txt
+$ ~/bin/list_snapshot_diffs.sh a.txt
 
 ################################################################################
 ################################################################################

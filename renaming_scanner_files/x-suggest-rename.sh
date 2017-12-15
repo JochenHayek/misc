@@ -1,6 +1,6 @@
 :
 
-# -> ~/Computers/Software/Operating_Systems/Unix/Shell/README--rename.txt
+# -> README--rename.txt
 
 ################################################################################
 

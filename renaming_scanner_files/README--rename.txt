@@ -5,8 +5,6 @@
 # ~/git-servers/github.com/JochenHayek/misc/shell/renumber_files.sh
 # ~/git-servers/github.com/JochenHayek/misc/shell/renumber_duplex_scanned_files.sh
 
--> ~/Computers/Software/Operating_Systems/Unix/Shell/*rename*
-
 ================================================================================
 
 * QScan-rename.sh
