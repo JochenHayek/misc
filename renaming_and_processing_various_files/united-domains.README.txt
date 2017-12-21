@@ -1,0 +1,45 @@
+# …
+
+(00) go to united-domains.t-INCOMING/
+
+(05) store the e-mail text next to the PDF!
+
+(10) ../united-domains.p0.sh
+
+(20) add to resp. / relevant lines in the .pdftohtml.xml file:
+
+        <!-- for account transfer (invoice#) -->
+        <!-- for account transfer (invoice-date) -->
+        <!-- for account transfer (client#) -->
+        <!-- for account transfer (internet-domain) -->
+        <!-- for account transfer (gross amount) -->
+        <!-- for account transfer (bank details) -->
+
+(30) ../united-domains.p1.sh
+
+  -> *.9--invoice-details.txt
+
+(40) rename all relevant files according to the resp. domain:
+
+  from domain-___
+  to   domain-THE_DOMAIN
+
+(50) who is going to pay for the domain?
+
+        if the internet-domain matches hayek.*,                    then the invoice will be paid by JH,
+        if the internet-domain matches aleph-soft.* or *-berlin.*, then the invoice will be paid by AS.
+
+(60) do the transfer according to *.9--invoice-details.txt
+	using the template ("Vorlage") named "united-domains"!
+
+	            payee: united-domains AG
+
+	IBAN (w/  blanks): DE 7970 1500 0001 1115 3375
+	IBAN (w/o blanks): DE79701500000111153375
+
+	             memo: AR{invoice-date}A{client-no_with_leading_zeroes}
+	          memo/JH: {internet-domain}
+
+		   amount: …
+
+(70) store "Quittung Ihrer SEPA-Überweisung" as ".9--PB_Quittung_SEPA_Ueberweisung.pdf"
