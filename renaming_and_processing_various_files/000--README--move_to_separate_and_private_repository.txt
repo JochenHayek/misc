@@ -12,6 +12,10 @@
 
       git-servers/github.com/JochenHayek/misc
 
+      ARCHIVE/Hayek001-non-dated/git-servers/github.com/JochenHayek/misc
+
+      *plus* unstaged files living here: Hayek001:git-servers/github.com/JochenHayek/misc/renaming_and_processing_various_files/
+
   * to
       
       git-servers/ber.jochen.hayek.name/johayek/renaming_and_processing_various_files
