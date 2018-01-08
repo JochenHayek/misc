@@ -74,6 +74,8 @@
 
 # ... single-sided ...?
 
+$ . $HOME/.profile
+$ path_prepend /sw
 $ ~/bin/renumber_files.sh 20170699000000--___. 999990-000--2017062022*
 
 # eg.
@@ -86,6 +88,8 @@ $ ~/bin/renumber_files.sh 20170614000000--ing-diba--Auftragsbestaetigung.       
 
 # ... duplex ...?
 
+$ . $HOME/.profile
+$ path_prepend /sw
 $ ~/bin/renumber_duplex_scanned_files.sh 20170614000000--___. 999990-000--20170615160824--___.* 999990-000--20170615160917--___.*
 
 # eg.
