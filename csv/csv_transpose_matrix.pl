@@ -6,12 +6,26 @@
 # $ ~/git-servers/github.com/JochenHayek/misc/csv/csv_transpose_matrix.pl Lohnabrechnung.txt
 
 # to be postprocessed preferrably with something like this:
-# $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
+# $ env SEPARATOR=',' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
 
 # together:
 # $ ~/git-servers/github.com/JochenHayek/misc/csv/csv_transpose_matrix.pl Lohnabrechnung.txt | env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
 
 {
+  if(defined($ENV{SEPARATOR}))
+    {
+    }
+  else
+    {
+      ##die '!defined($ENV{SEPARATOR})';
+      $ENV{SEPARATOR} = ',';
+    }
+
+  if($ENV{SEPARATOR} eq '')
+    {
+      die "\$ENV{SEPARATOR}=>{$ENV{SEPARATOR}}";
+    }
+
   my(@field_names);
   my(@field_values);
 
@@ -70,7 +84,8 @@
         ;
       for(my $j = 0;$j<=$#field_values;$j++)
 	{
-	  printf ";%s",
+	  printf "%s%s",
+	    $ENV{SEPARATOR},
 	    defined($field_values[$j][$i]) ? $field_values[$j][$i] : '',
 	    ;
 	}

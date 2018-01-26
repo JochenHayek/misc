@@ -12,6 +12,20 @@
 # $ ~/git-servers/github.com/JochenHayek/misc/csv/csv_transpose_2_rows_matrix.pl Lohnabrechnung.txt | env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
 
 {
+  if(defined($ENV{SEPARATOR}))
+    {
+    }
+  else
+    {
+      ##die '!defined($ENV{SEPARATOR})';
+      $ENV{SEPARATOR} = ',';
+    }
+
+  if($ENV{SEPARATOR} eq '')
+    {
+      die "\$ENV{SEPARATOR}=>{$ENV{SEPARATOR}}";
+    }
+  
   my(@field_names);
   my(@field_values);
 

@@ -20,7 +20,19 @@
 # regarding alignment see below!
 
 {
-  exists($ENV{SEPARATOR}) || die "!exists(\$ENV{SEPARATOR})";
+  if(defined($ENV{SEPARATOR}))
+    {
+    }
+  else
+    {
+      ##die '!defined($ENV{SEPARATOR})';
+      $ENV{SEPARATOR} = ',';
+    }
+
+  if($ENV{SEPARATOR} eq '')
+    {
+      die "\$ENV{SEPARATOR}=>{$ENV{SEPARATOR}}";
+    }
   
   # do these two conflict / overlap?
   binmode( ARGV   , ":encoding(UTF-8)" );		# not naming ":crlf" here may cause problems
