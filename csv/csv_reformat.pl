@@ -2,7 +2,7 @@
 
 # regression testing:
 #
-# -> ~/Computers/Programming/Languages/Perl/t/csv_reformat/
+# -> ~/git-servers/github.com/JochenHayek/misc/csv/t/csv_reformat/
 
 ################################################################################
 
@@ -12,7 +12,7 @@
 #
 # like this:
 #
-#   env SEPARATOR=';' ~/Computers/Programming/Languages/Perl/csv_reformat.pl
+#   env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
 
 ################################################################################
 
