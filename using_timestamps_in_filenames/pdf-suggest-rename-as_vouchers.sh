@@ -2,6 +2,8 @@
 
 # -> README--extracting_timestamps.txt
 
+# $ pdfinfo_options=' -rawdates' ~/bin/pdf-suggest-___.sh *.pdf
+
 # misc/using_timestamps_in_filenames/pdf-suggest-*.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-versioned.sh
