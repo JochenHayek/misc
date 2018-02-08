@@ -5,7 +5,7 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2017-11-24 09:16:18 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2018-02-08 10:29:56 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
@@ -401,7 +401,8 @@ sub job_work_at
 	  my($other_tags_ALL,$other_tags_separator,$comment_tags);
 
 	  ($pure_company_tag,$other_tags_ALL,$other_tags_separator,$other_tags,$comment_tags) =
-	    $work_AT =~ m/^ work \@ (?<pure_company_tag>[^,]+) (?<other_tags_ALL> (,) (?<other_tags>[^\/]+) (?<comment_tags>.*) )? $/x;
+	  ##$work_AT =~ m/^ work \@ (?<pure_company_tag>[^,]+) (?<other_tags_ALL> (,) (?<other_tags>[^\/]+) (?<comment_tags>.*) )? $/x;
+	    $work_AT =~ m/^ work \@ (?<pure_company_tag>[^,]+) (?<other_tags_ALL> (,) (?<other_tags>.+)     (?<comment_tags>.*) )? $/x;
 
 	  if(defined($other_tags_ALL))
 	    {
