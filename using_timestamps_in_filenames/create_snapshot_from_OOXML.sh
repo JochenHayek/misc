@@ -90,7 +90,15 @@ do :
 
   # use an OOXML file's "modified" timestamp:
 
-  date=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
+  date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
+   date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:created  | tr -d ':TZ-' )
+
+  if   test -n "$date_modified"
+  then    date="$date_modified"
+  elif test -n "$date_created"
+  then    date="$date_created"
+  else    date="___"
+  fi
 
   ################################################################################
 
