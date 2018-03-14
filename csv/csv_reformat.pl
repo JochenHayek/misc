@@ -65,8 +65,7 @@
   else
     {
       use Text::CSV;
-      my @rows;
-      my $csv = Text::CSV->new ( { binary => 1 } )  # should set binary attribute.
+      my $csv = Text::CSV->new ( { binary => 1 , sep_char => $ENV{SEPARATOR} } )  # should set binary attribute.
 	or die "Cannot use CSV: ".Text::CSV->error_diag ();
       
       foreach my $f (@ARGV)
