@@ -1,0 +1,9 @@
+# ...
+
+-> "man bash", search for "\[\[", "Pattern Matching"
+
+testing the matching operators on the command line:
+
+[[ 'HEAD -> origin' == *" -> "* ]]; echo $?
+
+[[ 'HEAD -> origin' =~ .*" -> ".* ]]; echo $?
