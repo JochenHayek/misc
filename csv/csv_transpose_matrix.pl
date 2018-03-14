@@ -1,15 +1,32 @@
 #! /usr/bin/perl -w
 
+# usage:
+#
+#   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_transpose_matrix.pl ...
+#
+# example:
+#
+#   $ ~/git-servers/github.com/JochenHayek/misc/csv/csv_transpose_matrix.pl Lohnabrechnung.txt
+#
+# sample input (within *--Lohn--Steuer_etc--period-*):
+#
+#   Lohnabrechnung.txt
+
+################################################################################
+
 # usage as described in 
-# /media/_ARCHIVE/home/Aleph_Soft_GmbH-FROZEN-STUFF/Buchhaltung/SKR03-1200/Belege/999999-000--2014__________--Lohn--Steuer_etc--period-2014mm.PLACEHOLDER.dir/HOWTO--monthly.IMPORTANT.txt
-# to be applied on Lohnabrechnung.txt :
-# $ ~/git-servers/github.com/JochenHayek/misc/csv/csv_transpose_matrix.pl Lohnabrechnung.txt
+#
+#   vouchers--SKR03-1200/999999-000--2099__________--Lohn--Steuer_etc--period-2099mm.PLACEHOLDER.dir/HOWTO--monthly.IMPORTANT.txt
 
 # to be postprocessed preferrably with something like this:
-# $ env SEPARATOR=',' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
+#
+#   $ env SEPARATOR=',' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
 
 # together:
-# $ ~/git-servers/github.com/JochenHayek/misc/csv/csv_transpose_matrix.pl Lohnabrechnung.txt | env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
+#
+#   $ ~/git-servers/github.com/JochenHayek/misc/csv/csv_transpose_matrix.pl Lohnabrechnung.txt | env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
+
+################################################################################
 
 {
   if(defined($ENV{SEPARATOR}))

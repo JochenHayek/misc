@@ -1,18 +1,20 @@
 #! /usr/bin/perl
 
+# usage:
+#
+#   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl ...
+#
+# example:
+#
+#   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl Buchungsliste.txt
+#
+# sample input (within *--Lohn--Steuer_etc--period-*):
+#
+#   Buchungsliste.txt
+#
 # regression testing:
 #
-# -> ~/git-servers/github.com/JochenHayek/misc/csv/t/csv_reformat/
-
-################################################################################
-
-# gets applied on:
-#
-#   *--Lohn--Steuer_etc--period-*/Buchungsliste.txt
-#
-# like this:
-#
-#   env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
+#   -> ~/git-servers/github.com/JochenHayek/misc/csv/t/csv_reformat/
 
 ################################################################################
 
