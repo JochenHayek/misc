@@ -56,7 +56,7 @@
       ##chomp;		# did not get it working
       s/\s+$//g;
 
-      my(@F) = split( $ENV{SEPARATOR} );
+      my(@F) = split( $ENV{SEPARATOR} );		# TBD: replace by a proper CSV module
 
       push( @field_names  , shift @F);
 

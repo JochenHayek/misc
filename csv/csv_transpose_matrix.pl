@@ -59,11 +59,11 @@
 
       if   ($. == 1)
 	{
-	  @field_names = split( $ENV{SEPARATOR} );
+	  @field_names = split( $ENV{SEPARATOR} );				# TBD: replace by a proper CSV module
 	}
       elsif($. > 1)
 	{
-	  @{$field_values[$.-2]} = split( $ENV{SEPARATOR} );
+	  @{$field_values[$.-2]} = split( $ENV{SEPARATOR} );			# TBD: replace by a proper CSV module
 
 	  while( $#{$field_values[$.-2]} >= 0 )
 	    {
