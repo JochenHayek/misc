@@ -4,7 +4,14 @@
 #
 #   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl ...
 #
+# caveat:
+#
+#   we *do* need at least one argument,
+#   we can use /dev/stdin, if there is not a proper one.
+#
 # example:
+#
+#   $                   ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl /dev/stdin
 #
 #   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl Buchungsliste.txt
 #
@@ -19,7 +26,6 @@
 ################################################################################
 
 # regarding alignment see below!
-
 {
   if(defined($ENV{SEPARATOR}))
     {
@@ -34,23 +40,52 @@
     {
       die "\$ENV{SEPARATOR}=>{$ENV{SEPARATOR}}";
     }
-  
-  # do these two conflict / overlap?
-  binmode( ARGV   , ":encoding(UTF-8)" );
-##binmode( STDIN  , ":encoding(UTF-8)" );
-  binmode( STDIN  , ":crlf:encoding(UTF-8)" );
 
-  binmode( STDOUT , ":crlf:encoding(UTF-8)" );
+  ################################################################################
 
-  while(<>)
+  if(0)
     {
-      ##chomp;		# did not get it working
-      s/\s+$//g;
+      # do these two conflict / overlap?
+      binmode( ARGV   , ":encoding(UTF-8)" );
+    ##binmode( STDIN  , ":encoding(UTF-8)" );
+      binmode( STDIN  , ":crlf:encoding(UTF-8)" );
 
-      my(@F) = split( $ENV{SEPARATOR} );		# TBD: replace by a proper CSV module
+      binmode( STDOUT , ":crlf:encoding(UTF-8)" );
 
-      push( @lines , \@F );
+      while(<>)
+	{
+	  ##chomp;		# did not get it working
+	  s/\s+$//g;
+
+	  my(@F) = split( $ENV{SEPARATOR} );
+
+	  push( @lines , \@F );
+	}
     }
+  else
+    {
+      use Text::CSV;
+      my @rows;
+      my $csv = Text::CSV->new ( { binary => 1 } )  # should set binary attribute.
+	or die "Cannot use CSV: ".Text::CSV->error_diag ();
+      
+      foreach my $f (@ARGV)
+	{
+	  open my $fh, "<:encoding(utf8)", $f or die "${f}: $!";
+
+	  while ( my $row = $csv->getline( $fh ) ) 
+	    {
+	    ##$row->[2] =~ m/pattern/ or next; # 3rd field should match
+
+	      push( @lines , $row );
+	    }
+
+	  $csv->eof or $csv->error_diag();
+	  close $fh;
+	}
+    }
+
+  ################################################################################
 
   my(@lengths);
 
@@ -73,8 +108,10 @@
 	  # which is optically good for amonts of money,
 	  # but otherwise it's not optimal though good enough for the time being.
 
-	  printf "%$lengths[$i].$lengths[$i]s %s ",
-	    $ref_line->[$i],
+	  my($l) = $lengths[$i] + 2; # '"' at both ends
+
+	  printf "%${l}.${l}s %s ",
+	    '"' . $ref_line->[$i] . '"',
 	    $ENV{SEPARATOR};
 
 	}
