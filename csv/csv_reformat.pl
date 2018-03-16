@@ -104,14 +104,15 @@
       for( $i=0 ; $i<=$#{$ref_line} ; $i++ )
 	{
 	  # the strings get right-aligned,
-	  # which is optically good for amonts of money,
+	  # which is optically good for amounts of money,
 	  # but otherwise it's not optimal though good enough for the time being.
 
 	  my($l) = $lengths[$i] + 2; # '"' at both ends
 
 	  printf "%${l}.${l}s %s ",
-	    '"' . $ref_line->[$i] . '"',
-	    $ENV{SEPARATOR};
+	    '"' . $ref_line->[$i] . '"', # TBD: the string should actually get escaped
+	    $ENV{SEPARATOR},
+	    ;
 
 	}
       print "\n";
