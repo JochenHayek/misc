@@ -28,6 +28,8 @@
 
 ################################################################################
 
+our($debug) = 0;
+
 {
   if(defined($ENV{SEPARATOR}))
     {
@@ -51,6 +53,8 @@
   binmode(STDOUT,":encoding(utf8)");
   binmode(STDERR,":encoding(utf8)");
 
+  my($max_length) = -1;
+
   while(<>)
     {
       ##chomp;		# did not get it working
@@ -60,21 +64,48 @@
 
       push( @field_names  , shift @F);
 
+      printf STDERR "=%03.3d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__LINE__,
+	'$.' => $.,
+        '$#F' => $#F,
+      ##'$#field_names' => $#field_names,
+	"\$field_names[ $#field_names ]" => $field_names[ $#field_names ],
+	'...'
+	if $::debug;
+
+      $max_length = $#F
+	if $#F > $max_length;
+
       push( @field_values , \@F );
     }
 
-  for(my $j = 0;$j<=$#{$field_values[0]};$j++)
+  printf STDERR "=%03.3d: %s=>{%s} // %s\n",__LINE__,
+    '$#field_names' => $#field_names,
+    '...'
+    if $::debug;
+
+  printf STDERR "=%03.3d: %s=>{%s} // %s\n",__LINE__,
+    '$#{$field_values[0]}' => $#{$field_values[0]},
+    '...'
+    if $::debug;
+
+  printf STDERR "=%03.3d: %s=>{%s} // %s\n",__LINE__,
+    '$max_length' => $max_length,
+    '...'
+    if $::debug;
+
+##for(my $j = 0;$j<=$#{$field_values[0]};$j++)
+  for(my $j = 0;$j<=$max_length;$j++)
 ##my $j = 0;
     {
       printf "\n",
 	;
       for(my $i = 0;$i<=$#field_names;$i++)
 	{
-	  printf "%s;%s",
+	  printf "%s$ENV{SEPARATOR}%s",
 	    $j,
 	    $field_names[$i],
 	    ;
-	  printf ";%s",
+	  printf "$ENV{SEPARATOR}%s",
 	    defined($field_values[$i][$j]) ? $field_values[$i][$j] : '',
 	    ;
 	  printf "\n",
