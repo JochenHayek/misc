@@ -67,7 +67,6 @@ our($debug) = 0;
       printf STDERR "=%03.3d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__LINE__,
 	'$.' => $.,
         '$#F' => $#F,
-      ##'$#field_names' => $#field_names,
 	"\$field_names[ $#field_names ]" => $field_names[ $#field_names ],
 	'...'
 	if $::debug;
@@ -93,9 +92,7 @@ our($debug) = 0;
     '...'
     if $::debug;
 
-##for(my $j = 0;$j<=$#{$field_values[0]};$j++)
   for(my $j = 0;$j<=$max_length;$j++)
-##my $j = 0;
     {
       printf "\n",
 	;

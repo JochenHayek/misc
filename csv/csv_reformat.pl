@@ -26,6 +26,9 @@
 ################################################################################
 
 # regarding alignment see below!
+
+our($debug) = 0;
+
 {
   if(defined($ENV{SEPARATOR}))
     {
@@ -68,8 +71,20 @@
       my $csv = Text::CSV->new ( { binary => 1 , sep_char => $ENV{SEPARATOR} } )  # should set binary attribute.
 	or die "Cannot use CSV: ".Text::CSV->error_diag ();
       
+      $#ARGV >= 0 or die "\$#ARGV=>$#ARGV // bad";
+
+      printf STDERR "=%03.3d: %s=>{%s} // %s\n",__LINE__,
+	'$#ARGV' => $#ARGV,
+	'...'
+	if $::debug;
+
       foreach my $f (@ARGV)
 	{
+	  printf STDERR "=%03.3d: %s=>{%s} // %s\n",__LINE__,
+	    '$f' => $f,
+	    '...'
+	    if $::debug;
+
 	  open my $fh, "<:encoding(utf8)", $f or die "${f}: $!";
 
 	  while ( my $row = $csv->getline( $fh ) ) 
