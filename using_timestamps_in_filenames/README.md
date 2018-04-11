@@ -19,10 +19,11 @@ using office:document-meta/office:meta/dc:date .
 
 create_snapshot_from_OOXML.sh
 =============================
-assuming the file in question is a Microsoft .xslx or .docx or ... file
+assuming the file in question is
+a Microsoft .xslx (Excel) or .docx (Word) or .vsdx (Visio/Drawing) or ... file
 (actually a ZIP file containing docProps/core.xml)
 create a copy of a file (the snapshot)
-using cp:coreProperties/dcterms:modified .
+using cp:coreProperties/dcterms:modified resp. cp:coreProperties/dcterms:created .
 
 \*-suggest-rename-*.sh
 =====================

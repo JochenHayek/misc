@@ -86,7 +86,7 @@ do :
 
   ################################################################################
 
-  # https://en.wikipedia.org/wiki/Office_Open_XML_file_formats – "OOXML" – used by Microsoft Office (.xslx, .docx, …)
+  # https://en.wikipedia.org/wiki/Office_Open_XML_file_formats – "OOXML" – used by Microsoft Office (.xslx, .docx, .vsdx, …)
 
   # use an OOXML file's "modified" timestamp:
 
