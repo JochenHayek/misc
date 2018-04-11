@@ -1,5 +1,11 @@
 #! /usr/bin/perl -w
 
+# rationale:
+#
+# there a CSV matrixes with far too many columns.
+# serialise the matrix (colums 2..n),
+# "prepending" the block# to each line / record !
+
 # usage:
 #
 #   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_serialize_matrix.pl ...
@@ -11,6 +17,10 @@
 # sample input (within *--Lohn--Steuer_etc--period-*):
 #
 #   Lohnabrechnung.txt
+
+# CAVEAT:
+#
+# yes, we should rather use a proper CSV module.
 
 ################################################################################
 
@@ -60,7 +70,7 @@ our($debug) = 0;
       ##chomp;		# did not get it working
       s/\s+$//g;
 
-      my(@F) = split( $ENV{SEPARATOR} );		# TBD: replace by a proper CSV module
+      my(@F) = split( $ENV{SEPARATOR} );		# TBD: replace with a proper CSV module
 
       push( @field_names  , shift @F);
 
