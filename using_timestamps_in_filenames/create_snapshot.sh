@@ -86,11 +86,13 @@ do :
 
   ################################################################################
 
-  # https://en.wikipedia.org/wiki/Office_Open_XML_file_formats – "OOXML" – used by Microsoft Office (.xslx, .docx, …)
+  # https://en.wikipedia.org/wiki/Office_Open_XML_file_formats – "OOXML" – used by Microsoft Office (.xslx, .docx, .vsdx, …)
 
   # use an OOXML file's "modified" timestamp:
 
-##date=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
+##date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
+## date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:created  | tr -d ':TZ-' )
+##date=...
 
   ################################################################################
 

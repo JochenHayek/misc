@@ -1,19 +1,22 @@
 #! /usr/bin/perl
 
+# usage:
+#
+#   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
+#
+# example:
+#
+#   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl Buchungsliste.txt
+#   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl LStAnmeldung.txt
+#
+# sample input (within *--Lohn--Steuer_etc--period-*):
+#
+#   Buchungsliste.txt
+#   LStAnmeldung.txt
+#
 # regression testing:
 #
-# -> ~/git-servers/github.com/JochenHayek/misc/csv/t/csv_reformat/
-
-################################################################################
-
-# gets applied on:
-#
-#   *--Lohn--Steuer_etc--period-*/Buchungsliste.txt
-#   *--Lohn--Steuer_etc--period-*/LStAnmeldung.txt
-#
-# like this:
-#
-#   env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
+#   -> ~/git-servers/github.com/JochenHayek/misc/csv/t/csv_reformat/
 
 ################################################################################
 
@@ -46,7 +49,7 @@
       ##chomp;		# did not get it working
       s/\s+$//g;
 
-      my(@F)              = split( $ENV{SEPARATOR} );
+      my(@F) = split( $ENV{SEPARATOR} );		# TBD: replace by a proper CSV module
 
       splice( @F , $ENV{OFFSET} , $ENV{LENGTH} );
 
