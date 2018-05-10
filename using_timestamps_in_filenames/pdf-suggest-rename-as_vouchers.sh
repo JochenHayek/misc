@@ -2,6 +2,8 @@
 
 # -> README--extracting_timestamps.txt
 
+# $ pdfinfo_options=' -rawdates' ~/bin/pdf-suggest-___.sh *.pdf
+
 # misc/using_timestamps_in_filenames/pdf-suggest-*.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-versioned.sh
@@ -9,25 +11,54 @@
 
 ################################################################################
 
-pdfinfo 2>/dev/null
-if test $? -eq 127		# the shell cannot find the utility
+##pdfinfo 2>/dev/null
+##if test $? -eq 127		# the shell cannot find the utility
+##then :
+##  echo 1>&2 "*** $0: cannot find pdfinfo"
+##  exit 1
+##fi
+
+if   test -e /sw/bin/pdfinfo
 then :
-  echo 1>&2 "*** $0: cannot find pdfinfo"
+  PDFINFO=/sw/bin/pdfinfo
+elif test -e /opt/bin/pdfinfo
+then :
+  PDFINFO=/opt/bin/pdfinfo
+else
+  echo 1>&2 "*** $0: cannot find pdfinfo at /sw/bin or /opt/bin"
   exit 1
 fi
+
+case $("${PDFINFO}" -help 2>&1) in
+
+  *http://poppler.freedesktop.org* )
+  ##echo 1>&2 "*** $0: poppler"
+  ##pdfinfo_options=' -meta -rawdates'
+  ##pdfinfo_options=''
+    ;;
+
+  * )
+  ##echo 1>&2 "*** $0: *"
+  ##pdfinfo_options=' -meta -rawdates'
+  ##pdfinfo_options=''
+    ;;
+
+esac
+
+################################################################################
 
 if test -z "${pdfinfo_options}"
 then :
 
   ##pdfinfo_options=''
 
-  pdfinfo -meta 1> /dev/null 2> /dev/null
+  "${PDFINFO}" -meta 1> /dev/null 2> /dev/null
   if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
   then :
     pdfinfo_options="${pdfinfo_options} -meta"
   fi
 
-  pdfinfo -rawdates 1> /dev/null 2> /dev/null
+  "${PDFINFO}" -rawdates 1> /dev/null 2> /dev/null
   if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
   then :
     pdfinfo_options="${pdfinfo_options} -rawdates"
@@ -37,7 +68,7 @@ then :
 
   # this script does not yet deal with "-isodates"
 
-  ##pdfinfo -isodates 1> /dev/null 2> /dev/null
+  ##"${PDFINFO}" -isodates 1> /dev/null 2> /dev/null
   ##if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
   ##then :
   ##  pdfinfo_options="${pdfinfo_options} -isodates"
@@ -59,7 +90,7 @@ do
 
   echo "*** ${filename}:"
 
-  pdfinfo ${pdfinfo_options} "${filename}" |
+  "${PDFINFO}" ${pdfinfo_options} "${filename}" |
 
   perl -MFile::Basename \
     -s \
@@ -178,6 +209,37 @@ do
        # <dc:date>2014-07-01T16:45:02+02:00</dc:date>
 
        if( m/ ^ \s* < (?<n> \w+ :\w* Date) > (?<v>.*) <\/ (?<n1> \w+ : \w* Date) > /ix )
+	 {
+           my(%plus) = %+;
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
+
+	   $plus{YYYY} = substr($plus{v}, 0,4);
+	   $plus{mm}   = substr($plus{v}, 5,2);
+	   $plus{dd}   = substr($plus{v}, 8,2);
+	   $plus{HH}   = substr($plus{v},11,2);
+	   $plus{MM}   = substr($plus{v},14,2);
+	   $plus{SS}   = substr($plus{v},17,2);
+
+	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
+	     ${filename},
+	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
+	     $plus{n} => $plus{v},
+	     ${filename},
+	     ;
+	 }
+
+       # xmp:MetadataDate="2014-07-01T16:45:02+02:00"
+       #   xmp:CreateDate="2014-07-01T16:45:02+02:00"
+       #   xmp:ModifyDate="2014-07-01T16:45:02+02:00"
+
+       #   xmp:CreateDate="2018-01-02T12:26:41Z"
+
+       if( m/ \s+ (?<n> \w+ :\w* Date) =" (?<v>.*?) " /ix )
 	 {
            my(%plus) = %+;
 
