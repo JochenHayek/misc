@@ -1,6 +1,21 @@
 :
 
-# .../diff_last_2.sh Rakefile.20*
+# $ .../diff_last_2.sh Rakefile.20*
+#
+#   supposing there are some Rakefile.20*
+
+# CAVEAT:
+#
+# differring parameter usages:
+# * "Rakefile"
+# * "Rakefile.20*"
+
+# group of utilities:
+# * .../list_snapshot_diffs.sh
+# * .../diff_last_2.sh
+# * ...
+
+################################################################################
 
 bn0=$(basename "$0")
 
