@@ -28,9 +28,9 @@
 #
 # this is what we store within the lock (PID, /proc/.../cmdline, ...):
 #
-#   .../${MODE}.lockdir/pid
+#   .../${foo}.lockdir/pid
 #
-#   .../${MODE}.lockdir/cmdline
+#   .../${foo}.lockdir/cmdline
 #
 # $ cat -A /proc/35594/cmdline
 # /bin/bash^@...^@
@@ -88,6 +88,7 @@ function _lock_log1__style_TC()
 
   local                 level="$3"
   local                  lock="$4"
+
   local                   msg="$5"
 
   printf 1>&2 "%s %s %s=>{%s}\t// %s\n" "$(date '+%FT%T')" \
@@ -104,6 +105,7 @@ function _lock_log2__style_TC()
   local                 level="$3"
   local                  lock="$4"
   local                   pid="$5"
+
   local                   msg="$6"
 
   printf 1>&2 "%s %s %s=>{%s},%s=>{%s}\t// %s\n" "$(date '+%FT%T')" \
