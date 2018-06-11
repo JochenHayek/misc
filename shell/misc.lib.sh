@@ -3,6 +3,7 @@
 # e.g.:
 #
 # get_key_value NAME /etc/os-release
+# get_key_value NAME /etc/os-release DEFAULT
 
 JHget_key_value()
 {
