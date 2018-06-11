@@ -232,6 +232,17 @@ sub func
             	 From	  : \s+ (?<From>             bounces.*\@.*\.oknotify2\.com ); \s+
                  FROM	  : \s+ (?<FROM>[^<]*       <bounces.*\@.*\.oknotify2\.com>); \s+
 		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.* Jochen, \s+ (?<okcupid_account>.*) \s+ likes \s+ you \s+ back !); \s+
+		 Folder : \s+ (?<Folder>[^/]*\/\S*)
+
+    }{,OkCupid,$+{okcupid_account}] From: ___ AKA $+{okcupid_account}; Subject: she likes you back;}gix;
+
+  $param{rec} =~ s{
+
+                 \] \s+
+            	 From	  : \s+ (?<From>             bounces.*\@.*\.oknotify2\.com ); \s+
+                 FROM	  : \s+ (?<FROM>[^<]*       <bounces.*\@.*\.oknotify2\.com>); \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.* new \s+ message \s+ from \s+ (?<okcupid_account>.*) ); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 

@@ -1,5 +1,22 @@
 :
 
+# $ .../list_snapshot_diffs.sh Rakefile
+#
+#   supposing there are some Rakefile.20*
+
+# CAVEAT:
+#
+# differring parameter usages:
+# * "Rakefile"
+# * "Rakefile.20*"
+
+# group of utilities:
+# * .../list_snapshot_diffs.sh
+# * .../diff_last_2.sh
+# * ...
+
+################################################################################
+
 if test $# -eq 1
 then :
   f="$1"
