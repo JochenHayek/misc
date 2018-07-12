@@ -6,6 +6,8 @@
 
 # how to lock/unlock:
 #
+# $ module_lock_setup
+#
 # $ lock_acquire .../${FOO}.lockdir
 #
 # $ lock_release .../${FOO}.lockdir
@@ -61,6 +63,12 @@ function _lock_log1()
       '$level' "$level" \
       '$lock' "$lock" \
       "$msg"
+
+  case "$level" in
+    INFO | WARN | ERROR | FATAL )
+      : add_entry_to_log_table "$level" "$msg (lock=>$lock)"
+      ;;
+  esac
 }
 
 function _lock_log2()
@@ -79,6 +87,12 @@ function _lock_log2()
       '$lock' "$lock" \
       '$pid' "$pid" \
       "$msg"
+
+  case "$level" in
+    INFO | WARN | ERROR | FATAL )
+      : add_entry_to_log_table "$level" "$msg (lock=>$lock,pid=>$pid)"
+      ;;
+  esac
 }
 
 function _lock_log1__style_TC()
@@ -170,6 +184,16 @@ function _lock_store_attributes()
 }
 
 ################################################################################
+
+function module_lock_setup()
+{
+  # check availability of environment variables
+  # as needed by:
+  # * add_entry_to_log_table
+  # * ...
+  #
+  # #todo
+}
 
 function lock_acquire()
 {
