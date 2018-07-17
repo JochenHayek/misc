@@ -1,8 +1,5 @@
-#! /usr/local/perlbrew/perls/stable/bin/perl
 #! /usr/bin/perl
-
-# $Id: JHgen_diary_frame.pl 1.26 2016/11/17 16:18:19 johayek Exp $
-# $Source: /Users/johayek/Computers/Programming/Languages/Perl/RCS/JHgen_diary_frame.pl $
+#! /usr/local/perlbrew/perls/stable/bin/perl
 
 # Q: until what year do we run here?
 # A: search for "last year"!
@@ -55,9 +52,9 @@
 	  , $mday
 	  ;
 
-      next if($date__YYYY_MM_DD lt '2018-00-00'); # "first year"
+      next if($date__YYYY_MM_DD lt '2019-00-00'); # "first year"
 
-      last if($date__YYYY_MM_DD gt '2018-99-99'); # "last year"
+      last if($date__YYYY_MM_DD gt '2019-99-99'); # "last year"
 
       print
       ##$i,' ',

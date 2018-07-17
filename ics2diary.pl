@@ -48,11 +48,15 @@
 		$table{DTEND}{SS},
 		;
 
-	      printf " %s=>{%s}\n",
+	      printf " %s=>{%s}",
 		'SUMMARY' => $table{SUMMARY}{value},
 		if exists($table{SUMMARY});
 
-	      printf "\n";
+	      printf " %s=>{%s}",
+		'LOCATION' => $table{LOCATION}{value},
+		if exists($table{LOCATION});
+
+	      printf "\n\n";
 
 	      printf "\t\t%s=>{%s}\n",
 		'DESCRIPTION' => $table{DESCRIPTION}{value},
@@ -133,7 +137,7 @@
 	    '...'
 	    if 0;
 	}
-      elsif(m/^ (?<name> SUMMARY | DESCRIPTION ) : (?<value> .*) /x)
+      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION ) : (?<value> .*) /x)
 	{
 	  my(%plus) = %+;
 

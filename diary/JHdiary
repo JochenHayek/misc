@@ -5,7 +5,7 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2018-05-31 14:46:46 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2018-06-24 17:15:14 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
@@ -623,7 +623,7 @@ sub job_easter_etc
       , { offset =>  -1 , name => 'Easter Saturday = Ostersamstag = Samedi de Paques'                        }
       , { offset =>   0 , name => 'Easter Sunday = Ostersonntag = Dimanche de Paques'                        }
       , { offset =>  +1 , name => 'Easter Monday = Ostermontag = Lundi de Paques'                            }
-      , { offset => +39 , name => 'Ascension Day = Christi Himmelfahrt (= Vatertag (-> BuHa!!!)) = Ascension'             }
+      , { offset => +39 , name => 'Ascension Day = Christi Himmelfahrt (= Vatertag = Ascension'              }
       , { offset => +49 , name => 'Whitsunday = Pfingstsonntag = Dimanche de Pentecote -- Karneval-Berlin.de'                      }
       , { offset => +50 , name => 'Whitmonday = Pfingstmontag = Lundi de Pentecote'                          }
       , { offset => +60 , name => 'Corpus Christi Day = Fronleichnam = Fete-Dieu -- arbeitsfreier Tag für Permies in Bayern, Hessen, ... (nicht Berlin, Sachsen), aber ...' }
@@ -645,7 +645,7 @@ sub job_easter_etc
 
 	if 0 && $main::options{debug};
 
-      printf STDOUT "%02d %s %04d\n\tHH:MM name of day: %s\n"
+      printf STDOUT "%02d %s %04d\n\tHH:MM [name_of_day] %s\n"
 	,$date{day}
 	,$::short_month_names[$date{month}]
 	,$date{year}
