@@ -30,10 +30,7 @@
 #
 #   .../${foo}.lockdir/pid
 #
-#   .../${foo}.lockdir/cmdline
-#
-# $ cat -A /proc/35594/cmdline
-# /bin/bash^@...^@
+#   .../${foo}.lockdir/cmdline	// from /proc/$PID/cmdline
 
 ################################################################################
 
