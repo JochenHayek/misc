@@ -65,6 +65,41 @@ sub func
 
   ################################################################################
 
+#	09:43:26 +0100 [_,SPF_mangled,admin] From: Jochen+FRITZ-Box@Hayek.name;
+#		FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>
+#		TO: <Jochen+FRITZ-Box-200-coffee@Hayek.name>,;
+#		SUBJECT: 200/coffee wurde angeschaltet;
+#		Folder: .folder-topics.admin/new/1541493809.5328_1.mspool3;
+
+  if( $param{rec} =~ m,
+
+	         \[(?<tags>[^\]]*?)] \s+
+		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box) - (?<device_no>.*) \@Hayek\.name ) >\,; \s+
+		 SUBJECT: \s+ (?<what>[^;]*) ; \s+
+		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+
+    ,gix)
+    {
+      printf "// %s=>{%s}\n",
+	'$+{what}' => $+{what} ,
+	if 0;
+
+      $param{rec} =~ s,
+
+	         \[(?<tags>[^\]]*?)] \s+
+		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box) - (?<device_no>.*) \@Hayek\.name ) >\,; \s+
+		 SUBJECT: \s+ (?<what>[^;]*) ; \s+
+		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+
+	,[$+{tags}\,household] SUBJECT: $+{what},gix;
+    }
+
+  ################################################################################
+
   # fritz.box / Anruf von …
 
   #- : \[?<tags>[^\]]*?\] \s+
