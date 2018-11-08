@@ -259,6 +259,32 @@ sub func
 
   ################################################################################
 
+  # jewish-singles.de
+
+#	13:04:17 +0200 [_,SPF_mangled,social_networking] From: support@jewish-singles.de;
+#		FROM: "Jewish German Social Network"  <support@jewish-singles.de>
+#		TO: <jochenPLUSjewish-singles@hayek.name>;
+#		SUBJECT: You have a new visitor!;
+#		Folder: .folder-topics.social_networking/new/1540551858.24263_1.mspo;
+
+#		SUBJECT: You have a new visitor!;
+#		SUBJECT: You have a new friend!;
+#		SUBJECT: You have a new mutual attraction!;
+#		SUBJECT: You have a new message!;
+
+  $param{rec} =~ s{
+
+                 \] \s+
+            	 From	  : \s+ (?<From>             support\@jewish-singles\.de ); \s+
+                 FROM	  : \s+ (?<FROM>[^<]*       <support\@jewish-singles\.de>);? \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.*?); \s+
+		 Folder : \s+ (?<Folder>[^/]*\/\S*)
+
+    }{,jewish-singles.de,ACCOUNT] Subject: $+{SUBJECT};}gix;
+
+  ################################################################################
+
   # okcupid
 
   $param{rec} =~ s{
