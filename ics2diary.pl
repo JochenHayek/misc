@@ -52,14 +52,16 @@
 		$table{DTSTART}{YYYY},
 		;
 
-	      printf "\t%s:%s:%s .. %s:%s:%s",
+	      printf "\t%s:%s:%s %s .. %s:%s:%s %s",
 		$table{DTSTART}{HH},
 		$table{DTSTART}{MM},
 		$table{DTSTART}{SS},
+		$table{DTSTART}{Z},
 
 		$table{DTEND}{HH},
 		$table{DTEND}{MM},
 		$table{DTEND}{SS},
+		$table{DTEND}{Z},
 		;
 
 	      printf " %s=>{%s}",
@@ -144,7 +146,7 @@
 		}
 	    }
 	}
-      elsif(m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..)T(?<HH>..)(?<MM>..)(?<SS>..) Z? ) $/x)
+      elsif(m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..)T(?<HH>..)(?<MM>..)(?<SS>..) (?<Z> Z? ) ) $/x)
 	{
 	  my(%plus) = %+;
 
