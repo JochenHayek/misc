@@ -2,7 +2,13 @@
 
 # usage:
 #
-# .../renumber_duplex_scanned_files.sh new_name old_names
+#   $ .../renumber_duplex_scanned_files.sh new_name old_names
+#
+# e.g.:
+#
+#   $ .../renumber_duplex_scanned_files.sh new. ...
+#
+#     -> new.01of04.png new.02of04.png new.03of04.png new.04of04.png
 
 ################################################################################
 
