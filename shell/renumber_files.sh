@@ -2,7 +2,13 @@
 
 # usage:
 #
-# .../renumber_files.sh new_name old_names
+#   $ .../renumber_files.sh new_name old_names
+#
+# e.g.:
+#
+#   $ .../renumber_files.sh new. a.png b.png c.png
+#
+#     -> new.01of03.png new.02of03.png new.03of03.png
 
 ################################################################################
 

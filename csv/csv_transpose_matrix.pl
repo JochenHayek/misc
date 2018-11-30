@@ -11,6 +11,12 @@
 # sample input (within *--Lohn--Steuer_etc--period-*):
 #
 #   Lohnabrechnung.txt
+#
+# CAVEAT:
+#
+# yes, we should rather use a proper CSV module.
+#
+# steal code from csv_serialize_matrix.pl !
 
 ################################################################################
 
