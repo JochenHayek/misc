@@ -67,8 +67,14 @@ our($debug) = 0;
     }
   else
     {
+      # steal code from csv_serialize_matrix.pl !
+
+      # http://Jochen.Hayek.name/wp/blog-en/category/csv/
+      # https://perlmaven.com/how-to-read-a-csv-file-using-perl
+      # https://metacpan.org/pod/Text::CSV
+
       use Text::CSV;
-      my $csv = Text::CSV->new ( { binary => 1 , sep_char => $ENV{SEPARATOR} } )  # should set binary attribute.
+      my $csv = Text::CSV->new( { binary => 1 , auto_diag => 1 , sep_char => $ENV{SEPARATOR} } )  # should set binary attribute.
 	or die "Cannot use CSV: ".Text::CSV->error_diag ();
       
       $#ARGV >= 0 or die "\$#ARGV=>$#ARGV // bad";

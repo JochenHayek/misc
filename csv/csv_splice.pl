@@ -17,6 +17,12 @@
 # regression testing:
 #
 #   -> ~/git-servers/github.com/JochenHayek/misc/csv/t/csv_reformat/
+#
+# CAVEAT:
+#
+# yes, we should rather use a proper CSV module.
+#
+# steal code from csv_serialize_matrix.pl !
 
 ################################################################################
 

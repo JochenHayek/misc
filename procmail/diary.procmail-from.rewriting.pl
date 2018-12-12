@@ -110,6 +110,41 @@ sub func
 
   ################################################################################
 
+#	09:43:26 +0100 [_,SPF_mangled,admin] From: Jochen+FRITZ-Box@Hayek.name;
+#		FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>
+#		TO: <Jochen+FRITZ-Box-200-coffee@Hayek.name>,;
+#		SUBJECT: 200/coffee wurde angeschaltet;
+#		Folder: .folder-topics.admin/new/1541493809.5328_1.mspool3;
+
+  if( $param{rec} =~ m,
+
+	         \[(?<tags>[^\]]*?)] \s+
+		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box) - (?<device_no>.*) \@Hayek\.name ) >\,; \s+
+		 SUBJECT: \s+ (?<what>[^;]*) ; \s+
+		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+
+    ,gix)
+    {
+      printf "// %s=>{%s}\n",
+	'$+{what}' => $+{what} ,
+	if 0;
+
+      $param{rec} =~ s,
+
+	         \[(?<tags>[^\]]*?)] \s+
+		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box) - (?<device_no>.*) \@Hayek\.name ) >\,; \s+
+		 SUBJECT: \s+ (?<what>[^;]*) ; \s+
+		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+
+	,[$+{tags}\,household] SUBJECT: $+{what},gix;
+    }
+
+  ################################################################################
+
   # SUBJECT: Synology DSM Alert: IP address [79.137.80.222] of DiskStation003 has been blocked by SSH;
   # SUBJECT: Synology DSM Alert: IP address [174.63.79.159] of DiskStation003 has been blocked by SSH;
   # SUBJECT: Synology DSM Alert: DSM update is ready to be installed on DiskStation003;
@@ -221,6 +256,32 @@ sub func
   ##,\,$+{SUBJECT_gigaset_home}] SUBJECT: $+{SUBJECT_rem},gix;
 
   ##,\,`$+{SUBJECT_gigaset_home} =~ tr/ /_/`] SUBJECT: $+{SUBJECT_rem},gix;
+
+  ################################################################################
+
+  # jewish-singles.de
+
+#	13:04:17 +0200 [_,SPF_mangled,social_networking] From: support@jewish-singles.de;
+#		FROM: "Jewish German Social Network"  <support@jewish-singles.de>
+#		TO: <jochenPLUSjewish-singles@hayek.name>;
+#		SUBJECT: You have a new visitor!;
+#		Folder: .folder-topics.social_networking/new/1540551858.24263_1.mspo;
+
+#		SUBJECT: You have a new visitor!;
+#		SUBJECT: You have a new friend!;
+#		SUBJECT: You have a new mutual attraction!;
+#		SUBJECT: You have a new message!;
+
+  $param{rec} =~ s{
+
+                 \] \s+
+            	 From	  : \s+ (?<From>             support\@jewish-singles\.de ); \s+
+                 FROM	  : \s+ (?<FROM>[^<]*       <support\@jewish-singles\.de>);? \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.*?); \s+
+		 Folder : \s+ (?<Folder>[^/]*\/\S*)
+
+    }{,jewish-singles.de,ACCOUNT] Subject: $+{SUBJECT};}gix;
 
   ################################################################################
 

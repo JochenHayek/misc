@@ -6,6 +6,8 @@
 
 # how to lock/unlock:
 #
+# $ module_lock_setup
+#
 # $ lock_acquire .../${FOO}.lockdir
 #
 # $ lock_release .../${FOO}.lockdir
@@ -30,10 +32,7 @@
 #
 #   .../${foo}.lockdir/pid
 #
-#   .../${foo}.lockdir/cmdline
-#
-# $ cat -A /proc/35594/cmdline
-# /bin/bash^@...^@
+#   .../${foo}.lockdir/cmdline	// from /proc/$PID/cmdline
 
 ################################################################################
 
@@ -61,6 +60,12 @@ function _lock_log1()
       '$level' "$level" \
       '$lock' "$lock" \
       "$msg"
+
+  case "$level" in
+    INFO | WARN | ERROR | FATAL )
+      : add_entry_to_log_table "$level" "$msg (lock=>$lock)"
+      ;;
+  esac
 }
 
 function _lock_log2()
@@ -79,6 +84,12 @@ function _lock_log2()
       '$lock' "$lock" \
       '$pid' "$pid" \
       "$msg"
+
+  case "$level" in
+    INFO | WARN | ERROR | FATAL )
+      : add_entry_to_log_table "$level" "$msg (lock=>$lock,pid=>$pid)"
+      ;;
+  esac
 }
 
 function _lock_log1__style_TC()
@@ -165,11 +176,45 @@ function _lock_store_attributes()
 {
   local                 lock="$1"
 
-  echo $$                     > "$lock/pid"
-  cp --archive /proc/$$/cmdline "$lock/cmdline"
+  echo $$                       > "$lock/pid"
+  cp --archive /proc/$$/cmdline   "$lock/cmdline"
+
+  ##_lock_log2 "${FUNCNAME[0]}" "${LINENO}" INFO "$lock" "$$" 'going to show source and target ...'
+  ##echo
+  ##echo '***0***'
+  ##echo
+  ##head -999    /proc/$$/cmdline "$lock/cmdline" | cat -A
+  ##echo
+  ##echo '***1***'
+  ##echo
+}
+
+function _lock_compare_cmdline()
+{
+  local                 left="$1"
+  local                right="$2"
+
+  # this one works:
+
+  diff 2>/dev/null         --text "$left" "$right"
+
+  # there are problems with these ones:
+
+##diff 2>/dev/null --brief --text "$left" "$right"
+##cmp --silent                    "$left" "$right"
 }
 
 ################################################################################
+
+function module_lock_setup()
+{
+  # check availability of environment variables
+  # as needed by:
+  # * add_entry_to_log_table
+  # * ...
+  #
+  # #todo
+}
 
 function lock_acquire()
 {
@@ -245,7 +290,7 @@ function lock_acquire()
 
 	else	# if mkdir 2>/dev/null "$lock"
 
-	  _lock_log2 "${FUNCNAME[0]}" "${LINENO}" FATAL "$lock" "$PID" 'lock exists, owned by ... (*alive*) -- different cmdline, tried to acquire it again, but failed'
+	  _lock_log2 "${FUNCNAME[0]}" "${LINENO}" FATAL "$lock" "$PID" 'lock exists, owned by ... (*alive*) -- *different* cmdline, tried to acquire it again, but failed'
 
 	  exit 2
 
@@ -269,7 +314,7 @@ function lock_acquire()
 
       else	# if mkdir 2>/dev/null "$lock"
 
-	_lock_log2 "${FUNCNAME[0]}" "${LINENO}" FATAL "$lock" "$PID" 'lock exists, owned by ... (*alive*) -- different cmdline (o, o!) -- tried to acquire it again, but failed -- we are out -- good bye!'
+	_lock_log2 "${FUNCNAME[0]}" "${LINENO}" FATAL "$lock" "$PID" 'lock exists, owned by ... (*alive*) -- *different* cmdline (o, o!) -- tried to acquire it again, but failed -- we are out -- good bye!'
 
 	exit 1
 

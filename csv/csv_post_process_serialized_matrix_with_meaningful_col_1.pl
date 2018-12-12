@@ -25,6 +25,8 @@
 # and also '"' to always enclose field values.
 #
 # yes, we should rather use a proper CSV module.
+#
+# steal code from csv_serialize_matrix.pl !
 
 our($debug) = 0;
 

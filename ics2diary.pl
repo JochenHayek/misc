@@ -11,14 +11,28 @@
 {
   my(%table);
 
+  my($last_label_encountered);
+
   while(<>)
     {
-      chomp;
+      chomp if 0;
+      s/\s*$//;
 
       # DTEND;TZID=Europe/Berlin:20171103T152600
 
       if(0)
 	{
+	}
+      elsif(m/^ \x20 (?<rem> .*)  $/x)
+	{
+	  my(%plus) = %+;
+
+	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+	    '$plus{rem}' => $plus{rem},
+	    '...'
+	    if 0;
+
+	  $table{ $last_label_encountered }{value} .= $plus{rem};
 	}
       elsif(m/^ (?<name> BEGIN | END ) : VEVENT $/x)
 	{
@@ -38,21 +52,31 @@
 		$table{DTSTART}{YYYY},
 		;
 
-	      printf "\t%s:%s:%s .. %s:%s:%s",
+	      printf "\t%s:%s:%s %s .. %s:%s:%s %s",
 		$table{DTSTART}{HH},
 		$table{DTSTART}{MM},
 		$table{DTSTART}{SS},
+		$table{DTSTART}{Z},
 
 		$table{DTEND}{HH},
 		$table{DTEND}{MM},
 		$table{DTEND}{SS},
+		$table{DTEND}{Z},
 		;
 
-	      printf " %s=>{%s}\n",
+	      printf " %s=>{%s}",
 		'SUMMARY' => $table{SUMMARY}{value},
 		if exists($table{SUMMARY});
 
-	      printf "\n";
+	      printf " %s=>{%s}",
+		'LOCATION' => $table{LOCATION}{value},
+		if exists($table{LOCATION});
+
+	      printf " %s=>{%s}",
+		'URL' => $table{URL}{value},
+		if exists($table{URL});
+
+	      printf "\n\n";
 
 	      printf "\t\t%s=>{%s}\n",
 		'DESCRIPTION' => $table{DESCRIPTION}{value},
@@ -122,7 +146,7 @@
 		}
 	    }
 	}
-      elsif(m/^ (?<name> DTSTART | DTEND ) ; TZID=([^:]*) : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..)T(?<HH>..)(?<MM>..)(?<SS>..) ) $/x)
+      elsif(m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..)T(?<HH>..)(?<MM>..)(?<SS>..) (?<Z> Z? ) ) $/x)
 	{
 	  my(%plus) = %+;
 
@@ -133,9 +157,11 @@
 	    '...'
 	    if 0;
 	}
-      elsif(m/^ (?<name> SUMMARY | DESCRIPTION ) : (?<value> .*) /x)
+      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) : (?<value> .*) /x)
 	{
 	  my(%plus) = %+;
+
+	  $last_label_encountered = $+{name};
 
 	  $table{ $+{name} } = \%plus;
 

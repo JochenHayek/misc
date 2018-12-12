@@ -2,7 +2,7 @@
 
 # rationale:
 #
-# there a CSV matrixes with far too many columns.
+# there are CSV matrixes with far too many columns.
 # serialise the matrix (colums 2..n),
 # "prepending" the block# to each line / record !
 
@@ -20,7 +20,7 @@
 
 # CAVEAT:
 #
-# yes, we should rather use a proper CSV module.
+# -
 
 ################################################################################
 
@@ -34,13 +34,22 @@
 
 # together:
 #
-#   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_serialize_matrix.pl Lohnabrechnung.txt | env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl
+#   $ env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_serialize_matrix.pl Lohnabrechnung.txt | env SEPARATOR=';' ~/git-servers/github.com/JochenHayek/misc/csv/csv_reformat.pl /dev/stdin
 
 ################################################################################
 
-our($debug) = 0;
+use strict;
+use warnings;
+
+# http://Jochen.Hayek.name/wp/blog-en/category/csv/
+# https://perlmaven.com/how-to-read-a-csv-file-using-perl
+# https://metacpan.org/pod/Text::CSV
+
+use Text::CSV;
 
 {
+  our($debug) = 0;
+
   if(defined($ENV{SEPARATOR}))
     {
     }
@@ -55,22 +64,31 @@ our($debug) = 0;
       die "\$ENV{SEPARATOR}=>{$ENV{SEPARATOR}}";
     }
   
-  my(@field_names);
+  my(@field_names);		# CAVEAT: this should get renamed
   my(@field_values);
 
 ##binmode(STDIN ,":encoding(utf8)");
-  binmode(STDIN ,":crlf:encoding(utf8)");
+##binmode(STDIN ,":crlf:encoding(utf8)");
   binmode(STDOUT,":encoding(utf8)");
   binmode(STDERR,":encoding(utf8)");
 
+  my $csv = Text::CSV->new({ 
+      binary => 1 , 
+      auto_diag => 1 , 
+      sep_char => $ENV{SEPARATOR} ,
+    });
+##$csv->eol ("\r\n");
+
+  my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
+##open(my $data, '<:encoding(utf8)', $file) or die "Could not open '$file' $!\n";
+  open(my $data, '<:encoding(iso-8859-1)', $file) or die "Could not open '$file' $!\n";
+##binmode($data ,":crlf:encoding(utf8)");
+
   my($max_length) = -1;
 
-  while(<>)
+  while (my $fields = $csv->getline( $data )) 
     {
-      ##chomp;		# did not get it working
-      s/\s+$//g;
-
-      my(@F) = split( $ENV{SEPARATOR} );		# TBD: replace with a proper CSV module
+      my @F = @{$fields};
 
       push( @field_names  , shift @F);
 
@@ -86,6 +104,12 @@ our($debug) = 0;
 
       push( @field_values , \@F );
     }
+
+  if (not $csv->eof) 
+    {
+      $csv->error_diag();
+    }
+  close $data;
 
   printf STDERR "=%03.3d: %s=>{%s} // %s\n",__LINE__,
     '$#field_names' => $#field_names,
