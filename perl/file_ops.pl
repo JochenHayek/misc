@@ -7,7 +7,7 @@
 #	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/08/22 11:54:18 $'))[1..2])));
 #     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
 #	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
-#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/git-servers/github.com/JochenHayek/misc/perl/RCS/file_ops.pl $'))[1])));
+#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/Computers/Programming/Languages/Perl/RCS/file_ops.pl $'))[1])));
 
 # usage:
 #
