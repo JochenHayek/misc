@@ -1,14 +1,6 @@
 #!/usr/bin/perl -w
 #!/usr/bin/perl
 
-($emacs_Time_stamp) = 'Time-stamp: <2013-08-21 23:39:14 johayek>' =~ m/<(.*)>/;
-
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: file_ops.pl 1.28 2013/08/22 11:54:18 johayek Exp $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2013/08/22 11:54:18 $'))[1..2])));
-#     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: file_ops.pl $'))[1])));
-#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /home/jochen_hayek/Computers/Programming/Languages/Perl/RCS/file_ops.pl $'))[1])));
-
 # usage:
 #
 #     ...
@@ -48,12 +40,6 @@ sub main
   $main::options{debug} = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$rcs_Id',$rcs_Id
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$emacs_Time_stamp',$emacs_Time_stamp
     if 0 && $main::options{debug};
 
   {
