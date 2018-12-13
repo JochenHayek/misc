@@ -9,6 +9,19 @@
 
 ================================================================================
 
+~/git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames/README--extracting_timestamps.txt
+
+* pdf-suggest-rename-versioned.sh
+* pdf-suggest-rename-as_vouchers.sh
+* pdf-suggest-touch.sh
+
+* jpg-exif-suggest-rename-versioned.sh
+* jpg-exif-suggest-rename-as_vouchers.sh
+* jpg-exiftool-suggest-rename-versioned.sh
+* jpg-exiftool-suggest-rename-as_vouchers.sh
+
+================================================================================
+
 * WhatsApp.rename.sh
 
   * ...
