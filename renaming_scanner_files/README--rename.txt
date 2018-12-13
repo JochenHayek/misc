@@ -2,10 +2,36 @@
 
 # ~/git-servers/github.com/JochenHayek/misc/renaming_scanner_files/README--rename.txt
 
+================================================================================
+
 # ~/git-servers/github.com/JochenHayek/misc/shell/renumber_files.sh
 # ~/git-servers/github.com/JochenHayek/misc/shell/renumber_duplex_scanned_files.sh
 
 # ~/Computers/Software/Operating_Systems/Unix/Shell/compare_compressed_files.sh
+
+================================================================================
+
+* WhatsApp.rename.sh
+
+  * ...
+
+================================================================================
+
+* lexmark-scanner-rename.sh
+
+  * ...
+
+================================================================================
+
+* macOS-Screen_Shot-rename.sh
+
+  * ...
+
+================================================================================
+
+* VirtualBox-rename.sh
+
+  * ...
 
 ================================================================================
 

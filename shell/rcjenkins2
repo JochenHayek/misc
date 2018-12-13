@@ -1,0 +1,235 @@
+:
+
+# $Id: rcjenkins2 1.20 2016/07/18 10:24:50 johayek Exp johayek $
+# $Source: /var/services/homes/johayek/Computers/Software/Operating_Systems/Unix/Shell/RCS/rcjenkins2 $
+
+# -> https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins
+# -> https://wiki.wocommunity.org/display/documentation/Installing+and+Configuring+Jenkins
+
+################################################################################
+
+# we will use this for various purposes throughout this script:
+
+short_base=jenkins
+application_server_prefix=jenkins
+
+# we store all the jenkins WARS we use(d) in this directory,
+# so in case of trouble we can always fall back to an older version:
+
+our_appl_version=${short_base}-2-014.war
+
+################################################################################
+
+# Java7 vs Java8 complications
+# 
+# for the time being this script is not compatible with Java8,
+# so we have to make sure, we are making use of Java7.
+# 
+# http://stackoverflow.com/questions/28665783/starting-https-jenkins-server-on-127-0-0-1
+# 
+# I also made sure to set the httpsKeyStore and httpsKeyStorePassword properties after creating a selfsigned certificate (instructions here under Using SSL: Installing and Configuring Jenkins)
+# 
+#  https://wiki.wocommunity.org/display/documentation/Installing+and+Configuring+Jenkins
+#
+# -> httpsKeyStore / httpsKeyStorePassword resp. httpsCertificate / httpsPrivateKey
+
+##JAVA=java
+  JAVA=/var/packages/Java7/target/j2sdk-image/bin/java
+##JAVA=/var/packages/Java8/target/j2sdk-image/bin/java
+
+echo "********************************************************************************"
+echo "*** consider looking into the Java7 vs Java8 problem!"
+echo "********************************************************************************"
+
+################################################################################
+
+# access your Jenkins server like this:
+#
+#   https://HOST:${httpsPort}/${application_server_prefix}
+
+# any port with a value of -1 actually means: this port will be disabled
+
+controlPort=8001
+httpsPort=8099
+httpPort=-1
+
+# the "/jenkins" part is called application_server_prefix,
+# and during the navigation through the Jenkins server,
+# pieces get appended to this application_server_prefix.
+#
+# Q: why do we suggest using an application_server_prefix?
+# A: you can have various web servers running on your machine,
+#    and just from the application_server_prefix "everybody" can see, it's about Jenkins.
+
+################################################################################
+
+# Q: where will live our PID file and our logfile?
+# A: $HOME/var/run/ resp. $HOME/var/log/
+
+pidfile=$HOME/var/run/${short_base}-${httpsPort}.pid
+logfile=$HOME/var/log/${short_base}-${httpsPort}.$( date '+%Y%m%d%H%M%S' ).log
+
+################################################################################
+
+# the Jenkins web server is based on the "Winstone servlet container",
+# and this document describes the "Winstone Command Line Parameter Reference":
+#
+#   http://winstone.sourceforge.net/#commandLine
+#
+# one of the useful command line options provided by Winstone:
+#
+#   --logfile=...
+#
+# through --logfile=... (see below!)
+# we have a reasonable way of having the log output at a serious place.
+#
+# the way we construct the PID file
+# we can tell the name of the logfile at any time through ".../rcjenkins status".
+
+################################################################################
+
+# we needed a while, until we found "our proper way",
+# each time a new JENKINS_HOME:
+
+export JENKINS_HOME=$HOME/JENKINS_HOME_000
+export JENKINS_HOME=$HOME/JENKINS_HOME_001
+export JENKINS_HOME=$HOME/JENKINS_HOME_002
+export JENKINS_HOME=$HOME/JENKINS_HOME_003
+export JENKINS_HOME=$HOME/JENKINS_HOME_004
+export JENKINS_HOME=$HOME/JENKINS_HOME_005
+export JENKINS_HOME=$HOME/JENKINS_HOME_200
+
+mkdir --verbose --parents "$JENKINS_HOME"
+
+################################################################################
+
+case "$1" in
+  start | start_with_pidfile)
+    echo "Starting ${short_base} on https port ${httpsPort} with control port ${controlPort} and prefix ${application_server_prefix} ..."
+  ##echo "Starting ${short_base} on https port ${httpsPort} with prefix ${application_server_prefix} ..."
+
+    ################################################################################
+
+    # /ber.jochen.hayek.name:JENKINS_WARS/
+
+    appl_wars=$HOME/JENKINS_WARS
+    latest_appl_available=$(/bin/ls -1 $HOME/JENKINS_WARS | tail -1)
+
+    echo "\$our_appl_version=>{$our_appl_version},\$latest_appl_available=>[$latest_appl_available}"
+
+    # of course after a while old versions can get purged.
+
+    ################################################################################
+
+    # used by plugin "ThinBackup":
+
+    export JENKINS_BACKUPS=$HOME/JENKINS_BACKUPS
+
+    ################################################################################
+
+    ##--controlPort=${controlPort}
+
+    nohup "${JAVA}" \
+      -Djava.io.tmpdir=$HOME/tmp-java \
+      -Duser.timezone=Europe/Berlin \
+      -jar ${appl_wars}/${our_appl_version} \
+      \
+      --httpsPort=${httpsPort} \
+      --httpPort=${httpPort} \
+      --prefix=/${application_server_prefix} \
+      --logfile=${logfile} \
+      &
+
+    # INFO: NO JSP Support for /jenkins, did not find org.apache.jasper.servlet.JspServlet
+
+    # looks like this: https://issues.jenkins-ci.org/browse/JENKINS-24357
+    # but actually afterwards everything seems fine.
+
+    echo $!           >  ${pidfile}
+    echo "${logfile}" >> ${pidfile}
+    echo "Started ${short_base} with PID: $!, logfile: ${logfile}"
+    ;;
+
+  stop | stop_with_pidfile)
+    pid=$( head -1 "${pidfile}" )
+
+    if test -e "${pidfile}" && test -d /proc/${pid}
+    then
+      echo -n "Shutting down ${short_base} "
+      kill ${pid}
+      if test -d /proc/${pidfile}
+      then :
+	echo "(unsuccessfully)"
+      else :
+	rm --verbose "${pidfile}"
+      fi
+    ##rc_status -v # supposedly this should run right after the "kill" command
+    else
+     echo "Not running"
+    fi
+    ;;
+
+  reload|restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+    
+  status | status_with_pidfile)
+    echo -n "Checking for ${short_base} "
+    if test -e "${pidfile}"
+    then
+          pid=$( head -1 "${pidfile}" )
+      logfile=$( tail -1 "${pidfile}" )
+      if test -d /proc/${pid}
+      then :
+        echo " seems running, PID: ${pid}, logfile: ${logfile}"
+      else :
+        echo " not running"
+      fi
+    else
+      echo " not running"
+    fi
+  ;;
+
+  winstone_shutdown)
+
+    # from Jenkins TDG, ch. 3
+
+    "${JAVA}" \
+      -classpath "$JENKINS_HOME/war/winstone.jar" \
+      winstone.tools.WinstoneControl shutdown \
+      --host=localhost \
+      "--port=${controlPort}" \
+      ;
+  ;;
+
+  winstone_reload)
+
+    # from Jenkins TDG, ch. 3
+
+    "${JAVA}" \
+      -classpath "$JENKINS_HOME/war/winstone.jar" \
+      winstone.tools.WinstoneControl reload:${application_server_prefix} \
+      --host=localhost \
+      "--port=${controlPort}" \
+      ;
+  ;;
+
+  winstone_illegal_hello)
+
+    # from Jenkins TDG, ch. 3 // they do not recommend winstone_illegal_hello, but that's where I learned about its command interface
+
+    "${JAVA}" \
+      -classpath "$JENKINS_HOME/war/winstone.jar" \
+      winstone.tools.WinstoneControl illegal_hello \
+      --host=localhost \
+      "--port=${controlPort}" \
+      ;
+  ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart|status|winstone_shutdown|winstone_reload|winstone_illegal_hello}"
+    exit 1
+    ;;
+esac

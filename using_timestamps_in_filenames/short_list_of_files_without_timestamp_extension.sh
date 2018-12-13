@@ -1,7 +1,7 @@
 :
 #! /bin/sh
 
-# misc/using_timestamps_in_filenames/short_list_of_files_without_timestamp_extension.sh
+# misc/using_timestamps_in_filenames/short_list_of_files_without_timestamp_extension.sh DIRECTORY
 
 # CAVEAT:
 #

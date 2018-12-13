@@ -12,6 +12,10 @@
 
   * date+time strings are extracted from the files using the utility "pdfinfo"
 
+  	* different versions of pdfinfo use the same options differently, so sometimes you may want to call pdf-suggest-___.sh like this:
+
+		$ pdfinfo_options=' -rawdates' ~/bin/pdf-suggest-rename-versioned.sh *.pdf
+
   * we assume the files will ***not*** be used as vouchers (corresponding to (bank) account transactions numbered accordingly)
     instead the date+time strings will be used for pseudo-versioning
 

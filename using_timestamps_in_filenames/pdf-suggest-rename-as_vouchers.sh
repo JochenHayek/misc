@@ -2,6 +2,8 @@
 
 # -> README--extracting_timestamps.txt
 
+# $ pdfinfo_options=' -rawdates' ~/bin/pdf-suggest-___.sh *.pdf
+
 # misc/using_timestamps_in_filenames/pdf-suggest-*.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-versioned.sh
@@ -17,10 +19,17 @@
 ##fi
 
 if   test -e /sw/bin/pdfinfo
+<<<<<<< HEAD
 then :
   PDFINFO=/sw/bin/pdfinfo
 elif test -e /opt/bin/pdfinfo
 then :
+=======
+then :
+  PDFINFO=/sw/bin/pdfinfo
+elif test -e /opt/bin/pdfinfo
+then :
+>>>>>>> 0f3a9ab74c514942711b31a31839348a09c9b098
   PDFINFO=/opt/bin/pdfinfo
 else
   echo 1>&2 "*** $0: cannot find pdfinfo at /sw/bin or /opt/bin"
@@ -32,13 +41,21 @@ case $("${PDFINFO}" -help 2>&1) in
   *http://poppler.freedesktop.org* )
   ##echo 1>&2 "*** $0: poppler"
   ##pdfinfo_options=' -meta -rawdates'
+<<<<<<< HEAD
     pdfinfo_options=''
+=======
+  ##pdfinfo_options=''
+>>>>>>> 0f3a9ab74c514942711b31a31839348a09c9b098
     ;;
 
   * )
   ##echo 1>&2 "*** $0: *"
   ##pdfinfo_options=' -meta -rawdates'
+<<<<<<< HEAD
     pdfinfo_options=''
+=======
+  ##pdfinfo_options=''
+>>>>>>> 0f3a9ab74c514942711b31a31839348a09c9b098
     ;;
 
 esac

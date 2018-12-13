@@ -1,16 +1,5 @@
 #! /usr/bin/perl -w
 
-our($emacs_Time_stamp) = 'Time-stamp: <2017-07-11 10:49:02 johayek>' =~ m/<(.*)>/;
-
-# $Id: procmail-from2diary.pl 1.71 2017/07/11 08:50:40 johayek Exp johayek $ Jochen Hayek
-# $Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $
-
-##our     $rcs_Id=(join(' ',((split(/\s/,'$Id: procmail-from2diary.pl 1.71 2017/07/11 08:50:40 johayek Exp johayek $'))[1..6])));
-##our   $rcs_Date=(join(' ',((split(/\s/,'$Date: 2017/07/11 08:50:40 $'))[1..2])));
-##our $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-##our    $RCSfile=(join(' ',((split(/\s/,'$RCSfile: procmail-from2diary.pl $'))[1])));
-##our $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/procmail/RCS/procmail-from2diary.pl $'))[1])));
-
 ################################################################################
 
 # read a procmail LOGFILE
@@ -123,12 +112,6 @@ sub main
   $main::options{debug} = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
-    if 0 && $main::options{debug};
-##printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-##  ,'$rcs_Id' => $rcs_Id
-##  if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s\n",__FILE__,__LINE__,$proc_name
-    , &main::format_key_value_list($main::std_formatting_options, '$emacs_Time_stamp' => $emacs_Time_stamp )
     if 0 && $main::options{debug};
 
   {
@@ -279,7 +262,7 @@ sub job_anon
 	    ,'empty {Date:} header field, so we are going to use From_captures to extract date+time'
 	    if 1;
 	}
-      elsif(m/^DATE=\{ \s*  ( (?<wday>\w+) , \s+ )? (?<mday>\w+) \s+ (?<month>\w+) \s+ (?<year>\d+) \s+ (?<time>[\d:]+) \s+ (?<DST>.*) \}$/x)
+      elsif(m/^DATE=\{ \s*  ( (?<wday>\w+) , \s+ )? (?<mday>\w+) \s+ (?<month>\w+) \s+ (?<year>\d+) \s+ (?<time>[\d:\.]+) \s+ (?<DST>.*) \}$/x)
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options

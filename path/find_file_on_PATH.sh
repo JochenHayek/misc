@@ -1,17 +1,25 @@
 #! /usr/bin/ksh
 
-# Q: looking for xpdf or anything simlar
-# A: $ ~/Computers/Software/Operating_Systems/Unix/Shell/find_file_on_PATH.ksh '*pdf*'
-# -> .../epdfview
-
-# Q: looking for GNU find
-# A: $ env PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/linux/bin:/opt/pware/bin:/opt/pware/sbin /home/extjh/bin/find_file_on_PATH.ksh '*find*'
-# there is no GNU find (on a separate directory tree) on this AIX system
-
-# Q: looking for EDI*STAR '*maint' utilities
-# A: $ env PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/linux/bin:/opt/pware/bin:/opt/pware/sbin /home/extjh/bin/find_file_on_PATH.ksh '*maint'
-
-# quite similar to /Volumes/home/books-Linux/by-publisher/oreilly.com/by-isbn/oreilly--Classic_Shell_Scripting.20050611/sh/pathfind.sh
+# sample usage:
+#
+#   Q: looking for xpdf or anything simlar
+#   A: $ ~/git-servers/github.com/JochenHayek/misc/path/find_file_on_PATH.sh '*pdf*'
+#   -> .../epdfview
+#
+#   Q: looking for GNU find
+#   A: $ env PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/linux/bin:/opt/pware/bin:/opt/pware/sbin ~/git-servers/github.com/JochenHayek/misc/path/find_file_on_PATH.sh '*find*'
+#   there is no GNU find (on a separate directory tree) on this AIX system
+#
+#   Q: looking for EDI*STAR '*maint' utilities
+#   A: $ env PATH=$PATH:/usr/local/bin:/usr/local/sbin:/usr/linux/bin:/opt/pware/bin:/opt/pware/sbin ~/git-servers/github.com/JochenHayek/misc/path/find_file_on_PATH.sh '*maint'
+#
+# quite similar to
+#
+#   git-servers/resources.oreilly.com/examples/9780596005955/sh/pathfind.sh
+#
+#     Classic Shell Scripting, by Arnold Robbins
+#
+################################################################################
 
 if test $# -eq 1
 then :
