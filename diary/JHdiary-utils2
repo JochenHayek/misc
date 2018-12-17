@@ -1,14 +1,6 @@
 #! /usr/bin/perl -w
 #! /dvlp/gnu/SunOS5/bin/perl -w
 
-($emacs_Time_stamp) = 'Time-stamp: <2010-01-01 18:07:49 johayek>' =~ m/<(.*)>/;
-
-          $rcs_Id=(join(' ',((split(/\s/,'$Id: JHdiary-utils2 1.14 2010/01/01 17:08:03 johayek Exp johayek $'))[1..6])));
-#	$rcs_Date=(join(' ',((split(/\s/,'$Date: 2010/01/01 17:08:03 $'))[1..2])));
-#     $rcs_Author=(join(' ',((split(/\s/,'$Author: johayek $'))[1])));
-#	 $RCSfile=(join(' ',((split(/\s/,'$RCSfile: JHdiary-utils2 $'))[1])));
-#     $rcs_Source=(join(' ',((split(/\s/,'$Source: /Users/johayek/git-servers/github.com/JochenHayek/misc/diary/RCS/JHdiary-utils2 $'))[1])));
-
 # usage: 
 #
 #     ...
@@ -57,12 +49,6 @@ sub main
   $main::options{debug} = 1;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$rcs_Id',$rcs_Id
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$emacs_Time_stamp',$emacs_Time_stamp
     if 0 && $main::options{debug};
 
   {
@@ -118,16 +104,6 @@ sub main
   # PROG --verbose --job_merge
   # PROG --verbose --job_check_against_duplicate_date_lines
   # PROG --verbose --job_remove_duplicate_date_lines
-
-  if($main::options{version})
-    {
-       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-	 ,'$rcs_Id',$rcs_Id
-	 ;
-       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-	 ,'$emacs_Time_stamp',$emacs_Time_stamp
-	 ;
-    }
 
   if   ($main::options{help               }) { &help                                ; }
   elsif($main::options{job_diff})
@@ -383,6 +359,7 @@ sub job_merge
 
   my($left_line );
   my($right_line);
+  my($previous_right_line) = '';
 
   # the  "left file" contains a frame with an entry for every single day of the resp. year.
   # the "right file" contains entries for holidays.
@@ -414,6 +391,7 @@ sub job_merge
 	  for(;;)
 	    {
 	      $right_line = <$right_fh> ;
+
 	      if(1 && $main::options{debug})
 		{
 		  my($aux__right_line) = $right_line;
@@ -447,6 +425,18 @@ sub job_merge
 		  last;
 		}
 
+	      if(0)
+		{
+		  if($right_line eq $previous_right_line)
+		    {
+		      printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+			,'$right_line',$right_line
+			,'$previous_right_line',$previous_right_line
+			,'read'
+			if 1 && $main::options{debug};
+		      next;
+		    }
+		}
 
 	      if($right_line =~ m/^\S/)
 		{
