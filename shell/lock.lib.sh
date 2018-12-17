@@ -214,6 +214,7 @@ function module_lock_setup()
   # * ...
   #
   # #todo
+  :
 }
 
 function lock_acquire()
