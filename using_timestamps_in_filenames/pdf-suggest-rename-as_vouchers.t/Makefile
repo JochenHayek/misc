@@ -13,4 +13,4 @@ create_test_files:
 	cp --arch --verbose samples/* .
 
 run_test:
-	$${HOME}/Computers/Software/Operating_Systems/Unix/Shell/pdf-suggest-rename-as_vouchers.sh x*.pdf
+	$${HOME}/git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh x*.pdf

@@ -34,7 +34,7 @@ case $("${PDFINFO}" -help 2>&1) in
   *http://poppler.freedesktop.org* )
   ##echo 1>&2 "*** $0: poppler"
   ##pdfinfo_options=' -meta -rawdates'
-    pdfinfo_options=''
+  ##pdfinfo_options=''
     ;;
 
   * )
