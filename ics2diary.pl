@@ -157,9 +157,11 @@
 	    '...'
 	    if 0;
 	}
-      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) ( ; [^=]+ = [^:]* )? : (?<value> .*) /x)
+      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
 	{
 	  my(%plus) = %+;
+
+	  # CAVEAT: I should do something with the "attributes".
 
 	  $last_label_encountered = $+{name};
 
