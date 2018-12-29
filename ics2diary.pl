@@ -157,7 +157,7 @@
 	    '...'
 	    if 0;
 	}
-      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) : (?<value> .*) /x)
+      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) ( ; [^=]+ = [^:]* )? : (?<value> .*) /x)
 	{
 	  my(%plus) = %+;
 

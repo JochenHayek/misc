@@ -1,0 +1,82 @@
+BEGIN:VCALENDAR
+PRODID:-//Facebook//NONSGML Facebook Events V1.0//EN
+X-PUBLISHED-TTL:PT12H
+X-ORIGINAL-URL:https://www.facebook.com/events/344515069643611/
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTAMP:20181108T104532Z
+LAST-MODIFIED:20181108T104532Z
+CREATED:20181107T083932Z
+SEQUENCE:93960
+ORGANIZER;CN=Delphi Filmpalast:MAILTO:noreply@facebookmail.com
+ATTENDEE;CN=Joel Brandeis;PARTSTAT=ACCEPTED:https://www.facebook.com/joel.brandeis
+ATTENDEE;CN=Robert Bußler;PARTSTAT=TENTATIVE:https://www.facebook.com/herrrobert
+ATTENDEE;CN=Francy Sip;PARTSTAT=TENTATIVE:https://www.facebook.com/francy.berlinlondon
+ATTENDEE;CN=Weinladen Spandau;PARTSTAT=TENTATIVE:https://www.facebook.com/profile.php?id=100003803335198
+ATTENDEE;CN=Nänzie Rixe;PARTSTAT=TENTATIVE:https://www.facebook.com/nancy.rix.1
+ATTENDEE;CN=Gabi Glückspilz;PARTSTAT=TENTATIVE:https://www.facebook.com/gabriele.wrusch
+ATTENDEE;CN=Katrin Straub;PARTSTAT=TENTATIVE:https://www.facebook.com/katrin.straub.10
+ATTENDEE;CN=Mila Dürholt;PARTSTAT=TENTATIVE:https://www.facebook.com/mduerholt
+ATTENDEE;CN=Christian Heinrich;PARTSTAT=TENTATIVE:https://www.facebook.com/christian.heinrich.790
+ATTENDEE;CN=Jac Bln;PARTSTAT=TENTATIVE:https://www.facebook.com/JacBln
+ATTENDEE;CN=Daria Weidemann;PARTSTAT=TENTATIVE:https://www.facebook.com/dweidemann1
+ATTENDEE;CN=Detlef Stein;PARTSTAT=TENTATIVE:https://www.facebook.com/detlef.stein.96
+ATTENDEE;CN=Maria Meisterernst;PARTSTAT=TENTATIVE:https://www.facebook.com/maria.meisterernst
+ATTENDEE;CN=Boiczenko Tamara;PARTSTAT=TENTATIVE:https://www.facebook.com/tamaribo
+ATTENDEE;CN=Marcel Konrath;PARTSTAT=TENTATIVE:https://www.facebook.com/marcel.konrath
+ATTENDEE;CN=Martin Briese;PARTSTAT=TENTATIVE:https://www.facebook.com/martin.briese
+ATTENDEE;CN=Peter Quack;PARTSTAT=TENTATIVE:https://www.facebook.com/peter.quack
+ATTENDEE;CN=Paula Petribu da Fonte;PARTSTAT=TENTATIVE:https://www.facebook.com/paula.dafonte
+ATTENDEE;CN=Michael Bulgrin;PARTSTAT=TENTATIVE:https://www.facebook.com/Riesenzwerg
+ATTENDEE;CN=Regina Keim;PARTSTAT=TENTATIVE:https://www.facebook.com/regina.keim.7
+ATTENDEE;CN=Ronald Lessic;PARTSTAT=TENTATIVE:https://www.facebook.com/ronald.lessic
+ATTENDEE;CN=Sebastian Trautmann;PARTSTAT=TENTATIVE:https://www.facebook.com/sebastian.trautmann.10
+ATTENDEE;CN=Jochen Hayek;PARTSTAT=TENTATIVE:https://www.facebook.com/jochen.hayek
+ATTENDEE;CN=Sofie Lykke;PARTSTAT=TENTATIVE:https://www.facebook.com/sofie.lykke.3
+ATTENDEE;CN=Elena Sofia;PARTSTAT=TENTATIVE:https://www.facebook.com/elena.caipirinha
+ATTENDEE;CN=Fluxus Notes;PARTSTAT=TENTATIVE:https://www.facebook.com/Fluxus12
+ATTENDEE;CN=Svea Katharina;PARTSTAT=TENTATIVE:https://www.facebook.com/svea.adams
+DTSTART:20181120T170000Z
+DTEND:20181120T200000Z
+UID:e344515069643611@facebook.com
+SUMMARY:Premiere "Astrid" mit Alba August & Pernille F Christensen
+LOCATION:Delphi Filmpalast
+URL:https://www.facebook.com/events/344515069643611/
+DESCRIPTION:In Anwesenheit von Alba August (Th
+ e Rain) und Regisseurin Pernille F
+  Christensen\n\nVon Pippi Langstrump
+ f über Ronja Räubertochter bis z
+ um Michel aus Lönneberga: Kein an
+ derer Name ist bis heute so untren
+ nbar mit so vielen faszinierenden 
+ Kinderbüchern verbunden wie der v
+ on Astrid Lindgren. Ihre Geschicht
+ en haben bis heute die Kindheit vo
+ n Millionen Menschen weltweit gepr
+ ägt. Zudem setzte die "Schwedin d
+ es Jahrhunderts" und Friedenspreis
+ trägerin des Deutschen Buchhandel
+ s sich unermüdlich für die Recht
+ e von Kindern ein.\n\nIhre eigene Ki
+ ndheit dagegen endete früh\, als A
+ strid im Alter von 18 Jahren unehe
+ lich schwanger wurde - im Schweden
+  der 1920er-Jahre ein Skandal. Der
+  Film erzählt einfühlsam davon\, 
+ wie die junge Astrid den Mut finde
+ t\, die Anfeindungen ihres Umfeldes
+  zu überwinden und ein freies\, se
+ lbstbestimmtes Leben als moderne F
+ rau zu führen. Weiterhin zeichnet
+  ASTRID nach\, wie diese Erfahrunge
+ n die späteren Werke und das Enga
+ gement der Autorin prägen sollten
+ .\n\nhttps://www.facebook.com/events
+ /344515069643611/
+CLASS:PUBLIC
+STATUS:CONFIRMED
+PARTSTAT:TENTATIVE
+END:VEVENT
+END:VCALENDAR
