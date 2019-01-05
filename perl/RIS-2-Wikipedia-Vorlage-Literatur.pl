@@ -106,6 +106,8 @@
       'ER' => '...',	# End of Reference (must be empty and the last tag)
     );
 
+  printf "{{Literatur\n";
+
   while(<>)
     {
       chomp;
@@ -121,11 +123,13 @@
 	      $new_tag = $tags{ $plus{lhs} };
 	      if   ($plus{lhs} eq 'TY')
 		{
-		  printf "{{Literatur\n";
+		  printf "{{Literatur\n"
+		    if 0;
 		}
 	      elsif($plus{lhs} eq 'ER')
 		{
-		  printf "}}\n";
+		  printf "}}\n"
+		    if 0;
 		}
 	      elsif($new_tag eq '...')
 		{
@@ -154,4 +158,7 @@
 	  warn "\$_=>{$_} // unexpected";
 	}
     }
+
+  printf "}}\n";
+
 }
