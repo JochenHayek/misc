@@ -67,7 +67,7 @@
       'L2' => '...',	# Link to Full-text. There is no practical limit to the length of this field. URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line using a semi-colon as a separator.
       'L3' => '...',	# Related Records. There is no practical limit to the length of this field.
       'L4' => '...',	# Image(s). There is no practical limit to the length of this field.
-      'LA' => '...',	# Language
+      'LA' => 'Sprache',# Language
       'LB' => '...',	# Label
       'LK' => '...',	# Website Link
       'M1' => '...',	# Number
