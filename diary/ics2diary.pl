@@ -11,6 +11,12 @@
 {
   my(%table);
 
+  my(@short_month_names) =
+    ( 'Jan','Feb','Mar','Apr','May','Jun'
+     ,'Jul','Aug','Sep','Oct','Nov','Dec'
+     );
+  unshift(@short_month_names,''); # in order to have an easier mapping `number : name`
+
   my($last_label_encountered);
 
   while(<>)
@@ -48,7 +54,9 @@
 	    {
 	      printf "%s %s %s\n",
 		$table{DTSTART}{dd},
-		$table{DTSTART}{mm},
+
+		$short_month_names[ $table{DTSTART}{mm} ],
+
 		$table{DTSTART}{YYYY},
 		;
 
