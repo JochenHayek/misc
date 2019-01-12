@@ -8,6 +8,17 @@
 #
 #   ~/git-servers/github.com/JochenHayek/misc/ics2diary.pl ? > $(echo ? ).diary
 
+# in which contexts to use:
+#
+# * Google calendar exports
+# * "Deutsche Bahn" traveling schedules
+# * …
+
+# wishlist:
+# * remove some runtime warnings ("uninitialized …")
+#   * those warnings occur in the context of samples not really on my main focus
+# * …
+
 {
   my(%table);
 
