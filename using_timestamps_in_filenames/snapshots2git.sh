@@ -2,7 +2,7 @@
 
 # usage:
 #
-# ~/git-servers/github.com/JochenHayek/snapshots2git/snapshots2git.sh .bashrc.20*
+# ~/git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames/snapshots2git.sh .bashrc.20*
 
 for i
 do :
