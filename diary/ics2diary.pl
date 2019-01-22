@@ -8,8 +8,25 @@
 #
 #   ~/git-servers/github.com/JochenHayek/misc/ics2diary.pl ? > $(echo ? ).diary
 
+# in which contexts to use:
+#
+# * Google calendar exports
+# * "Deutsche Bahn" traveling schedules
+# * …
+
+# wishlist:
+# * remove some runtime warnings ("uninitialized …")
+#   * those warnings occur in the context of samples not really on my main focus
+# * …
+
 {
   my(%table);
+
+  my(@short_month_names) =
+    ( 'Jan','Feb','Mar','Apr','May','Jun'
+     ,'Jul','Aug','Sep','Oct','Nov','Dec'
+     );
+  unshift(@short_month_names,''); # in order to have an easier mapping `number : name`
 
   my($last_label_encountered);
 
@@ -48,7 +65,9 @@
 	    {
 	      printf "%s %s %s\n",
 		$table{DTSTART}{dd},
-		$table{DTSTART}{mm},
+
+		$short_month_names[ $table{DTSTART}{mm} ],
+
 		$table{DTSTART}{YYYY},
 		;
 
@@ -157,9 +176,11 @@
 	    '...'
 	    if 0;
 	}
-      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) : (?<value> .*) /x)
+      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
 	{
 	  my(%plus) = %+;
+
+	  # CAVEAT: I should do something with the "attributes".
 
 	  $last_label_encountered = $+{name};
 

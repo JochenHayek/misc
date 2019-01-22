@@ -16,7 +16,7 @@ application_server_prefix=jenkins
 # we store all the jenkins WARS we use(d) in this directory,
 # so in case of trouble we can always fall back to an older version:
 
-our_appl_version=${short_base}-2-014.war
+our_appl_version=${short_base}-2-156.war
 
 ################################################################################
 
@@ -34,12 +34,21 @@ our_appl_version=${short_base}-2-014.war
 # -> httpsKeyStore / httpsKeyStorePassword resp. httpsCertificate / httpsPrivateKey
 
 ##JAVA=java
-  JAVA=/var/packages/Java7/target/j2sdk-image/bin/java
+# this one does not work:
+##JAVA=/var/packages/Java7/target/j2sdk-image/bin/java
+# this one does not work:
 ##JAVA=/var/packages/Java8/target/j2sdk-image/bin/java
+# this one works:
+##JAVA=/volume1/oracle-java/jdk1.8.0_192/bin/java
+# this one works:
+##JAVA=/volume1/oracle-java/jre1.8.0_192/bin/java
+# this one works:
+JAVA=/volume1/oracle-java/server-jre1.8.0_192/bin/java
 
-echo "********************************************************************************"
-echo "*** consider looking into the Java7 vs Java8 problem!"
-echo "********************************************************************************"
+################################################################################
+
+# WARNING: Creating a self-signed certificate currently relies on unsupported APIs in the Oracle JRE.
+# Please create your own certificate using supported tools instead and use --httpsKeyStore.
 
 ################################################################################
 
@@ -98,6 +107,8 @@ export JENKINS_HOME=$HOME/JENKINS_HOME_003
 export JENKINS_HOME=$HOME/JENKINS_HOME_004
 export JENKINS_HOME=$HOME/JENKINS_HOME_005
 export JENKINS_HOME=$HOME/JENKINS_HOME_200
+export JENKINS_HOME=$HOME/JENKINS_HOME_201
+export JENKINS_HOME=$HOME/JENKINS_HOME_202
 
 mkdir --verbose --parents "$JENKINS_HOME"
 
@@ -128,6 +139,7 @@ case "$1" in
     ################################################################################
 
     ##--controlPort=${controlPort}
+    ##-Djava.awt.headless=true
 
     nohup "${JAVA}" \
       -Djava.io.tmpdir=$HOME/tmp-java \
@@ -136,14 +148,17 @@ case "$1" in
       \
       --httpsPort=${httpsPort} \
       --httpPort=${httpPort} \
+      \
+      --httpsKeyStore="$JENKINS_HOME/jenkins_keystore.jks" \
+      --httpsKeyStorePassword=mypassword \
+      \
       --prefix=/${application_server_prefix} \
+      \
       --logfile=${logfile} \
+      \
       &
 
-    # INFO: NO JSP Support for /jenkins, did not find org.apache.jasper.servlet.JspServlet
-
-    # looks like this: https://issues.jenkins-ci.org/browse/JENKINS-24357
-    # but actually afterwards everything seems fine.
+    ##> ${logfile} 2>&1
 
     echo $!           >  ${pidfile}
     echo "${logfile}" >> ${pidfile}

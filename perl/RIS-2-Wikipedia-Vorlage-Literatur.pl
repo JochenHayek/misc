@@ -67,7 +67,7 @@
       'L2' => '...',	# Link to Full-text. There is no practical limit to the length of this field. URL addresses can be entered individually, one per tag or multiple addresses can be entered on one line using a semi-colon as a separator.
       'L3' => '...',	# Related Records. There is no practical limit to the length of this field.
       'L4' => '...',	# Image(s). There is no practical limit to the length of this field.
-      'LA' => '...',	# Language
+      'LA' => 'Sprache',# Language
       'LB' => '...',	# Label
       'LK' => '...',	# Website Link
       'M1' => '...',	# Number
@@ -106,6 +106,8 @@
       'ER' => '...',	# End of Reference (must be empty and the last tag)
     );
 
+  printf "{{Literatur\n";
+
   while(<>)
     {
       chomp;
@@ -121,11 +123,13 @@
 	      $new_tag = $tags{ $plus{lhs} };
 	      if   ($plus{lhs} eq 'TY')
 		{
-		  printf "{{Literatur\n";
+		  printf "{{Literatur\n"
+		    if 0;
 		}
 	      elsif($plus{lhs} eq 'ER')
 		{
-		  printf "}}\n";
+		  printf "}}\n"
+		    if 0;
 		}
 	      elsif($new_tag eq '...')
 		{
@@ -154,4 +158,7 @@
 	  warn "\$_=>{$_} // unexpected";
 	}
     }
+
+  printf "}}\n";
+
 }
