@@ -54,7 +54,8 @@ start =
       attribute width { xsd:integer },
       element fontspec {
         attribute color { text },
-        attribute family { xsd:NCName },
+      ##attribute family { xsd:NCName },
+        attribute family { text },
         attribute id { xsd:integer },
         attribute size { xsd:integer }
       }*,
@@ -63,7 +64,8 @@ start =
         attribute left { xsd:integer },
         attribute top { xsd:integer },
         attribute width { xsd:integer },
-        attribute src { text },
+      ##attribute src { text },
+        attribute src { text }
       }+,
       element text {
         attribute font { xsd:integer },
