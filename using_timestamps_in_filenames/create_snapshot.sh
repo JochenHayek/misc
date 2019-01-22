@@ -16,8 +16,8 @@
 ################################################################################
 
 ##PERL='c:/Program Files/Git/usr/bin/perl.exe'
-##PERL=perl
-  PERL=/bin/perl
+  PERL=perl
+##PERL=/bin/perl
 
 ##xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
 ##xmlstarlet=$USERPROFILE/opt/xmlstarlet-1.6.1/xml
