@@ -1,0 +1,34 @@
+pdf2xml = element pdf2xml { attlist.pdf2xml, page+, line*, fontspec* }
+attlist.pdf2xml &= empty
+page = element page { attlist.page, fontspec*, \text* }
+attlist.page &=
+  attribute number { text },
+  attribute position { text },
+  attribute top { text },
+  attribute left { text },
+  attribute height { text },
+  attribute width { text }
+fontspec = element fontspec { attlist.fontspec, empty }
+attlist.fontspec &=
+  attribute id { text },
+  attribute size { text },
+  attribute family { text },
+  attribute color { text }
+\text = element text { attlist.text, (text | b | i)* }
+attlist.text &=
+  attribute top { text },
+  attribute left { text },
+  attribute width { text },
+  attribute height { text },
+  attribute font { text }
+b = element b { attlist.b, text }
+attlist.b &= empty
+i = element i { attlist.i, text }
+attlist.i &= empty
+line = element line { attlist.line, \text+ }
+attlist.line &=
+  attribute typ { text },
+  attribute top { text },
+  attribute left { text },
+  attribute font { text }
+start = pdf2xml
