@@ -15,12 +15,11 @@
 # * …
 
 # wishlist:
-# * remove some runtime warnings ("uninitialized …")
-#   * those warnings occur in the context of samples not really on my main focus
 # * …
 
 {
-  my(%table);
+  %::table = ();
+  $::within_VEVENT = 0;
 
   my(@short_month_names) =
     ( 'Jan','Feb','Mar','Apr','May','Jun'
@@ -28,7 +27,7 @@
      );
   unshift(@short_month_names,''); # in order to have an easier mapping `number : name`
 
-  my($last_label_encountered);
+  $::current_line = '';
 
   while(<>)
     {
@@ -40,83 +39,109 @@
       if(0)
 	{
 	}
-      elsif(m/^ \x20 (?<rem> .*)  $/x)
+      elsif(m/^ \x20 (?<continuation_line> .*)  $/x)
 	{
 	  my(%plus) = %+;
 
 	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
-	    '$plus{rem}' => $plus{rem},
+	    '$plus{continuation_line}' => $plus{continuation_line},
 	    '...'
 	    if 0;
 
-	  $table{ $last_label_encountered }{value} .= $plus{rem};
+	  $::current_line .= $plus{continuation_line};
 	}
-      elsif(m/^ (?<name> BEGIN | END ) : VEVENT $/x)
+      elsif(m/^ (?<name> BEGIN ) : VEVENT $/x)
+	{
+	  $::within_VEVENT = 1;
+	  %::table = ();
+	  $::current_line = '';
+	}
+      elsif(m/^ (?<name> END ) : VEVENT $/x)
 	{
 	  my(%plus) = %+;
 
-	##$table{ $+{name} } = \%plus;
+	  &proc_last_line;
+	  $::within_VEVENT = 0;
 
-	  if   ($plus{name} eq 'BEGIN')
+	  printf "%s %s %s\n",
+	    $::table{DTSTART}{dd},
+
+	    $short_month_names[ $::table{DTSTART}{mm} ],
+
+	    $::table{DTSTART}{YYYY},
+	    ;
+
+	  printf "\t%s:%s:%s %s .. %s:%s:%s %s",
+	    $::table{DTSTART}{HH},
+	    $::table{DTSTART}{MM},
+	    $::table{DTSTART}{SS},
+	    $::table{DTSTART}{Z},
+
+	    $::table{DTEND}{HH},
+	    $::table{DTEND}{MM},
+	    $::table{DTEND}{SS},
+	    $::table{DTEND}{Z},
+	    ;
+
+	  delete($::table{DTSTART});
+	  delete($::table{DTEND});
+
+	  foreach my $i ('SUMMARY' , 'LOCATION' , 'URL')
 	    {
-	      %table = ();
-	    }
-	  elsif($plus{name} eq 'END')
-	    {
-	      printf "%s %s %s\n",
-		$table{DTSTART}{dd},
-
-		$short_month_names[ $table{DTSTART}{mm} ],
-
-		$table{DTSTART}{YYYY},
-		;
-
-	      printf "\t%s:%s:%s %s .. %s:%s:%s %s",
-		$table{DTSTART}{HH},
-		$table{DTSTART}{MM},
-		$table{DTSTART}{SS},
-		$table{DTSTART}{Z},
-
-		$table{DTEND}{HH},
-		$table{DTEND}{MM},
-		$table{DTEND}{SS},
-		$table{DTEND}{Z},
-		;
-
-	      delete($table{DTSTART});
-	      delete($table{DTEND});
-
-	      foreach my $i ('SUMMARY' , 'LOCATION' , 'URL')
+	      foreach my $a (@{ $::table{ $i } })
 		{
-		  if(exists($table{ $i }))
-		    {
-		      printf " %s=>{%s}",
-			$i => $table{ $i }{value},
-			;
+		  printf " %s=>{%s}",
+		    $i => $a->{value},
+		    ;
+		}
 
-		      delete($table{ $i });
+	      if(exists($::table{ $i }))
+		{
+		  delete($::table{ $i });
+		}
+	    }
+
+	  printf "\n\n";
+
+	  foreach my $i ('ORGANIZER' , 'ATTENDEE')
+	    {
+	      foreach my $a (@{ $::table{ $i } })
+		{
+		  if(defined($a->{attributes}))
+		    {
+		      printf "\t\t%s=>{%s} – attributes: {%s}\n",
+			$i => $a->{value},
+			$a->{attributes}
+			;
+		    }
+		  else
+		    {
+		      printf "\t\t%s=>{%s}\n",
+			$i => $a->{value},
+			;
 		    }
 		}
 
-	      printf "\n\n";
+	      delete($::table{ $i });
+	    }
 
-	      printf "\t\t%s=>{%s}\n",
-		'DESCRIPTION' => $table{DESCRIPTION}{value},
-		if 0 && exists($table{DESCRIPTION});
+	  printf "\n";
 
-	      if(exists($table{DESCRIPTION}))
+	  foreach my $i ('DESCRIPTION')
+	    {
+	      foreach my $a (@{ $::table{ $i } })
 		{
 		  printf "\t\t%s=>{\n\n",
-		    'DESCRIPTION';
+		    $i;
 
-		  my(@DESCRIPTION) = split(/\\n/,$table{DESCRIPTION}{value});
+		  my(@list) = split(/\\n/,$a->{value});
 
 		  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
-		    '$#DESCRIPTION' => $#DESCRIPTION,
+		    '$#list' => $#list,
 		    '...'
 		    if 0;
 
-		  foreach my $d (@DESCRIPTION)
+		  foreach my $d (@list)
 		    {
 		      printf "\t\t\t{%s}\n",$d;
 		    }
@@ -126,13 +151,13 @@
 
 		  my(%current_slot);
 
-		  foreach my $d (@DESCRIPTION)
+		  foreach my $d (@list)
 		    {
 		      printf "\t\t\t{%s}\n",$d
 			if 0;
 
 		      if($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?) ( \s+ \( (?<train>[^(]*) \) )? $/x)
-		    ##if($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?)			               $/x)
+			##if($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?)			               $/x)
 			{
 			  my(%plus) = %+;
 
@@ -165,66 +190,96 @@
 			    }
 			}
 		    }
-
-		  delete($table{DESCRIPTION});
 		}
 
-	      foreach my $k (sort keys %table)
+	      if(exists($::table{ $i }))
 		{
-		  printf STDERR "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
-		    '$k' => $k,
-		    'not made use of'
-		    if 0;
+		  delete($::table{ $i });
+		}
+	    }
 
-		  if($table{ $k }{attributes})
+	  foreach my $k (sort keys %::table)
+	    {
+	      foreach my $a (@{ $::table{ $k } })
+		{
+		  if(defined($a->{attributes}))
 		    {
-		      printf "\t\t%s=>{%s} – attributes: {%s} // %s\n",
-			$k => $table{ $k }{value},
-			$table{ $k }{attributes},
-			'not properly made use of',
+		      printf "\t\t%s=>{%s} – attributes: {%s}\n",
+			$k => $a->{value},
+			$a->{attributes}
 			;
 		    }
 		  else
 		    {
-		      printf "\t\t%s=>{%s} // %s\n",
-			$k => $table{ $k }{value},
-			'not properly made use of',
+		      printf "\t\t%s=>{%s}\n",
+			$k => $a->{value},
 			;
 		    }
 		}
 
-	      %table = ();
+	      delete($::table{ $k });
 	    }
+
+	  %::table = ();
 	}
-      elsif(m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..)T(?<HH>..)(?<MM>..)(?<SS>..) (?<Z> Z? ) ) $/x)
+      else
 	{
-	  my(%plus) = %+;
-
-	  $last_label_encountered = $plus{name};
-
-	  $table{ $plus{name} } = \%plus;
-
-	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
-	    "\$table{ $plus{name} }{timestamp}" => $table{ $plus{name} }{timestamp},
-	    '...'
-	    if 0;
+	  &proc_last_line;
+	  $::current_line = $_;
 	}
-    ##elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
-      elsif(m/^ (?<name> [^;:]+ ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
-	{
-	  my(%plus) = %+;
-
-	  # CAVEAT: I should do something with the "attributes".
-
-	  $last_label_encountered = $plus{name};
-
-	  $table{ $plus{name} } = \%plus;
-
-	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
-	    "\$table{ $plus{name} }{value}" => $table{ $plus{name} }{value},
-	    '...'
-	    if 0;
-	}
-
     }
+}
+#
+sub proc_last_line
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if( $::within_VEVENT )
+    {
+      if(0)
+	{
+	}
+      elsif($::current_line =~ m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..)T(?<HH>..)(?<MM>..)(?<SS>..) (?<Z> Z? ) ) $/x)
+	{
+	  my(%plus) = %+;
+
+	  $::table{ $plus{name} } = \%plus;
+
+	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+	    "\$::table{ $plus{name} }{timestamp}" => $::table{ $plus{name} }{timestamp},
+	    '...'
+	    if 0;
+	}
+      elsif($::current_line =~ m/^ (?<name> [^;:]+ ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
+	{
+	  my(%plus) = %+;
+
+	  if(defined($plus{attributes}))
+	    {
+	      $plus{attributes} =~ s/^;//;
+	    }
+
+	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+	    "\$::table{ $plus{name} }{value}" => $::table{ $plus{name} }{value},
+	    '...'
+	    if 0;
+
+	  push( @{ $::table{ $plus{name} } } , \%plus );
+	}
+
+      $::current_line = '';
+    }
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
 }
