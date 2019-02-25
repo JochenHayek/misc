@@ -83,17 +83,20 @@
 		$table{DTEND}{Z},
 		;
 
-	      printf " %s=>{%s}",
-		'SUMMARY' => $table{SUMMARY}{value},
-		if exists($table{SUMMARY});
+	      delete($table{DTSTART});
+	      delete($table{DTEND});
 
-	      printf " %s=>{%s}",
-		'LOCATION' => $table{LOCATION}{value},
-		if exists($table{LOCATION});
+	      foreach my $i ('SUMMARY' , 'LOCATION' , 'URL')
+		{
+		  if(exists($table{ $i }))
+		    {
+		      printf " %s=>{%s}",
+			$i => $table{ $i }{value},
+			;
 
-	      printf " %s=>{%s}",
-		'URL' => $table{URL}{value},
-		if exists($table{URL});
+		      delete($table{ $i });
+		    }
+		}
 
 	      printf "\n\n";
 
@@ -162,29 +165,60 @@
 			    }
 			}
 		    }
+
+		  delete($table{DESCRIPTION});
 		}
+
+	      foreach my $k (sort keys %table)
+		{
+		  printf STDERR "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+		    '$k' => $k,
+		    'not made use of'
+		    if 0;
+
+		  if($table{ $k }{attributes})
+		    {
+		      printf "\t\t%s=>{%s} – attributes: {%s} // %s\n",
+			$k => $table{ $k }{value},
+			$table{ $k }{attributes},
+			'not properly made use of',
+			;
+		    }
+		  else
+		    {
+		      printf "\t\t%s=>{%s} // %s\n",
+			$k => $table{ $k }{value},
+			'not properly made use of',
+			;
+		    }
+		}
+
+	      %table = ();
 	    }
 	}
       elsif(m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..)T(?<HH>..)(?<MM>..)(?<SS>..) (?<Z> Z? ) ) $/x)
 	{
 	  my(%plus) = %+;
 
-	  $table{ $+{name} } = \%plus;
+	  $last_label_encountered = $plus{name};
+
+	  $table{ $plus{name} } = \%plus;
 
 	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
 	    "\$table{ $plus{name} }{timestamp}" => $table{ $plus{name} }{timestamp},
 	    '...'
 	    if 0;
 	}
-      elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
+    ##elsif(m/^ (?<name> SUMMARY | DESCRIPTION | LOCATION | URL ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
+      elsif(m/^ (?<name> [^;:]+ ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
 	{
 	  my(%plus) = %+;
 
 	  # CAVEAT: I should do something with the "attributes".
 
-	  $last_label_encountered = $+{name};
+	  $last_label_encountered = $plus{name};
 
-	  $table{ $+{name} } = \%plus;
+	  $table{ $plus{name} } = \%plus;
 
 	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
 	    "\$table{ $plus{name} }{value}" => $table{ $plus{name} }{value},
