@@ -13,9 +13,9 @@
 
 # basically to be called like that:
 
-# $ $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl
+# $ ~/git-servers/github.com/JochenHayek/misc/procmail/procmail-from2diary.pl
 
-# $                                  $HOME/bin/procmail-from2diary.pl
+# $                                          $HOME/bin/procmail-from2diary.pl
 
 # but I want to "tail -f" the file on mail.shuttle.de like this,
 # and if I create the pipe on that server, we are running into a buffering problem,
