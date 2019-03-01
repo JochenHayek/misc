@@ -4,6 +4,13 @@
 
 ################################################################################
 
+# sample file names:
+#
+# * image2016-08-03-085737.pdf
+# * …
+
+################################################################################
+
 ##RENAME=c:/Users/jochen.hayek/opt/cygwin64/home/jochen.hayek/bin/rename--Tussle
   RENAME=$HOME/bin/rename
 
