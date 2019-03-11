@@ -19,6 +19,13 @@ for i
 do :
    false && echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}}"
 
+   if test -f "${i}"
+   then :
+   else
+     echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // file does not exist"
+     continue
+   fi
+
    # if it's not just a local filename,
    # but one with a leading directory name,
    # we want to strip the leading directory name and proceed with just the basename:
