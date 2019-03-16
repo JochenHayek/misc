@@ -11,7 +11,7 @@ set -x
 ~/bin/rename -v </dev/null \
   \
   's/^ WhatsApp \s+ (Image|Video|Audio) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..)\.(?<MM>..)\.(?<SS>..)                  \.(?<suffix>jpeg|mp4) 
-     $/$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
+     $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
   \
   WhatsApp?Image*.jpeg \
   WhatsApp?Audio*.mp4 \

@@ -9,6 +9,6 @@ set -x
 ~/bin/rename -v </dev/null \
   \
   's/^ signal-attachment- (?<YYYY>....)-(?<mm>..)-(?<dd>..)-(?<HH>..)(?<MM>..)(?<SS>..)                  \.(?<suffix>jpeg) 
-     $/$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
+     $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
   \
   signal-attachment-*.jpeg
