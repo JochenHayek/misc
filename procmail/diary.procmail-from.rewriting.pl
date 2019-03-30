@@ -67,15 +67,17 @@ sub func
 
   # de.wikipedia.org
 
-  # SUBJECT: Wikipedia-Seite Morris Wintschewski wurde von Nutzloses Wissen geändert;
+  # sample:
+  #
+  #   SUBJECT: Wikipedia-Seite Morris Wintschewski wurde von Nutzloses Wissen geändert;
 
   $param{rec} =~ s{
 
                  \] \s+
             	 From	  : \s+ (?<From>.*); \s+
-                 FROM	  : \s+ (?<FROM>[^<]*        .* ); \s+
-		 TO  	  : \s+ (?<TO>.*); \s+
-		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia-Seite \s+ (?<article>.*?) \s+ wurde \s+ von \s+ (?<author>.*?) \s+ ge.ndert); \s+
+                 FROM	  : \s+ (?<FROM>.*); \s+
+		 TO  	  : \s+ (?<TO>  .*); \s+
+		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia-Seite \s+ (?<article>.*) \s+ wurde \s+ von \s+ (?<author>.*) \s+ ge.*ndert); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
     }{,de.wikipedia.org,change] // author=>{$+{author}},article=>{https://de.wikipedia.org/wiki/$+{article}} ...;}gix;
@@ -84,7 +86,9 @@ sub func
 
   # en.wikipedia.org
 
-  # SUBJECT: Wikipedia page Make (software) has been changed by Bollapragada raju;
+  # sample:
+  #
+  #   SUBJECT: Wikipedia page Make (software) has been changed by Bollapragada raju;
 
   $param{rec} =~ s{
 
