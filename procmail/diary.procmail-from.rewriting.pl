@@ -65,6 +65,40 @@ sub func
 
   ################################################################################
 
+  # de.wikipedia.org
+
+  # SUBJECT: Wikipedia-Seite Morris Wintschewski wurde von Nutzloses Wissen geändert;
+
+  $param{rec} =~ s{
+
+                 \] \s+
+            	 From	  : \s+ (?<From>.*); \s+
+                 FROM	  : \s+ (?<FROM>[^<]*        .* ); \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia-Seite \s+ (?<article>.*?) \s+ wurde \s+ von \s+ (?<author>.*?) \s+ ge.ndert); \s+
+		 Folder : \s+ (?<Folder>[^/]*\/\S*)
+
+    }{,de.wikipedia.org,change] // author=>{$+{author}},article=>{https://de.wikipedia.org/wiki/$+{article}} ...;}gix;
+
+  ################################################################################
+
+  # en.wikipedia.org
+
+  # SUBJECT: Wikipedia page Make (software) has been changed by Bollapragada raju;
+
+  $param{rec} =~ s{
+
+                 \] \s+
+            	 From	  : \s+ (?<From>.*); \s+
+                 FROM	  : \s+ (?<FROM>[^<]*        .* ); \s+
+		 TO  	  : \s+ (?<TO>.*); \s+
+		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia \s+ page \s+ (?<article>.*?) \s+ has \s+ been \s+ changed \s+ by \s+ (?<author>.*)); \s+
+		 Folder : \s+ (?<Folder>[^/]*\/\S*)
+
+    }{,de.wikipedia.org,change] // author=>{$+{author}},article=>{https://en.wikipedia.org/wiki/$+{article}} ...;}gix;
+
+  ################################################################################
+
   # fritz.box / Anruf von …
 
   #- : \[?<tags>[^\]]*?\] \s+
