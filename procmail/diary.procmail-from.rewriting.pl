@@ -76,11 +76,11 @@ sub func
                  \] \s+
             	 From	  : \s+ (?<From>.*); \s+
                  FROM	  : \s+ (?<FROM>.*); \s+
-		 TO  	  : \s+ (?<TO>  .*); \s+
+                 TO       : \s* "? (?<TO_name> [^<]*? ) "? \s* < (?<TO_address>   .* ) >; \s+
 		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia-Seite \s+ (?<article>.*) \s+ wurde \s+ von \s+ (?<author>.*) \s+ ge.*ndert); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
-    }{,de.wikipedia.org,change] // author=>{$+{author}},article=>{https://de.wikipedia.org/wiki/$+{article}} ...;}gix;
+    }{,de.wikipedia.org,change] // wikipedia_account=>{$+{TO_name}},author=>{$+{author}},article=>{https://de.wikipedia.org/wiki/$+{article}} ...;}gix;
 
   ################################################################################
 
