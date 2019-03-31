@@ -80,7 +80,7 @@ sub func
 		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia-Seite \s+ (?<article>.*) \s+ wurde \s+ von \s+ (?<author>.*) \s+ ge.*ndert); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
-    }{,de.wikipedia.org,change] // wikipedia_account=>{$+{TO_name}},author=>{$+{author}},article=>{https://de.wikipedia.org/wiki/$+{article}} ...;}gix;
+    }{,de.wikipedia.org,change] // wikipedia_account=>{$+{TO_name}},author=>{$+{author}},article=>{https://de.wikipedia.org/wiki/$+{article}};}gix;
 
   ################################################################################
 
