@@ -99,7 +99,7 @@ sub func
 		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia \s+ page \s+ (?<article>.*?) \s+ has \s+ been \s+ changed \s+ by \s+ (?<author>.*)); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
-    }{,en.wikipedia.org,change] // wikipedia_account=>{$+{TO_name}},author=>{$+{author}},article=>{https://de.wikipedia.org/wiki/$+{article}};}gix;
+    }{,en.wikipedia.org,change] // wikipedia_account=>{$+{TO_name}},author=>{$+{author}},article=>{https://en.wikipedia.org/wiki/$+{article}};}gix;
 
   ################################################################################
 
