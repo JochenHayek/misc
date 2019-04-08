@@ -103,6 +103,32 @@ sub func
 
   ################################################################################
 
+  # jewiki.net
+  
+  # sample:
+  #
+  #   09 Apr 2019
+  #           00:20:02 +0200 [_,not_SPF_mangled,judaism] From: MKuehntopf@gmx.ch;
+  #                   FROM: Jewiki <MKuehntopf@gmx.ch>
+  #                   TO: Johayek <JochenPLUSjewiki@Hayek.name>;
+  #                   SUBJECT: Jewiki-Seite Tuvia Hod wurde von Michael Kühntopf geändert;
+  #                   Folder: .folder-topics.judaism/new/1554762004.17624_1.h20;
+
+  # https://www.jewiki.net/wiki/El_male_rachamim
+
+  $param{rec} =~ s{
+
+                 \] \s+
+            	 From	  : \s+ (?<From>.*); \s+
+                 FROM	  : \s+ (?<FROM>.*); \s+
+                 TO       : \s* "? (?<TO_name> [^<]*? ) "? \s* < (?<TO_address>   .* ) >; \s+
+		 SUBJECT:   \s+ (?<SUBJECT>Jewiki-Seite \s+ (?<article>.*) \s+ wurde \s+ von \s+ (?<author>.*) \s+ ge.*ndert); \s+
+		 Folder : \s+ (?<Folder>[^/]*\/\S*)
+
+    }{,jewiki.net,change] // wikipedia_account=>{$+{TO_name}},author=>{$+{author}},article=>{https://www.jewiki.net/wiki/$+{article}};}gix;
+
+  ################################################################################
+
   # fritz.box / Anruf von …
 
   #- : \[?<tags>[^\]]*?\] \s+
