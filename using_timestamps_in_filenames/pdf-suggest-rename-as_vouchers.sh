@@ -92,6 +92,8 @@ do
 
   "${PDFINFO}" ${pdfinfo_options} "${filename}" |
 
+##tee bla |
+
   perl -MFile::Basename \
     -s \
     -ne '
@@ -101,7 +103,7 @@ do
 
        use v5.16; # if this requirement makes this script fail, get rid of the old perl (again!!!) in favour of a newer perl on your PATH!
 
-       my($display_case_p) = 0;
+       my($display_case_p) = 1;
 
        my(%month_name2no) = ("Jan"=>"01","Feb"=>"02","Mar"=>"03","Apr"=>"04","May"=>"05","Jun"=>"06","Jul"=>"07","Aug"=>"08","Sep"=>"09","Oct"=>"10","Nov"=>"11","Dec"=>"12");
 
@@ -158,6 +160,7 @@ do
        # "pdfinfo -meta" (w/o -rawdates) delivers this:
        #
        # CreationDate:   Thu Dec 18 09:10:04 2014
+       # CreationDate:   Mon Jun  3 07:04:56 2019
 
        if( m/ ^ (?<n>.*Date): \s+ (?<v> (?<weekday>\w+) \s+ (?<monthname>\w+) \s+ (?<day_of_month>\w+) \s+  (?<HH>\d\d) : (?<MM>\d\d) : (?<SS>\d\d) \s+ (?<YYYY>\w+) ) $ /x )
 	 {
@@ -183,8 +186,9 @@ do
        # "pdfinfo -meta -rawdates" delivers this:
        #
        # CreationDate:   D:20141218091004+01'00'
+       # CreationDate:     20190603070456+02'00'	# -rawdates w/o initial "D:"
 
-       if( m/ ^ (?<n>.*Date): \s* D: (?<v>\d+) (.*) $ /x )
+       if( m/ ^ (?<n>.*Date): \s* (?<v> D: )? (?<v>\d+) (.*) $ /x )
 	 {
            my(%plus) = %+;
 
