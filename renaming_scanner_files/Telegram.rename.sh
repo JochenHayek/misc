@@ -11,9 +11,10 @@ set -x
 
 ~/bin/rename -v </dev/null \
   \
-  's/^ (photo)_ (?<YYYY>....)-(?<mm>..)-(?<dd>..) [ _] (?<HH>..)[\.-](?<MM>..)[\.-](?<SS>..)                  \.(?<suffix>jpeg|jpg|mp4) 
+  's/^ (photo|IMG)_ (?<YYYY>....)-(?<mm>..)-(?<dd>..) [ _] (?<HH>..)[\.-](?<MM>..)[\.-](?<SS>..)                  \.(?<suffix>jpeg|jpg|mp4) 
      $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
   \
   photo_*.jpeg \
   photo_*.jpg \
+  IMG_*.mp4 \
   ;
