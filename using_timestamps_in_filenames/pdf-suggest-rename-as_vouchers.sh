@@ -188,7 +188,7 @@ do
        # CreationDate:   D:20141218091004+01'00'
        # CreationDate:     20190603070456+02'00'	# -rawdates w/o initial "D:"
 
-       if( m/ ^ (?<n>.*Date): \s* (?<v> D: )? (?<v>\d+) (.*) $ /x )
+       if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v>\d+) (.*) $ /x )
 	 {
            my(%plus) = %+;
 
