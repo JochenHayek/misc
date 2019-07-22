@@ -63,24 +63,39 @@
 	  &proc_last_line;
 	  $::within_VEVENT = 0;
 
-	  printf "%s %s %s\n",
-	    $::table{DTSTART}{dd},
+	  if   ( ! defined( $::table{DTSTART} ) )
+	    {
+	      printf "%s %s %s\n",
+		'dd', 'mm', 'YYYY'
+		;
+	    }
+	  elsif( ! defined( $::table{DTSTART}{dd} ) )
+	    {
+	      printf "%s %s %s\n",
+		'dd', 'mm', 'YYYY'
+		;
+	    }
+	  else
+	    {
+	      printf "%s %s %s\n",
+		exists( $::table{DTSTART}{dd} 	) ?                     $::table{DTSTART}{dd} : 'dd' ,
 
-	    $short_month_names[ $::table{DTSTART}{mm} ],
+		exists( $::table{DTSTART}{mm} 	) ? $short_month_names[ $::table{DTSTART}{mm} ] : 'mm',
 
-	    $::table{DTSTART}{YYYY},
-	    ;
+		exists( $::table{DTSTART}{YYYY} ) ?                     $::table{DTSTART}{YYYY} : 'YYYY' ,
+		;
+	    }
 
 	  printf "\t%s:%s:%s %s .. %s:%s:%s %s",
 	    $::table{DTSTART}{HH},
 	    $::table{DTSTART}{MM},
 	    $::table{DTSTART}{SS},
-	    $::table{DTSTART}{Z},
+	    $::table{DTSTART}{Z} ,
 
-	    $::table{DTEND}{HH},
-	    $::table{DTEND}{MM},
-	    $::table{DTEND}{SS},
-	    $::table{DTEND}{Z},
+	    $::table{DTEND}{HH}  ,
+	    $::table{DTEND}{MM}  ,
+	    $::table{DTEND}{SS}  ,
+	    $::table{DTEND}{Z}   ,
 	    ;
 
 	  delete($::table{DTSTART});
@@ -246,9 +261,19 @@ sub proc_last_line
       if(0)
 	{
 	}
-      elsif($::current_line =~ m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..)T(?<HH>..)(?<MM>..)(?<SS>..) (?<Z> Z? ) ) $/x)
+
+      # DTSTART;VALUE=DATE:20190718
+
+      elsif($::current_line =~ m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? ( ; VALUE=DATE )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..) ( T(?<HH>..)(?<MM>..)(?<SS>..) )? (?<Z> Z? ) ) $/x)
 	{
 	  my(%plus) = %+;
+
+	  if(!exists($plus{HH}))
+	    {
+	      $plus{HH} = 'HH';
+	      $plus{MM} = 'MM';
+	      $plus{SS} = 'SS';
+	    }
 
 	  $::table{ $plus{name} } = \%plus;
 

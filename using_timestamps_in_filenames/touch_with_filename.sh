@@ -26,10 +26,12 @@ for i
 do :
    false && echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}}"
 
-   if test -f "${i}"
+   if   test -f "${i}"
+   then :
+   elif test -d "${i}"
    then :
    else
-     echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // file does not exist"
+     echo 1>&2 "*** ${bn0},${LINENO}: \${i}=>{${i}} // file resp. directory does not exist"
      continue
    fi
 
