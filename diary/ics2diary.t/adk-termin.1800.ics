@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+PRODID:-//Akademie der Künste//NONSGML Veranstaltungskalender//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:AdK
+DTSTART;VALUE=DATE-TIME:20190824T180000
+DTSTAMP:20190822T141444Z
+CREATED:20190822T141444Z
+LAST-MODIFIED:20190822T141444Z
+UID:59884@adk.de 
+SUMMARY:Akademie der Künste: Was der Körper erinnert. Zur Aktualität des Tanzerbes; Das Jahrhundert des Tanzes
+DESCRIPTION:In deutscher Sprache\nEintritt frei
+LOCATION:Hanseatenweg 10, 10557 Berlin-Tiergarten
+URL;VALUE=URI:http://www.adk.de/de/programm/?we_objectID=59884
+END:VEVENT
+END:VCALENDAR

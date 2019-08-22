@@ -63,13 +63,15 @@
 	  &proc_last_line;
 	  $::within_VEVENT = 0;
 
+	##if   ( ! exists( $::table{DTSTART}{dd} ) )
 	  if   ( ! defined( $::table{DTSTART} ) )
 	    {
 	      printf "%s %s %s\n",
 		'dd', 'mm', 'YYYY'
 		;
 	    }
-	  elsif( ! defined( $::table{DTSTART}{dd} ) )
+	##elsif( ! exists( $::table{DTSTART}{dd} ) )
+	  elsif( defined( $::table{DTSTART} ) && ! defined( $::table{DTSTART}{dd} ) )
 	    {
 	      printf "%s %s %s\n",
 		'dd', 'mm', 'YYYY'
@@ -87,15 +89,16 @@
 	    }
 
 	  printf "\t%s:%s:%s %s .. %s:%s:%s %s",
-	    $::table{DTSTART}{HH},
-	    $::table{DTSTART}{MM},
-	    $::table{DTSTART}{SS},
-	    $::table{DTSTART}{Z} ,
 
-	    $::table{DTEND}{HH}  ,
-	    $::table{DTEND}{MM}  ,
-	    $::table{DTEND}{SS}  ,
-	    $::table{DTEND}{Z}   ,
+	    exists($::table{DTSTART}{HH}) ? $::table{DTSTART}{HH} : 'HH??' ,
+	    exists($::table{DTSTART}{MM}) ? $::table{DTSTART}{MM} : 'MM??' ,
+	    exists($::table{DTSTART}{SS}) ? $::table{DTSTART}{SS} : 'SS??' ,
+	    exists($::table{DTSTART}{Z} ) ? $::table{DTSTART}{Z}  : ''     ,
+
+	    exists($::table{DTEND}{HH})   ? $::table{DTEND}{HH}   : 'HH'   ,
+	    exists($::table{DTEND}{MM})   ? $::table{DTEND}{MM}   : 'MM'   ,
+	    exists($::table{DTEND}{SS})   ? $::table{DTEND}{SS}   : 'SS'   ,
+	    exists($::table{DTEND}{Z} )   ? $::table{DTEND}{Z}    : ''     ,
 	    ;
 
 	  delete($::table{DTSTART});
@@ -282,6 +285,47 @@ sub proc_last_line
 	    '...'
 	    if 0;
 	}
+
+      # DTSTART;VALUE=DATE-TIME:20190824T180000
+
+      elsif($::current_line =~ m/^ (?<name> DTSTART | DTEND ) ( ; TZID=([^:]*) )? ( ; VALUE=DATE-TIME )? : (?<timestamp> (?<YYYY>....)(?<mm>..)(?<dd>..) ( T(?<HH>..)(?<MM>..)(?<SS>..) )? (?<Z> Z? ) ) $/x)
+	{
+	  my(%plus) = %+;
+
+	  if(!exists($plus{HH}))
+	    {
+	      $plus{HH} = 'HH';
+	      $plus{MM} = 'MM';
+	      $plus{SS} = 'SS';
+	    }
+
+	  $::table{ $plus{name} } = \%plus;
+
+	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+	    "\$::table{ $plus{name} }{timestamp}" => $::table{ $plus{name} }{timestamp},
+	    '...'
+	    if 0;
+	}
+
+      elsif($::current_line =~ m/^ (?<name> DTSTART | DTEND ) /x)
+	{
+	  my(%plus) = %+;
+
+	  $plus{dd}   = 'dd?';
+	  $plus{mm}   = '01';
+	  $plus{YYYY} = 'YYYY?';
+	  $plus{HH}   = 'HH?';
+	  $plus{MM}   = 'MM?';
+	  $plus{SS}   = 'SS?';
+
+	  $::table{ $plus{name} } = \%plus;
+
+	  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+	    "\$::table{ $plus{name} }{timestamp}" => $::table{ $plus{name} }{timestamp},
+	    '...'
+	    if 0;
+	}
+
       elsif($::current_line =~ m/^ (?<name> [^;:]+ ) (?<attributes> ; [^=]+ = [^:]* )? : (?<value> .*) /x)
 	{
 	  my(%plus) = %+;
