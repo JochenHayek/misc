@@ -34,13 +34,6 @@
 
 ################################################################################
 
-# $ rsync -vaz --rsync-path=/volume1/@hayek/bin/rsync $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl diskstation002:ARCHIVE/mail.shuttle.de-non-dated/Computers/Programming/Languages/Perl/
-# $ rsync -vaz					      $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                  mail.shuttle.de:Computers/Programming/Languages/Perl/
-# $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                           HayekW:Computers/Programming/Languages/Perl/
-# $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                         Hayek001:Computers/Programming/Languages/Perl/
-
-################################################################################
-
 # e-mail subjects with "foreign" characters and .maildelivery resp. procmail-from
 #
 # samples:
@@ -496,34 +489,30 @@ sub high_level_print_entry
 
       if(exists($param{DATE_captures}{time}))
 	{
-	  printf "\t%s %s [_,%s] %s: %s;\n" .
-	    "\t\t %s:%s;\n" .
-	    "\t\t %s:%s;\n" .
-	    ''
+	  printf "\t%s %s"
 	    ,              exists($param{DATE_captures}{time})       ? $param{DATE_captures}{time}       : '{!exists(DATE_captures{time})}'
 	    ,              exists($param{DATE_captures}{DST})        ? $param{DATE_captures}{DST}        : '{!exists(DATE_captures{DST})}'
-	    , $From_captures__From__mangled_p
-	    , 'From'    =>                                             $From_captures__From__rewritten
-	    , 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
-	    , 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
 	    ;
 	}
       else
 	{
 	  printf "\t// using From_captures\n"
 	    if 0;
-	  printf "\t%s [_,%s] %s: %s;\n" .
-	    "\t\t %s:%s;\n" .
-	    "\t\t %s:%s;\n" .
-	    ''
+	  printf "\t%s"
 	    ,              exists($param{From_captures}{time})       ? $param{From_captures}{time}       : '{!exists(From_captures{time})}'
 	  ##,              exists($param{From_captures}{DST})        ? $param{From_captures}{DST}        : '{!exists(From_captures{DST})}'
-	    , $From_captures__From__mangled_p
-	    , 'From'    =>                                             $From_captures__From__rewritten
-	    , 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
-	    , 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
 	    ;
 	}
+
+      printf " [_,%s] %s: %s;\n" .
+	"\t\t %s:%s;\n" .
+	"\t\t %s:%s;\n" .
+	''
+	, $From_captures__From__mangled_p
+	, 'From'    =>                                             $From_captures__From__rewritten
+	, 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
+	, 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
+	;
 
       if   (  exists($param{subject_captures}{subject}) &&  exists($param{SUBJECT_captures}{SUBJECT}) )
 	{
