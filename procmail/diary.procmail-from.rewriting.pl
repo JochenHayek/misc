@@ -413,7 +413,7 @@ sub func
 		 Folder : \s+ (?<Folder>(\.folder-topics|folder-topics-c)\.(?<topic>[^\/]*)\/\S*)
 
     }{,$+{topic}] From: $+{From};
-\t\tFROM: $+{FROM}
+\t\tFROM: $+{FROM};
 \t\tTO: $+{TO};
 \t\tSUBJECT:$+{SUBJECT};
 \t\tFolder: $+{Folder};}gix;
@@ -432,7 +432,7 @@ sub func
 		 Folder : \s+ (?<Folder>\.folders-fam\.(?<topic>[^\/]*)\/\S*)
 
     }{,$+{topic}] From: $+{From};
-\t\tFROM: $+{FROM}
+\t\tFROM: $+{FROM};
 \t\tTO: $+{TO};
 \t\tSUBJECT:$+{SUBJECT};
 \t\tFolder: $+{Folder};}gix;
