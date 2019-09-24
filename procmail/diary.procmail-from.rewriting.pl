@@ -18,7 +18,8 @@
   my($rec) = '';
 
   our(%gigaset_elements_homes) =
-    ( 'Jochens Home'     =>  'Jochen_s_Home' ,
+  ##( 'Jochens Home'     =>  'Jochen_s_Home' ,
+    ( 'Jochens Home'     =>  'Gigaset_elements_Jochen_s_Home' ,
       'Gigaset elements' =>  'Gigaset_elements_Jochen_s_Home' ,
       'motion'           =>  'Gigaset_elements_Jochen_s_Home_motion' ,
       'Front door 1'     =>  'Gigaset_elements_Jochen_s_Home_front_door' ,
