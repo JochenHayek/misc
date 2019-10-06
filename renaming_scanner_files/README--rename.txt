@@ -4,6 +4,10 @@
 
 ================================================================================
 
+$ ~/bin/rename -v 's/^ 999990-000-- //x' 999990-*
+
+================================================================================
+
 # ~/git-servers/github.com/JochenHayek/misc/shell/renumber_files.sh
 # ~/git-servers/github.com/JochenHayek/misc/shell/renumber_duplex_scanned_files.sh
 
