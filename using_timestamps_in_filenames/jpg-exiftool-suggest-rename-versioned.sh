@@ -67,5 +67,8 @@ do
       }
 
   ' \
-  -- -Date=${Date} "-filename=${filename}"
+  -- -Date=${Date} "-filename=${filename}" |
+
+  sort
+
 done
