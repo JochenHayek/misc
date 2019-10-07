@@ -2,6 +2,7 @@
 
 for i in \
   git-servers/github.com/JochenHayek/misc \
+  git-servers/github.com/JochenHayek/rcs2git \
   git-servers/ber.jochen.hayek.name/johayek/CV.xmlresume \
   git-servers/ber.jochen.hayek.name/johayek/banks \
   git-servers/ber.jochen.hayek.name/johayek/check_lists \
