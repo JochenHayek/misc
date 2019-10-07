@@ -95,7 +95,7 @@ do :
   else :
     printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
       '$i' "$i" \
-      'docProps/core.xml – trouble: does not exist'
+      'trouble: non-existent docProps/core.xml – no modification timestamp'
     exit 1
   fi
 
