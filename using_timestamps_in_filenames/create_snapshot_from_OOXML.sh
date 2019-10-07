@@ -90,6 +90,15 @@ do :
 
   # use an OOXML file's "modified" timestamp:
 
+  if unzip -p "$i" docProps/core.xml 2> /dev/null > /dev/null
+  then :
+  else :
+    printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
+      '$i' "$i" \
+      'docProps/core.xml – trouble: does not exist'
+    exit 1
+  fi
+
   date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
    date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:created  | tr -d ':TZ-' )
 

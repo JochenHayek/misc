@@ -100,7 +100,25 @@ do :
 
   # use an ODF file's "modified" timestamp:
 
+  if unzip -p "$i" meta.xml 2> /dev/null > /dev/null
+  then :
+  else :
+    printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
+      '$i' "$i" \
+      'meta.xml – trouble: does not exist'
+    exit 1
+  fi
+
   date=$( unzip -p "$i" meta.xml | "${xmlstarlet}" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
+
+  if test -z "$date"
+  then :
+    printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+      '$i' "$i" \
+      '$date' "$date" \
+      'meta.xml – trouble'
+    exit 1
+  fi
 
   ################################################################################
   ################################################################################
