@@ -17,7 +17,12 @@ for i in \
 do :
   echo -e "\n*** $i :\n"
 
-  cd "$HOME/$i" || exit 9
+  if cd "$HOME/$i"
+  then :
+  else
+    echo -e "\n*** $i : we don't have this here, skipping ...\n"
+    continue
+  fi
 
   git status
 done
