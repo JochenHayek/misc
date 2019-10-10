@@ -17,12 +17,13 @@ for i in \
 do :
   echo -e "\n*** $i :\n"
 
-  if cd "$HOME/$i"
+  if test -d "$HOME/$i"
   then :
   else
     echo -e "\n*** $i : we don't have this here, skipping ...\n"
     continue
   fi
 
+  cd "$HOME/$i"
   git status
 done
