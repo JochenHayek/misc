@@ -15,10 +15,9 @@ for i in \
   git-servers/ber.jochen.hayek.name/johayek/renaming_and_processing_various_files \
   ;
 do :
-  echo -e "\n*** $i :\n"
-
   if test -d "$HOME/$i"
   then :
+    echo -e "\n*** $i :\n"
   else
     echo -e "\n*** $i : we don't have this here, skipping ...\n"
     continue
