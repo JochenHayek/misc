@@ -6,7 +6,7 @@
 ;# Software Research Associates, Inc.
 ;# 1-1-1 Hirakawa-cho, Chiyoda-ku, Tokyo 102, Japan
 ;#
-;; $rcsid = q$Id: a2ps-perl4.pl 1.35 1995/06/24 15:12:21 jh Exp $;
+;; $rcsid = q$Id: a2ps-perl4 1.35 1995/06/24 15:12:21 jh Exp $;
 ;#
 ;# This program is perl version of Miguel Santana's a2ps.  Postscript
 ;# kanji enhancement was done by Naoki Kanazawa <kanazawa@sra.co.jp>.
