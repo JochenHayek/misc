@@ -19,7 +19,7 @@ do :
   then :
     echo -e "\n*** $i :\n"
   else
-    echo -e "\n*** $i : we don't have this here, skipping ...\n"
+    echo -e "\n\n*** $i : we don't have this here, skipping ...\n\n"
     continue
   fi
 
