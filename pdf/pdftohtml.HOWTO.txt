@@ -2,6 +2,7 @@
 
                                      pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
                             /opt/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
+                         /opt/sw/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
                                ~/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
 
 # within Emacs dired-mode leave out the file params:
