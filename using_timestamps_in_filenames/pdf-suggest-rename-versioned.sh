@@ -18,12 +18,15 @@
 ##  exit 1
 ##fi
 
-if   test -e /sw/bin/pdfinfo
+if   test -e /opt/sw/bin/pdfinfo
 then :
-  PDFINFO=/sw/bin/pdfinfo
+     PDFINFO=/opt/sw/bin/pdfinfo
+elif test -e /sw/bin/pdfinfo
+then :
+     PDFINFO=/sw/bin/pdfinfo
 elif test -e /opt/bin/pdfinfo
 then :
-  PDFINFO=/opt/bin/pdfinfo
+     PDFINFO=/opt/bin/pdfinfo
 else
   echo 1>&2 "*** $0: cannot find pdfinfo at /sw/bin or /opt/bin"
   exit 1
