@@ -9,6 +9,6 @@ set -x
 ~/bin/rename -v </dev/null \
   \
   's/^ (?<text>.*) - (?<dd>..)-(?<mm>..)-(?<YYYY>....)-a-(?<HH>..)-(?<MM>..) \.(?<suffix>ics) 
-     $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}00--$+{text}.$+{suffix}/x' \
+     $/$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}00--$+{text}.$+{suffix}/x' \
   \
   termin-*.ics
