@@ -1,4 +1,4 @@
-:
+f:
 
 # -> README--rename.txt
 
@@ -8,13 +8,22 @@ shopt -s nullglob
 
 set -x
 
-~/bin/rename -v 's/^ (?<prefix>IMG|VID) _ (?<YYYYmmdd>\d{8}) _ (?<HHMMSS>\d{6})/999990-000--$+{YYYYmmdd}$+{HHMMSS}--___/x' *.jpg *.mp4
+~/bin/rename -v 's/^ (?<prefix>IMG|VID) _ (?<YYYYmmdd>\d{8}) _ (?<HHMMSS>\d{6})/999990-000--$+{YYYYmmdd}$+{HHMMSS}--___/x' \
+  \
+  "$@"
+
+exit 0
+
+################################################################################
+
+  *.jpg *.mp4
 
 ################################################################################
 
 exit 0
 
-for i in *.jpg *.png *.pdf
+##for i in *.jpg *.png *.pdf
+  for i
 do :
   case "$i" in
 

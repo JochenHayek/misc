@@ -8,7 +8,8 @@ shopt -s nullglob
 
 set -x
 
-for i in *.jpg *.png *.pdf
+##for i in *.jpg *.png *.pdf
+  for i
 do :
   case "$i" in
 

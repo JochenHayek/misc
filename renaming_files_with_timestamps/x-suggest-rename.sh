@@ -20,6 +20,9 @@
 shopt -s nullglob
 
 exiftool -s -FileModifyDate   -FileName \
-  x_??_of_??.jpg x_??_of_??.pdf |
+  \
+  "$@" |
+
+##x_??_of_??.jpg x_??_of_??.pdf |
 
 perl -ne 'm/^FileName\s*:\s+(.*)/ && do { $fn = $1;  print "mv \"$fn\" \"999990-000--${time_stamp}--___.$fn\"\n"; ${time_stamp} = ""; } ; m/^FileModifyDate\s*:\s+(....).(..).(..).(..).(..).(..)/   && do { $time_stamp = "$1$2$3$4$5$6"; };'

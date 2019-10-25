@@ -11,4 +11,6 @@ set -x
   's/^ (?<text>.*) - (?<dd>..)-(?<mm>..)-(?<YYYY>....)-a-(?<HH>..)-(?<MM>..) \.(?<suffix>ics) 
      $/$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}00--$+{text}.$+{suffix}/x' \
   \
-  termin-*.ics
+  "$@"
+
+##termin-*.ics

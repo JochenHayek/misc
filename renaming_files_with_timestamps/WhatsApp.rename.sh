@@ -14,16 +14,24 @@ set -x
   's/^ WhatsApp \s+ (Image|Video|Audio|Ptt) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..)\.(?<MM>..)\.(?<SS>..)                  \.(?<suffix>jpeg|mp4|ogg) 
      $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
   \
-  WhatsApp?Image*.jpeg \
-  WhatsApp?Ptt*.ogg \
-  WhatsApp?Audio*.mp4 \
-  WhatsApp?Video*.mp4
+  "$@"
 
 ~/bin/rename -v </dev/null \
   \
   's/^ WhatsApp \s+ (Image|Video|Audio|Ptt) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..)\.(?<MM>..)\.(?<SS>..) \( (?<no>\d+) \) \.(?<suffix>jpeg|mp4|ogg) 
      $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{no}.$+{suffix}/x' \
   \
+  "$@"
+
+exit 0
+
+################################################################################
+
+  WhatsApp?Image*.jpeg \
+  WhatsApp?Ptt*.ogg \
+  WhatsApp?Audio*.mp4 \
+  WhatsApp?Video*.mp4
+  
   WhatsApp?Image*.jpeg \
   WhatsApp?Ptt*.ogg \
   WhatsApp?Audio*.mp4 \
