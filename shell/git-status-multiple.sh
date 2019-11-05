@@ -1,12 +1,17 @@
 # …
 
+# outdated:
+#
+#   git-servers/ber.jochen.hayek.name/johayek/client-eexDOTcom
+
 for i in \
+  \
   git-servers/github.com/JochenHayek/misc \
   git-servers/github.com/JochenHayek/rcs2git \
+  \
   git-servers/ber.jochen.hayek.name/johayek/CV.xmlresume \
   git-servers/ber.jochen.hayek.name/johayek/banks \
   git-servers/ber.jochen.hayek.name/johayek/check_lists \
-  git-servers/ber.jochen.hayek.name/johayek/client-eexDOTcom \
   git-servers/ber.jochen.hayek.name/johayek/jira2diary \
   git-servers/ber.jochen.hayek.name/johayek/misc \
   git-servers/ber.jochen.hayek.name/johayek/passwords \
