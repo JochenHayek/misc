@@ -14,6 +14,18 @@
 # * "Deutsche Bahn" traveling schedules
 # * …
 
+# common rewrites:
+#
+#   URL=>{\(.*\)}
+#
+#   \1
+#
+# UdK-Berlin.de rewrites:
+#
+#   URL=>{\(.*\)?\(.*\)}
+#
+#   \1
+
 # wishlist:
 # * …
 
