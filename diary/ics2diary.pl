@@ -41,6 +41,8 @@
 
   $::current_line = '';
 
+##my($current_arg) = $_;
+  my($current_arg) = $ARGV[0];
   while(<>)
     {
       chomp if 0;
@@ -78,27 +80,25 @@
 	##if   ( ! exists( $::table{DTSTART}{dd} ) )
 	  if   ( ! defined( $::table{DTSTART} ) )
 	    {
-	      printf "%s %s %s\n",
-		'dd', 'mm', 'YYYY'
-		;
+	      $::table{DTSTART}{dd}   = 'dd';
+	      $::table{DTSTART}{mm}   = 'mm';
+	      $::table{DTSTART}{YYYY} = 'YYYY';
 	    }
 	##elsif( ! exists( $::table{DTSTART}{dd} ) )
 	  elsif( defined( $::table{DTSTART} ) && ! defined( $::table{DTSTART}{dd} ) )
 	    {
-	      printf "%s %s %s\n",
-		'dd', 'mm', 'YYYY'
-		;
+	      $::table{DTSTART}{dd}   = 'dd';
+	      $::table{DTSTART}{mm}   = 'mm';
+	      $::table{DTSTART}{YYYY} = 'YYYY';
 	    }
-	  else
-	    {
-	      printf "%s %s %s\n",
-		exists( $::table{DTSTART}{dd} 	) ?                     $::table{DTSTART}{dd} : 'dd' ,
 
-		exists( $::table{DTSTART}{mm} 	) ? $short_month_names[ $::table{DTSTART}{mm} ] : 'mm',
+	  printf "%s %s %s\n",
+	    exists( $::table{DTSTART}{dd} 	) ?                     $::table{DTSTART}{dd} : 'dd' ,
 
-		exists( $::table{DTSTART}{YYYY} ) ?                     $::table{DTSTART}{YYYY} : 'YYYY' ,
-		;
-	    }
+	    exists( $::table{DTSTART}{mm} 	) ? $short_month_names[ $::table{DTSTART}{mm} ] : 'mm',
+
+	    exists( $::table{DTSTART}{YYYY} ) ?                     $::table{DTSTART}{YYYY} : 'YYYY' ,
+	    ;
 
 	  printf "\t%s:%s:%s %s .. %s:%s:%s %s",
 
@@ -111,6 +111,22 @@
 	    exists($::table{DTEND}{MM})   ? $::table{DTEND}{MM}   : 'MM'   ,
 	    exists($::table{DTEND}{SS})   ? $::table{DTEND}{SS}   : 'SS'   ,
 	    exists($::table{DTEND}{Z} )   ? $::table{DTEND}{Z}    : ''     ,
+	    ;
+
+	  printf STDERR "%s%s%s%s%s%s--%s.%s\n",
+
+	    exists( $::table{DTSTART}{YYYY} ) ? $::table{DTSTART}{YYYY} : 'YYYY' ,
+	    exists( $::table{DTSTART}{mm}   ) ? $::table{DTSTART}{mm}   : 'mm',
+	    exists( $::table{DTSTART}{dd}   ) ? $::table{DTSTART}{dd}   : 'dd' ,
+
+	    exists( $::table{DTSTART}{HH}   ) ? $::table{DTSTART}{HH} 	: '__' ,
+	    exists( $::table{DTSTART}{MM}   ) ? $::table{DTSTART}{MM} 	: '__' ,
+	    exists( $::table{DTSTART}{SS}   ) ? $::table{DTSTART}{SS} 	: '__' ,
+
+	    defined($current_arg) ? $current_arg : '___',
+
+	    'diary',
+
 	    ;
 
 	  delete($::table{DTSTART});
