@@ -189,8 +189,9 @@ do
        # "pdfinfo -meta -rawdates" delivers this:
        #
        # CreationDate:   D:20141218091004+01'00'
+       # CreationDate:     20191205084544+01'00'
 
-       if( m/ ^ (?<n>.*Date): \s* D: (?<v>\d+) (.*) $ /x )
+       if( m/ ^ (?<n>.*Date): \s* (D:)? (?<v>\d+) (.*) $ /x )
 	 {
            my(%plus) = %+;
 
