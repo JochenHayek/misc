@@ -8,6 +8,39 @@
 #
 #   ~/git-servers/github.com/JochenHayek/misc/ics2diary.pl ? > $(echo ? ).diary
 
+################################################################################
+
+# these ones are also quite handy:
+#
+#   for i in *.ics; do ~/bin/ics2diary.pl "$i" >/dev/null; done 2>&1 | sh -x
+
+#   perl -i~ -pe 's/URL=>{([^?]*)\?.*}/$1/x' *.ics.diary
+
+#   perl -i~ -pe 's/(CLASS|TZID)=>\{[^}]*\}//x ' *.ics.diary
+
+#   cat *.ics.diary > diary
+
+#	    … merge … into ~/diary :
+#		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right diary > ~/transfer/000diary/diary
+#
+#               # manually remove duplicate dates!
+#
+#	    is it alright?
+#		diff -c ~/diary ~/transfer/000diary/diary
+
+#           within emacs:
+#
+#               https:// → ^J^J^Ihttps://
+#
+#	    then replace ...
+#		mv --verbose ~/transfer/000diary/diary ~/diary
+
+# lots of unsuccessful attempts to get rid of empty DESCRIPTION:
+#
+#   perl -i~ -pe 's/(CLASS|TZID|DESCRIPTIONl)=>\{[^}]*\}//sx ' 20191222100000--event.ics.diary
+
+################################################################################
+
 # in which contexts to use:
 #
 # * Google calendar exports
@@ -40,6 +73,8 @@
   unshift(@short_month_names,''); # in order to have an easier mapping `number : name`
 
   $::current_line = '';
+
+  # I would prefer this within the loop, but something screws up:
 
 ##my($current_arg) = $_;
   my($current_arg) = $ARGV[0];
@@ -113,7 +148,9 @@
 	    exists($::table{DTEND}{Z} )   ? $::table{DTEND}{Z}    : ''     ,
 	    ;
 
-	  printf STDERR "%s%s%s%s%s%s--%s.%s\n",
+	  printf STDERR "mv %s %s%s%s%s%s%s--%s\n",
+
+	    defined($current_arg) ? $current_arg : '___',
 
 	    exists( $::table{DTSTART}{YYYY} ) ? $::table{DTSTART}{YYYY} : 'YYYY' ,
 	    exists( $::table{DTSTART}{mm}   ) ? $::table{DTSTART}{mm}   : 'mm',
@@ -124,8 +161,6 @@
 	    exists( $::table{DTSTART}{SS}   ) ? $::table{DTSTART}{SS} 	: '__' ,
 
 	    defined($current_arg) ? $current_arg : '___',
-
-	    'diary',
 
 	    ;
 

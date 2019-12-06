@@ -114,7 +114,7 @@ sub func
   #                   FROM: Jewiki <MKuehntopf@gmx.ch>
   #                   TO: Johayek <JochenPLUSjewiki@Hayek.name>;
   #                   SUBJECT: Jewiki-Seite Tuvia Hod wurde von Michael Kühntopf geändert;
-  #                   Folder: .folder-topics.judaism/new/1554762004.17624_1.h20;
+  #                   Folder: .topics.judaism/new/1554762004.17624_1.h20;
 
   # https://www.jewiki.net/wiki/El_male_rachamim
 
@@ -180,7 +180,7 @@ sub func
 #		FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>
 #		TO: <Jochen+FRITZ-Box-200-coffee@Hayek.name>,;
 #		SUBJECT: 200/coffee wurde angeschaltet;
-#		Folder: .folder-topics.admin/new/1541493809.5328_1.mspool3;
+#		Folder: .topics.admin/new/1541493809.5328_1.mspool3;
 
   if( $param{rec} =~ m,
 
@@ -223,7 +223,7 @@ sub func
                  FROM   : [^<]* < (?<FROM> jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
 		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (folder-topics|folder-topics-c|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-c|topics-f|.*) \.(?<subtopic>admin|.*)\/\S*)
 
       }gix
     ) 
@@ -240,7 +240,7 @@ sub func
                  FROM   : [^<]* < (?<FROM> jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
 		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (folder-topics|folder-topics-c|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-c|topics-f|.*) \.(?<subtopic>admin|.*)\/\S*)
 
 	}{[$plus{tags},Synology_DSM_Alert] $plus{SUBJECT}}gix;
     }
@@ -253,7 +253,7 @@ sub func
                  FROM   : [^<]* < (?<FROM> noreply\@synologynotification\.com                 ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\+diskstation\d{3}-push-service\@hayek\.name ) >; \s+
                  SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (folder-topics|folder-topics-c|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-c|topics-f|.*) \.(?<subtopic>admin|.*)\/\S*)
 
       }gix
     ) 
@@ -271,7 +271,7 @@ sub func
                  FROM   : [^<]* < (?<FROM> noreply\@synologynotification\.com                 ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\+diskstation\d{3}-push-service\@hayek\.name ) >; \s+
                  SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (folder-topics|folder-topics-c|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-c|topics-f|.*) \.(?<subtopic>admin|.*)\/\S*)
 
 	}{[$plus{tags},Synology] $plus{SUBJECT}}gix;
     }
@@ -290,7 +290,7 @@ sub func
 		 FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
 		 TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
 		 SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-		 Folder: \s+ (?<Folder>\. (folder-topics|folder-topics-c|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-c|topics-f|.*) \.(?<subtopic>admin|.*)\/\S*)
 
       }gix
     ) 
@@ -308,7 +308,7 @@ sub func
 		 FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
 		 TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
 		 SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-		 Folder: \s+ (?<Folder>\. (folder-topics|folder-topics-c|.*) \.(?<topic>subadmin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-c|topics-f|.*) \.(?<topic>subadmin|.*)\/\S*)
 
 	}{[${home},$plus{SUBJECT_rem}]}gix;
 
@@ -331,7 +331,7 @@ sub func
 #		FROM: "Jewish German Social Network"  <support@jewish-singles.de>
 #		TO: <jochenPLUSjewish-singles@hayek.name>;
 #		SUBJECT: You have a new visitor!;
-#		Folder: .folder-topics.social_networking/new/1540551858.24263_1.mspo;
+#		Folder: .topics.social_networking/new/1540551858.24263_1.mspo;
 
 #		SUBJECT: You have a new visitor!;
 #		SUBJECT: You have a new friend!;
@@ -386,7 +386,7 @@ sub func
 		 FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
 		 TO  	  : \s+ (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
-		 Folder : \s+ ((?<Folder>\.folder-topics|folder-topics-c)\.(?<topic>money)\/\S*)
+		 Folder : \s+ (?<Folder>\. (topics|topics-c|topics-f) \.(?<topic>money)\/\S*)
 
     }{,banking] From: $+{From}; TO: $+{TO}; SUBJECT:$+{SUBJECT};}gix;
 
@@ -403,7 +403,7 @@ sub func
 
   ################################################################################
 
-  # using folder-topics.$+{topic} as tag
+  # using topics.$+{topic} as tag
 
   $param{rec} =~ s{
 
@@ -412,7 +412,7 @@ sub func
 		 FROM	  : \s+ (?<FROM>[^;]*); \s+
 		 TO  	  : \s+ (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
-		 Folder : \s+ (?<Folder>(\.folder-topics|folder-topics-c)\.(?<topic>[^\/]*)\/\S*)
+		 Folder : \s+ (?<Folder>\. (topics|\.topics-c|\.topics-f) \.(?<topic>[^\/]*)\/\S*)
 
     }{,$+{topic}] From: $+{From};
 \t\tFROM: $+{FROM};
