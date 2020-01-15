@@ -150,7 +150,8 @@
 
 	  printf STDERR "mv %s %s%s%s%s%s%s--%s\n",
 
-	    defined($current_arg) ? $current_arg : '___',
+	  ##defined($current_arg) ? $current_arg : '___',
+	    '*',
 
 	    exists( $::table{DTSTART}{YYYY} ) ? $::table{DTSTART}{YYYY} : 'YYYY' ,
 	    exists( $::table{DTSTART}{mm}   ) ? $::table{DTSTART}{mm}   : 'mm',

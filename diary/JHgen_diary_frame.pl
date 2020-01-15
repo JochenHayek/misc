@@ -52,7 +52,7 @@
 	  , $mday
 	  ;
 
-      next if($date__YYYY_MM_DD lt '2021-00-00'); # "first year"
+      next if($date__YYYY_MM_DD lt '2020-00-00'); # "first year"
 
       last if($date__YYYY_MM_DD gt '2021-99-99'); # "last year"
 

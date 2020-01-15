@@ -73,11 +73,18 @@ sub func
   #
   #   SUBJECT: Wikipedia-Seite Morris Wintschewski wurde von Nutzloses Wissen geändert;
 
+  #   30 Dec 2019
+  #   	18:22:56 +0100 [_,not_SPF_mangled] From: ych2277a+caf_=jochen+ych2277a=hayek.name@gmail.com;
+  #   		 FROM: "Wikipedia" <wiki@wikimedia.org>;
+  #   		 TO: "YCH2277" <ych2277a@gmail.com>;
+  #   		 SUBJECT: Wikipedia-Seite Dietmar Till wurde von Tammany2012 geändert;
+  #   		 Folder: .topics.social_networking/new/1577726579.17503_1.h20
+
   $param{rec} =~ s{
 
                  \] \s+
-            	 From	  : \s+ (?<From>.*); \s+
-                 FROM	  : \s+ (?<FROM>.*); \s+
+            	 From	  : \s+ (?<From>.*); \s*
+                 FROM	  : \s+ (?<FROM>[^<]* .* ); \s+
                  TO       : \s* "? (?<TO_name> [^<]*? ) "? \s* < (?<TO_address>   .* ) >; \s+
 		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia-Seite \s+ (?<article>.*) \s+ wurde \s+ von \s+ (?<author>.*) \s+ ge.*ndert); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
@@ -96,7 +103,7 @@ sub func
 
                  \] \s+
             	 From	  : \s+ (?<From>.*); \s+
-                 FROM	  : \s+ (?<FROM>[^<]*        .* ); \s+
+                 FROM	  : \s+ (?<FROM>[^<]* .* ); \s+
                  TO       : \s* "? (?<TO_name> [^<]*? ) "? \s* < (?<TO_address>   .* ) >; \s+
 		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia \s+ page \s+ (?<article>.*?) \s+ has \s+ been \s+ changed \s+ by \s+ (?<author>.*)); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
@@ -133,6 +140,24 @@ sub func
 
   # fritz.box / Anruf von …
 
+  # fritz.box / Anruf von …
+  #
+  #   Subject: Anruf von Pereira,Florencia (01628977808);
+
+# 11 Dec 2019
+# 	12:26:26 +0100 [_,not_SPF_mangled] From: Jochen+FRITZ-Box@Hayek.name;
+# 		 FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>;
+# 		 TO: <Jochen+FRITZ-Box-Anrufe-4916090104554@Hayek.name>,;
+# 		 SUBJECT: Anruf von BZfG (03049300150);
+# 		 Folder: .topics-computers.admin/new/1576063587.15668_1.h20
+#
+# 24 Dec 2019
+# 	14:15:59 +0100 [_,not_SPF_mangled] From: Jochen+FRITZ-Box@Hayek.name;
+# 		 FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>;
+# 		 TO: <Jochen+FRITZ-Box-Anrufe-4916090104554@Hayek.name>,;
+# 		 SUBJECT: Anruf von Brizola,Cristina (03023639349);
+# 		 Folder: .topics-computers.admin/new/1577193359.20291_1.h20
+
   #- : \[?<tags>[^\]]*?\] \s+
   #? : \[(?<tags>[^\]]*?)\] \s+
   #+ : [^\]]*?
@@ -141,11 +166,11 @@ sub func
   if( $param{rec} =~ m,
 
 	         \[(?<tags>[^\]]*?)] \s+
-		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
-		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
-		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
-		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+		 From	: \s+ ([^;]+); \s+
+		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <[^>]+>; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
+		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*?) ( \s+ \( (?<caller_number>\d+) \) )? ; \s+
+		 Folder : \s+ (?<Folder>\..*\/\S*)
 
     ,gix)
     {
@@ -155,10 +180,10 @@ sub func
 		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
 		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*)\@Hayek\.name ) >\,; \s+
-		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
-		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*?) ( \s+ \( (?<caller_number>\d+) \) )? ; \s+
+		 Folder : \s+ (?<Folder>\..*\/\S*)
 
-	,[$+{tags}\,telecom\,$fritz_box_messages{$+{what}}] From: "$+{caller}"; To: +$+{phone_number}; SUBJECT: Telefon-$+{what} …,gix;
+	,[$+{tags}\,telecom\,$fritz_box_messages{$+{what}}] From: "$+{caller}" <$+{caller_number}\@fon>; To: +$+{phone_number}; SUBJECT: Telefon-$+{what} …,gix;
     }
   else
     {
@@ -168,10 +193,10 @@ sub func
 		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
 		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) (.*) \@Hayek\.name ) >\,; \s+
-		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) ; \s+
-		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
+		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) \s+ \( (?<caller_number>\d+) \) ; \s+
+		 Folder : \s+ (?<Folder>\..*\/\S*)
 
-	,[$+{tags}\,telecom\,$fritz_box_messages{$+{what}}] From: "$+{caller}"; To: $+{callee_0} / $+{callee_1}; SUBJECT: Telefon-$+{what} …,gix;
+	,[$+{tags}\,telecom\,$fritz_box_messages{$+{what}}] From: "$+{caller}" <$+{caller_number}\@fon>; To: $+{callee_0} / $+{callee_1}; SUBJECT: Telefon-$+{what} …,gix;
     }
 
   ################################################################################
