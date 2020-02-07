@@ -11,14 +11,38 @@
 ################################################################################
 
 # these ones are also quite handy:
-#
-#   for i in *.ics; do ~/bin/ics2diary.pl "$i" >/dev/null; done 2>&1 | sh -x
 
-#   perl -i~ -pe 's/URL=>{([^?]*)\?.*}/$1/x' *.ics.diary
+#   perl -i~ -pe   's/URL:([^?]*)\?.*$/URL:$1/x' *.ics
+
+# ??? are the URL-s alright ???
+
+# =======================
+
+### perl -i~ -pe 's/URL=>{([^?]*)\?.*}/$1/x' *.ics.diary
+#   perl -i~ -pe 's/URL=>{([^?]*)}/$1/x' *.ics.diary
+
+#   perl -i~ -pe 's/, ACHTUNG, nicht barrierefrei, /, / ' *.ics
+
+#   perl -i~ -pe 's/(LOCATION):(Kammersaal, Fasanenstr. 1 B, 10623, Berlin)/$1:UdK, $2/' *.ics
+#   perl -i~ -pe 's/(LOCATION):(Carl-Flesch-Saal, Bundesallee 1-12, 10719, Berlin)/$1:UdK, $2/' *.ics
+#   perl -i~ -pe 's/(LOCATION):(Joseph-Joachim-Konzertsaal, Bundesallee 1-12, 10719, Berlin)/$1:UdK, $2/' *.ics
+
+
+#   perl -i~ -pe 's/(LOCATION):(Kleiner Vortragssaal, Bundesallee 1-12, 10719, Berlin)/$1:UdK, $2/' *.ics
+#   perl -i~ -pe 's/(LOCATION):(Kammermusiksaal Friedenau, Isoldestr. 9, 12159, Berlin)/$1:UdK, $2/' *.ics
+#???perl -i~ -pe 's/(LOCATION):(Geb.ude Bundesallee, Bundesallee 1-12, 10719, Berlin)/$1:UdK, $2/' *.ics
+#.. perl -i~ -pe 's/(LOCATION):()/$1:UdK, $2/' *.ics
+
+#   for i in *.ics; do ~/bin/ics2diary.pl "$i" >/dev/null; done 2>&1 | sh -x
 
 #   perl -i~ -pe 's/(CLASS|TZID)=>\{[^}]*\}//x ' *.ics.diary
 
 #   cat *.ics.diary > diary
+
+### some clean up within diary:
+### * remove DESCRIPTION
+### * remove duplicate date lines
+### * ...
 
 #	    … merge … into ~/diary :
 #		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right diary > ~/transfer/000diary/diary
@@ -30,6 +54,7 @@
 
 #           within emacs:
 #
+#???
 #               https:// → ^J^J^Ihttps://
 #
 #	    then replace ...
@@ -148,7 +173,7 @@
 	    exists($::table{DTEND}{Z} )   ? $::table{DTEND}{Z}    : ''     ,
 	    ;
 
-	  printf STDERR "mv %s %s%s%s%s%s%s--%s\n",
+	  printf STDERR "mv %s %s%s%s%s%s%s--___--%s\n",
 
 	  ##defined($current_arg) ? $current_arg : '___',
 	    '*',

@@ -27,6 +27,7 @@
 
   our(%fritz_box_messages) =
     ( 'Anruf' => 'phone_call' ,
+      'Call'  => 'phone_call' ,
       'Nachricht' => 'phone_message' ,
       'Fax' => 'fax' ,
     );
@@ -169,7 +170,7 @@ sub func
 		 From	: \s+ ([^;]+); \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <[^>]+>; \s+
 		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
-		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*?) ( \s+ \( (?<caller_number>\d+) \) )? ; \s+
+		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller>[^;]*?) ( \s+ \( (?<caller_number>\d+) \) )? ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
     ,gix)
@@ -180,7 +181,7 @@ sub func
 		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
 		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*)\@Hayek\.name ) >\,; \s+
-		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*?) ( \s+ \( (?<caller_number>\d+) \) )? ; \s+
+		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller>[^;]*?) ( \s+ \( (?<caller_number>\d+) \) )? ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
 	,[$+{tags}\,telecom\,$fritz_box_messages{$+{what}}] From: "$+{caller}" <$+{caller_number}\@fon>; To: +$+{phone_number}; SUBJECT: Telefon-$+{what} …,gix;
@@ -193,7 +194,7 @@ sub func
 		 From	: \s+ Jochen\+FRITZ-Box.*\@Hayek\.name; \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen\+FRITZ-Box.*\@Hayek\.name>; \s+
 		 TO  	: \s+ < (?<callee_1> Jochen\+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) (.*) \@Hayek\.name ) >\,; \s+
-		 SUBJECT: \s+ (?<what>Anruf|Fax|Nachricht) \s+ von \s+ (?<caller>[^;]*) \s+ \( (?<caller_number>\d+) \) ; \s+
+		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller>[^;]*) \s+ \( (?<caller_number>\d+) \) ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
 	,[$+{tags}\,telecom\,$fritz_box_messages{$+{what}}] From: "$+{caller}" <$+{caller_number}\@fon>; To: $+{callee_0} / $+{callee_1}; SUBJECT: Telefon-$+{what} …,gix;
@@ -437,7 +438,7 @@ sub func
 		 FROM	  : \s+ (?<FROM>[^;]*); \s+
 		 TO  	  : \s+ (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
-		 Folder : \s+ (?<Folder>\. (topics|\.topics-computers|\.topics-finance) \.(?<topic>[^\/]*)\/\S*)
+		 Folder : \s+ (?<Folder>\. (topics|topics-computers|topics-finance) \.(?<topic>[^\/]*)\/\S*)
 
     }{,$+{topic}] From: $+{From};
 \t\tFROM: $+{FROM};
@@ -447,7 +448,7 @@ sub func
 
   ################################################################################
 
-  # using fam.$+{topic} as tag
+  # using persons.$+{topic} as tag
 
   $param{rec} =~ s{
 
@@ -456,7 +457,7 @@ sub func
 		 FROM	  : \s+ (?<FROM>[^;]*); \s+
 		 TO  	  : \s+ (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
-		 Folder : \s+ (?<Folder>\.fam\.(?<topic>[^\/]*)\/\S*)
+		 Folder : \s+ (?<Folder>\.persons\.(?<topic>[^\/]*)\/\S*)
 
     }{,$+{topic}] From: $+{From};
 \t\tFROM: $+{FROM};
