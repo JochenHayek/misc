@@ -18,6 +18,38 @@
 
 # =======================
 
+# renaming "blabla (99).ics" to blabla.99.ics :
+
+# $ ~/bin/rename 's/ \((\d+)\)/.$1/' *.ics
+
+# … Berlinale--Ticketcode-______--Brasilien …
+
+# =======================
+
+# Berlinale:
+
+#   cat *.ics.diary > diary
+
+#   with emacs:
+#
+#     perl -pe 's/URL=>{(.*\?film_id=\d+)}/$1/x'
+
+#	    … merge … into ~/diary :
+
+#		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/events/ics/berlinale.de--Brasilien/diary > ~/events/ics/berlinale.de--Brasilien/diary-merged
+#
+#               # manually remove duplicate dates!
+#
+#	    is it alright?
+
+#		diff -c ~/diary ~/events/ics/berlinale.de--Brasilien/diary-merged
+
+#		mv ~/events/ics/berlinale.de--Brasilien/diary-merged ~/diary
+
+# =======================
+
+# UdK:
+
 ### perl -i~ -pe 's/URL=>{([^?]*)\?.*}/$1/x' *.ics.diary
 #   perl -i~ -pe 's/URL=>{([^?]*)}/$1/x' *.ics.diary
 
@@ -173,10 +205,14 @@
 	    exists($::table{DTEND}{Z} )   ? $::table{DTEND}{Z}    : ''     ,
 	    ;
 
-	  printf STDERR "mv %s %s%s%s%s%s%s--___--%s\n",
+	  printf STDERR "mv %s %s%s%s%s%s%s--___.%s\n",
 
-	  ##defined($current_arg) ? $current_arg : '___',
-	    '*',
+	    ################################################################################
+
+	    defined($current_arg) ? $current_arg : '___',	# outside emacs
+	  ##'*',						# within  emacs
+
+	    ################################################################################
 
 	    exists( $::table{DTSTART}{YYYY} ) ? $::table{DTSTART}{YYYY} : 'YYYY' ,
 	    exists( $::table{DTSTART}{mm}   ) ? $::table{DTSTART}{mm}   : 'mm',
