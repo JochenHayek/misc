@@ -12,39 +12,59 @@
 
 # these ones are also quite handy:
 
+# ???
+#
 #   perl -i~ -pe   's/URL:([^?]*)\?.*$/URL:$1/x' *.ics
+#   perl     -pe   's/URL:([^?]*)\?.*$/URL:$1/x'
+
+# remove URL=>{…} around here:
+
+#   perl -i~ -pe  's/URL=>{(.*?)}/$1/x' *.ics
+#   perl     -pe  's/URL=>{(.*?)}/$1/x'
+
+# remove the curly braces around here:
+#   {https://www.berlinale.de/de/programm/programm/detail.html?film_id=202004528}
+#
+#   perl -i~ -pe 's,^ (\s*) { (https?://.*) } $,$1$2,x' *.ics
+#   perl -i~ -pe 's,^ (\s*) { (https?://.*) } $,$1$2,x'
+#   perl     -pe 's,^ (\s*) { (https?://.*) } $,$1$2,x'
 
 # ??? are the URL-s alright ???
 
 # =======================
 
-# renaming "blabla (99).ics" to blabla.99.ics :
-
-# $ ~/bin/rename 's/ \((\d+)\)/.$1/' *.ics
-
-# … Berlinale--Ticketcode-______--Brasilien …
-
-# =======================
-
 # Berlinale:
 
-#   cat *.ics.diary > diary
+#   renaming "blabla (99).ics" to blabla.99.ics :
+
+#     $ ~/bin/rename 's/ \((\d+)\)/.$1/' *.ics
+
+# replace "___" with "Berlinale--Ticketcode-______--___--___"
+
+#   … Berlinale--Ticketcode-______--Brasilien …
+
+# putting the Ticketcode into the file name:
+
+#     $ fgrep Ticket *code-___*.ics.diary
+#     ...
+
+#     cat *.ics.diary > diary
 
 #   with emacs:
 #
 #     perl -pe 's/URL=>{(.*\?film_id=\d+)}/$1/x'
-
-#	    … merge … into ~/diary :
-
-#		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/events/ics/berlinale.de--Brasilien/diary > ~/events/ics/berlinale.de--Brasilien/diary-merged
 #
-#               # manually remove duplicate dates!
+#   manually remove duplicate dates!
+
+#   … merge … into ~/diary :
+
+#     ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right diary > diary-merged
 #
-#	    is it alright?
+#   is it alright?
 
-#		diff -c ~/diary ~/events/ics/berlinale.de--Brasilien/diary-merged
+#     $ diff -c ~/diary diary-merged
 
-#		mv ~/events/ics/berlinale.de--Brasilien/diary-merged ~/diary
+#     $ mv diary-merged ~/diary
 
 # =======================
 
@@ -209,8 +229,8 @@
 
 	    ################################################################################
 
-	    defined($current_arg) ? $current_arg : '___',	# outside emacs
-	  ##'*',						# within  emacs
+	  ##defined($current_arg) ? $current_arg : '___',	# outside emacs
+	    '*',						# within  emacs
 
 	    ################################################################################
 

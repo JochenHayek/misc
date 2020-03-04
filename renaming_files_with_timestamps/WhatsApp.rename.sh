@@ -18,7 +18,7 @@ set -x
 
 ~/bin/rename -v </dev/null \
   \
-  's/^ WhatsApp \s+ (Image|Video|Audio|Ptt) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..)\.(?<MM>..)\.(?<SS>..) \( (?<no>\d+) \) \.(?<suffix>jpeg|mp4|ogg) 
+  's/^ WhatsApp \s+ (Image|Video|Audio|Ptt) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..)\.(?<MM>..)\.(?<SS>..) \s* \( (?<no>\d+) \) \.(?<suffix>jpeg|mp4|ogg) 
      $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{no}.$+{suffix}/x' \
   \
   "$@"
