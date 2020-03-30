@@ -14,6 +14,7 @@ for i in \
   git-servers/ber.jochen.hayek.name/johayek/check_lists \
   git-servers/ber.jochen.hayek.name/johayek/jira2diary \
   git-servers/ber.jochen.hayek.name/johayek/misc \
+  git-servers/ber.jochen.hayek.name/johayek/online-dating \
   git-servers/ber.jochen.hayek.name/johayek/passwords \
   git-servers/ber.jochen.hayek.name/johayek/procmailrc \
   git-servers/ber.jochen.hayek.name/johayek/qif2skr03 \
