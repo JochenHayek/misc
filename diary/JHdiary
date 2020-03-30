@@ -5,7 +5,7 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2018-06-24 17:15:14 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2020-03-30 19:02:29 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
@@ -167,30 +167,31 @@ sub main
   # example
   # =======
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
-  # ~/Computers/Programming/Languages/Perl/JHdiary --from=2001-05-17 --to=2001-06-18 --job_tag_match --tag=biz,travel,flight
-  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1999-01-01 --to=1999-12-31 --job_tag_match --tag=biz,travel
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_tag_match --tag=paypal
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2001-05-17 --to=2001-06-18 --job_tag_match --tag=biz,travel,flight
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=1999-01-01 --to=1999-12-31 --job_tag_match --tag=biz,travel
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1999-01 --to=1999-01-99 --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/Computers/Programming/Languages/Perl/JHdiary                                --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/pts/10
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/console
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=1999-01 --to=1999-01-99 --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_work_at --company_tag=IDS 2>/dev/pts/10
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_work_at --company_tag=IDS 2>/dev/console
   #
   ##################################################
   #
   # `--job_yearly_events' may ******only****** be applied to the region within diary,
   # where we find the yearly events;
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_yearly_events --this_year=1997
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_yearly_events --this_year=1997
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_easter_etc    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_easter_etc    --this_year=2004
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_advent_etc    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_advent_etc    --this_year=2004
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_muttertag    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag    --this_year=2004
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
 
   if($main::options{version})
     {
