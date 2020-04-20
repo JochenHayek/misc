@@ -1,0 +1,26 @@
+13 Nov 2017
+	07:30:00  .. 09:18:00  SUMMARY=>{Berlin Hbf (tief) -> Leipzig Hbf}
+
+
+		DESCRIPTION=>{
+
+			{Reise: Berlin Hbf (tief) nach Leipzig Hbf}
+			{Datum: 13.11.17}
+			{-}
+			{ab 07:30 Berlin Hbf (tief) - Gleis 2 (ICE 1005)}
+			{an 08:39 Halle(Saale)Hbf }
+			{}
+			{ab 08:54 Halle(Saale)Hbf - Gleis 2 (IC  2447)}
+			{an 09:18 Leipzig Hbf - Gleis 13}
+			{-}
+			{Dauer: 1:48 \, Umsteigevorgänge 1}
+			{}
+			{Alle Angaben ohne Gewähr. Fahrplanänderungen vorbehalten. Bitte prüfen Sie kurz vor der Reise den aktuellen Fahrplan unter: www.bahn.de}
+
+		}
+
+	07:30 .. 08:39 [biz,travel,train,Auftrag=______,ICE 1005] Berlin Hbf (tief) - Gleis 2 -> Halle(Saale)Hbf 
+	08:54 .. 09:18 [biz,travel,train,Auftrag=______,IC  2447] Halle(Saale)Hbf - Gleis 2 -> Leipzig Hbf - Gleis 13
+		CLASS=>{PUBLIC}
+		DTSTAMP=>{20171113T103500Z}
+		UID=>{20171113073000@hafas}
