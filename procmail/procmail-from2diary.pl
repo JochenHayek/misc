@@ -1,5 +1,12 @@
 #! /usr/bin/perl -w
 
+# wishlist:
+#
+# * use low_level_high_level_print_entry in order to print each single address listed on "To:" (etc.) as well
+# ** each addressee is also a potential sender of e-mail,
+#    so it's neat to create procmailrc rules for everybody I send e-mail to,
+#    so that I can copy the truly needed entries to ~/git-servers/ber.jochen.hayek.name/johayek/procmailrc/.procmailrc
+
 ################################################################################
 
 # read a procmail LOGFILE
