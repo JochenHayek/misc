@@ -5,7 +5,7 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2020-04-08 16:35:39 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2020-04-21 10:36:29 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
@@ -221,14 +221,14 @@ sub main
 	 ;
     }
 
-  if   ($main::options{job_tag_match	}) { &job_tag_match    ; }
-  elsif($main::options{job_match_timed_tag_with_body	}) { &job_match_timed_tag_with_body    ; }
-  elsif($main::options{job_work_at  	}) { &job_work_at      ; }
-  elsif($main::options{job_yearly_events}) { &job_yearly_events; }
-  elsif($main::options{job_easter_etc   }) { &job_easter_etc   ; }
-  elsif($main::options{job_advent_etc   }) { &job_advent_etc   ; }
-  elsif($main::options{job_muttertag   }) { &job_muttertag   ; }
-  elsif($main::options{job_xdays_around_today   }) { &job_xdays_around_today   ; }
+  if   ($main::options{job_tag_match			}) { &job_tag_match			; }
+  elsif($main::options{job_match_timed_tag_with_body	}) { &job_match_timed_tag_with_body	; }
+  elsif($main::options{job_work_at			}) { &job_work_at			; }
+  elsif($main::options{job_yearly_events		}) { &job_yearly_events			; }
+  elsif($main::options{job_easter_etc			}) { &job_easter_etc			; }
+  elsif($main::options{job_advent_etc			}) { &job_advent_etc			; }
+  elsif($main::options{job_muttertag			}) { &job_muttertag			; }
+  elsif($main::options{job_xdays_around_today		}) { &job_xdays_around_today		; }
   else
     {
       die "You did not give me a job.";
@@ -331,6 +331,8 @@ sub job_tag_match
 		if 0;
 	      next;
 	    }
+
+	  # CAVEAT: matching_word_boundary_comes_with_deficits. // see below!
 
 	  if ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT
 	    {
@@ -484,6 +486,12 @@ sub job_match_timed_tag_with_body
 	      next;
 	    }
 
+	  # CAVEAT: matching_word_boundary_comes_with_deficits.
+	  # instead of matching against \b (word boundary)
+	  # I should split $tags on ',' into a list
+	  # and "perl grep" the list.
+	  # so far single tags cannot include certain characters, that I would quite like to include.
+
 	  if (    ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT
 	       && ( $tags =~ m/\b payee _ (?<payee>.*?) \b/x )
 	     )
@@ -493,6 +501,8 @@ sub job_match_timed_tag_with_body
 	      my($payee) = defined($plus{payee}) ? $plus{payee} : '___';
 
 	      my($purpose) = '';
+
+	      # CAVEAT: matching_word_boundary_comes_with_deficits. // see above!
 
 	      if( $tags =~ m/\b purpose _ (?<purpose>.*?) \b/x )
 		{

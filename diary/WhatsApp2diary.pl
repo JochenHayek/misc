@@ -16,14 +16,19 @@
 	{
 	  my(%plus) = %+;
 
-	  printf "%s %s %s\n\t%s:%s %s (%s): %s\n",
+	  printf "%02.2d %s %s\n\t%s:%s %s: %s <%s>; %s\n",
+
 	    $plus{dd},
 	    $short_month_names[ $plus{mm} ],
+
 	    $plus{YYYY},
 	    $plus{HH},
 	    $plus{MM},
+
+	    'From',
 	    $plus{author},
-	    '(via WhatsApp)',
+	    '@WhatsApp',
+
 	    $plus{text},
 	    ;
 	}
