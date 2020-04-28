@@ -1,0 +1,11 @@
+{{Literatur
+ | Titel=Geschichten aus Tel Ilan. Erzählungen
+ | Originalsprache=he
+ | Typ=wl
+ | Autor=Amos Oz
+ | Übersetzer=Mirjam Pressler
+ | Verlag=Suhrkamp
+ | Ort=Frankfurt am Main
+ | Datum=2016
+ | ISBN=978-3-518-46209-6
+}}

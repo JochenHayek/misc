@@ -1,0 +1,11 @@
+{{Literatur
+ | Titel=Sehnsucht. Drei Erzählungen
+ | Originalsprache=he
+ | Typ=wl
+ | Autor=Amos Oz
+ | Übersetzer=Ruth Achlama
+ | Verlag=Insel
+ | Ort=Frankfurt am Main / Leipzig
+ | Datum=1994
+ | ISBN=3-45816-636-X
+}}

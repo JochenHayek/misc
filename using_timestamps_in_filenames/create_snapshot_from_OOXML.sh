@@ -88,6 +88,8 @@ do :
 
   # https://en.wikipedia.org/wiki/Office_Open_XML_file_formats – "OOXML" – used by Microsoft Office (.xslx, .docx, .vsdx, …)
 
+  # -> create_snapshot_from_OOXML.t/README.txt
+
   # use an OOXML file's "modified" timestamp:
 
   if unzip -p "$i" docProps/core.xml 2> /dev/null > /dev/null
@@ -99,13 +101,27 @@ do :
     exit 1
   fi
 
-  date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
-   date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:created  | tr -d ':TZ-' )
+  ################################################################################
 
-  if   test -n "$date_modified"
-  then    date="$date_modified"
-  elif test -n "$date_created"
-  then    date="$date_created"
+  cp_date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of cp:coreProperties/dcterms:modified | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+   cp_date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of cp:coreProperties/dcterms:created  | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+
+     date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of                 //dcterms:modified | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+      date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of                 //dcterms:created  | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+
+  : printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+    '$i' "$i" \
+    '$date_modified' "$date_modified" \
+    '...'
+
+  if   test -n "$cp_date_modified"
+  then    date="$cp_date_modified"
+  elif test -n "$cp_date_created"
+  then    date="$cp_date_created"
+  elif test -n    "$date_modified"
+  then       date="$date_modified"
+  elif test -n    "$date_created"
+  then       date="$date_created"
   else    date="___"
   fi
 

@@ -1,0 +1,11 @@
+{{Literatur
+ | Titel=Plötzlich tief im Wald. Ein Märchen
+ | Originalsprache=he
+ | Typ=wl
+ | Autor=Amos Oz
+ | Übersetzer=Mirjam Pressler
+ | Verlag=Suhrkamp
+ | Ort=Frankfurt am Main
+ | Datum=2007
+ | ISBN=3-51841-748-7
+}}

@@ -1,0 +1,11 @@
+{{Literatur
+ | Titel=Der Berg des bösen Rates
+ | Originalsprache=he
+ | Typ=wl
+ | Autor=Amos Oz
+ | Übersetzer=Ruth Achlama
+ | Verlag=Suhrkamp
+ | Ort=Frankfurt Am Main
+ | Datum=1993
+ | ISBN=3-51840-519-5
+}}
