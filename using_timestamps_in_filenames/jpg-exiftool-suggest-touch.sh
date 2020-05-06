@@ -12,11 +12,9 @@
 
 ################################################################################
 
-# $ exif --xml-output *.jpg | fgrep -i '<Date_and_Time'
+# $ exiftool -s *.jpg | fgrep -i date
 
 ################################################################################
-
-##filename=Being_Geek.pdf
 
 ##Date=CreateDate
 ##Date=DateTimeOriginal
@@ -35,43 +33,46 @@
 # SubSecCreateDate                : 2014:08:30 10:04:37.29
 # SubSecDateTimeOriginal          : 2014:08:30 10:04:37.29
 # SubSecModifyDate                : 2014:08:30 10:04:37.29
-
-
-
-
-  ##if(m/^ \s* < (?<n>\w+) > \s* (?<Date>[^<]*) \s* < (?<n>\w+) > \s* $ : \s+ (?<Y>....).(?<m>..).(?<d>..).(?<H>..).(?<M>..).(?<S>..) /x)
-
   
 for filename
 do
 
   echo "*** ${filename}:"
 
-  exif --xml-output "${filename}" | 
+##exiftool -s -${Date}   -FileName "${filename}" | 
+  exiftool -s \
+    -FileName \
+    -CreateDate -DateTimeOriginal -FileAccessDate -FileInodeChangeDate -FileModifyDate -ModifyDate -PowerUpTime -SubSecCreateDate -SubSecDateTimeOriginal -SubSecModifyDate \
+    "${filename}" | 
 
   perl -MFile::Basename \
     -s \
     -ne '
 
-    # <Date_and_Time__Original_>2010:08:19 13:57:49</Date_and_Time__Original_>
-
-    if   ( $filename =~ m/\.jpg/x )
+    if(m/^ FileName   \s* : \s+ (?<FileName>.*)                 /x)
       {
-	our($basename) = basename($filename,".jpg");
-      }
-    elsif( $filename =~ m/\.jpeg/x )
-      {
-	our($basename) = basename($filename,".jpeg");
-      }
+	$filename = $+{FileName};
 
-    our($dirname)  = dirname($filename);
+	if   ( $filename =~ m/\.jpg/x )
+	  {
+	    our($basename) = basename($filename,".jpg");
+	  }
+	elsif( $filename =~ m/\.jpeg/x )
+	  {
+	    our($basename) = basename($filename,".jpeg");
+	  }
 
-    if(m/^ \s* < (?<n>Date_and_Time[^>]*) > (?<v> (?<Y>....).(?<m>..).(?<d>..).(?<H>..).(?<M>..).(?<S>..) ) <\/ (?<right>[^>]+) > \s* $ /x)
+	our($dirname)  = dirname($filename);
+      }
+    elsif(m/^ (?<n>\S*) \s* : \s+ (?<v> (?<Y>....).(?<m>..).(?<d>..).(?<H>..).(?<M>..).(?<S>..) ) /x)
       {
         my(%plus) = %+;
 
-	$ts_YmdHMS  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
-	$ts_YmdHM_S = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+	$ts_YmdHMS  = "$+{Y}$+{m}$+{d}$+{H}$+{M}$+{S}";
+	$ts_YmdHM_S = "$+{Y}$+{m}$+{d}$+{H}$+{M}.$+{S}";
+
+	print "mv \"${filename}\" \"999990-000--${ts_YmdHMS}--${filename}\" # $n=>{$v}\n"
+	  if 0;
 
 	func(
 	    dirname    => $dirname , 
@@ -84,8 +85,8 @@ do
 	  );
       }
 
-  ##sub create_command_line_rename_as_vouchers
-    sub func
+    sub create_command_line_rename_as_vouchers
+  ##sub func
     {
       my($package,$filename,$line,$proc_name) = caller(0);
 
@@ -130,8 +131,8 @@ do
       return $return_value;
     }
 
-    sub create_command_line_touch
-  ##sub func
+  ##sub create_command_line_touch
+    sub func
     {
       my($package,$filename,$line,$proc_name) = caller(0);
 

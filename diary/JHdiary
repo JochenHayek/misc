@@ -5,7 +5,7 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2020-04-21 10:36:29 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2020-05-06 17:04:23 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
@@ -93,7 +93,7 @@ sub main
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   # described in:
   #	camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
@@ -247,7 +247,7 @@ sub job_tag_match
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -396,7 +396,7 @@ sub job_match_timed_tag_with_body
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -603,7 +603,7 @@ sub job_work_at
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -825,7 +825,7 @@ sub job_yearly_events
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -892,7 +892,7 @@ sub job_easter_etc
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -956,7 +956,7 @@ sub job_advent_etc
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1095,7 +1095,7 @@ sub job_muttertag
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1226,7 +1226,7 @@ sub job_xdays_around_today
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1300,7 +1300,7 @@ sub min_2_hhh_mm
   #my(%param) = @_;
   my($min) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1329,7 +1329,7 @@ sub min_2_hh_mm
   #my(%param) = @_;
   my($min) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1358,7 +1358,7 @@ sub min_2_hhDOTmm
   #my(%param) = @_;
   my($min) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1423,7 +1423,7 @@ sub initialise
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1657,7 +1657,7 @@ sub terminalise
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1766,7 +1766,7 @@ sub set_day
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1792,7 +1792,7 @@ sub proc_entry
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1981,7 +1981,7 @@ sub aux_
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};

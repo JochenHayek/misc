@@ -84,8 +84,8 @@ do
 	  );
       }
 
-  ##sub create_command_line_rename_as_vouchers
-    sub func
+    sub create_command_line_rename_as_vouchers
+  ##sub func
     {
       my($package,$filename,$line,$proc_name) = caller(0);
 
@@ -130,8 +130,8 @@ do
       return $return_value;
     }
 
-    sub create_command_line_touch
-  ##sub func
+  ##sub create_command_line_touch
+    sub func
     {
       my($package,$filename,$line,$proc_name) = caller(0);
 

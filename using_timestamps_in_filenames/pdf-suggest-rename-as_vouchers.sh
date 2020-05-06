@@ -93,6 +93,8 @@ do
 
   echo "*** ${filename}:"
 
+##"${PDFINFO}" -meta -rawdates    "${filename}" |
+##"${PDFINFO}" -meta 	          "${filename}" |
   "${PDFINFO}" ${pdfinfo_options} "${filename}" |
 
 ##tee bla |
@@ -112,8 +114,8 @@ do
 
        our($filename);
 
-       my($basename) = basename(${filename},".pdf");
-       my($dirname)  = dirname(${filename});
+       my($basename) = basename($filename,".pdf");
+       my($dirname)  = dirname($filename);
        chomp;
 
        # "pdfinfo" delivers this:
@@ -132,12 +134,18 @@ do
 
 	   $plus{YYYY} = "20" . $plus{YY};
 
-	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     $filename,
-	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
-	     $plus{n} => $plus{v},
-	     $filename,
-	     ;
+	   my($ts_YmdHMS)  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
+	   my($ts_YmdHM_S) = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
 	 }
 
        # CreationDate:   21/12/2004 16:24:57
@@ -152,12 +160,18 @@ do
              "..."
              if $display_case_p;
 
-	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     $filename,
-	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
-	     $plus{n} => $plus{v},
-	     $filename,
-	     ;
+	   my($ts_YmdHMS)  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
+	   my($ts_YmdHM_S) = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
 	 }
 
        # "pdfinfo -meta" (w/o -rawdates) delivers this:
@@ -178,20 +192,30 @@ do
 	   $plus{mm}   = $month_name2no{  $plus{monthname} };
 	   $plus{dd}   = sprintf "%02.2d",$plus{day_of_month};
 
-	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     ${filename},
-	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
-	     $plus{n} => $plus{v},
-	     ${filename},
-	     ;
+	   my($ts_YmdHMS)  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
+	   my($ts_YmdHM_S) = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
 	 }
 
        # "pdfinfo -meta -rawdates" delivers this:
        #
+       # CAVEAT: using single quote within a single-quoted shell string.
+       #
        # CreationDate:   D:20141218091004+01'00'
        # CreationDate:     20190603070456+02'00'	# -rawdates w/o initial "D:"
 
-       if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v>\d+) (.*) $ /x )
+     ##if( m/ ^ (?<n>.*Date): \s*       D:    (?<v> ( (?<v_less_SS> \d+) (?<SS> \d\d) ) ) (.*) $ /x )
+     ##if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v>                 \d+)                  (.*) $ /x )
+       if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v> ( (?<v_less_SS> \d+) (?<SS> \d\d) ) ) (.*) $ /x )
 	 {
            my(%plus) = %+;
 
@@ -201,12 +225,18 @@ do
              "..."
              if $display_case_p;
 
-	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     ${filename},
-	     $dirname,"999990-000",$plus{v},$basename,"pdf",
-	     $plus{n} => $plus{v},
-	     ${filename},
-	     ;
+	   my($ts_YmdHMS)  =  $plus{v};
+	   my($ts_YmdHM_S) = "$plus{v_less_SS}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
 	 }
 
        # <xmp:MetadataDate>2014-07-01T16:45:02+02:00</xmp:MetadataDate>
@@ -232,12 +262,18 @@ do
 	   $plus{MM}   = substr($plus{v},14,2);
 	   $plus{SS}   = substr($plus{v},17,2);
 
-	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     ${filename},
-	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
-	     $plus{n} => $plus{v},
-	     ${filename},
-	     ;
+	   my($ts_YmdHMS)  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
+	   my($ts_YmdHM_S) = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
 	 }
 
        # xmp:MetadataDate="2014-07-01T16:45:02+02:00"
@@ -263,13 +299,87 @@ do
 	   $plus{MM}   = substr($plus{v},14,2);
 	   $plus{SS}   = substr($plus{v},17,2);
 
-	   printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
-	     ${filename},
-	     $dirname,"999990-000",$plus{YYYY}.$plus{mm}.$plus{dd}.$plus{HH}.$plus{MM}.$plus{SS},$basename,"pdf",
-	     $plus{n} => $plus{v},
-	     ${filename},
-	     ;
+	   my($ts_YmdHMS)  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
+	   my($ts_YmdHM_S) = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
 	 }
+
+     ##sub create_command_line_rename_as_vouchers
+       sub func
+       {
+	 my($package,$filename,$line,$proc_name) = caller(0);
+
+	 my(%param) = @_;
+
+	 my($return_value) = 0;
+
+	 # ----------
+
+	 printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
+	   $param{filename},
+	   $param{dirname} , "999990-000" , $param{ts_YmdHMS} , $param{basename} , "pdf" ,
+	   $param{n} => $param{v},
+	   $param{filename},
+	   ;
+
+	 # ----------
+
+	 return $return_value;
+       }
+
+       sub create_command_line_rename_versioned
+     ##sub func
+       {
+	 my($package,$filename,$line,$proc_name) = caller(0);
+
+	 my(%param) = @_;
+
+	 my($return_value) = 0;
+
+	 # ----------
+
+	 printf "mv \"%s\" \"%s/%s.%s.%s\" # %20s=>{%s} // %s\n",
+	   $param{filename},
+	   $param{dirname} , $param{basename} , $param{ts_YmdHMS} , "pdf" ,
+	   $param{n} => $param{v},
+	   $param{filename},
+	   ;
+
+	 # ----------
+
+	 return $return_value;
+       }
+
+       sub create_command_line_touch
+     ##sub func
+       {
+	 my($package,$filename,$line,$proc_name) = caller(0);
+
+	 my(%param) = @_;
+
+	 my($return_value) = 0;
+
+	 # ----------
+
+	 printf "touch -t \"%s\" \"%s\" # %20s=>{%s}\n",
+	   $param{ts_YmdHM_S} ,
+	   $param{filename} ,
+	   $param{n} => $param{v},
+	   ;
+
+	 # ----------
+
+	 return $return_value;
+       }
 
     ' \
     -- "-filename=${filename}" |
