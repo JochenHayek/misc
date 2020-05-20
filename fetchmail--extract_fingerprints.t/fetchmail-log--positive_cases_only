@@ -1,0 +1,156 @@
+fetchmail: awakened at Wed May 20 13:13:54 2020
+fetchmail: 6.3.26 querying in-berlin.de (protocol POP3) at Wed May 20 13:13:54 2020: poll started
+fetchmail: Trying to connect to 2001:67c:1400:8de::143/995...connected.
+fetchmail: Server certificate:
+fetchmail: Issuer Organization: Let's Encrypt
+fetchmail: Issuer CommonName: Let's Encrypt Authority X3
+fetchmail: Subject CommonName: imap4.in-berlin.de
+fetchmail: Subject Alternative Name: imap.in-berlin.de
+fetchmail: Subject Alternative Name: imap.vr.in-berlin.de
+fetchmail: Subject Alternative Name: imap4.in-berlin.de
+fetchmail: Subject Alternative Name: imap4.vr.in-berlin.de
+fetchmail: Subject Alternative Name: pop3.in-berlin.de
+fetchmail: Subject Alternative Name: pop3.vr.in-berlin.de
+fetchmail: in-berlin.de key fingerprint: A5:23:A4:EE:92:08:B1:BF:73:A8:1A:82:29:73:C9:C1
+fetchmail: in-berlin.de fingerprints match.
+fetchmail: SSL/TLS: using protocol TLSv1.3, cipher TLS_AES_256_GCM_SHA384, 256/256 secret/processed bits
+fetchmail: POP3< +OK Dovecot (Debian) ready.
+fetchmail: POP3> CAPA
+fetchmail: POP3< +OK
+fetchmail: POP3< CAPA
+fetchmail: POP3< TOP
+fetchmail: POP3< UIDL
+fetchmail: POP3< RESP-CODES
+fetchmail: POP3< PIPELINING
+fetchmail: POP3< AUTH-RESP-CODE
+fetchmail: POP3< USER
+fetchmail: POP3< SASL PLAIN DIGEST-MD5 CRAM-MD5
+fetchmail: POP3< .
+fetchmail: POP3> AUTH CRAM-MD5
+fetchmail: POP3< + PDMwNzEzNzI3NzMzMjE2NjYuMTU4OTk3MzIzNEBlaW5ob3JuPg==
+fetchmail: POP3> amgwIDBhYTVhMDMwZGQ1NWI4YmUzNzYzZWI0MGE0NzM0OTI0
+fetchmail: POP3< +OK Logged in.
+fetchmail: POP3> STAT
+fetchmail: POP3< +OK 0 0
+fetchmail: No mail for jh0 at in-berlin.de
+fetchmail: POP3> QUIT
+fetchmail: POP3< +OK Logging out.
+fetchmail: 6.3.26 querying in-berlin.de (protocol POP3) at Wed May 20 13:13:54 2020: poll completed
+fetchmail: 6.3.26 querying blablabla.gmx.net (protocol POP3) at Wed May 20 13:13:54 2020: poll started
+fetchmail: Trying to connect to 212.227.17.169/995...connected.
+fetchmail: Server certificate:
+fetchmail: Issuer Organization: T-Systems International GmbH
+fetchmail: Issuer CommonName: TeleSec ServerPass Extended Validation Class 3 CA
+fetchmail: Subject CommonName: mail.gmx.net
+fetchmail: Subject Alternative Name: mail.gmx.net
+fetchmail: Subject Alternative Name: mail.gmx.de
+fetchmail: Subject Alternative Name: smtp.gmx.net
+fetchmail: Subject Alternative Name: smtp.gmx.de
+fetchmail: Subject Alternative Name: imap.gmx.net
+fetchmail: Subject Alternative Name: imap.gmx.de
+fetchmail: Subject Alternative Name: pop.gmx.net
+fetchmail: Subject Alternative Name: pop.gmx.de
+fetchmail: blablabla.gmx.net key fingerprint: 56:1E:B0:93:42:8C:FA:D3:CC:3E:CC:52:F1:72:E5:21
+fetchmail: blablabla.gmx.net fingerprints match.
+fetchmail: SSL/TLS: using protocol TLSv1.3, cipher TLS_AES_256_GCM_SHA384, 256/256 secret/processed bits
+fetchmail: POP3< +OK POP server ready H migmx105 1MAelE-1jmPGZ0TmK-00CCPk
+fetchmail: POP3> CAPA
+fetchmail: POP3< +OK Capability list follows
+fetchmail: POP3< TOP
+fetchmail: POP3< UIDL
+fetchmail: POP3< USER
+fetchmail: POP3< SASL PLAIN
+fetchmail: POP3< IMPLEMENTATION trinity
+fetchmail: POP3< .
+fetchmail: POP3> USER blablabla@gmx.net
+fetchmail: POP3< +OK password required for user "blablabla@gmx.net"
+fetchmail: POP3> PASS *
+fetchmail: POP3< +OK mailbox "blablabla@gmx.net" has 0 messages (0 octets) H migmx105
+fetchmail: POP3> STAT
+fetchmail: POP3< +OK 0 0
+fetchmail: No mail for blablabla@gmx.net at blablabla.gmx.net
+fetchmail: POP3> QUIT
+fetchmail: POP3< +OK POP server signing off
+fetchmail: 6.3.26 querying blablabla.gmx.net (protocol POP3) at Wed May 20 13:13:54 2020: poll completed
+fetchmail: 6.3.26 querying t-online.de (protocol IMAP) at Wed May 20 13:13:54 2020: poll started
+fetchmail: Trying to connect to 194.25.134.50/993...connected.
+fetchmail: Server certificate:
+fetchmail: Issuer Organization: T-Systems International GmbH
+fetchmail: Issuer CommonName: TeleSec ServerPass Class 2 CA
+fetchmail: Subject CommonName: secureimap.t-online.de
+fetchmail: Subject Alternative Name: secureimap.t-online.de
+fetchmail: Subject Alternative Name: imapmail.t-online.de
+fetchmail: Subject Alternative Name: imap-mail.t-online.de
+fetchmail: Subject Alternative Name: secure-imap.t-online.de
+fetchmail: Subject Alternative Name: imap.t-online.de
+fetchmail: t-online.de key fingerprint: 09:8B:14:86:F5:25:49:D0:6D:64:6A:38:37:56:E2:68
+fetchmail: t-online.de fingerprints match.
+fetchmail: SSL/TLS: using protocol TLSv1.2, cipher ECDHE-RSA-AES256-GCM-SHA384, 256/256 secret/processed bits
+fetchmail: IMAP< * OK T-Online IMAP Proxy ready
+fetchmail: IMAP> A0001 CAPABILITY
+fetchmail: IMAP< * CAPABILITY IMAP4 IMAP4rev1 QUOTA LITERAL+ NAMESPACE UIDPLUS IDLE SORT
+fetchmail: IMAP< A0001 OK Completed
+fetchmail: IMAP> A0002 LOGIN "blablabla@t-online.de" *
+fetchmail: IMAP< A0002 OK Name is a valid mailbox
+fetchmail: IMAP> A0003 SELECT "INBOX"
+fetchmail: IMAP< * FLAGS (\Answered \Flagged \Deleted \Seen \Draft spam DTAG_document)
+fetchmail: IMAP< * OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft spam DTAG_document \*)] Flags permitted.
+fetchmail: IMAP< * 0 EXISTS
+fetchmail: IMAP< * 0 RECENT
+fetchmail: IMAP< * OK [UIDVALIDITY 1135786093] UIDs valid
+fetchmail: IMAP< * OK [UIDNEXT 32251] Predicted next UID
+fetchmail: IMAP< * OK [HIGHESTMODSEQ 2085] Highest
+fetchmail: IMAP< A0003 OK [READ-WRITE] Select completed (0.000 + 0.000 secs).
+fetchmail: No mail for blablabla@t-online.de at t-online.de (folder INBOX)
+fetchmail: IMAP> A0004 SELECT "INBOX.Sent"
+fetchmail: IMAP< * OK [CLOSED] Previous mailbox closed.
+fetchmail: IMAP< * FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
+fetchmail: IMAP< * OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft \*)] Flags permitted.
+fetchmail: IMAP< * 0 EXISTS
+fetchmail: IMAP< * 0 RECENT
+fetchmail: IMAP< * OK [UIDVALIDITY 1138286139] UIDs valid
+fetchmail: IMAP< * OK [UIDNEXT 54] Predicted next UID
+fetchmail: IMAP< * OK [HIGHESTMODSEQ 1] Highest
+fetchmail: IMAP< A0004 OK [READ-WRITE] Select completed (0.000 + 0.000 secs).
+fetchmail: No mail for blablabla@t-online.de at t-online.de (folder INBOX.Sent)
+fetchmail: IMAP> A0005 LOGOUT
+fetchmail: IMAP< * BYE Logging out
+fetchmail: IMAP< A0005 OK Logout completed.
+fetchmail: 6.3.26 querying t-online.de (protocol IMAP) at Wed May 20 13:13:55 2020: poll completed
+fetchmail: 6.3.26 querying posteo.de (protocol POP3) at Wed May 20 13:13:55 2020: poll started
+fetchmail: Trying to connect to 2a05:bc0:1000::145:1/995...connected.
+fetchmail: Server certificate:
+fetchmail: Issuer Organization: DigiCert Inc
+fetchmail: Issuer CommonName: GeoTrust EV RSA CA 2018
+fetchmail: Subject CommonName: posteo.de
+fetchmail: Subject Alternative Name: posteo.de
+fetchmail: Subject Alternative Name: www.posteo.de
+fetchmail: Subject Alternative Name: autodiscover.posteo.de
+fetchmail: Subject Alternative Name: lists.posteo.de
+fetchmail: Subject Alternative Name: m.posteo.de
+fetchmail: posteo.de key fingerprint: C9:FF:8D:19:7C:F7:FF:40:32:9B:FB:07:01:1C:5C:6F
+fetchmail: posteo.de fingerprints match.
+fetchmail: SSL/TLS: using protocol TLSv1.3, cipher TLS_AES_256_GCM_SHA384, 256/256 secret/processed bits
+fetchmail: POP3< +OK Dovecot ready.
+fetchmail: POP3> CAPA
+fetchmail: POP3< +OK
+fetchmail: POP3< CAPA
+fetchmail: POP3< TOP
+fetchmail: POP3< UIDL
+fetchmail: POP3< RESP-CODES
+fetchmail: POP3< PIPELINING
+fetchmail: POP3< AUTH-RESP-CODE
+fetchmail: POP3< USER
+fetchmail: POP3< SASL PLAIN LOGIN
+fetchmail: POP3< .
+fetchmail: POP3> USER blablabla@posteo.de
+fetchmail: POP3< +OK
+fetchmail: POP3> PASS *
+fetchmail: POP3< +OK Logged in.
+fetchmail: POP3> STAT
+fetchmail: POP3< +OK 0 0
+fetchmail: No mail for blablabla@posteo.de at posteo.de
+fetchmail: POP3> QUIT
+fetchmail: POP3< +OK Logging out.
+fetchmail: 6.3.26 querying posteo.de (protocol POP3) at Wed May 20 13:13:55 2020: poll completed
+fetchmail: sleeping at Wed May 20 13:13:55 2020 for 3600 seconds

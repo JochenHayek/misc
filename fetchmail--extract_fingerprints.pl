@@ -7,23 +7,11 @@
 
 # how to call the script:
 
-# $ ~/Computers/Programming/Languages/Perl/fetchmail--extract_fingerprints.pl ~/var/log/fetchmail.log
+#   $ ~/git-servers/github.com/JochenHayek/misc/fetchmail--extract_fingerprints.pl ~/var/log/fetchmail.log
 
 # actually we call it like this:
 
-# $ ssh -n ... bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log
-
-################################################################################
-
-# how to download the script (it is named ".txt" in order to make your downloading simpler):
-
-# $ curl --output fetchmail--extract_fingerprints.pl http://Jochen.Hayek.name/Computers/Programming/Languages/Perl/fetchmail--extract_fingerprints.txt
-
-################################################################################
-
-# $ rsync -vaz --rsync-path=/volume1/@hayek/bin/rsync $HOME/Computers/Programming/Languages/Perl/fetchmail--extract_fingerprints.pl diskstation002:ARCHIVE/www.b.shuttle.de-non-dated/Computers/Programming/Languages/Perl/
-# $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/fetchmail--extract_fingerprints.pl                                  www.b.shuttle.de:Computers/Programming/Languages/Perl/
-# $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/fetchmail--extract_fingerprints.pl                 www.b.shuttle.de:www/hayek/jochen/Computers/Programming/Languages/Perl/fetchmail--extract_fingerprints.txt
+#   $ ssh -n ... bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log
 
 ################################################################################
 
@@ -97,9 +85,13 @@
       # fetchmail: jh-gapps.gmail.com fingerprints do not match!
       # fetchmail: jh.gmail.com fingerprints do not match!
 
-      elsif( m/^ fetchmail: \s+ (?<all> (?<host> \S+) \s+ fingerprints (?<middle> \s+ .* \s+ | \s+ ) match. ) $/x )
+      elsif( m/^ fetchmail: \s+ (?<all> (?<host> \S+) \s+ fingerprints \s+ (?<middle> .* \s+ | ) match. ) $/x )
 	{
-	  printf STDOUT "    # {%s}\n",$+{all}
+	  my(%plus) = %+;
+
+	  printf STDOUT "    # {%s}%s\n",
+	    $plus{all},
+	    ( $plus{middle} eq '' ) ? '' : '# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' 
 	    if 1;
 	}
     }
