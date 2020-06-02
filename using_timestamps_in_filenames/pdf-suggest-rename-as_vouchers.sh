@@ -245,7 +245,10 @@ do
 
        # <dc:date>2014-07-01T16:45:02+02:00</dc:date>
 
-       if( m/ ^ \s* < (?<n> \w+ :\w* Date) > (?<v>.*) <\/ (?<n1> \w+ : \w* Date) > /ix )
+       if(   m/ ^ \s* < (?<n> \w+ :\w* Date) > (?<v>.*) <\/ (?<n1> \w+ : \w* Date) > /ix 
+          && ($+{n} ne "pfDocArc:ARCHIVE_DATE")		# <pfDocArc:ARCHIVE_DATE>20200217</pfDocArc:ARCHIVE_DATE>
+          && ($+{n} ne "pfDocArc:ARCHIVE_DEL_DATE")	# <pfDocArc:ARCHIVE_DEL_DATE>20350213</pfDocArc:ARCHIVE_DEL_DATE>
+	 )
 	 {
            my(%plus) = %+;
 
