@@ -5,7 +5,7 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2020-05-31 22:25:53 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2020-06-02 19:16:40 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
@@ -415,10 +415,16 @@ sub job_match_timed_tag_with_body
 
   my($fh);
 
+  my($amount) = '';
+
+  my($paymorrow_p) = 0;
+
   while (<>)
     {
       if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
 	{
+	  $amount = '';
+
 	  $tags         = '';
 
 	  $this_day     = $_;
@@ -429,7 +435,8 @@ sub job_match_timed_tag_with_body
 	  $date_YYYY_mm_dd = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
 	  $date_YYYYmmdd   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
 
-	  $time_HHMMSS = '';
+	  $time_HH_MM_SS = '';
+	  $time_HHMMSS   = '';
 
 	  if (0 && $main::options{debug})
 	    {
@@ -452,11 +459,17 @@ sub job_match_timed_tag_with_body
 
       # extract the tag list;
       # check whether the tag specified is included;
-      elsif( m/^ \t (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) .*  \[ (?<tags> [^\]]+ ) \]/x) # possibly a new timed entry that we are after
+      elsif( m/^ \t (?<HH_MM_SS> (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) ) .*  \[ (?<tags> [^\]]+ ) \]/x) # possibly a new timed entry that we are after
 	{
 	  my(%plus) = %+;
 
-	  $time_HHMMSS = $plus{HH} . $plus{MM} . $plus{SS};
+	  if(defined($fh))
+	    {
+	      close($fh);
+	    }
+
+	  $time_HH_MM_SS = $plus{HH_MM_SS};
+	  $time_HHMMSS   = $plus{HH} . $plus{MM} . $plus{SS};
 	  $tags = $plus{tags};
 
 	  if (1 && $main::options{debug})
@@ -512,11 +525,6 @@ sub job_match_timed_tag_with_body
 	      # create&open the new file: "999990-000--${this_day}${time_HHMMSS}--${payee}.$main::options{tag}.diary"
 	      my($fn) = "999990-000--${date_YYYYmmdd}${time_HHMMSS}--${payee}${purpose}.$main::options{tag}.diary";
 
-	      if(defined($fh))
-		{
-		  close($fh);
-		}
-
 	      open($fh,'>',$fn) || die "cannot open \$fn=>{$fn}";
 
 	      if( $printed_days{$this_day} )
@@ -531,6 +539,13 @@ sub job_match_timed_tag_with_body
 		}
 
 	      print $fh $_;
+
+	      # to be used within JHcsv:
+
+	      printf $fh "\"%s-%s\"\n",
+		$date_YYYY_mm_dd,
+		$time_HH_MM_SS,
+		if 0;
 	    }
 	  else
 	    {
@@ -559,9 +574,63 @@ sub job_match_timed_tag_with_body
 		;
 	    }
 
-	  if( $main::options{from} le $date_YYYY_mm_dd && $date_YYYY_mm_dd le $main::options{to} )
+	  if( ($main::options{from} le $date_YYYY_mm_dd) && ($date_YYYY_mm_dd le $main::options{to}) )
 	    {
 	      print $fh $plus{body_line},"\n";
+
+	      # e.g.
+	      #
+	      #   SUBJECT: Your payment to Lidl Vertriebs GmbH & for 47,55 EUR;
+
+	      if(m/^\t\tSUBJECT: Your payment to (?<payee>[^ ]*) for (?<amount>[^ ]*) /)
+		{
+		  my(%plus) = %+;
+
+		  $amount = $plus{amount};
+
+		  $amount =~ tr/,/./;
+		}
+
+	      # e.g.
+	      #
+	      #  paymorrow
+	      #
+	      #   SUBJECT: Mobil bezahlt & gepunktet am 26.05.2020 18:58 bei dm-drogerie markt;
+
+	      elsif(m/^\t\tSUBJECT: Mobil bezahlt . gepunktet am (?<dd>..)\.(?<mm>..)\.(?<YYYY>....) (?<HH_MM>..:..) bei (?<payee>[^;]+)/)
+		{
+		  my(%plus) = %+;
+
+		  $paymorrow_p = 1;
+
+		  $date_YYYY_mm_dd = "$plus{YYYY}-$plus{mm}-$plus{dd}";
+		  $time_HH_MM_SS   = "$plus{HH_MM}:00";
+		}
+
+	      elsif(m/^\t\tFolder: /)
+		{
+		  # to be used within JHcsv:
+
+		  if($amount ne '')
+		    {
+		      printf $fh "\"%s-%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
+			$date_YYYY_mm_dd,
+			$time_HH_MM_SS,
+			$date_YYYY_mm_dd,
+			$date_YYYY_mm_dd,
+			' ' x 27,
+			'999.99',
+			'-' . $amount,
+			; 
+		    }
+		  else
+		    {
+		      printf $fh "\"%s-%s\"\n",
+			$date_YYYY_mm_dd,
+			$time_HH_MM_SS,
+			;
+		    }
+		}
 	    }
 	}
 
@@ -584,6 +653,13 @@ sub job_match_timed_tag_with_body
 
   if(defined($fh))
     {
+      # to be used within JHcsv:
+
+      printf $fh "\"%s-%s\"\n",
+	$date_YYYY_mm_dd,
+	$time_HH_MM_SS,
+	if 0;
+
       close($fh);
     }
 
