@@ -362,7 +362,6 @@ sub job_match_timed_tag_with_body
     }
 
   my($tags);
-  my($date_YYYYmmdd);
 
   my($time_HHMMSS) = '';
 
@@ -385,7 +384,7 @@ sub job_match_timed_tag_with_body
 	  $year         = $3;
 
 	  $details{date_YYYY_mm_dd} = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
-	  $date_YYYYmmdd   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
+	  $details{date_YYYYmmdd}   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
 
 	  $time_HH_MM_SS = '';
 	  $time_HHMMSS   = '';
@@ -400,7 +399,7 @@ sub job_match_timed_tag_with_body
 	  if (1 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		;
 	    }
 	}
@@ -432,7 +431,7 @@ sub job_match_timed_tag_with_body
 	  if (1 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		,'$time_HHMMSS',$time_HHMMSS
 		,'$tags',$tags
 		;
@@ -480,7 +479,7 @@ sub job_match_timed_tag_with_body
 		}
 
 	      # create&open the new file: "999990-000--${this_day}${time_HHMMSS}--$tags{payee}.$main::options{tag}.diary"
-	      my($fn) = "999990-000--${date_YYYYmmdd}${time_HHMMSS}--$tags{payee}${purpose}.$main::options{tag}.diary";
+	      my($fn) = "999990-000--$details{date_YYYYmmdd}${time_HHMMSS}--$tags{payee}${purpose}.$main::options{tag}.diary";
 
 	      open($fh,'>',$fn) || die "cannot open \$fn=>{$fn}";
 
@@ -525,7 +524,7 @@ sub job_match_timed_tag_with_body
 	  if (0 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		,'$time_HHMMSS',$time_HHMMSS
 		,'$plus{body_line}',$plus{body_line}
 		;
@@ -618,7 +617,7 @@ sub job_match_timed_tag_with_body
 	  if (0 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		,'$time_HHMMSS',$time_HHMMSS
 		;
 	    }
