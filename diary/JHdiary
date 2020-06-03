@@ -212,11 +212,8 @@ sub job_tag_match
     }
 
   my($tags);
-  my($date_YYYY_mm_dd);
-  my($date_YYYYmmdd);
 
-  my($time_HHMMSS);
-##my($time_HHMMSS) = '';
+  my(%details);
 
   while (<>)
     {
@@ -230,10 +227,10 @@ sub job_tag_match
 	  $month        = $::month_names__short2no{$2};
 	  $year         = $3;
 
-	  $date_YYYY_mm_dd = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
-	  $date_YYYYmmdd   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
+	  $details{date_YYYY_mm_dd} = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+	  $details{date_YYYYmmdd}   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
 
-	  $time_HHMMSS = '';
+	  $details{time_HHMMSS} = '';
 
 	  if (0 && $main::options{debug})
 	    {
@@ -245,7 +242,7 @@ sub job_tag_match
 	  if (1 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		;
 	    }
 	}
@@ -262,18 +259,18 @@ sub job_tag_match
 	  if (0 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		;
 	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
 		,'$tags',$tags
 		;
 	    }
 
-	  if( $main::options{from} le $date_YYYY_mm_dd && $date_YYYY_mm_dd le $main::options{to} )
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date_YYYY_mm_dd',$date_YYYY_mm_dd
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	    }
@@ -281,7 +278,7 @@ sub job_tag_match
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date_YYYY_mm_dd',$date_YYYY_mm_dd
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	      next;
@@ -306,19 +303,19 @@ sub job_tag_match
 		{
 		  my(%plus) = %+;
 
-		  $time_HHMMSS = $plus{HH} . $plus{MM} . $plus{SS};
+		  $details{time_HHMMSS} = $plus{HH} . $plus{MM} . $plus{SS};
 
 		  if (1 && $main::options{debug})
 		    {
 		      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s}\n",__LINE__,$.
-			,'$date_YYYYmmdd',$date_YYYYmmdd
-			,'$time_HHMMSS',$time_HHMMSS
+			,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+			,'$details{time_HHMMSS}',$details{time_HHMMSS}
 			;
 		    }
 		}
-	    ##elsif( ($time_HHMMSS ne '') && m/^ (?<body_line> \t .*)      $/x)
+	    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
 	    ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
-	    ##elsif( ($time_HHMMSS ne '') && m/^ (?<body_line> \t .*)      $/x)
+	    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
 	      elsif( 			     m/^ (?<body_line> \t .*)      $/x)
 		{
 		  my(%plus) = %+;
@@ -326,8 +323,8 @@ sub job_tag_match
 		  if (1 && $main::options{debug})
 		    {
 		      printf STDOUT "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
-			,'$date_YYYYmmdd',$date_YYYYmmdd
-			,'$time_HHMMSS',$time_HHMMSS
+			,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+			,'$details{time_HHMMSS}',$details{time_HHMMSS}
 			,'$plus{body_line}',$plus{body_line}
 			;
 		    }
@@ -361,16 +358,15 @@ sub job_match_timed_tag_with_body
       die "I need at least a tag.";
     }
 
-  my($tags);
-
-  my($time_HHMMSS) = '';
-
   my($fh);
 
   my($paymorrow_p) = 0;
 
+  my($tags);
   my(%tags);
+
   my(%details);
+  $details{time_HHMMSS} = '';
 
   while (<>)
     {
@@ -386,8 +382,8 @@ sub job_match_timed_tag_with_body
 	  $details{date_YYYY_mm_dd} = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
 	  $details{date_YYYYmmdd}   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
 
-	  $time_HH_MM_SS = '';
-	  $time_HHMMSS   = '';
+	  $details{time_HH_MM_SS} = '';
+	  $details{time_HHMMSS}   = '';
 
 	  if (0 && $main::options{debug})
 	    {
@@ -424,15 +420,15 @@ sub job_match_timed_tag_with_body
 	      close($fh);
 	    }
 
-	  $time_HH_MM_SS = $plus{HH_MM_SS};
-	  $time_HHMMSS   = $plus{HH} . $plus{MM} . $plus{SS};
+	  $details{time_HH_MM_SS} = $plus{HH_MM_SS};
+	  $details{time_HHMMSS}   = $plus{HH} . $plus{MM} . $plus{SS};
 	  $tags = $plus{tags};
 
 	  if (1 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
 		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
-		,'$time_HHMMSS',$time_HHMMSS
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
 		,'$tags',$tags
 		;
 	    }
@@ -478,8 +474,8 @@ sub job_match_timed_tag_with_body
 		  $purpose = "--$+{purpose}";
 		}
 
-	      # create&open the new file: "999990-000--${this_day}${time_HHMMSS}--$tags{payee}.$main::options{tag}.diary"
-	      my($fn) = "999990-000--$details{date_YYYYmmdd}${time_HHMMSS}--$tags{payee}${purpose}.$main::options{tag}.diary";
+	      # create&open the new file: "999990-000--${this_day}$details{time_HHMMSS}--$tags{payee}.$main::options{tag}.diary"
+	      my($fn) = "999990-000--$details{date_YYYYmmdd}$details{time_HHMMSS}--$tags{payee}${purpose}.$main::options{tag}.diary";
 
 	      open($fh,'>',$fn) || die "cannot open \$fn=>{$fn}";
 
@@ -496,27 +492,25 @@ sub job_match_timed_tag_with_body
 
 	      print $fh $_;
 
-	      # to be used within JHcsv:
-
 	      printf $fh "\"%s-%s\"\n",
 		$details{date_YYYY_mm_dd},
-		$time_HH_MM_SS,
+		$details{time_HH_MM_SS},
 		if 0;
 	    }
 	  else
 	    {
-	      $time_HHMMSS = '';
+	      $details{time_HHMMSS} = '';
 	    }
         }
 
       elsif( m/^ \t [^\s] /x )	# not part of content, that we are after in this context
 	{
-	  $time_HHMMSS = '';
+	  $details{time_HHMMSS} = '';
 	}
 
-    ##elsif( ($time_HHMMSS ne '') && m/^ (?<body_line> \t .*)      $/x)
+    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
     ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
-      elsif( ($time_HHMMSS ne '') && m/^ (?<body_line> \t .*)      $/x)
+      elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
     ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
 	{
 	  my(%plus) = %+;
@@ -525,7 +519,7 @@ sub job_match_timed_tag_with_body
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
 		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
-		,'$time_HHMMSS',$time_HHMMSS
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
 		,'$plus{body_line}',$plus{body_line}
 		;
 	    }
@@ -538,7 +532,7 @@ sub job_match_timed_tag_with_body
 	      #
 	      #   SUBJECT: Your payment to Lidl Vertriebs GmbH & for 47,55 EUR;
 
-	      if(m/^\t\tSUBJECT: Your payment to (?<payee>[^ ]*) for (?<amount>[^ ]*) /)
+	      if(m/^\t\t\s*SUBJECT: Your payment to (?<payee>[^ ]*) for (?<amount>[^ ]*) /)
 		{
 		  my(%plus) = %+;
 
@@ -562,20 +556,18 @@ sub job_match_timed_tag_with_body
 		  $paymorrow_p = 1;
 
 		  $details{date_YYYY_mm_dd} = "$plus{YYYY}-$plus{mm}-$plus{dd}";
-		  $time_HH_MM_SS   = "$plus{HH_MM}:00";
+		  $details{time_HH_MM_SS}   = "$plus{HH_MM}:00";
 
 		  $details{payee} = $plus{payee};
 		}
 
-	      elsif(m/^\t\tFolder: /)
+	      elsif(m/^\t\t\s*Folder: /)
 		{
-		  # to be used within JHcsv:
-
 		  if(defined($details{amount}))
 		    {
 		      printf $fh "\"%s-%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
 			$details{date_YYYY_mm_dd},
-			$time_HH_MM_SS,
+			$details{time_HH_MM_SS},
 			$details{date_YYYY_mm_dd},
 			$details{date_YYYY_mm_dd},
 			' ' x 27,
@@ -587,7 +579,7 @@ sub job_match_timed_tag_with_body
 		    {
 		      printf $fh "\"%s-%s\"\n",
 			$details{date_YYYY_mm_dd},
-			$time_HH_MM_SS,
+			$details{time_HH_MM_SS},
 			;
 		    }
 
@@ -612,13 +604,13 @@ sub job_match_timed_tag_with_body
 	    }
 	}
 
-      elsif( ($time_HHMMSS ne '') && m/^ $/x)
+      elsif( ($details{time_HHMMSS} ne '') && m/^ $/x)
 	{
 	  if (0 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s}\n",__LINE__,$.
 		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
-		,'$time_HHMMSS',$time_HHMMSS
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
 		;
 	    }
 
