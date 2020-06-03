@@ -5,7 +5,7 @@
 # OS X: /usr/bin/perl
 
 {
-  ($emacs_Time_stamp) = 'Time-stamp: <2020-06-02 20:30:38 johayek>' =~ m/^Time-stamp: <(.*)>$/;
+  ($emacs_Time_stamp) = 'Time-stamp: <2020-06-03 13:11:28 johayek>' =~ m/^Time-stamp: <(.*)>$/;
 
   '' =~ m/`/;
 
@@ -165,23 +165,16 @@ sub main
        );
   $result || die 'GetMain::Options failed';
 
+  ################################################################################
   #
   # example
   # =======
   #
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_match_timed_tag_with_body --tag=paypal
+  # cd ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary--job_match_timed_tag_with_body.t/
+  #    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=paypal      ~/diary
+  #    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=payback_pay ~/diary
   #
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_match_timed_tag_with_body --tag=paypal      ~/diary.procmail-from > ~/tmp/diary.procmail-from.paypal.REF
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_match_timed_tag_with_body --tag=paypal      ~/diary.procmail-from > ~/tmp/diary.procmail-from.paypal
-  #
-  # cd ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary.t/
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_match_timed_tag_with_body --tag=paypal                            > ~/tmp/diary.paypal
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2020-12-99 --job_match_timed_tag_with_body --tag=paypal      ~/diary               > ~/tmp/diary.paypal
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2020-12-99 --job_match_timed_tag_with_body --tag=payback_pay ~/diary               > ~/tmp/diary.payback_pay
-  #
-  # diff ~/tmp/diary.procmail-from.paypal.REF ~/tmp/diary.procmail-from.paypal
-  #
-  ##################################################
+  ################################################################################
   #
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_tag_match --tag=paypal
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
@@ -210,6 +203,8 @@ sub main
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag    --this_year=2004
   #
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
+  #
+  ################################################################################
 
   if($main::options{version})
     {
@@ -419,6 +414,9 @@ sub job_match_timed_tag_with_body
 
   my($paymorrow_p) = 0;
 
+  my(%tags);
+  my(%details);
+
   while (<>)
     {
       if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
@@ -459,6 +457,9 @@ sub job_match_timed_tag_with_body
       # check whether the tag specified is included;
       elsif( m/^ \t (?<HH_MM_SS> (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) ) .*  \[ (?<tags> [^\]]+ ) \]/x) # possibly a new timed entry that we are after
 	{
+	  delete($tags{payee});
+	  delete($details{payee});
+
 	  $amount = '';
 
 	  my(%plus) = %+;
@@ -511,7 +512,7 @@ sub job_match_timed_tag_with_body
 	    {
 	      my(%plus) = %+;
 
-	      my($payee) = defined($plus{payee}) ? $plus{payee} : '___';
+	      $tags{payee} = defined($plus{payee}) ? $plus{payee} : '___';
 
 	      my($purpose) = '';
 
@@ -522,8 +523,8 @@ sub job_match_timed_tag_with_body
 		  $purpose = "--$+{purpose}";
 		}
 
-	      # create&open the new file: "999990-000--${this_day}${time_HHMMSS}--${payee}.$main::options{tag}.diary"
-	      my($fn) = "999990-000--${date_YYYYmmdd}${time_HHMMSS}--${payee}${purpose}.$main::options{tag}.diary";
+	      # create&open the new file: "999990-000--${this_day}${time_HHMMSS}--$tags{payee}.$main::options{tag}.diary"
+	      my($fn) = "999990-000--${date_YYYYmmdd}${time_HHMMSS}--$tags{payee}${purpose}.$main::options{tag}.diary";
 
 	      open($fh,'>',$fn) || die "cannot open \$fn=>{$fn}";
 
@@ -586,6 +587,8 @@ sub job_match_timed_tag_with_body
 		{
 		  my(%plus) = %+;
 
+		  $details{payee} = $plus{payee};
+
 		  $amount = $plus{amount};
 
 		  $amount =~ tr/,/./;
@@ -605,6 +608,8 @@ sub job_match_timed_tag_with_body
 
 		  $date_YYYY_mm_dd = "$plus{YYYY}-$plus{mm}-$plus{dd}";
 		  $time_HH_MM_SS   = "$plus{HH_MM}:00";
+
+		  $details{payee} = $plus{payee};
 		}
 
 	      elsif(m/^\t\tFolder: /)
@@ -628,6 +633,24 @@ sub job_match_timed_tag_with_body
 		      printf $fh "\"%s-%s\"\n",
 			$date_YYYY_mm_dd,
 			$time_HH_MM_SS,
+			;
+		    }
+
+		  if(defined($tags{payee}))
+		    {
+		      printf $fh "%s,\"%s\",\"%s\"\n",
+			'                     ,            ,            ', # prefix
+			'<payee>',
+			$tags{payee},
+			;
+		    }
+
+		  if(defined($details{payee}))
+		    {
+		      printf $fh "%s,\"%s\",\"%s\"\n",
+			'                     ,            ,            ', # prefix
+			'<payee>',
+			$details{payee},
 			;
 		    }
 		}
