@@ -362,7 +362,6 @@ sub job_match_timed_tag_with_body
     }
 
   my($tags);
-  my($date_YYYY_mm_dd);
   my($date_YYYYmmdd);
 
   my($time_HHMMSS) = '';
@@ -385,7 +384,7 @@ sub job_match_timed_tag_with_body
 	  $month        = $::month_names__short2no{$2};
 	  $year         = $3;
 
-	  $date_YYYY_mm_dd = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+	  $details{date_YYYY_mm_dd} = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
 	  $date_YYYYmmdd   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
 
 	  $time_HH_MM_SS = '';
@@ -439,11 +438,11 @@ sub job_match_timed_tag_with_body
 		;
 	    }
 
-	  if( $main::options{from} le $date_YYYY_mm_dd && $date_YYYY_mm_dd le $main::options{to} )
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date_YYYY_mm_dd',$date_YYYY_mm_dd
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	    }
@@ -451,7 +450,7 @@ sub job_match_timed_tag_with_body
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date_YYYY_mm_dd',$date_YYYY_mm_dd
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	      next;
@@ -501,7 +500,7 @@ sub job_match_timed_tag_with_body
 	      # to be used within JHcsv:
 
 	      printf $fh "\"%s-%s\"\n",
-		$date_YYYY_mm_dd,
+		$details{date_YYYY_mm_dd},
 		$time_HH_MM_SS,
 		if 0;
 	    }
@@ -532,7 +531,7 @@ sub job_match_timed_tag_with_body
 		;
 	    }
 
-	  if( ($main::options{from} le $date_YYYY_mm_dd) && ($date_YYYY_mm_dd le $main::options{to}) )
+	  if( ($main::options{from} le $details{date_YYYY_mm_dd}) && ($details{date_YYYY_mm_dd} le $main::options{to}) )
 	    {
 	      print $fh $plus{body_line},"\n";
 
@@ -563,7 +562,7 @@ sub job_match_timed_tag_with_body
 
 		  $paymorrow_p = 1;
 
-		  $date_YYYY_mm_dd = "$plus{YYYY}-$plus{mm}-$plus{dd}";
+		  $details{date_YYYY_mm_dd} = "$plus{YYYY}-$plus{mm}-$plus{dd}";
 		  $time_HH_MM_SS   = "$plus{HH_MM}:00";
 
 		  $details{payee} = $plus{payee};
@@ -576,10 +575,10 @@ sub job_match_timed_tag_with_body
 		  if(defined($details{amount}))
 		    {
 		      printf $fh "\"%s-%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
-			$date_YYYY_mm_dd,
+			$details{date_YYYY_mm_dd},
 			$time_HH_MM_SS,
-			$date_YYYY_mm_dd,
-			$date_YYYY_mm_dd,
+			$details{date_YYYY_mm_dd},
+			$details{date_YYYY_mm_dd},
 			' ' x 27,
 			'999.99',
 			'-' . $details{amount},
@@ -588,7 +587,7 @@ sub job_match_timed_tag_with_body
 		  else
 		    {
 		      printf $fh "\"%s-%s\"\n",
-			$date_YYYY_mm_dd,
+			$details{date_YYYY_mm_dd},
 			$time_HH_MM_SS,
 			;
 		    }
@@ -624,23 +623,11 @@ sub job_match_timed_tag_with_body
 		;
 	    }
 
-	  if( $main::options{from} le $date_YYYY_mm_dd && $date_YYYY_mm_dd le $main::options{to} )
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
 	    {
 	      print $fh "\n";
 	    }
 	}
-    }
-
-  if(defined($fh))
-    {
-      # to be used within JHcsv:
-
-      printf $fh "\"%s-%s\"\n",
-	$date_YYYY_mm_dd,
-	$time_HH_MM_SS,
-	if 0;
-
-      close($fh);
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
