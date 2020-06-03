@@ -4,31 +4,6 @@
 
 # OS X: /usr/bin/perl
 
-{
-  ($emacs_Time_stamp) = 'Time-stamp: <2020-06-03 13:11:28 johayek>' =~ m/^Time-stamp: <(.*)>$/;
-
-  '' =~ m/`/;
-
-  ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
-
-    '$Id: JHdiary 1.114 2017/11/23 16:47:32 johayek Exp johayek $' =~
-
-      m(^ \ \s
-
-          (
-               (\S+)		# RCSfile
-            \s (\S+)		# Revision
-            \s (\S+ \s \S+)	# Date
-            \s (\S+)		# Author
-            \s (\S+)		# State
-            .*
-          )
-
-          \s \$ $)x;
-
-  '' =~ m/`/;
-}
-
 # usage: 
 #
 #     ...
@@ -104,12 +79,6 @@ sub main
   $main::options{debug} = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$rcs_Id',$rcs_Id
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$emacs_Time_stamp',$emacs_Time_stamp
     if 0 && $main::options{debug};
 
   {
@@ -205,16 +174,6 @@ sub main
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
   #
   ################################################################################
-
-  if($main::options{version})
-    {
-       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-	 ,'$rcs_Id',$rcs_Id
-	 ;
-       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-	 ,'$emacs_Time_stamp',$emacs_Time_stamp
-	 ;
-    }
 
   if   ($main::options{job_tag_match			}) { &job_tag_match			; }
   elsif($main::options{job_match_timed_tag_with_body	}) { &job_match_timed_tag_with_body	; }
@@ -410,8 +369,6 @@ sub job_match_timed_tag_with_body
 
   my($fh);
 
-  my($amount) = '';
-
   my($paymorrow_p) = 0;
 
   my(%tags);
@@ -458,9 +415,9 @@ sub job_match_timed_tag_with_body
       elsif( m/^ \t (?<HH_MM_SS> (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) ) .*  \[ (?<tags> [^\]]+ ) \]/x) # possibly a new timed entry that we are after
 	{
 	  delete($tags{payee});
-	  delete($details{payee});
 
-	  $amount = '';
+	  delete($details{payee});
+	  delete($details{amount});
 
 	  my(%plus) = %+;
 
@@ -589,9 +546,9 @@ sub job_match_timed_tag_with_body
 
 		  $details{payee} = $plus{payee};
 
-		  $amount = $plus{amount};
+		  $details{amount} = $plus{amount};
 
-		  $amount =~ tr/,/./;
+		  $details{amount} =~ tr/,/./;
 		}
 
 	      # e.g.
@@ -616,7 +573,7 @@ sub job_match_timed_tag_with_body
 		{
 		  # to be used within JHcsv:
 
-		  if($amount ne '')
+		  if(defined($details{amount}))
 		    {
 		      printf $fh "\"%s-%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
 			$date_YYYY_mm_dd,
@@ -625,7 +582,7 @@ sub job_match_timed_tag_with_body
 			$date_YYYY_mm_dd,
 			' ' x 27,
 			'999.99',
-			'-' . $amount,
+			'-' . $details{amount},
 			; 
 		    }
 		  else
