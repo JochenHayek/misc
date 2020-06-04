@@ -120,6 +120,10 @@ $ ~/bin/renumber_duplex_scanned_files.sh 20170614000000--___. 999990-000--201706
 
 # eg.
 
+$ ~/bin/renumber_duplex_scanned_files.sh             20200121000000--___. 999990-000--*.png
+
+$ ~/bin/renumber_duplex_scanned_files.sh             20181101000000--___. 999990-000--*.png
+
 $ ~/bin/renumber_duplex_scanned_files.sh 999990-000--20181026000000--___. 999990-000--*.png
 
 $ ~/bin/renumber_duplex_scanned_files.sh 999990-000--20181026000000--___. 999990-000--*.raw.png
@@ -129,6 +133,8 @@ $ ~/bin/renumber_duplex_scanned_files.sh 999990-000--20181127225752--___. 999990
 $ ~/bin/renumber_duplex_scanned_files.sh 999990-000--20181026000000--___. 999990-000--*.raw.png
 
 $ ~/bin/renumber_duplex_scanned_files.sh 999990-000--20171024000000--HDI. 999990-000--2017111718*.png
+
+$ ~/bin/renumber_duplex_scanned_files.sh 20202602000000--Sukkat-Schalom--___. 999990-*
 
 $ ~/bin/renumber_duplex_scanned_files.sh 20170907000000--Postbank.            20170909*
 
