@@ -1,0 +1,12 @@
+{{Literatur
+ | Titel=[[Unter Freunden (Erzählungen)|Unter Freunden]]. Erzählungen
+ | Originaltitel=Ben cḥaverim
+ | Originalsprache=he
+ | Typ=wl
+ | Autor=Amos Oz
+ | Übersetzer=Mirjam Pressler
+ | Verlag=Suhrkamp
+ | Ort=Frankfurt am Main
+ | Datum=2013
+ | ISBN=978-3-518-42364-6
+}}

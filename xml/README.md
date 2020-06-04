@@ -1,3 +1,7 @@
+pdf2xml.* :
+
+* "pdftohtml -xml" creates XML files ...
+
 xml_extract_files.sh :
 
 * extracting element files from XML container files as created by XQuery scripts

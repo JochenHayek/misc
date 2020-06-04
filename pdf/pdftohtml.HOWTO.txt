@@ -1,0 +1,16 @@
+# …
+
+                                     pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
+                            /opt/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
+                         /opt/sw/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
+                               ~/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
+
+# within Emacs dired-mode leave out the file params:
+
+                                     pdftohtml -xml -i -nomerge -hidden
+
+# the resulting file will be named FILE.xml than,
+# but we can change that easily,
+# and that's the least effort and hassle all together.
+
+~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__postprocess.pl

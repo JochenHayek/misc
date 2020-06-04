@@ -1,5 +1,12 @@
 #! /usr/bin/perl -w
 
+# wishlist:
+#
+# * use low_level_high_level_print_entry in order to print each single address listed on "To:" (etc.) as well
+# ** each addressee is also a potential sender of e-mail,
+#    so it's neat to create procmailrc rules for everybody I send e-mail to,
+#    so that I can copy the truly needed entries to ~/git-servers/ber.jochen.hayek.name/johayek/procmailrc/.procmailrc
+
 ################################################################################
 
 # read a procmail LOGFILE
@@ -13,9 +20,9 @@
 
 # basically to be called like that:
 
-# $ $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl
+# $ ~/git-servers/github.com/JochenHayek/misc/procmail/procmail-from2diary.pl
 
-# $                                  $HOME/bin/procmail-from2diary.pl
+# $                                          $HOME/bin/procmail-from2diary.pl
 
 # but I want to "tail -f" the file on mail.shuttle.de like this,
 # and if I create the pipe on that server, we are running into a buffering problem,
@@ -31,13 +38,6 @@
 # $ ssh -n www.b.shuttle.de bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log; echo -e '\n\n********************'; ssh -n mail.shuttle.de quota --human-readable; echo -e '\n\n********************'; sleep 5; ssh -n mail.shuttle.de tail -1000f var/log/procmail-from | ~/bin/procmail-from2diary.pl
 
 # $ ssh -n www.b.shuttle.de 'tail -500 var/log/fetchmail.log | bin/fetchmail--extract_fingerprints.pl'; echo -e '\n\n********************'; ssh -n mail.shuttle.de quota --human-readable; echo -e '\n\n********************'; sleep 5; ssh -n mail.shuttle.de tail -1000f var/log/procmail-from | ~/bin/procmail-from2diary.pl
-
-################################################################################
-
-# $ rsync -vaz --rsync-path=/volume1/@hayek/bin/rsync $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl diskstation002:ARCHIVE/mail.shuttle.de-non-dated/Computers/Programming/Languages/Perl/
-# $ rsync -vaz					      $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                  mail.shuttle.de:Computers/Programming/Languages/Perl/
-# $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                           HayekW:Computers/Programming/Languages/Perl/
-# $ rsync -vaz                                        $HOME/Computers/Programming/Languages/Perl/procmail-from2diary.pl                                         Hayek001:Computers/Programming/Languages/Perl/
 
 ################################################################################
 
@@ -496,34 +496,30 @@ sub high_level_print_entry
 
       if(exists($param{DATE_captures}{time}))
 	{
-	  printf "\t%s %s [_,%s] %s: %s;\n" .
-	    "\t\t %s:%s;\n" .
-	    "\t\t %s:%s;\n" .
-	    ''
+	  printf "\t%s %s"
 	    ,              exists($param{DATE_captures}{time})       ? $param{DATE_captures}{time}       : '{!exists(DATE_captures{time})}'
 	    ,              exists($param{DATE_captures}{DST})        ? $param{DATE_captures}{DST}        : '{!exists(DATE_captures{DST})}'
-	    , $From_captures__From__mangled_p
-	    , 'From'    =>                                             $From_captures__From__rewritten
-	    , 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
-	    , 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
 	    ;
 	}
       else
 	{
 	  printf "\t// using From_captures\n"
 	    if 0;
-	  printf "\t%s [_,%s] %s: %s;\n" .
-	    "\t\t %s:%s;\n" .
-	    "\t\t %s:%s;\n" .
-	    ''
+	  printf "\t%s"
 	    ,              exists($param{From_captures}{time})       ? $param{From_captures}{time}       : '{!exists(From_captures{time})}'
 	  ##,              exists($param{From_captures}{DST})        ? $param{From_captures}{DST}        : '{!exists(From_captures{DST})}'
-	    , $From_captures__From__mangled_p
-	    , 'From'    =>                                             $From_captures__From__rewritten
-	    , 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
-	    , 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
 	    ;
 	}
+
+      printf " [_,%s] %s: %s;\n" .
+	"\t\t %s:%s;\n" .
+	"\t\t %s:%s;\n" .
+	''
+	, $From_captures__From__mangled_p
+	, 'From'    =>                                             $From_captures__From__rewritten
+	, 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
+	, 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
+	;
 
       if   (  exists($param{subject_captures}{subject}) &&  exists($param{SUBJECT_captures}{SUBJECT}) )
 	{

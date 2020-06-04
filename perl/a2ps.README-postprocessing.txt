@@ -1,0 +1,13 @@
+# ...
+
+                                         ~/bin/a2ps.pl -w -ns ? | ps2pdf - > $(echo ? ).pdf
+                                         ~/bin/a2ps.pl -p -ns ? | ps2pdf - > $(echo ? ).pdf
+                                         ~/bin/a2ps.pl -p     ? | ps2pdf - > $(echo ? ).pdf
+
+
+                                         ~/bin/a2ps.pl -w INPUT_TEXT_FILE | ps2pdf - > ...
+
+                                         ~/bin/a2ps.pl -w INPUT_TEXT_FILE | ps2pdf - > ...
+~/git-servers/github.com/JochenHayek/misc/perl/a2ps.pl -w INPUT_TEXT_FILE | ps2pdf - > ...
+~/git-servers/github.com/JochenHayek/misc/perl/a2ps.pl -w INPUT_TEXT_FILE | ps2pdf - | pdftk - output OUTPUT_PDF_FILE compress
+        ~/Computers/Programming/Languages/Perl/a2ps.pl -w INPUT_TEXT_FILE | ps2pdf - | pdftk - output OUTPUT_PDF_FILE compress

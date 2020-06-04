@@ -1,0 +1,12 @@
+{{Literatur
+ | Titel=Wo die Schakale heulen. Erzählungen
+ | Originaltitel=Arzot ha-Tan
+ | Originalsprache=he
+ | Typ=wl
+ | Autor=Amos Oz
+ | Übersetzer=Mirjam Pressler
+ | Verlag=Suhrkamp
+ | Ort=Frankfurt am Main
+ | Datum=2018
+ | ISBN=978-3-518-42594-7
+}}

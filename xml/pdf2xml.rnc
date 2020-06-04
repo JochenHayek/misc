@@ -1,0 +1,82 @@
+# Jochen Hayek / 2010-12-07
+
+# for use with files named "*.xml", which get created by "pdftoxml -xml".
+
+################################################################################
+################################################################################
+
+# originally created like this from a "pdf2xml.dtd",
+# which in turn came from (pdf2table resp.) pdf2xml:
+
+# $ trang -I dtd -O rnc pdf2xml.dtd pdf2xml.from_dtd.rnc
+
+# problems:
+# * all attributes are simply text
+# ...
+
+# con-s:
+# * all elements are also top-level
+# ...
+
+# pro-s:
+# * complete against the DTD
+# * (?) attributes are not ordered
+# ...
+
+################################################################################
+
+# originally created like this from some sample "*.xml" (one or many),
+# which in turn got created by pdf2xml:
+
+# $ trang -I xml -O rnc ~/usr/src/pdf2table/test_data_out/pdf_form_sample/KSK-form.without_dtd.xml pdf2xml.from_sample_xml_without_dtd.rnc
+
+# ### remove the DOCTYPE... before running trang!
+
+# $ trang -I xml -O rnc ___.xml ___.rnc
+
+# problems: ...
+
+################################################################################
+################################################################################
+
+default namespace = ""
+
+start =
+  element pdf2xml {
+    attribute producer { xsd:NCName },
+    attribute version { xsd:NMTOKEN },
+    element page {
+      attribute height { xsd:integer },
+      attribute left { xsd:integer },
+      attribute number { xsd:integer },
+      attribute position { xsd:NCName },
+      attribute top { xsd:integer },
+      attribute width { xsd:integer },
+      element fontspec {
+        attribute color { text },
+      ##attribute family { xsd:NCName },
+        attribute family { text },
+        attribute id { xsd:integer },
+        attribute size { xsd:integer }
+      }*,
+      element image {
+        attribute height { xsd:integer },
+        attribute left { xsd:integer },
+        attribute top { xsd:integer },
+        attribute width { xsd:integer },
+      ##attribute src { text },
+        attribute src { text }
+      }*,
+      element text {
+        attribute font { xsd:integer },
+        attribute height { xsd:integer },
+        attribute left { xsd:integer },
+        attribute top { xsd:integer },
+        attribute width { xsd:integer },
+        (text
+         | b
+         | element i { (text | b)+ })+
+      }*
+    }+
+  }
+b = element b { text }

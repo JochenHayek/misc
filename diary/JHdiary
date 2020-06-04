@@ -4,31 +4,6 @@
 
 # OS X: /usr/bin/perl
 
-{
-  ($emacs_Time_stamp) = 'Time-stamp: <2018-06-24 17:15:14 johayek>' =~ m/^Time-stamp: <(.*)>$/;
-
-  '' =~ m/`/;
-
-  ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
-
-    '$Id: JHdiary 1.114 2017/11/23 16:47:32 johayek Exp johayek $' =~
-
-      m(^ \ \s
-
-          (
-               (\S+)		# RCSfile
-            \s (\S+)		# Revision
-            \s (\S+ \s \S+)	# Date
-            \s (\S+)		# Author
-            \s (\S+)		# State
-            .*
-          )
-
-          \s \$ $)x;
-
-  '' =~ m/`/;
-}
-
 # usage: 
 #
 #     ...
@@ -93,7 +68,7 @@ sub main
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   # described in:
   #	camel book / ch. 7: the std. perl lib. / lib. modules / Getopt::Long - ...
@@ -101,15 +76,9 @@ sub main
   use Getopt::Long;
   %options = ();
 
-  $main::options{debug} = 1;
+  $main::options{debug} = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$rcs_Id',$rcs_Id
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$emacs_Time_stamp',$emacs_Time_stamp
     if 0 && $main::options{debug};
 
   {
@@ -119,6 +88,7 @@ sub main
     $main::options{version}		       = 0;
 
     $main::options{job_tag_match}              = 0;
+    $main::options{job_match_timed_tag_with_body}              = 0;
     $main::options{job_work_at}                = 0;
     $main::options{job_yearly_events}          = 0;
     $main::options{job_easter_etc}             = 0;
@@ -140,6 +110,7 @@ sub main
       (\%main::options
      ##,'job_xxx|jxxx!'
        ,'job_tag_match!'
+       ,'job_match_timed_tag_with_body!'
        ,'job_work_at!'
        ,'job_yearly_events!'
        ,'job_easter_etc!'
@@ -152,7 +123,7 @@ sub main
 
        ,'company_tag=s'		# used by --job_work_at
 
-       ,'tag=s'			# used by --job_tag_match
+       ,'tag=s'			# used by --job_tag_match, --job_match_timed_tag_with_body
 
        ,'this_year|year=s'	# used by --job_yearly_events , --job_easter_etc , --job_advent_etc , --job_muttertag , --job_xdays_around_today
 
@@ -163,52 +134,55 @@ sub main
        );
   $result || die 'GetMain::Options failed';
 
+  ################################################################################
   #
   # example
   # =======
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
-  # ~/Computers/Programming/Languages/Perl/JHdiary --from=2001-05-17 --to=2001-06-18 --job_tag_match --tag=biz,travel,flight
-  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1999-01-01 --to=1999-12-31 --job_tag_match --tag=biz,travel
+  # cd ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary--job_match_timed_tag_with_body.t/
+  #    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=paypal      ~/diary
+  #    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=payback_pay ~/diary
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --from=1999-01 --to=1999-01-99 --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/Computers/Programming/Languages/Perl/JHdiary                                --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/pts/10
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/xconsole
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_work_at --company_tag=IDS 2>/dev/console
+  ################################################################################
+  #
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_tag_match --tag=paypal
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2001-05-17 --to=2001-06-18 --job_tag_match --tag=biz,travel,flight
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=1999-01-01 --to=1999-12-31 --job_tag_match --tag=biz,travel
+  #
+  ##################################################
+  #
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=1999-01 --to=1999-01-99 --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_work_at --company_tag=IDS 2>/dev/pts/10
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_work_at --company_tag=IDS 2>/dev/xconsole
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_work_at --company_tag=IDS 2>/dev/console
   #
   ##################################################
   #
   # `--job_yearly_events' may ******only****** be applied to the region within diary,
   # where we find the yearly events;
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_yearly_events --this_year=1997
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_yearly_events --this_year=1997
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_easter_etc    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_easter_etc    --this_year=2004
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_advent_etc    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_advent_etc    --this_year=2004
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_muttertag    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag    --this_year=2004
   #
-  # ~/Computers/Programming/Languages/Perl/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
+  #
+  ################################################################################
 
-  if($main::options{version})
-    {
-       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-	 ,'$rcs_Id',$rcs_Id
-	 ;
-       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-	 ,'$emacs_Time_stamp',$emacs_Time_stamp
-	 ;
-    }
-
-  if   ($main::options{job_tag_match	}) { &job_tag_match    ; }
-  elsif($main::options{job_work_at  	}) { &job_work_at      ; }
-  elsif($main::options{job_yearly_events}) { &job_yearly_events; }
-  elsif($main::options{job_easter_etc   }) { &job_easter_etc   ; }
-  elsif($main::options{job_advent_etc   }) { &job_advent_etc   ; }
-  elsif($main::options{job_muttertag   }) { &job_muttertag   ; }
-  elsif($main::options{job_xdays_around_today   }) { &job_xdays_around_today   ; }
+  if   ($main::options{job_tag_match			}) { &job_tag_match			; }
+  elsif($main::options{job_match_timed_tag_with_body	}) { &job_match_timed_tag_with_body	; }
+  elsif($main::options{job_work_at			}) { &job_work_at			; }
+  elsif($main::options{job_yearly_events		}) { &job_yearly_events			; }
+  elsif($main::options{job_easter_etc			}) { &job_easter_etc			; }
+  elsif($main::options{job_advent_etc			}) { &job_advent_etc			; }
+  elsif($main::options{job_muttertag			}) { &job_muttertag			; }
+  elsif($main::options{job_xdays_around_today		}) { &job_xdays_around_today		; }
   else
     {
       die "You did not give me a job.";
@@ -227,7 +201,7 @@ sub job_tag_match
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -237,40 +211,66 @@ sub job_tag_match
       die "I need at least a tag.";
     }
 
+  my($tags);
+
+  my(%details);
+
   while (<>)
     {
-      my($tags);
 
       if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
 	{
+	  $tags         = '';
+
 	  $this_day     = $_;
 	  $day_of_month = $1;
 	  $month        = $::month_names__short2no{$2};
 	  $year         = $3;
 
-	  $date = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+	  $details{date_YYYY_mm_dd} = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+	  $details{date_YYYYmmdd}   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
+
+	  $details{time_HHMMSS} = '';
 
 	  if (0 && $main::options{debug})
 	    {
-	      printf STDERR "=%d: %s=>'%s',%s=>%d\n",__LINE__
+	      printf STDERR "=%d,%05.5d: %s=>'%s',%s=>%d\n",__LINE__,$.
 		,'$this_day',$this_day
 		,'$day_of_month',$day_of_month
 		;
 	    }
+	  if (1 && $main::options{debug})
+	    {
+	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		;
+	    }
 	}
-      elsif( m/^[^\s]/ )
+
+      elsif( m/^ [^\s] /x )
 	{
 	}
 
       # extract the tag list;
       # check whether the tag specified is included;
-      elsif( ( $tags ) = m/\[([^\]]+)\]/ )
+    ##elsif( ( $tags ) = m/\[([^\]]+)\]/ )
+      elsif( ( $tags ) = m/ \[ ( [^\]]+ ) \]/x )
 	{
-	  if( $main::options{from} le $date && $date le $main::options{to} )
+	  if (0 && $main::options{debug})
+	    {
+	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		;
+	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
+		,'$tags',$tags
+		;
+	    }
+
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date',$date
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	    }
@@ -278,11 +278,13 @@ sub job_tag_match
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date',$date
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	      next;
 	    }
+
+	  # CAVEAT: matching_word_boundary_comes_with_deficits. // see below!
 
 	  if ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT
 	    {
@@ -296,8 +298,327 @@ sub job_tag_match
 		}
 
 	      print;
+
+	      if(m/^ \t (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) \s /x)
+		{
+		  my(%plus) = %+;
+
+		  $details{time_HHMMSS} = $plus{HH} . $plus{MM} . $plus{SS};
+
+		  if (1 && $main::options{debug})
+		    {
+		      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s}\n",__LINE__,$.
+			,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+			,'$details{time_HHMMSS}',$details{time_HHMMSS}
+			;
+		    }
+		}
+	    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
+	    ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
+	    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
+	      elsif( 			     m/^ (?<body_line> \t .*)      $/x)
+		{
+		  my(%plus) = %+;
+
+		  if (1 && $main::options{debug})
+		    {
+		      printf STDOUT "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
+			,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+			,'$details{time_HHMMSS}',$details{time_HHMMSS}
+			,'$plus{body_line}',$plus{body_line}
+			;
+		    }
+		}
 	    }
         }
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub job_match_timed_tag_with_body
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(!exists($main::options{tag}))
+    {
+      die "I need at least a tag.";
+    }
+
+  my($fh);
+
+  my($paymorrow_p) = 0;
+
+  my($tags);
+  my(%tags);
+
+  my(%details);
+  $details{time_HHMMSS} = '';
+
+  while (<>)
+    {
+      if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
+	{
+	  $tags         = '';
+
+	  $this_day     = $_;
+	  $day_of_month = $1;
+	  $month        = $::month_names__short2no{$2};
+	  $year         = $3;
+
+	  $details{date_YYYY_mm_dd} = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+	  $details{date_YYYYmmdd}   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
+
+	  $details{time_HH_MM_SS} = '';
+	  $details{time_HHMMSS}   = '';
+
+	  if (0 && $main::options{debug})
+	    {
+	      printf STDERR "=%d,%05.5d: %s=>'%s',%s=>%d\n",__LINE__,$.
+		,'$this_day',$this_day
+		,'$day_of_month',$day_of_month
+		;
+	    }
+	  if (1 && $main::options{debug})
+	    {
+	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		;
+	    }
+	}
+
+      elsif( m/^ [^\s] /x )	# content, that should not exist
+	{
+	}
+
+      # extract the tag list;
+      # check whether the tag specified is included;
+      elsif( m/^ \t (?<HH_MM_SS> (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) ) .*  \[ (?<tags> [^\]]+ ) \]/x) # possibly a new timed entry that we are after
+	{
+	  delete($tags{payee});
+
+	  delete($details{payee});
+	  delete($details{amount});
+
+	  my(%plus) = %+;
+
+	  if(defined($fh))
+	    {
+	      close($fh);
+	    }
+
+	  $details{time_HH_MM_SS} = $plus{HH_MM_SS};
+	  $details{time_HHMMSS}   = $plus{HH} . $plus{MM} . $plus{SS};
+	  $tags = $plus{tags};
+
+	  if (1 && $main::options{debug})
+	    {
+	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
+		,'$tags',$tags
+		;
+	    }
+
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	    }
+	  else
+	    {
+	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
+		,'$main::options{from}',$main::options{from}
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
+		,'$main::options{to}',$main::options{to}
+		if 0;
+	      next;
+	    }
+
+	  # CAVEAT: matching_word_boundary_comes_with_deficits.
+	  # instead of matching against \b (word boundary)
+	  # I should split $tags on ',' into a list
+	  # and "perl grep" the list.
+	  # so far single tags cannot include certain characters, that I would quite like to include.
+
+	  if (    ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT
+	       && ( $tags =~ m/\b payee _ (?<payee>.*?) \b/x )
+	     )
+	    {
+	      my(%plus) = %+;
+
+	      $tags{payee} = defined($plus{payee}) ? $plus{payee} : '___';
+
+	      my($purpose) = '';
+
+	      # CAVEAT: matching_word_boundary_comes_with_deficits. // see above!
+
+	      if( $tags =~ m/\b purpose _ (?<purpose>.*?) \b/x )
+		{
+		  $purpose = "--$+{purpose}";
+		}
+
+	      # create&open the new file: "999990-000--${this_day}$details{time_HHMMSS}--$tags{payee}.$main::options{tag}.diary"
+	      my($fn) = "999990-000--$details{date_YYYYmmdd}$details{time_HHMMSS}--$tags{payee}${purpose}.$main::options{tag}.diary";
+
+	      open($fh,'>',$fn) || die "cannot open \$fn=>{$fn}";
+
+	      if( $printed_days{$this_day} )
+		{
+		  print $fh     $this_day # already printed before – so do we want to get it printed again?
+		    if 1;
+		}
+	      else
+		{
+		  print $fh     $this_day;
+		  $printed_days{$this_day} = 1;
+		}
+
+	      print $fh $_;
+
+	      printf $fh "\"%s-%s\"\n",
+		$details{date_YYYY_mm_dd},
+		$details{time_HH_MM_SS},
+		if 0;
+	    }
+	  else
+	    {
+	      $details{time_HHMMSS} = '';
+	    }
+        }
+
+      elsif( m/^ \t [^\s] /x )	# not part of content, that we are after in this context
+	{
+	  $details{time_HHMMSS} = '';
+	}
+
+    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
+    ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
+      elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
+    ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
+	{
+	  my(%plus) = %+;
+
+	  if (0 && $main::options{debug})
+	    {
+	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
+		,'$plus{body_line}',$plus{body_line}
+		;
+	    }
+
+	  if( ($main::options{from} le $details{date_YYYY_mm_dd}) && ($details{date_YYYY_mm_dd} le $main::options{to}) )
+	    {
+	      print $fh $plus{body_line},"\n";
+
+	      # e.g.
+	      #
+	      #   SUBJECT: Your payment to Lidl Vertriebs GmbH & for 47,55 EUR;
+
+	      if(m/^\t\t\s*SUBJECT: Your payment to (?<payee>[^ ]*) for (?<amount>[^ ]*) /)
+		{
+		  my(%plus) = %+;
+
+		  $details{payee} = $plus{payee};
+
+		  $details{amount} = $plus{amount};
+
+		  $details{amount} =~ tr/,/./;
+		}
+
+	      # e.g.
+	      #
+	      #  paymorrow
+	      #
+	      #   SUBJECT: Mobil bezahlt & gepunktet am 26.05.2020 18:58 bei dm-drogerie markt;
+
+	      elsif(m/^\t\tSUBJECT: Mobil bezahlt . gepunktet am (?<dd>..)\.(?<mm>..)\.(?<YYYY>....) (?<HH_MM>..:..) bei (?<payee>[^;]+)/)
+		{
+		  my(%plus) = %+;
+
+		  $paymorrow_p = 1;
+
+		  $details{date_YYYY_mm_dd} = "$plus{YYYY}-$plus{mm}-$plus{dd}";
+		  $details{time_HH_MM_SS}   = "$plus{HH_MM}:00";
+
+		  $details{payee} = $plus{payee};
+		}
+
+	      elsif(m/^\t\t\s*Folder: /)
+		{
+		  if(defined($details{amount}))
+		    {
+		      printf $fh "\"%s-%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
+			$details{date_YYYY_mm_dd},
+			$details{time_HH_MM_SS},
+			$details{date_YYYY_mm_dd},
+			$details{date_YYYY_mm_dd},
+			' ' x 27,
+			'999.99',
+			'-' . $details{amount},
+			; 
+		    }
+		  else
+		    {
+		      printf $fh "\"%s-%s\"\n",
+			$details{date_YYYY_mm_dd},
+			$details{time_HH_MM_SS},
+			;
+		    }
+
+		  if(defined($tags{payee}))
+		    {
+		      printf $fh "%s,\"%s\",\"%s\"\n",
+			'                     ,            ,            ', # prefix
+			'<payee>',
+			$tags{payee},
+			;
+		    }
+
+		  if(defined($details{payee}))
+		    {
+		      printf $fh "%s,\"%s\",\"%s\"\n",
+			'                     ,            ,            ', # prefix
+			'<payee>',
+			$details{payee},
+			;
+		    }
+		}
+	    }
+	}
+
+      elsif( ($details{time_HHMMSS} ne '') && m/^ $/x)
+	{
+	  if (0 && $main::options{debug})
+	    {
+	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s}\n",__LINE__,$.
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
+		;
+	    }
+
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
+	    {
+	      print $fh "\n";
+	    }
+	}
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
@@ -315,7 +636,7 @@ sub job_work_at
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -537,7 +858,7 @@ sub job_yearly_events
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -604,7 +925,7 @@ sub job_easter_etc
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -626,7 +947,7 @@ sub job_easter_etc
       , { offset => +39 , name => 'Ascension Day = Christi Himmelfahrt (= Vatertag = Ascension'              }
       , { offset => +49 , name => 'Whitsunday = Pfingstsonntag = Dimanche de Pentecote -- Karneval-Berlin.de'                      }
       , { offset => +50 , name => 'Whitmonday = Pfingstmontag = Lundi de Pentecote'                          }
-      , { offset => +60 , name => 'Corpus Christi Day = Fronleichnam = Fete-Dieu -- arbeitsfreier Tag f�r Permies in Bayern, Hessen, ... (nicht Berlin, Sachsen), aber ...' }
+      , { offset => +60 , name => 'Corpus Christi Day = Fronleichnam = Fete-Dieu -- arbeitsfreier Tag für Permies in Bayern, Hessen, ... (nicht Berlin, Sachsen), aber ...' }
       );
 
   foreach my $rec ( @table )
@@ -668,7 +989,7 @@ sub job_advent_etc
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -680,7 +1001,7 @@ sub job_advent_etc
   #
   #   from http://de.wikipedia.org/wiki/Adventssonntag :
   # 	... 
-  # 	Der letzte Sonntag vor dem 25. Dezember, womit sich als fr�hestm�gliches Datum der 18. und als sp�testm�gliches der 24. Dezember ergibt. (JH: Sonntag zwischen YYYY-12-18..24)
+  # 	Der letzte Sonntag vor dem 25. Dezember, womit sich als frühestmögliches Datum der 18. und als spätestmögliches der 24. Dezember ergibt. (JH: Sonntag zwischen YYYY-12-18..24)
   # 	...
 
 # I derived my code here from
@@ -759,8 +1080,8 @@ sub job_advent_etc
   my(@Advent_4) = @prev;
 
   my(@table) =
-      ( { offset => -35 , name => 'Advent#-1 -- http://de.wikipedia.org/wiki/Volkstrauertag : ... seit 1952 ... -- Sunday after YYYY-11-11 -> http://de.wikipedia.org/wiki/Waffenstillstand_von_Compi�gne' }
-      , { offset => -32 , name => 'Advent#-0.5 -- http://de.wikipedia.org/wiki/Bu�-_und_Bettag // in manchen Bundesl�ndern (Sachsen) ein Feiertag' }
+      ( { offset => -35 , name => 'Advent#-1 -- http://de.wikipedia.org/wiki/Volkstrauertag : ... seit 1952 ... -- Sunday after YYYY-11-11 -> http://de.wikipedia.org/wiki/Waffenstillstand_von_Compiègne' }
+      , { offset => -32 , name => 'Advent#-0.5 -- http://de.wikipedia.org/wiki/Buß-_und_Bettag // in manchen Bundesländern (Sachsen) ein Feiertag' }
       , { offset => -28 , name => 'Advent#0 -- http://de.wikipedia.org/wiki/Totensonntag -> http://de.wikipedia.org/wiki/Ewigkeitssonntag' }
       , { offset => -21 , name => 'Advent#1' }
       , { offset => -14 , name => 'Advent#2' }
@@ -807,7 +1128,7 @@ sub job_muttertag
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -938,7 +1259,7 @@ sub job_xdays_around_today
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1012,7 +1333,7 @@ sub min_2_hhh_mm
   #my(%param) = @_;
   my($min) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1041,7 +1362,7 @@ sub min_2_hh_mm
   #my(%param) = @_;
   my($min) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1070,7 +1391,7 @@ sub min_2_hhDOTmm
   #my(%param) = @_;
   my($min) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1135,7 +1456,7 @@ sub initialise
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1369,7 +1690,7 @@ sub terminalise
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1478,7 +1799,7 @@ sub set_day
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1504,7 +1825,7 @@ sub proc_entry
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
@@ -1693,7 +2014,7 @@ sub aux_
 
   my(%param) = @_;
 
-  $return_value = 0;
+  my($return_value) = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};

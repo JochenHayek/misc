@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Date iCal//NONSGML kigkonsult.se iCalcreator 2.20.2//
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:STANDARD
+DTSTART:20181028T030000
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20190331T020000
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:calendar.5975.field_date_multi.0@www.jmberlin.de
+DTSTAMP:20181229T214941Z
+CREATED:20181219T105742Z
+DESCRIPTION:Aktuelle Informationen zu dieser Veranstaltung finden Sie hier:
+  https://www.jmberlin.de/node/5975\nVeranstaltungskalender: https://www.jm
+ berlin.de/kalender
+DTSTART;TZID=Europe/Berlin:20190119T140000
+DTEND;TZID=Europe/Berlin:20190119T160000
+LAST-MODIFIED:20181219T110102Z
+LOCATION:Hamburger Bahnhof\, Museum für GegenwartInvalidenstraße 50–51\, 10
+ 557 Berlin
+SUMMARY:Maler. Mentor. Magier. Otto Mueller und sein Netzwerk in Breslau
+URL;TYPE=URI:https://www.jmberlin.de/freundeskreis-kuratorenfuehrung-otto-m
+ ueller-hamburger-bahnhof
+END:VEVENT
+END:VCALENDAR

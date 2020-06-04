@@ -45,25 +45,117 @@ do
     -CreateDate -DateTimeOriginal -FileAccessDate -FileInodeChangeDate -FileModifyDate -ModifyDate -PowerUpTime -SubSecCreateDate -SubSecDateTimeOriginal -SubSecModifyDate \
     "${filename}" | 
 
-  perl \
+  perl -MFile::Basename \
     -s \
     -ne '
 
     if(m/^ FileName   \s* : \s+ (?<FileName>.*)                 /x)
       {
-	$FileName = $+{FileName};
+	$filename = $+{FileName};
+
+	if   ( $filename =~ m/\.jpg/x )
+	  {
+	    our($basename) = basename($filename,".jpg");
+	  }
+	elsif( $filename =~ m/\.jpeg/x )
+	  {
+	    our($basename) = basename($filename,".jpeg");
+	  }
+
+	our($dirname)  = dirname($filename);
       }
-    elsif(m/^ (?<Date>\S*) \s* : \s+ (?<Y>....).(?<m>..).(?<d>..).(?<H>..).(?<M>..).(?<S>..) /x)
+    elsif(m/^ (?<n>\S*) \s* : \s+ (?<v> (?<Y>....).(?<m>..).(?<d>..).(?<H>..).(?<M>..).(?<S>..) ) /x)
       {
-	$Date = $+{Date};
+        my(%plus) = %+;
 
-      ##$time_stamp = "$+{Y}$2$3$4$5$6";
-	$time_stamp = "$+{Y}$+{m}$+{d}$+{H}$+{M}$+{S}";
+	$ts_YmdHMS  = "$+{Y}$+{m}$+{d}$+{H}$+{M}$+{S}";
+	$ts_YmdHM_S = "$+{Y}$+{m}$+{d}$+{H}$+{M}.$+{S}";
 
-      ##print "mv \"${FileName}\" \"${time_stamp}--${FileName}\" # \$Date=>{$Date}\n";
-	print "mv \"${FileName}\" \"999990-000--${time_stamp}--${FileName}\" # \$Date=>{$Date}\n";
+	print "mv \"${filename}\" \"999990-000--${ts_YmdHMS}--${filename}\" # $n=>{$v}\n"
+	  if 0;
+
+	func(
+	    dirname    => $dirname , 
+	    filename   => $filename ,
+	    basename   => $basename ,
+	    ts_YmdHMS  => $ts_YmdHMS ,
+	    ts_YmdHM_S => $ts_YmdHM_S ,
+            n          => $plus{n} ,
+            v          => $plus{v} ,
+	  );
       }
+
+  ##sub create_command_line_rename_as_vouchers
+    sub func
+    {
+      my($package,$filename,$line,$proc_name) = caller(0);
+
+      my(%param) = @_;
+
+      my($return_value) = 0;
+
+      # ----------
+
+      printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
+	$param{filename},
+	$param{dirname} , "999990-000" , $param{ts_YmdHMS} , $param{basename} , "jpg" ,
+	$param{n} => $param{v},
+	$param{filename},
+	;
+
+      # ----------
+
+      return $return_value;
+    }
+
+    sub create_command_line_rename_versioned
+  ##sub func
+    {
+      my($package,$filename,$line,$proc_name) = caller(0);
+
+      my(%param) = @_;
+
+      my($return_value) = 0;
+
+      # ----------
+
+      printf "mv \"%s\" \"%s/%s.%s.%s\" # %20s=>{%s} // %s\n",
+	$param{filename},
+	$param{dirname} , $param{basename} , $param{ts_YmdHMS} , "jpg" ,
+	$param{n} => $param{v},
+	$param{filename},
+	;
+
+      # ----------
+
+      return $return_value;
+    }
+
+    sub create_command_line_touch
+  ##sub func
+    {
+      my($package,$filename,$line,$proc_name) = caller(0);
+
+      my(%param) = @_;
+
+      my($return_value) = 0;
+
+      # ----------
+
+      printf "touch -t \"%s\" \"%s\" # %20s=>{%s}\n",
+	$param{ts_YmdHM_S} ,
+	$param{filename} ,
+	$param{n} => $param{v},
+	;
+
+      # ----------
+
+      return $return_value;
+    }
 
   ' \
-  -- -Date=${Date} "-filename=${filename}"
+  -- -Date=${Date} "-filename=${filename}" |
+
+  sort
+
 done

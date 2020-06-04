@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Date iCal//NONSGML kigkonsult.se iCalcreator 2.20.2//
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:STANDARD
+DTSTART:20181028T030000
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20190331T020000
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:calendar.5959.field_date_multi.0@www.jmberlin.de
+DTSTAMP:20181229T221728Z
+CREATED:20181207T093551Z
+DESCRIPTION:Aktuelle Informationen zu dieser Veranstaltung finden Sie hier:
+  https://www.jmberlin.de/node/5959\nVeranstaltungskalender: https://www.jm
+ berlin.de/kalender
+DTSTART;TZID=Europe/Berlin:20190127T180000
+DTEND;TZID=Europe/Berlin:20190127T200000
+LAST-MODIFIED:20181220T132429Z
+LOCATION:Altbau EG\, Glashof Lindenstraße 9–14\, 10969 Berlin
+SUMMARY:Die Laskers aus Breslau
+URL;TYPE=URI:https://www.jmberlin.de/lesung-und-konzert-die-laskers-aus-bre
+ slau
+END:VEVENT
+END:VCALENDAR
