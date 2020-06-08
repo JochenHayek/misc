@@ -171,7 +171,7 @@ printf 1>&2 "\n%s: executing:\n\n\t%s\t\t\t%s %s %s %s %s\n" "${script}" \
 
 # 4) insert the "--left=..." after "--debug" on a separate line:
 
-####  --left={0,172,466,626,683}
+####  --left={0,217,299,384,468,551,632,714,796,879,962,1044,1127}
 "${perl_script}" --debug \
   --pdftohtml_xml_file="${tmp_pdftohtml_xml_fn_without_extension}.xml" \
   --orig_file="${param_filename}" \
