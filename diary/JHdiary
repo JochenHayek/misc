@@ -139,9 +139,19 @@ sub main
   # example
   # =======
   #
-  # cd ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary--job_match_timed_tag_with_body.t/
-  #    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=paypal      ~/diary
-  #    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=payback_pay ~/diary
+  # $ cd ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary--job_match_timed_tag_with_body.t/
+  # $    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=paypal      ~/diary
+  # $    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=payback_pay ~/diary
+  # 
+  # all the little pieces (diary entries) extracted from "a diary" (resp. *the* diary)
+  # got created *into* the "*current* directory" (wherever that is),
+  # so make sure you make the right directory your "current directory".
+  # 
+  # CAVEAT: because of the way we match the "pieces" (perl \w),
+  #   "pieces" which unexpectedly contain non-\w break the processing.
+  #   this is how we can do some consistency checking:
+  # 
+  # $ perl -ne 'm/,payee_(?<payee>[^,]+?)[,\]]/ && do { $p = $+{payee}; ($p =~ m/\s/) && print }' ~/diary
   #
   ################################################################################
   #
