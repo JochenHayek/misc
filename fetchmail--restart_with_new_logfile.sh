@@ -1,9 +1,5 @@
 :
 
-# Time-stamp: <2020-06-14 18:15:34 johayek>
-# $Id: fetchmail--restart_with_new_logfile.sh 1.5 2020/06/14 16:27:41 johayek Exp johayek $
-# $Source: /Users/johayek/Computers/Software/Operating_Systems/Unix/Shell/RCS/fetchmail--restart_with_new_logfile.sh $
-
 # * supposed to be run on jhk00-domains@jhk00.hostsharing.net
 # * script "lives"     on jhk00-domains@jhk00.hostsharing.net : $HOME/Computers/Software/Operating_Systems/Unix/Shell/
                                                         log_dir=$HOME/var/log
