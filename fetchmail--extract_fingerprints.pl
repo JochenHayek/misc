@@ -1,7 +1,6 @@
 #! /usr/bin/perl -w
 
-# $Id: fetchmail--extract_fingerprints.pl 1.14 2014/12/18 00:19:51 johayek Exp johayek $ Jochen Hayek
-# $Source: /home/jochen_hayek/Computers/Programming/Languages/Perl/RCS/fetchmail--extract_fingerprints.pl $
+# git-servers/github.com/JochenHayek/misc/fetchmail--extract_fingerprints.pl
 
 ################################################################################
 
@@ -41,6 +40,20 @@
 
   $now_string = strftime "%Y-%m-%d-%H-%M-%S", localtime;
 
+  my(%month_name2no) =
+    ( 'Jan' =>  1,
+      'Feb' =>  2,
+      'Mar' =>  3,
+      'Apr' =>  4,
+      'May' =>  5,
+      'Jun' =>  6,
+      'Jul' =>  7,
+      'Aug' =>  8,
+      'Sep' =>  9,
+      'Oct' => 10,
+      'Nov' => 11,
+      'Dec' => 12);
+ 
   while(<>)
     {
 
@@ -55,7 +68,12 @@
 
 	  if ( $time =~ m/^ (?<wday>\S+) \s+ (?<month>\S+) \s+ (?<day>\d+) \s+ (?<HHMMSS>\S+) \s+ (?<year>\d+) $/x )
 	    {
-	      $now_string = "$+{year}-$+{month}-$+{day} $+{HHMMSS}";
+	    ##$now_string = "$+{year}-$+{month}-$+{day} $+{HHMMSS}";
+	      $now_string = sprintf "%s-%02.2d-%02.2d %s",
+	        $+{year},
+	        $month_name2no{ $+{month} },
+	        $+{day},
+	        $+{HHMMSS};
 
 	      printf STDOUT "    # {%s}\n",$now_string
 		if 0;
