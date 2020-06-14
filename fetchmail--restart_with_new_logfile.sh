@@ -24,4 +24,5 @@ ls --format=long --no-group --time-style="+%F %T" --human-readable "${log_dir}"
 
 echo "*** maybe you want to archive these log files here occasionally: ${archive_dir}"
 
+touch 			      "${fetchmail_log}"
 fetchmail --verbose --logfile "${fetchmail_log}"		# backgrounding by itself
