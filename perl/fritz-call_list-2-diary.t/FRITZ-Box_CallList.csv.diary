@@ -1,0 +1,9 @@
+16 Jun 2020
+	08:20 + 0:00 [_,telecom,phone_call,Type=>missed_incoming_call] From: "" <0245295999@fon>; To: "" <016090104999@fon>; Subject: ...
+
+18 Jun 2020
+	08:27 + 0:01 [_,telecom,phone_call,Type=>incoming_call] From: "JGDBX" <017173370266@fon>; To: "MT-F 80" <016090104999@fon>; Subject: ...
+
+18 Jun 2020
+	10:58 + 0:01 [_,telecom,phone_call,Type=>outgoing_call] From: "MT-F 80" <Internet: 21479999@fon>; To: "CSX" <04024739350@fon>; Subject: ...
+
