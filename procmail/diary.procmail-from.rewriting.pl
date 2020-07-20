@@ -165,6 +165,14 @@ sub func
 # 		 TO: <Jochen+FRITZ-Box-Anrufe-4916090105555@Hayek.name>,;
 # 		 SUBJECT: Call from 017639957540;
 # 		 Folder: .topics-computers.admin/new/1587990387.30031_1.h20
+#
+# 19 Jul 2020
+#         18:03:35 +0200 [_,not_SPF_mangled] From: Jochen+FRITZ-Box@Hayek.name;
+#                  FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>;
+#                  TO: <Jochen+FB-Faxfunktion@Hayek.name>,;
+#                  SUBJECT: Fax from 035323685979;
+#                  Folder: .topics-computers.admin-avm/new/1595174616.30889_1.h20
+
 
   #- : \[?<tags>[^\]]*?\] \s+
   #? : \[(?<tags>[^\]]*?)\] \s+
@@ -180,7 +188,7 @@ sub func
 	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ ([^;]+); \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <[^>]+>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion|FB-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller>[^;]+?) ( \s+ \( (?<caller_number>\d+) \) ) ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
@@ -191,7 +199,7 @@ sub func
 	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ Jochen \+ FRITZ-Box.*\@Hayek\.name; \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen \+ FRITZ-Box.*\@Hayek\.name>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*)\@Hayek\.name ) >\,; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion|FB-Faxfunktion) - (?<phone_number>.*)\@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller>[^;]*?) ( \s+ \( (?<caller_number>\d+) \) )? ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
@@ -207,7 +215,7 @@ sub func
 	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ ([^;]+); \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <[^>]+>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion|FB-Faxfunktion) - (?<phone_number>.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller_number>\d+) ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
@@ -218,7 +226,7 @@ sub func
 	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ Jochen \+ FRITZ-Box.*\@Hayek\.name; \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen \+ FRITZ-Box.*\@Hayek\.name>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) - (?<phone_number>.*)\@Hayek\.name ) >\,; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion|FB-Faxfunktion) - (?<phone_number>.*)\@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller_number>\d+) ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
@@ -234,7 +242,7 @@ sub func
 	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ ([^;]+); \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <[^>]+>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) (?<ignored_part>.*) \@Hayek\.name ) >\,; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion|FB-Faxfunktion) (?<ignored_part>.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller>[^;]+?) ( \s+ \( (?<caller_number>\d+) \) ) ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
@@ -245,7 +253,7 @@ sub func
 	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ Jochen \+ FRITZ-Box.*\@Hayek\.name; \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen \+ FRITZ-Box.*\@Hayek\.name>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) (?<ignored_part>.*) \@Hayek\.name ) >\,; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion|FB-Faxfunktion) (?<ignored_part>.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller>[^;]*?) ( \s+ \( (?<caller_number>\d+) \) )? ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
@@ -262,7 +270,7 @@ sub func
 	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ ([^;]+); \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <[^>]+>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) (?<ignored_part>.*) \@Hayek\.name ) >\,; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion|FB-Faxfunktion) (?<ignored_part>.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller_number>\w+) ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
@@ -273,7 +281,7 @@ sub func
 	         \[(?<tags>[^\]]*?)] \s+
 		 From	: \s+ Jochen \+ FRITZ-Box.*\@Hayek\.name; \s+
 		 FROM	: \s+ (?<callee_0>"[^"]*") \s+ <Jochen \+ FRITZ-Box.*\@Hayek\.name>; \s+
-		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion) (?<ignored_part>.*) \@Hayek\.name ) >\,; \s+
+		 TO  	: \s+ < (?<callee_1> Jochen \+ (FRITZ-Box-Anrufe|FRITZ-Box-Anrufbeantworter|FRITZ-Box-Faxfunktion|FB-Faxfunktion) (?<ignored_part>.*) \@Hayek\.name ) >\,; \s+
 		 SUBJECT: \s+ (?<what>Call|Anruf|Fax|Nachricht) \s+ (from|von) \s+ (?<caller_number>\w+) ; \s+
 		 Folder : \s+ (?<Folder>\..*\/\S*)
 
