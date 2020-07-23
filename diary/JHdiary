@@ -467,7 +467,7 @@ sub job_match_timed_tag_with_body
 	  # and "perl grep" the list.
 	  # so far single tags cannot include certain characters, that I would quite like to include.
 
-	  if (    ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT
+	  if (    ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT – one of paypal and paymorrow
 	       && ( $tags =~ m/\b payee _ (?<payee>.*?) \b/x )
 	     )
 	    {
@@ -475,17 +475,17 @@ sub job_match_timed_tag_with_body
 
 	      $tags{payee} = defined($plus{payee}) ? $plus{payee} : '___';
 
-	      my($purpose) = '';
+	      $tags{purpose} = '___';
 
 	      # CAVEAT: matching_word_boundary_comes_with_deficits. // see above!
 
 	      if( $tags =~ m/\b purpose _ (?<purpose>.*?) \b/x )
 		{
-		  $purpose = "--$+{purpose}";
+		  $tags{purpose} = $+{purpose};
 		}
 
 	      # create&open the new file: "999990-000--${this_day}$details{time_HHMMSS}--$tags{payee}.$main::options{tag}.diary"
-	      my($fn) = "999990-000--$details{date_YYYYmmdd}$details{time_HHMMSS}--$tags{payee}${purpose}.$main::options{tag}.diary";
+	      my($fn) = "999990-000--$details{date_YYYYmmdd}$details{time_HHMMSS}--$tags{payee}--$tags{purpose}.$main::options{tag}.diary";
 
 	      open($fh,'>',$fn) || die "cannot open \$fn=>{$fn}";
 
@@ -608,6 +608,15 @@ sub job_match_timed_tag_with_body
 			'                     ,            ,            ', # prefix
 			'<payee>',
 			$details{payee},
+			;
+		    }
+
+		  if(defined($tags{purpose}))
+		    {
+		      printf $fh "%s,\"%s\",\"%s\"\n",
+			'                     ,            ,            ', # prefix
+			'<memo/JH>',
+			$tags{purpose},
 			;
 		    }
 		}
