@@ -3,6 +3,12 @@
 
 # usage: 
 #
+#     ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-2021-easter > ~/transfer/000diary/diary
+#
+#       *before*: check "strong monotony" of rhs like this:
+#
+#         perl -n -e 'm/^[^\s]/ && print' ~/transfer/000diary/diary-2021-easter | uniq --repeated
+#
 #     ...
 
 # purpose:
@@ -14,6 +20,9 @@
 # out:
 
 # requirements:
+#
+#    sadly enough I implemented strict monotony instead of non-strict monotony regarding lhs and rhs.
+#    (should have been easy (resp. not so much effort) to implement non-strict monotony.)
 
 # restrictions:
 #

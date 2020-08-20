@@ -1,10 +1,10 @@
 :
 
-# $ ~/Computers/Programming/Languages/Perl/table_pdf2csv.sh ...
+# $ ~/git-servers/github.com/JochenHayek/misc/pdf/table_pdf2csv.sh ...
 
-# find samples at ~/Computers/Programming/Languages/Perl/table_pdf2csv.dir/
+# find samples at ~/git-servers/github.com/JochenHayek/misc/pdf/table_pdf2csv.dir/
 
-# $ ~/Computers/Programming/Languages/Perl/table_pdf2csv.sh List_of_Disciplinary_Actions.pdf
+# $ ~/git-servers/github.com/JochenHayek/misc/pdf/table_pdf2csv.sh List_of_Disciplinary_Actions.pdf
 
 # derived from lohnabrechnung_pdf2xml.sh on 2012-01-07
 
@@ -160,6 +160,12 @@ fi
 #         Download am 19. Januar 2012 um 00:02 Uhr
 #         059
 
+# *--lehrerkuerzel.pdf
+# --left={0,39,166,213,342,469,516,645,772,819,948,1075,1122,1251,1378,1425}
+
+# *--Sonderplan--date-20200611--8xx.pdf
+# --left={0,217,299,384,468,551,632,714,796,879,962,1044,1127}
+
 printf 1>&2 "\n%s: executing:\n\n\t%s\t\t\t%s %s %s %s %s\n" "${script}" \
    "${perl_script} --debug --pdftohtml_xml_file=${tmp_pdftohtml_xml_fn_without_extension}.xml --orig_file=${param_filename}" '>' "${param_filename}.csv" '2>' "${param_filename}.log.txt"
 
@@ -171,7 +177,7 @@ printf 1>&2 "\n%s: executing:\n\n\t%s\t\t\t%s %s %s %s %s\n" "${script}" \
 
 # 4) insert the "--left=..." after "--debug" on a separate line:
 
-####  --left={0,172,466,626,683}
+####  --left={0,206,291,376,461,541,632,717,799,891,975,1068,1149}
 "${perl_script}" --debug \
   --pdftohtml_xml_file="${tmp_pdftohtml_xml_fn_without_extension}.xml" \
   --orig_file="${param_filename}" \

@@ -34,7 +34,7 @@ do :
     '...' \
     ;
 
-  if $HOME/Computers/Programming/Languages/Perl/hebcal2diary.pl -date_format="${date_format}" "${f}" > $(basename "${f}" .csv).diary
+  if $HOME/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.pl -date_format="${date_format}" "${f}" > $(basename "${f}" .csv).diary
   then :
   else :
     printf 1>&2 "=%03.3d: %s=>{%d} // %s\n" $LINENO \

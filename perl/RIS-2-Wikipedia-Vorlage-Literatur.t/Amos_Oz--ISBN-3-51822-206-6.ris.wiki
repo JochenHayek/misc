@@ -1,0 +1,11 @@
+{{Literatur
+ | Titel=Herr Levi. Erzählungen
+ | Originalsprache=he
+ | Typ=wl
+ | Autor=Amos Oz
+ | Übersetzer=Ruth Achlama
+ | Verlag=Suhrkamp
+ | Ort=Frankfurt am Main
+ | Datum=1996
+ | ISBN=3-51822-206-6
+}}
