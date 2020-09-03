@@ -1,5 +1,15 @@
 :
 
+# e.g.:
+# $ cd ~/git-servers/
+# $ ~/git-servers/github.com/JochenHayek/misc/shell/git-pulls.sh
+
+# e.g.:
+# $ cd ~/git-servers/github.com/JochenHayek/misc/
+# $ ~/git-servers/github.com/JochenHayek/misc/shell/git-pulls.sh
+
+################################################################################
+
 find . -type d -name .git |
 
 while read dir_git
