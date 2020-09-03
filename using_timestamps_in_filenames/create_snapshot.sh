@@ -132,7 +132,7 @@ do :
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
 	  'renaming from ... to ...'
-        "${MV}" --verbose "$i" "$dn/$bn.$date" ||
+        "${MV}" -v "$i" "$dn/$bn.$date" ||
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$dn/$bn.$date' "$dn/$bn.$date" \
@@ -183,7 +183,7 @@ do :
       ##cp --preserve 		   		"$i" $i.$date
       ##cp --preserve=mode,ownership,timestamps "$i" $i.$date
       ##cp --preserve=ownership,timestamps      "$i" $i.$date	# in the cygwin world this works best, otherwise: cp: preserving permissions for '...': Permission denied
-      	"${CP}" -p --verbose -p "$i" "$i.$date" ||
+      	"${CP}" -p -v "$i" "$i.$date" ||
 	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
 	  '$i' "$i" \
 	  '$i.$date' "$i.$date" \
