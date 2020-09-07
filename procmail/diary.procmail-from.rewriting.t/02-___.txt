@@ -1,6 +1,0 @@
-28 Apr 2020
-	11:02:35 +0200 [_,not_SPF_mangled] From: Jochen+FRITZ-Box@Hayek.name;
-		 FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>;
-		 TO: <Jochen+FRITZ-Box-Anrufe-4916090104554@Hayek.name>,;
-		 SUBJECT: Call from Kache,Cordula (01772448179);
-		 Folder: .topics-computers.admin/new/1588064556.12806_1.h20

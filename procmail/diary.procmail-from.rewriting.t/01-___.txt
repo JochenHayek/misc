@@ -1,6 +1,0 @@
-28 Apr 2020
-	09:28:03 +0200 [_,not_SPF_mangled] From: Jochen+FRITZ-Box@Hayek.name;
-		 FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>;
-		 TO: <Jochen+FRITZ-Box-Anrufe-4916090104554@Hayek.name>,;
-		 SUBJECT: Call from *recruit:solcom@MUC (089599907515);
-		 Folder: .topics-computers.admin/new/1588058884.7591_1.h20

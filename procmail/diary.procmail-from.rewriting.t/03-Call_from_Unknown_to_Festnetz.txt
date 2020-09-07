@@ -1,6 +1,0 @@
-28 Apr 2020
-	11:59:39 +0200 [_,not_SPF_mangled] From: Jochen+FRITZ-Box@Hayek.name;
-		 FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>;
-		 TO: <Jochen+FRITZ-Box-Anrufe@Hayek.name>,;
-		 SUBJECT: Call from Unknown;
-		 Folder: .topics-computers.admin/new/1588067980.22367_1.h20

@@ -68,6 +68,59 @@ sub func
 
   ################################################################################
 
+  # 05 Sep 2020
+  # 	10:48:15 -0700 [_,not_SPF_mangled,paypal] From: service@paypal.de;
+  # 		FROM: "service@paypal.de" <service@paypal.de>;
+  # 		TO: Jochen Hayek <Jochen+paypal@Hayek.name>;
+  # 		SUBJECT: Your payment to PRIMARK BERLIN ZOOM for 17,55 EUR;
+  # 		Folder: .topics-finance.paypal/new/1599328100.9506_1.h20;
+  #
+  # ->
+  #
+  # 05 Sep 2020
+  #     19:48:15 (10:48:15 -0700) [_,not_SPF_mangled,paypal] From: service@paypal.de;
+  # 		FROM: "service@paypal.de" <service@paypal.de>;
+  # 		TO: Jochen Hayek <Jochen+paypal@Hayek.name>;
+  # 		SUBJECT: Your payment to PRIMARK BERLIN ZOOM for 17,55 EUR;
+  # 		Folder: .topics-finance.paypal/new/1599328100.9506_1.h20;
+  #
+
+  if( $param{rec} =~ m{
+
+		     (?<d>\d\d) \s (?<b>[A-Za-z][a-z][a-z]) \s (?<Y>\d\d\d\d) (?<between_date_and_time>\s+)
+		     (?<H>\d\d):(?<M>\d\d):(?<S>\d\d) \s (?<DST> (?<DST_sign>[+-]) (?<DST_HH>\d\d) (?<DST_MM>00) ) ( \s+ (?<DST_zone_name> \( [a-z][a-z][a-z] \) ) )? \s \[
+
+	}gix
+    )
+  {
+    my(%plus) = %+;
+
+  ##my($current_German_DST_shift) = '1';	# winter time in +49
+    my($current_German_DST_shift) = '2';	# summer time in +49
+
+    if($plus{DST} eq "+0${current_German_DST_shift}00")
+      {}
+    else
+      {
+	my($new_H) = sprintf "%02.2d", $plus{H} + $current_German_DST_shift - "$plus{DST_sign}$plus{DST_HH}";
+
+	my($extended_orig_DST_zone_name) = defined($plus{DST_zone_name}) ? " $plus{DST_zone_name}" : '';
+
+	# temporarily prepend this to the time string during development, if needed:
+	#
+	#   ((($plus{DST_sign}$plus{DST_HH}:$plus{DST_sign}$plus{DST_HH}$plus{DST_MM}:$new_H)))
+
+	$param{rec} =~ s{
+
+		       (?<d>\d\d) \s (?<b>[A-Za-z][a-z][a-z]) \s (?<Y>\d\d\d\d) (?<between_date_and_time>\s+)
+		       (?<H>\d\d):(?<M>\d\d):(?<S>\d\d) \s (?<DST_sign>[+-])(?<DST_HH>\d\d)(?<DST_MM>00) ( \s+ (?<DST_zone_name> \( [a-z][a-z][a-z] \) ) )? \s \[
+
+	  }{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_H}:$+{M}:$+{S} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
+      }
+  }
+
+  ################################################################################
+
   # de.wikipedia.org
 
   # sample:

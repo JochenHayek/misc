@@ -1,6 +1,0 @@
-27 Apr 2020
-	14:26:27 +0200 [_,not_SPF_mangled] From: Jochen+FRITZ-Box@Hayek.name;
-		 FROM: "Jochen Hayek's FRITZ!Box 7590 @BER" <Jochen+FRITZ-Box@Hayek.name>;
-		 TO: <Jochen+FRITZ-Box-Anrufe-4916090105555@Hayek.name>,;
-		 SUBJECT: Call from 017635557555;
-		 Folder: .topics-computers.admin/new/1587990387.30031_1.h20
