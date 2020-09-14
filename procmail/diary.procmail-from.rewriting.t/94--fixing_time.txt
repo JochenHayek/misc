@@ -1,0 +1,6 @@
+07 Sep 2020
+	08:52:48 +0200 [_,not_SPF_mangled] From: Jochen+FRITZ-Box@Hayek.name;
+		 FROM: "FRITZ!Box @ Winterfeldtplatz" <Jochen+FRITZ-Box@Hayek.name>;
+		 TO: <Jochen+FRITZ-Box-Winterfeldtplatz@Hayek.name>,;
+		 SUBJECT: Änderungsnotiz - Anmeldung;
+		 Folder: .topics-computers.admin-avm/new/1599461568.31103_1.h20

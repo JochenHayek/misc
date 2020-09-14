@@ -1,0 +1,6 @@
+04 Sep 2020
+	07:37:21 +0000 [_,not_SPF_mangled] From: j.hayek@atenekom.eu;
+		 FROM: "Hayek, Jochen" <j.hayek@atenekom.eu>;
+		 TO: personal-atenekom <personal@atenekom.eu>;
+		 SUBJECT: Einführungsveranstaltung Arbeitsschutzunterweisung am Standort Eldenaer Straße;
+		 Folder: .folder-biz.prio-0/new/1599205045.19034_1.h20

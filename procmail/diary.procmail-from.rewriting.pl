@@ -88,7 +88,10 @@ sub func
   if( $param{rec} =~ m{
 
 		     (?<d>\d\d) \s (?<b>[A-Za-z][a-z][a-z]) \s (?<Y>\d\d\d\d) (?<between_date_and_time>\s+)
-		     (?<H>\d\d):(?<M>\d\d):(?<S>\d\d) \s (?<DST> (?<DST_sign>[+-]) (?<DST_HH>\d\d) (?<DST_MM>00) ) ( \s+ (?<DST_zone_name> \( [a-z][a-z][a-z] \) ) )? \s \[
+		     (?<H>\d\d):(?<M>\d\d):(?<S>\d\d) \s 
+		     (?<DST> (?<DST_sign>[+-]) (?<DST_HH>\d\d) (?<DST_MM>\d0) ) 
+		     ( \s+ (?<DST_zone_name> \( [a-z][a-z][a-z] \) ) )? 
+		     \s \[
 
 	}gix
     )
@@ -113,7 +116,10 @@ sub func
 	$param{rec} =~ s{
 
 		       (?<d>\d\d) \s (?<b>[A-Za-z][a-z][a-z]) \s (?<Y>\d\d\d\d) (?<between_date_and_time>\s+)
-		       (?<H>\d\d):(?<M>\d\d):(?<S>\d\d) \s (?<DST_sign>[+-])(?<DST_HH>\d\d)(?<DST_MM>00) ( \s+ (?<DST_zone_name> \( [a-z][a-z][a-z] \) ) )? \s \[
+		       (?<H>\d\d):(?<M>\d\d):(?<S>\d\d) \s 
+		       (?<DST_sign>[+-])(?<DST_HH>\d\d)(?<DST_MM>\d0) 
+		       ( \s+ (?<DST_zone_name> \( [a-z][a-z][a-z] \) ) )? 
+		       \s \[
 
 	  }{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_H}:$+{M}:$+{S} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
       }
