@@ -53,6 +53,8 @@
       'Oct' => 10,
       'Nov' => 11,
       'Dec' => 12);
+
+  my($exit_value) = 0;
  
   while(<>)
     {
@@ -111,8 +113,13 @@
 	    $plus{all},
 	    ( $plus{middle} eq '' ) ? '' : '# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' 
 	    if 1;
+
+	  $exit_value = 1
+	    if $plus{middle} ne '';
 	}
     }
+
+  exit($exit_value);
 }
 #
 sub format_key_value_list
