@@ -168,6 +168,19 @@ fi
 # *--Sonderplan--date-20200611--8xx.pdf
 # --left={0,217,299,384,468,551,632,714,796,879,962,1044,1127}
 
+################################################################################
+#
+# atene KOM Telefonverzeichnis:
+#
+# Telefonverzeichnis_atene_KOM*.pdf
+# --left={0,231,393,733,879,993,1083}
+#
+# post-processing:
+#
+#   > \(\+49[0-9 ]*\)",, → ","\1",
+#
+################################################################################
+
 printf 1>&2 "\n%s: executing:\n\n\t%s\t\t\t%s %s %s %s %s\n" "${script}" \
    "${perl_script} --debug --pdftohtml_xml_file=${tmp_pdftohtml_xml_fn_without_extension}.xml --orig_file=${param_filename}" '>' "${param_filename}.csv" '2>' "${param_filename}.log.txt"
 
