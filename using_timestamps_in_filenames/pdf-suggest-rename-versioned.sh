@@ -12,7 +12,7 @@
 ################################################################################
 
 pdfinfo 2>/dev/null
-if test $? -eq 127		# the shell cannot find the utility
+if test $? -ne 127		# the shell cannot find the utility
 then             PDFINFO=pdfinfo
 ##  echo 1>&2 "*** $0: cannot find pdfinfo"
 ##  exit 1
