@@ -177,7 +177,19 @@ fi
 #
 # post-processing:
 #
+#   remove the first three "technical" columns!
+#
+#   new column names:
+#
+#     "Family Name","Given Name","Location","Organization 1 - Title","Phone 1 - Value","Mobile","Phone 2 - Value","Organization 1 - Department"
+#
 #   > \(\+49[0-9 ]*\)",, → ","\1",
+#
+#   separate "Family Name" and "Given Name"!
+#
+#   ...
+#
+#   test loading using OpenOffice spreadsheet utility!
 #
 ################################################################################
 
