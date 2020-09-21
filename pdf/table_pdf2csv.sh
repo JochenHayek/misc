@@ -17,7 +17,8 @@ perl_script=$( dirname "$0" )/$(basename "$0" .sh ).pl
 # on OS X use our self-compiled pdftohtml-0.40a at 
 
 ##pdftohtml=$HOME/usr/local/bin/pdftohtml
-  pdftohtml=pdftohtml
+##pdftohtml=pdftohtml
+  pdftohtml=$HOME/bin/pdftohtml
 
 ################################################################################
 
@@ -76,7 +77,8 @@ printf 1>&2 "=%03.3d: %s=>{%s} // %s\n" $LINENO \
 
 ################################################################################
 
-tmp_dir=$( mktemp --directory /tmp/XXXXXXX )
+##tmp_dir=$( mktemp --directory /tmp/XXXXXXX )
+  tmp_dir=$( mktemp -d          /tmp/XXXXXXX )
 
 tmp_pdftohtml_xml_fn_without_extension="${tmp_dir}/pdftohtml-xml"
 
@@ -203,7 +205,7 @@ then :
     '$tmp_dir' "$tmp_dir" \
     'going to remove ...' \
     ;
-  rm --verbose -r "${tmp_dir}"
+  rm -v -r "${tmp_dir}"
 else :
   printf 1>&2 "=%03.3d: %s=>{%s} // %s\n" $LINENO \
     '$tmp_dir' "$tmp_dir" \
