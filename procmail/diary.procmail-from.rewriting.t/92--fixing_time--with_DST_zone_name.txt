@@ -1,0 +1,12 @@
+06 Sep 2020
+	15:53:09 +0000 (UTC) [_,not_SPF_mangled] From: calainbf@yahoo.com;
+		 FROM: Jeffrey  Brian <calainbf@yahoo.com>;
+		 TO:;
+		 SUBJECT: INVESTMENT / BUSINESS PARTNERSHIP.;
+		 Folder: /home/pacs/jhk00/users/domains/Maildir/.folder-suspicious._m
+06 Sep 2020
+	16:57:53 +0000 (UTC) [_,not_SPF_mangled] From: bounces+8552400-e55d-jochenplusmedimops=hayek.name@em9086.medimops.de;
+		 FROM: "medimops.de" <bitte-kontaktformular-verwenden@medimops.de>;
+		 TO: Jochen Hayek <jochenPLUSmedimops@hayek.name>;
+		 SUBJECT: medimops Wieder Da-E-Mail;
+		 Folder: .topics-finance.shopping-bulk/new/1599411477.1932_1.h20

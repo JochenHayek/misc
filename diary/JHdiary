@@ -4,31 +4,6 @@
 
 # OS X: /usr/bin/perl
 
-{
-  ($emacs_Time_stamp) = 'Time-stamp: <2020-05-06 17:04:23 johayek>' =~ m/^Time-stamp: <(.*)>$/;
-
-  '' =~ m/`/;
-
-  ( $rcs{Id} , $rcs{RCSfile} , $rcs{Revision} , $rcs{Date} , $rcs{Author} , $rcs{State} ) =
-
-    '$Id: JHdiary 1.114 2017/11/23 16:47:32 johayek Exp johayek $' =~
-
-      m(^ \ \s
-
-          (
-               (\S+)		# RCSfile
-            \s (\S+)		# Revision
-            \s (\S+ \s \S+)	# Date
-            \s (\S+)		# Author
-            \s (\S+)		# State
-            .*
-          )
-
-          \s \$ $)x;
-
-  '' =~ m/`/;
-}
-
 # usage: 
 #
 #     ...
@@ -101,15 +76,9 @@ sub main
   use Getopt::Long;
   %options = ();
 
-  $main::options{debug} = 1;
+  $main::options{debug} = 0;
 
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$rcs_Id',$rcs_Id
-    if 0 && $main::options{debug};
-  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-    ,'$emacs_Time_stamp',$emacs_Time_stamp
     if 0 && $main::options{debug};
 
   {
@@ -165,23 +134,26 @@ sub main
        );
   $result || die 'GetMain::Options failed';
 
+  ################################################################################
   #
   # example
   # =======
   #
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_match_timed_tag_with_body --tag=paypal
+  # $ cd ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary--job_match_timed_tag_with_body.t/
+  # $    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=paypal      ~/diary
+  # $    ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2021-01-01 --job_match_timed_tag_with_body --tag=payback_pay ~/diary
+  # 
+  # all the little pieces (diary entries) extracted from "a diary" (resp. *the* diary)
+  # got created *into* the "*current* directory" (wherever that is),
+  # so make sure you make the right directory your "current directory".
+  # 
+  # CAVEAT: because of the way we match the "pieces" (perl \w),
+  #   "pieces" which unexpectedly contain non-\w break the processing.
+  #   this is how we can do some consistency checking:
+  # 
+  # $ perl -ne 'm/,payee_(?<payee>[^,]+?)[,\]]/ && do { $p = $+{payee}; ($p =~ m/\s/) && print }' ~/diary
   #
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_match_timed_tag_with_body --tag=paypal      ~/diary.procmail-from > ~/tmp/diary.procmail-from.paypal.REF
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_match_timed_tag_with_body --tag=paypal      ~/diary.procmail-from > ~/tmp/diary.procmail-from.paypal
-  #
-  # cd ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary.t/
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_match_timed_tag_with_body --tag=paypal                            > ~/tmp/diary.paypal
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2020-12-99 --job_match_timed_tag_with_body --tag=paypal      ~/diary               > ~/tmp/diary.paypal
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2019-01-01 --to=2020-12-99 --job_match_timed_tag_with_body --tag=payback_pay ~/diary               > ~/tmp/diary.payback_pay
-  #
-  # diff ~/tmp/diary.procmail-from.paypal.REF ~/tmp/diary.procmail-from.paypal
-  #
-  ##################################################
+  ################################################################################
   #
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary                                   --job_tag_match --tag=paypal
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=1998-01    --to=1998-01-99 --job_tag_match --tag=travel
@@ -210,16 +182,8 @@ sub main
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag    --this_year=2004
   #
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
-
-  if($main::options{version})
-    {
-       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-	 ,'$rcs_Id',$rcs_Id
-	 ;
-       printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
-	 ,'$emacs_Time_stamp',$emacs_Time_stamp
-	 ;
-    }
+  #
+  ################################################################################
 
   if   ($main::options{job_tag_match			}) { &job_tag_match			; }
   elsif($main::options{job_match_timed_tag_with_body	}) { &job_match_timed_tag_with_body	; }
@@ -258,10 +222,8 @@ sub job_tag_match
     }
 
   my($tags);
-  my($date_YYYY_mm_dd);
-  my($date_YYYYmmdd);
 
-  my($time_HHMMSS);
+  my(%details);
 
   while (<>)
     {
@@ -275,10 +237,10 @@ sub job_tag_match
 	  $month        = $::month_names__short2no{$2};
 	  $year         = $3;
 
-	  $date_YYYY_mm_dd = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
-	  $date_YYYYmmdd   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
+	  $details{date_YYYY_mm_dd} = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+	  $details{date_YYYYmmdd}   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
 
-	  $time_HHMMSS = '';
+	  $details{time_HHMMSS} = '';
 
 	  if (0 && $main::options{debug})
 	    {
@@ -290,7 +252,7 @@ sub job_tag_match
 	  if (1 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		;
 	    }
 	}
@@ -307,18 +269,18 @@ sub job_tag_match
 	  if (0 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		;
 	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
 		,'$tags',$tags
 		;
 	    }
 
-	  if( $main::options{from} le $date_YYYY_mm_dd && $date_YYYY_mm_dd le $main::options{to} )
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date_YYYY_mm_dd',$date_YYYY_mm_dd
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	    }
@@ -326,7 +288,7 @@ sub job_tag_match
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date_YYYY_mm_dd',$date_YYYY_mm_dd
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	      next;
@@ -351,19 +313,19 @@ sub job_tag_match
 		{
 		  my(%plus) = %+;
 
-		  $time_HHMMSS = $plus{HH} . $plus{MM} . $plus{SS};
+		  $details{time_HHMMSS} = $plus{HH} . $plus{MM} . $plus{SS};
 
 		  if (1 && $main::options{debug})
 		    {
 		      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s}\n",__LINE__,$.
-			,'$date_YYYYmmdd',$date_YYYYmmdd
-			,'$time_HHMMSS',$time_HHMMSS
+			,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+			,'$details{time_HHMMSS}',$details{time_HHMMSS}
 			;
 		    }
 		}
-	    ##elsif( ($time_HHMMSS ne '') && m/^ (?<body_line> \t .*)      $/x)
+	    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
 	    ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
-	    ##elsif( ($time_HHMMSS ne '') && m/^ (?<body_line> \t .*)      $/x)
+	    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
 	      elsif( 			     m/^ (?<body_line> \t .*)      $/x)
 		{
 		  my(%plus) = %+;
@@ -371,8 +333,8 @@ sub job_tag_match
 		  if (1 && $main::options{debug})
 		    {
 		      printf STDOUT "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
-			,'$date_YYYYmmdd',$date_YYYYmmdd
-			,'$time_HHMMSS',$time_HHMMSS
+			,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+			,'$details{time_HHMMSS}',$details{time_HHMMSS}
 			,'$plus{body_line}',$plus{body_line}
 			;
 		    }
@@ -406,17 +368,18 @@ sub job_match_timed_tag_with_body
       die "I need at least a tag.";
     }
 
-  my($tags);
-  my($date_YYYY_mm_dd);
-  my($date_YYYYmmdd);
-
-  my($time_HHMMSS);
-
   my($fh);
+
+  my($paymorrow_p) = 0;
+
+  my($tags);
+  my(%tags);
+
+  my(%details);
+  $details{time_HHMMSS} = '';
 
   while (<>)
     {
-
       if(m/^(\d\d) (\w\w\w) (\d\d\d\d)/)
 	{
 	  $tags         = '';
@@ -426,10 +389,11 @@ sub job_match_timed_tag_with_body
 	  $month        = $::month_names__short2no{$2};
 	  $year         = $3;
 
-	  $date_YYYY_mm_dd = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
-	  $date_YYYYmmdd   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
+	  $details{date_YYYY_mm_dd} = sprintf "%04.4d-%02.2d-%02.2d",$year,$month,$day_of_month;
+	  $details{date_YYYYmmdd}   = sprintf "%04.4d%02.2d%02.2d"  ,$year,$month,$day_of_month;
 
-	  $time_HHMMSS = '';
+	  $details{time_HH_MM_SS} = '';
+	  $details{time_HHMMSS}   = '';
 
 	  if (0 && $main::options{debug})
 	    {
@@ -441,7 +405,7 @@ sub job_match_timed_tag_with_body
 	  if (1 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
 		;
 	    }
 	}
@@ -452,27 +416,38 @@ sub job_match_timed_tag_with_body
 
       # extract the tag list;
       # check whether the tag specified is included;
-      elsif( m/^ \t (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) .*  \[ (?<tags> [^\]]+ ) \]/x) # possibly a new timed entry that we are after
+      elsif( m/^ \t (?<HH_MM_SS> (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) ) .*  \[ (?<tags> [^\]]+ ) \]/x) # possibly a new timed entry that we are after
 	{
+	  delete($tags{payee});
+
+	  delete($details{payee});
+	  delete($details{amount});
+
 	  my(%plus) = %+;
 
-	  $time_HHMMSS = $plus{HH} . $plus{MM} . $plus{SS};
+	  if(defined($fh))
+	    {
+	      close($fh);
+	    }
+
+	  $details{time_HH_MM_SS} = $plus{HH_MM_SS};
+	  $details{time_HHMMSS}   = $plus{HH} . $plus{MM} . $plus{SS};
 	  $tags = $plus{tags};
 
 	  if (1 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
-		,'$time_HHMMSS',$time_HHMMSS
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
 		,'$tags',$tags
 		;
 	    }
 
-	  if( $main::options{from} le $date_YYYY_mm_dd && $date_YYYY_mm_dd le $main::options{to} )
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date_YYYY_mm_dd',$date_YYYY_mm_dd
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	    }
@@ -480,7 +455,7 @@ sub job_match_timed_tag_with_body
 	    {
 	      printf STDERR "=%d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__
 		,'$main::options{from}',$main::options{from}
-		,'$date_YYYY_mm_dd',$date_YYYY_mm_dd
+		,'$details{date_YYYY_mm_dd}',$details{date_YYYY_mm_dd}
 		,'$main::options{to}',$main::options{to}
 		if 0;
 	      next;
@@ -492,30 +467,25 @@ sub job_match_timed_tag_with_body
 	  # and "perl grep" the list.
 	  # so far single tags cannot include certain characters, that I would quite like to include.
 
-	  if (    ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT
+	  if (    ( $tags =~ m/\b$main::options{tag}\b/ ) # won't match included `.' - CAVEAT – one of paypal and paymorrow
 	       && ( $tags =~ m/\b payee _ (?<payee>.*?) \b/x )
 	     )
 	    {
 	      my(%plus) = %+;
 
-	      my($payee) = defined($plus{payee}) ? $plus{payee} : '___';
+	      $tags{payee} = defined($plus{payee}) ? $plus{payee} : '___';
 
-	      my($purpose) = '';
+	      $tags{purpose} = '___';
 
 	      # CAVEAT: matching_word_boundary_comes_with_deficits. // see above!
 
 	      if( $tags =~ m/\b purpose _ (?<purpose>.*?) \b/x )
 		{
-		  $purpose = "--$+{purpose}";
+		  $tags{purpose} = $+{purpose};
 		}
 
-	      # create&open the new file: "999990-000--${this_day}${time_HHMMSS}--${payee}.$main::options{tag}.diary"
-	      my($fn) = "999990-000--${date_YYYYmmdd}${time_HHMMSS}--${payee}${purpose}.$main::options{tag}.diary";
-
-	      if(defined($fh))
-		{
-		  close($fh);
-		}
+	      # create&open the new file: "999990-000--${this_day}$details{time_HHMMSS}--$tags{payee}.$main::options{tag}.diary"
+	      my($fn) = "999990-000--$details{date_YYYYmmdd}$details{time_HHMMSS}--$tags{payee}--$tags{purpose}.$main::options{tag}.diary";
 
 	      open($fh,'>',$fn) || die "cannot open \$fn=>{$fn}";
 
@@ -531,21 +501,26 @@ sub job_match_timed_tag_with_body
 		}
 
 	      print $fh $_;
+
+	      printf $fh "\"%s-%s\"\n",
+		$details{date_YYYY_mm_dd},
+		$details{time_HH_MM_SS},
+		if 0;
 	    }
 	  else
 	    {
-	      $time_HHMMSS = '';
+	      $details{time_HHMMSS} = '';
 	    }
         }
 
       elsif( m/^ \t [^\s] /x )	# not part of content, that we are after in this context
 	{
-	  $time_HHMMSS = '';
+	  $details{time_HHMMSS} = '';
 	}
 
-    ##elsif( ($time_HHMMSS ne '') && m/^ (?<body_line> \t .*)      $/x)
+    ##elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
     ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
-      elsif( ($time_HHMMSS ne '') && m/^ (?<body_line> \t .*)      $/x)
+      elsif( ($details{time_HHMMSS} ne '') && m/^ (?<body_line> \t .*)      $/x)
     ##elsif( 			     m/^ (?<body_line> \t .*)      $/x)
 	{
 	  my(%plus) = %+;
@@ -553,39 +528,116 @@ sub job_match_timed_tag_with_body
 	  if (0 && $main::options{debug})
 	    {
 	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
-		,'$time_HHMMSS',$time_HHMMSS
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
 		,'$plus{body_line}',$plus{body_line}
 		;
 	    }
 
-	  if( $main::options{from} le $date_YYYY_mm_dd && $date_YYYY_mm_dd le $main::options{to} )
+	  if( ($main::options{from} le $details{date_YYYY_mm_dd}) && ($details{date_YYYY_mm_dd} le $main::options{to}) )
 	    {
 	      print $fh $plus{body_line},"\n";
+
+	      # e.g.
+	      #
+	      #   SUBJECT: Your payment to Lidl Vertriebs GmbH & for 47,55 EUR;
+
+	      if(m/^\t\t\s*SUBJECT: Your payment to (?<payee>[^ ]*) for (?<amount>[^ ]*) /)
+		{
+		  my(%plus) = %+;
+
+		  $details{payee} = $plus{payee};
+
+		  $details{amount} = $plus{amount};
+
+		  $details{amount} =~ tr/,/./;
+		}
+
+	      # e.g.
+	      #
+	      #  paymorrow
+	      #
+	      #   SUBJECT: Mobil bezahlt & gepunktet am 26.05.2020 18:58 bei dm-drogerie markt;
+
+	      elsif(m/^\t\tSUBJECT: Mobil bezahlt . gepunktet am (?<dd>..)\.(?<mm>..)\.(?<YYYY>....) (?<HH_MM>..:..) bei (?<payee>[^;]+)/)
+		{
+		  my(%plus) = %+;
+
+		  $paymorrow_p = 1;
+
+		  $details{date_YYYY_mm_dd} = "$plus{YYYY}-$plus{mm}-$plus{dd}";
+		  $details{time_HH_MM_SS}   = "$plus{HH_MM}:00";
+
+		  $details{payee} = $plus{payee};
+		}
+
+	      elsif(m/^\t\t\s*Folder: /)
+		{
+		  if(defined($details{amount}))
+		    {
+		      printf $fh "\"%s-%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
+			$details{date_YYYY_mm_dd},
+			$details{time_HH_MM_SS},
+			$details{date_YYYY_mm_dd},
+			$details{date_YYYY_mm_dd},
+			' ' x 27,
+			'999.99',
+			'-' . $details{amount},
+			; 
+		    }
+		  else
+		    {
+		      printf $fh "\"%s-%s\"\n",
+			$details{date_YYYY_mm_dd},
+			$details{time_HH_MM_SS},
+			;
+		    }
+
+		  if(defined($tags{payee}))
+		    {
+		      printf $fh "%s,\"%s\",\"%s\"\n",
+			'                     ,            ,            ', # prefix
+			'<payee>',
+			$tags{payee},
+			;
+		    }
+
+		  if(defined($details{payee}))
+		    {
+		      printf $fh "%s,\"%s\",\"%s\"\n",
+			'                     ,            ,            ', # prefix
+			'<payee>',
+			$details{payee},
+			;
+		    }
+
+		  if(defined($tags{purpose}))
+		    {
+		      printf $fh "%s,\"%s\",\"%s\"\n",
+			'                     ,            ,            ', # prefix
+			'<memo/JH>',
+			$tags{purpose},
+			;
+		    }
+		}
 	    }
 	}
 
-      elsif( ($time_HHMMSS ne '') && m/^ $/x)
+      elsif( ($details{time_HHMMSS} ne '') && m/^ $/x)
 	{
 	  if (0 && $main::options{debug})
 	    {
-	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s},%s=>{%s}\n",__LINE__,$.
-		,'$date_YYYYmmdd',$date_YYYYmmdd
-		,'$time_HHMMSS',$time_HHMMSS
-		,'$plus{body_line}',$plus{body_line}
+	      printf STDERR "=%d,%05.5d: %s=>{%s},%s=>{%s}\n",__LINE__,$.
+		,'$details{date_YYYYmmdd}',$details{date_YYYYmmdd}
+		,'$details{time_HHMMSS}',$details{time_HHMMSS}
 		;
 	    }
 
-	  if( $main::options{from} le $date_YYYY_mm_dd && $date_YYYY_mm_dd le $main::options{to} )
+	  if( $main::options{from} le $details{date_YYYY_mm_dd} && $details{date_YYYY_mm_dd} le $main::options{to} )
 	    {
 	      print $fh "\n";
 	    }
 	}
-    }
-
-  if(defined($fh))
-    {
-      close($fh);
     }
 
   printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name

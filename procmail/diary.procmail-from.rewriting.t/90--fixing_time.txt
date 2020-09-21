@@ -1,0 +1,6 @@
+05 Sep 2020
+	10:48:15 -0700 [_,not_SPF_mangled,paypal] From: service@paypal.de;
+		FROM: "service@paypal.de" <service@paypal.de>;
+		TO: Jochen Hayek <Jochen+paypal@Hayek.name>;
+		SUBJECT: Your payment to PRIMARK BERLIN ZOOM for 17,55 EUR;
+		Folder: .topics-finance.paypal/new/1599328100.9506_1.h20;

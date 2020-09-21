@@ -1,0 +1,43 @@
+06 Sep 2020
+	17:15:51 +0300 [_,not_SPF_mangled] From: no-reply@inoreader.com;
+		 FROM: inoreader--JFBB [Inoreader] <no-reply@inoreader.com>;
+		 TO: jochenPLUSinoreader-JFBB@hayek.name;
+		 SUBJECT: inoreader : JFBB - Jewish Film Festival Berlin & Brandenburg (Facebook) : #jfbb2020 from TODAY ONLINE❗️THOSE WHO REMAINED reveals the healing process of Holocaust survivors through the eyes of a young girl in post-World War II Hungary. A lyrical story of the healing power of #love 💚 in the midst of conflict, loss and trauma. . . . 🎫Tickets sale and full program >>> https://www.jfbb.de/en/filme;
+		 Folder: .topics-computers.telecom-bulk/new/1599401754.24291_1.h20
+06 Sep 2020
+	15:02:00 +0000 [_,not_SPF_mangled] From: bounce-mc.us1_483917.807154-5a44e8f43b@mail65.sea172.mcdlv.net;
+		 FROM: Tablet Weekender <digest@tabletmag.com>;
+		 TO: <jochen+tabletmag@hayek.name>;
+		 SUBJECT: The Suburbs and Integration; Tech Mergers; Lilien’s Fin de Siècle; The New Face of Tel Aviv’s Food Scene;
+		 Folder: .topics.news/new/1599404547.6464_1.h20
+06 Sep 2020
+	16:13:31 +0100 [_,not_SPF_mangled] From: bounce@die.rabattprominenz.de;
+		 FROM: "+++ Eilmeldung +++ Eilmeldung +++ Eilmeldung" <news@die.rabattprominenz.de>;
+		 TO: jochen+skype@hayek.name;
+		 SUBJECT: Vergewaltigungs-Horror: Schülerin jahrelang missbraucht // Royals: Harry und Meghan "Endlich frei" // Model zeigt heißes Foto zum Geburtstag ;
+		 Folder: .folder-suspicious.using-unwanted-addresses-of-mine-at-my-do
+06 Sep 2020
+	15:20:40 +0000 [_,not_SPF_mangled] From: bounce-mc.us10_139358277.5009669-0dc7f80f20@mail248.sea101.rsgsv.net;
+		 FROM: Kulturcatering <info@kulturcatering-berlin.de>;
+		 TO: <jochenPLUSjosephs@hayek.name>;
+		 SUBJECT: Wochenkarte;
+		 Folder: .topics-finance.shopping-bulk/new/1599406579.7736_1.h20
+06 Sep 2020
+	15:53:09 +0000 (UTC) [_,not_SPF_mangled] From: calainbf@yahoo.com;
+		 FROM: Jeffrey  Brian <calainbf@yahoo.com>;
+		 TO:;
+		 SUBJECT: INVESTMENT / BUSINESS PARTNERSHIP.;
+		 Folder: /home/pacs/jhk00/users/domains/Maildir/.folder-suspicious._m
+06 Sep 2020
+	16:57:53 +0000 (UTC) [_,not_SPF_mangled] From: bounces+8552400-e55d-jochenplusmedimops=hayek.name@em9086.medimops.de;
+		 FROM: "medimops.de" <bitte-kontaktformular-verwenden@medimops.de>;
+		 TO: Jochen Hayek <jochenPLUSmedimops@hayek.name>;
+		 SUBJECT: medimops Wieder Da-E-Mail;
+		 Folder: .topics-finance.shopping-bulk/new/1599411477.1932_1.h20
+06 Sep 2020
+	17:20:17 +0000 [_,not_SPF_mangled] From: 01020174646ecd07-05903de3-787a-4e10-8658-6436916cd1ff-000000@eu-west-1.amazonses.com;
+		 FROM: Andreas Kräftner <budenschleuder@kraeftner.de>;
+		 TO: "Jochen+WAIM@Hayek.name" <jochen+waim@hayek.name>;
+		 SUBJECT: 2020.072 - Budenschleuder Ahoi;
+		 Folder: .topics.travel-bulk/new/1599412819.24533_1.h20
+
