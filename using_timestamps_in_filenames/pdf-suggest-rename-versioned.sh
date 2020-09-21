@@ -11,24 +11,21 @@
 
 ################################################################################
 
-##pdfinfo 2>/dev/null
-##if test $? -eq 127		# the shell cannot find the utility
-##then :
+pdfinfo 2>/dev/null
+if test $? -eq 127		# the shell cannot find the utility
+then             PDFINFO=pdfinfo
 ##  echo 1>&2 "*** $0: cannot find pdfinfo"
 ##  exit 1
-##fi
-
-if   test -e /opt/sw/bin/pdfinfo
-then :
-     PDFINFO=/opt/sw/bin/pdfinfo
-elif test -e /sw/bin/pdfinfo
-then :
-     PDFINFO=/sw/bin/pdfinfo
-elif test -e /opt/bin/pdfinfo
-then :
-     PDFINFO=/opt/bin/pdfinfo
+elif test -e /opt/sw/bin/pdfinfo
+then PDFINFO=/opt/sw/bin/pdfinfo
+elif test -e     /sw/bin/pdfinfo
+then     PDFINFO=/sw/bin/pdfinfo
+elif test -e    /opt/bin/pdfinfo
+then    PDFINFO=/opt/bin/pdfinfo
+elif test -e   $HOME/bin/pdfinfo
+then   PDFINFO=$HOME/bin/pdfinfo
 else
-  echo 1>&2 "*** $0: cannot find pdfinfo at /sw/bin or /opt/bin"
+  echo 1>&2 "*** $0: cannot find pdfinfo on the PATH or at /opt/sw/bin or /sw/bin or /opt/bin or $HOME/bin"
   exit 1
 fi
 
