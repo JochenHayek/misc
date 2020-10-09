@@ -2,7 +2,7 @@
 
 use Fatal;
 
-# this filter rewrite especially elements like this:
+# this filter rewrites especially elements like this:
 #
 #   <text top="92" left="33" width="38" height="13"
 #   <image top="92" left="33" width="38" height="13"
@@ -16,6 +16,25 @@ use Fatal;
 # you are then able to sort your lines by geometry 
 # (because every part of the coordinate spec now has 4 digits)
 # and then re-ordering the text pieces (<text ...>...</text>) to your specific needs is a piece of cake.
+#
+################################################################################
+#
+# https://www.man7.org/linux/man-pages/man1/sort.1.html
+#
+# https://www.gnu.org/software/coreutils/manual/html_node/sort-invocation.html#sort-invocation
+#
+################################################################################
+#
+# e.g.:
+#
+# if a text block is aligned in columns, you may want to sort by left="....", then top="...." :
+#
+#   --key=3,3 : left="...." -- means to use the 3rd field by itself alone, otherwise "-k 3" means between the 3rd field and the end of the line.
+#   --key=2,2 : top="...."
+#
+#     Specify a sort field that consists of the part of the line between pos1 and pos2 (or the end of the line, if pos2 is omitted), inclusive.
+#
+#   $ sort --key=3,3 --key=2,2
 #
 # e.g.:
 #
