@@ -106,10 +106,13 @@ sub func
     # * or pass this in as a command line argument (or so).
 
     my($current_local_DST_shift) = $ENV{current_local_DST_shift}; # restriction: right now this can only be a 1-decimal-digit number of hours
-  ##my($current_local_DST_shift) = '1';	# winter time in +49
-  ##my($current_local_DST_shift) = '2';	# summer time in +49
+  ##my($current_local_DST_shift) = '1';	# winter time in +49 AKA Germany
+  ##my($current_local_DST_shift) = '2';	# summer time in +49 AKA Germany
 
-    if($plus{DST} eq "+0${current_local_DST_shift}00")
+  ##my($formatted_DST_shift) =       sprintf("+0%02.2d00",$current_local_DST_shift);
+    my($formatted_DST_shift) = '+' . sprintf(  "%02.2d"  ,$current_local_DST_shift) . '00'; # e.g. '1' -> '+0100'
+
+    if($plus{DST} eq ${formatted_DST_shift}) # e.g. '+0100'
       {}
     else
       {
