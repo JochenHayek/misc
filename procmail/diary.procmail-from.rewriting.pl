@@ -113,6 +113,14 @@ sub func
     # * either handle this "automatically" (= with enough programmatical intelligence – i.e. by enquiring current difference between the local time zone and UTC)
     # * or pass this in as a command line argument (or so).
 
+    if( $ENV{current_local_DST_shift} =~ m/^\d\d?$/x )
+      {
+      }
+    else
+      {
+	die "\$ENV{current_local_DST_shift}=>{$ENV{current_local_DST_shift}} // must be signless 1- or 2-decimal-digits number of hours";
+      }
+
     my($current_local_DST_shift) = $ENV{current_local_DST_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
   ##my($current_local_DST_shift) = '1';	# winter time in +49 AKA Germany
   ##my($current_local_DST_shift) = '2';	# summer time in +49 AKA Germany
