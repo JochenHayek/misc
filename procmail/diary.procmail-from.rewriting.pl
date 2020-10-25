@@ -6,12 +6,20 @@
 # $ fgrep -v ' // *** WILL BE REMOVED, BECAUSE'
 # $ env 'current_local_DST_shift=1' ~/git-servers/github.com/JochenHayek/misc/procmail/diary.procmail-from.rewriting.pl
 
-
 ################################################################################
 
 # all steps at once:
 
-# $ fgrep -v 'empty {Date:} header field, so we are going to use From_captures to extract date+time' | fgrep -iv 'will be removed, because' | ~/Computers/Programming/Languages/Perl/diary.procmail-from.rewriting.pl
+# $ fgrep -v 'empty {Date:} header field, so we are going to use From_captures to extract date+time' | fgrep -v ' // *** WILL BE REMOVED, BECAUSE' | env 'current_local_DST_shift=1' ~/git-servers/github.com/JochenHayek/misc/procmail/diary.procmail-from.rewriting.pl
+
+################################################################################
+
+# restriction:
+#
+#   current_local_DST_shift can only be a positive 1- or 2-decimal-digits number of hours.
+#   avoid leading "0", as this might make Perl consider it an octal number instead of a decimal number.
+#
+#   of course … leading "0" can / will be removed at one stage in order to remove this restriction.
 
 ################################################################################
 
@@ -105,7 +113,7 @@ sub func
     # * either handle this "automatically" (= with enough programmatical intelligence – i.e. by enquiring current difference between the local time zone and UTC)
     # * or pass this in as a command line argument (or so).
 
-    my($current_local_DST_shift) = $ENV{current_local_DST_shift}; # restriction: right now this can only be a 1-decimal-digit number of hours
+    my($current_local_DST_shift) = $ENV{current_local_DST_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
   ##my($current_local_DST_shift) = '1';	# winter time in +49 AKA Germany
   ##my($current_local_DST_shift) = '2';	# summer time in +49 AKA Germany
 
