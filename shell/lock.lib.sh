@@ -219,6 +219,8 @@ function module_lock_setup()
 
 function lock_acquire()
 {
+  test $(uname -s) = Darwin && return
+
   local                 lock="$1"
 
   : _lock_log1 "${FUNCNAME[0]}" "${LINENO}" TRACE "$lock" '...'
@@ -326,6 +328,8 @@ function lock_acquire()
 
 function lock_release()
 {
+  test $(uname -s) = Darwin && return
+
   local                 lock="$1"
 
   : _lock_log1 "${FUNCNAME[0]}" "${LINENO}" TRACE "$lock" '...'
