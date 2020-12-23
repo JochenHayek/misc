@@ -11,7 +11,14 @@ N.B. :
 
   add this to the resp. crontab:
 
-    0 0,8,16 * * * readlink /proc/$( head -1 .fetchmail.pid )/exe
+  ##0 0,8,16 * * * readlink /proc/$( head -1 .fetchmail.pid )/exe
+
+    0 0,8,16 * * * ls -l /proc/$( head -1 .fetchmail.pid )/exe
+
+the latter yields this (including *failed* – in case things go wrong):
+
+	SUBJECT: Cron <jhk00-domains@h20> ls -l /proc/$( head -1 $HOME/.fetchmail.pid )/exe (failed);
+
 
 ================================================================================
 
