@@ -1,6 +1,6 @@
 :
 
-##time_stamp='Time-stamp: <2006-08-09 12:19:05 johayek>'
+##time_stamp='Time-stamp: <2020-12-28 15:38:01 johayek>'
 ##      rcs_Id='$Id: path.sh 1.10 2011/09/28 09:55:55 johayek Exp $'
 ## rcs_RCSfile=$(echo '$RCSfile: path.sh $'|cut -d ' ' -f 2)
 ##  rcs_Source=$(echo '$Source: /Volumes/johayek/Computers/Software/Operating_Systems/Unix/Shell/RCS/path.sh $'|cut -d ' ' -f 2)
@@ -24,7 +24,7 @@ path_append()
     	export                   PATH=$PATH:${dir}$config/bin		# nowadays, a couple of subdirectories get created below $EXEC_PREFIX, like: bin, lib, libexec, sbin.
     fi
 
-    export                 MANPATH=$MANPATH:${dir}man
+    export                 MANPATH=$MANPATH:${dir}man:${dir}share/man
     export               INFOPATH=$INFOPATH:${dir}info
 
     if test  "$USER" = 'root' -o "$LOGNAME" = 'root'
@@ -53,7 +53,7 @@ path_prepend()
       *)  dir="$dir/"	;;
     esac
 
-    export         MANPATH=${dir}man:$MANPATH
+    export         MANPATH=${dir}man:${dir}share/man:$MANPATH
     export        INFOPATH=${dir}info:$INFOPATH
 
     export   LD_LIBRARY_PATH=${dir}lib:$LD_LIBRARY_PATH
