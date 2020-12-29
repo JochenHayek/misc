@@ -1,9 +1,5 @@
 #!/usr/bin/perl
 
-# $Id: JHpath_delete 1.2 1999/08/12 15:40:39 johayek Exp $
-# $Source: /home/jochen_hayek/comp.lang.perl/RCS/JHpath_delete $
-# Time-stamp: <1999-08-12 17:40:01 johayek>
-
 # Usage: JHpath_delete path_value dir
 
 # in:
