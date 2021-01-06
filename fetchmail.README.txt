@@ -1,6 +1,6 @@
 # …
 
-# Q: is my $HOME/.fetchmail.pid still valid?
+# Q: is my $HOME/.fetchmail.pid (jhk00-domains@h20.hostsharing.net) still valid?
 
 $ readlink /proc/$( head -1 .fetchmail.pid )/exe
 /usr/bin/fetchmail
