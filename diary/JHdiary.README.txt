@@ -1,6 +1,7 @@
 # …
 
 -> ~/transfer/000diary/
+-> etc/diary/
 
 year=2022
 
