@@ -18,13 +18,13 @@
 
 ################################################################################
 
-pdfinfo 2>/dev/null
-if test $? -ne 127		# the shell cannot find the utility
-then             PDFINFO=pdfinfo
-##  echo 1>&2 "*** $0: cannot find pdfinfo"
-##  exit 1
-elif test -e /usr/local/xpdf-tools//bin/pdfinfo
-then PDFINFO=/usr/local/xpdf-tools//bin/pdfinfo
+##pdfinfo 2>/dev/null
+##if test $? -ne 127		# the shell cannot find the utility
+##then             PDFINFO=pdfinfo
+if false
+then :
+elif test -e  /usr/local/xpdf-tools/bin/pdfinfo
+then  PDFINFO=/usr/local/xpdf-tools/bin/pdfinfo
 elif test -e                /opt/sw/bin/pdfinfo
 then                PDFINFO=/opt/sw/bin/pdfinfo
 elif test -e                    /sw/bin/pdfinfo
