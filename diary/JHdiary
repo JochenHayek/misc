@@ -484,6 +484,9 @@ sub job_match_timed_tag_with_body
 		  $tags{purpose} = $+{purpose};
 		}
 
+	      # in case of "paymorrow" we will only know a little later ("SUBJECT: Mobil bezahlt & gepunktet am")
+	      # the date+time, that we would really like to know and use *here*.
+
 	      # create&open the new file: "999990-000--${this_day}$details{time_HHMMSS}--$tags{payee}.$main::options{tag}.diary"
 	      my($fn) = "999990-000--$details{date_YYYYmmdd}$details{time_HHMMSS}--$tags{payee}--$tags{purpose}.$main::options{tag}.diary";
 
@@ -963,7 +966,7 @@ sub job_easter_etc
       , { offset =>  -1 , name => 'Easter Saturday = Ostersamstag = Samedi de Paques'                        }
       , { offset =>   0 , name => 'Easter Sunday = Ostersonntag = Dimanche de Paques'                        }
       , { offset =>  +1 , name => 'Easter Monday = Ostermontag = Lundi de Paques'                            }
-      , { offset => +39 , name => 'Ascension Day = Christi Himmelfahrt (= Vatertag = Ascension'              }
+      , { offset => +39 , name => 'Ascension Day = Christi Himmelfahrt (= Vatertag) = Ascension'             }
       , { offset => +49 , name => 'Whitsunday = Pfingstsonntag = Dimanche de Pentecote -- Karneval-Berlin.de'                      }
       , { offset => +50 , name => 'Whitmonday = Pfingstmontag = Lundi de Pentecote'                          }
       , { offset => +60 , name => 'Corpus Christi Day = Fronleichnam = Fete-Dieu -- arbeitsfreier Tag für Permies in Bayern, Hessen, ... (nicht Berlin, Sachsen), aber ...' }
@@ -1124,7 +1127,7 @@ sub job_advent_etc
 
 	if 0 && $main::options{debug};
 
-      printf STDOUT "%02d %s %04d\n\tHH:MM name of day: %s\n"
+      printf STDOUT "%02d %s %04d\n\tHH:MM [name_of_day] %s\n"
 	,$date{day}
 	,$::short_month_names[$date{month}]
 	,$date{year}
@@ -1255,7 +1258,7 @@ sub job_muttertag
 
 	if 0 && $main::options{debug};
 
-      printf STDOUT "%02d %s %04d\n\tHH:MM name of day: %s\n"
+      printf STDOUT "%02d %s %04d\n\tHH:MM [name_of_day] %s\n"
 	,$date{day}
 	,$::short_month_names[$date{month}]
 	,$date{year}

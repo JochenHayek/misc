@@ -1,0 +1,124 @@
+# …
+
+-> ~/transfer/000diary/
+-> etc/diary/
+
+year=2022
+
+	HH:MM creating calendar 2022
+
+	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--jewish-holidays-all.20190927124604.csv.diary.2020
+	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20190927124245.csv.diary.2020
+
+	  ----- diary-creation for 2022 proceeded up to here -----
+	  ----- diary-creation for 2022 proceeded up to here -----
+
+	    … merge the yearly events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right .../git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/diary > ~/transfer/000diary/diary
+	    is it alright?
+		diff -c ~/diary ~/transfer/000diary/diary
+	    then replace ...
+		mv --verbose ~/transfer/000diary/diary ~/diary
+
+	hh:mm calendar maintenance -- should be VERY, VERY EASY AND STRAIGHT FORWARD using the following recipes:
+
+	  -> www.schulferien.org/Feiertage/feiertage.html // maybe also useful
+
+	  www.schulferien.org/Berlin/berlin.html
+	  www.schulferien.org/deutschland/ferien/winterferien/berlin/               // 2021-02-01..06
+	  www.schulferien.org/deutschland/ferien/osterferien/berlin/                // 2021-03-29 .. 2021-04-10
+	  www.schulferien.org/deutschland/ferien/pfingstferien/berlin/              // 2021-05-14
+	  www.schulferien.org/deutschland/ferien/sommerferien/berlin/               // 2021-06-24 .. 2021-08-06
+	  www.schulferien.org/deutschland/ferien/herbstferien/berlin/               // 2021-10-11 .. 2021-10-23
+	  www.schulferien.org/deutschland/ferien/weihnachtsferien/berlin/           // 2021-12-24 .. 2021-12-31
+
+	  my very special 2012 trick: copy the "Local variables" end from ~/diary to the newly created sniplets before merging them
+
+	  IMPORTANT -- TO BE DONE FOR 2030 :
+	    generate diary frame for a specific year end ("first year" .. "last year"); append that to ~/diary
+		perl ~/git-servers/github.com/JochenHayek/misc/diary/JHgen_diary_frame.pl > ~/transfer/000diary/diary-${year}-skeleton
+	    afterwards merge the yearly events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-skeleton > ~/transfer/000diary/diary-${year}-skeleton-complete
+	    is it alright?
+		diff -c ~/diary ~/transfer/000diary/diary-${year}-skeleton-complete
+	    then replace ...
+		mv --verbose ~/transfer/000diary/diary-${year}-skeleton-complete ~/diary
+
+	  IMPORTANT -- TO BE DONE FOR ${year} :
+	    yearly events -- generate the calendar with the holidays depending on Easter using Date::Calc
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_easter_etc    --this_year=${year} > ~/transfer/000diary/diary-${year}-easter
+	    afterwards merge the yearly events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-easter > ~/transfer/000diary/diary-${year}-easter-complete
+	    is it alright?
+		diff -c ~/diary ~/transfer/000diary/diary-${year}-easter-complete
+	    then replace ...
+		mv --verbose ~/transfer/000diary/diary-${year}-easter-complete ~/diary
+
+	  IMPORTANT -- TO BE DONE FOR ${year} :
+	    yearly events -- generate the calendar with the holidays depending on Advent using Date::Calc
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_advent_etc    --this_year=${year} > ~/transfer/000diary/diary-${year}-advent
+	    afterwards merge the yearly events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-advent > ~/transfer/000diary/diary-${year}-advent-complete
+	    is it alright?
+		diff -c ~/diary ~/transfer/000diary/diary-${year}-advent-complete | less
+	    then replace ...
+		mv --verbose ~/transfer/000diary/diary-${year}-advent-complete ~/diary
+
+	  IMPORTANT -- TO BE DONE FOR ${year} :
+	    yearly events -- generate the calendar with the holidays depending on Muttertag using Date::Calc
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag --this_year=${year} > ~/transfer/000diary/diary-${year}-muttertag
+	    afterwards merge the yearly events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-muttertag > ~/transfer/000diary/diary-${year}-muttertag-complete
+	    is it alright?
+		diff -c ~/diary ~/transfer/000diary/diary-${year}-muttertag-complete | less
+	    then replace ...
+		mv --verbose ~/transfer/000diary/diary-${year}-muttertag-complete ~/diary
+
+	  IMPORTANT -- TO BE DONE FOR ${year} :
+	    yearly events -- on the special *region* at the beginning of ~/diary -- write it to ~/transfer/000diary/diary-${year}-holidays-raw beforehand :
+	    	# CAVEAT: remove the lines before "01 January"!
+	    	… > ~/transfer/000diary/diary-${year}-holidays-raw
+	    …
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_yearly_events --this_year=${year} ~/transfer/000diary/diary-${year}-holidays-raw > ~/transfer/000diary/diary-${year}-holidays
+	    the output is not necessarily strictly monotonous (i.e. there may be more than one name for a single day), so apply this to it:
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_remove_duplicate_date_lines --operand ~/transfer/000diary/diary-${year}-holidays \
+		    > ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines
+
+	    *** this might be the right time to look at ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines and verify its content ***
+
+	    is it alright?
+		diff -c ~/transfer/000diary/diary-${year}-holidays ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines | less
+
+	    afterwards merge the yearly events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines \
+		    > ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete
+	    is it alright?
+		diff -c ~/diary ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete | less
+	    then replace ...
+		mv --verbose ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete ~/diary
+
+	  www.schulferien.org/Feiertage/feiertage.html // maybe also useful
+
+	  ----- diary-creation for 2017 proceeded up to here -----
+
+	HH:MM [biz,travel,hotel,JuHe@City.MUC] Reservierungen …
+	HH:MM more bookings: biz,travel,hotel – KW __-__ (01.01.-31.06. / 2017/Q1+Q2) // details to be adapted
+	HH:MM [_,biz,travel,hotel] From: Jochen.Hayek@aleph-soft.com;
+		 TO: <Muenchen-City@jugendherberge.de>;
+		 SUBJECT: mehr Buchungen für Jochen Hayek (Rechnung an Aleph Soft GmbH ...) -- KW 02-26 (09.01.-30.06.) (!!!);
+		Folder: .topics.travel
+
+		~/Downloads/_travel_hotel/biz-travel-hotel--JuHe_MUC-City/biz-travel-hotel--JuHe_MUC-City.diary.txt.???
+
+		* ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2017-01-01 --to=2018-00-00 --job_tag_match --tag=biz,travel,hotel ~/diary > ~/Downloads/_travel_hotel/biz-travel-hotel--JuHe_MUC-City/biz-travel-hotel--JuHe_MUC-City.diary.txt
+
+		Wochen "Montag-Freitag"         : ??? KW02-KW11 (02, 03, 04, 05, 06, 07, 08, 09, 10, 11); KW14-KW17 (14, 15, 16, 17); KW19; KW21-KW26 (21, 22, 23, 24, 25, 26)
+
+		Wochen "Dienstag-Freitag"       : ??? KW13; KW20
+		Wochen "Montag-Donnerstag"      : ??? KW12
+
+		Wochen "..."                    :
+
+			??? KW18: 2016-05-02..04
+
+		* ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --from=2017-01-01 --to=2017-07-00 --job_tag_match --tag=biz,travel,hotel ~/diary | ~/git-servers/github.com/JochenHayek/misc/diary/a2ps.pl -w -l '' -L 'biz,travel,hotel--JuHe_MUC-City' -ns | ps2pdf - - > ~/tmp/biz,travel,hotel--JuHe_MUC-City.diary.pdf # details to be adapted

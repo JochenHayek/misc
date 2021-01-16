@@ -9,7 +9,6 @@
 # * old log files to be archived           :
                                                     archive_dir=/scp:ber.jochen.hayek.name:ARCHIVE/hostsharing-longterm/var/log/
 
-
 ################################################################################
 
 set -x

@@ -177,7 +177,11 @@ function _lock_store_attributes()
   local                 lock="$1"
 
   echo $$                       > "$lock/pid"
-  cp --archive /proc/$$/cmdline   "$lock/cmdline"
+
+  if test $(uname -s) = Darwin	# no procfs
+  then ps -o command= $$             > "$lock/cmdline"
+  else cp --archive /proc/$$/cmdline   "$lock/cmdline"
+  fi
 
   ##_lock_log2 "${FUNCNAME[0]}" "${LINENO}" INFO "$lock" "$$" 'going to show source and target ...'
   ##echo

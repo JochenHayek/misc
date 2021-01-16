@@ -3,14 +3,23 @@
 # one step after the other:
 
 # $ fgrep -v 'empty {Date:} header field, so we are going to use From_captures to extract date+time'
-# $ fgrep -iv 'will be removed, because'
-# $ ~/Computers/Programming/Languages/Perl/diary.procmail-from.rewriting.pl
+# $ fgrep -v ' // *** WILL BE REMOVED, BECAUSE'
+# $ env 'current_local_DST_shift=1' ~/git-servers/github.com/JochenHayek/misc/procmail/diary.procmail-from.rewriting.pl
 
 ################################################################################
 
 # all steps at once:
 
-# $ fgrep -v 'empty {Date:} header field, so we are going to use From_captures to extract date+time' | fgrep -iv 'will be removed, because' | ~/Computers/Programming/Languages/Perl/diary.procmail-from.rewriting.pl
+# $ fgrep -v 'empty {Date:} header field, so we are going to use From_captures to extract date+time' | fgrep -v ' // *** WILL BE REMOVED, BECAUSE' | env 'current_local_DST_shift=1' ~/git-servers/github.com/JochenHayek/misc/procmail/diary.procmail-from.rewriting.pl
+
+################################################################################
+
+# restriction:
+#
+#   current_local_DST_shift can only be a positive 1- or 2-decimal-digits number of hours.
+#   avoid leading "0", as this might make Perl consider it an octal number instead of a decimal number.
+#
+#   of course … leading "0" can / will be removed at one stage in order to remove this restriction.
 
 ################################################################################
 
@@ -98,20 +107,43 @@ sub func
   {
     my(%plus) = %+;
 
-  ##my($current_German_DST_shift) = '1';	# winter time in +49
-    my($current_German_DST_shift) = '2';	# summer time in +49
+    # dealing with timezone (difference).
 
-    if($plus{DST} eq "+0${current_German_DST_shift}00")
+    # wishlist:
+    # * either handle this "automatically" (= with enough programmatical intelligence – i.e. by enquiring current difference between the local time zone and UTC)
+    # * or pass this in as a command line argument (or so).
+
+    if( $ENV{current_local_DST_shift} =~ m/^\d\d?$/x )
+      {
+      }
+    else
+      {
+	die "\$ENV{current_local_DST_shift}=>{$ENV{current_local_DST_shift}} // must be signless 1- or 2-decimal-digits number of hours";
+      }
+
+    my($current_local_DST_shift) = $ENV{current_local_DST_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
+  ##my($current_local_DST_shift) = '1';	# winter time in +49 AKA Germany
+  ##my($current_local_DST_shift) = '2';	# summer time in +49 AKA Germany
+
+  ##my($formatted_DST_shift) =       sprintf("+0%02.2d00",$current_local_DST_shift);
+    my($formatted_DST_shift) = '+' . sprintf(  "%02.2d"  ,$current_local_DST_shift) . '00'; # e.g. '1' -> '+0100'
+
+    if($plus{DST} eq ${formatted_DST_shift}) # e.g. '+0100'
       {}
     else
       {
-	my($new_H) = sprintf "%02.2d", $plus{H} + $current_German_DST_shift - "$plus{DST_sign}$plus{DST_HH}";
+	# most simple (resp. far too simple) way of adding timezone difference.
+	# TBD: there should be a subroutine dedicated to this.
+
+	my($new_H) = sprintf "%02.2d", $plus{H} + $current_local_DST_shift - "$plus{DST_sign}$plus{DST_HH}";
 
 	my($extended_orig_DST_zone_name) = defined($plus{DST_zone_name}) ? " $plus{DST_zone_name}" : '';
 
 	# temporarily prepend this to the time string during development, if needed:
 	#
 	#   ((($plus{DST_sign}$plus{DST_HH}:$plus{DST_sign}$plus{DST_HH}$plus{DST_MM}:$new_H)))
+	#
+	#   "04:28:57 +0000" -> "06:28:57 (04:28:57 +0000)"
 
 	$param{rec} =~ s{
 
