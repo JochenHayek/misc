@@ -1,0 +1,43 @@
+# …
+
+# Q: is my $HOME/.fetchmail.pid (jhk00-domains@h20.hostsharing.net) still valid?
+
+$ readlink /proc/$( head -1 .fetchmail.pid )/exe
+/usr/bin/fetchmail
+
+# A: the result should be as shown above
+
+N.B. :
+
+  add this to the resp. crontab:
+
+  ##0 0,8,16 * * * readlink /proc/$( head -1 .fetchmail.pid )/exe
+
+    0 0,8,16 * * * ls -l /proc/$( head -1 .fetchmail.pid )/exe
+
+the latter yields this (including *failed* – in case things go wrong):
+
+	SUBJECT: Cron <jhk00-domains@h20> ls -l /proc/$( head -1 $HOME/.fetchmail.pid )/exe (failed);
+
+
+================================================================================
+
+# as described here:
+#   ~/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles-shuttle/.fetchmailrc
+
+                  $ ssh -n jhk00-domains@jhk00.hostsharing.net 'tail -500 var/log/fetchmail.log | bin/fetchmail--extract_fingerprints.pl';
+                  $ ssh -n jhk00-domains@jhk00.hostsharing.net                                   'bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log';
+
+N.B. :
+
+  add this to the resp. crontab:
+
+    1 0      * * * bin/fetchmail--extract_fingerprints.pl var/log/fetchmail.log
+    2 0      * * * tail -500                              var/log/fetchmail.log | bin/fetchmail--extract_fingerprints.pl
+
+# after updating / adding the new fingerprints
+# and git-wise transfer to the other side
+# proceed as described below "because of git repositories set up on hostsharing.net" in .../.fetchmailrc !!!
+
+                  $ ssh -A jhk00-domains@jhk00.hostsharing.net
+jhk00-domains@h20 $ $HOME/git-servers/github.com/JochenHayek/misc/fetchmail--restart_with_new_logfile.sh

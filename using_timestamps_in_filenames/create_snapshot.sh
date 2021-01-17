@@ -24,11 +24,11 @@
 ##xmlstarlet=$USERPROFILE/opt/xmlstarlet-1.6.1/xml
 ##xmlstarlet=/sw/bin/xml
 
-xmlstarlet 2>/dev/null
-if test $? -eq 2
-then xmlstarlet=xmlstarlet
-else xmlstarlet=xml
-fi
+##xmlstarlet 2>/dev/null
+##if test $? -eq 2
+##then xmlstarlet=xmlstarlet
+##else xmlstarlet=xml
+##fi
 
 ##CP=/cygdrive/c/cygwin64/bin/cp
   CP=cp

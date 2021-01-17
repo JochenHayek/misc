@@ -17,7 +17,8 @@ perl_script=$( dirname "$0" )/$(basename "$0" .sh ).pl
 # on OS X use our self-compiled pdftohtml-0.40a at 
 
 ##pdftohtml=$HOME/usr/local/bin/pdftohtml
-  pdftohtml=pdftohtml
+##pdftohtml=pdftohtml
+  pdftohtml=$HOME/bin/pdftohtml
 
 ################################################################################
 
@@ -76,7 +77,8 @@ printf 1>&2 "=%03.3d: %s=>{%s} // %s\n" $LINENO \
 
 ################################################################################
 
-tmp_dir=$( mktemp --directory /tmp/XXXXXXX )
+##tmp_dir=$( mktemp --directory /tmp/XXXXXXX )
+  tmp_dir=$( mktemp -d          /tmp/XXXXXXX )
 
 tmp_pdftohtml_xml_fn_without_extension="${tmp_dir}/pdftohtml-xml"
 
@@ -166,6 +168,31 @@ fi
 # *--Sonderplan--date-20200611--8xx.pdf
 # --left={0,217,299,384,468,551,632,714,796,879,962,1044,1127}
 
+################################################################################
+#
+# atene KOM Telefonverzeichnis:
+#
+# Telefonverzeichnis_atene_KOM*.pdf
+# --left={0,231,393,733,879,993,1083}
+#
+# post-processing:
+#
+#   remove the first three "technical" columns!
+#
+#   new column names:
+#
+#     "Family Name","Given Name","Location","Organization 1 - Title","Phone 1 - Value","Mobile","Phone 2 - Value","Organization 1 - Department"
+#
+#   > \(\+49[0-9 ]*\)",, → ","\1",
+#
+#   separate "Family Name" and "Given Name"!
+#
+#   ...
+#
+#   test loading using OpenOffice spreadsheet utility!
+#
+################################################################################
+
 printf 1>&2 "\n%s: executing:\n\n\t%s\t\t\t%s %s %s %s %s\n" "${script}" \
    "${perl_script} --debug --pdftohtml_xml_file=${tmp_pdftohtml_xml_fn_without_extension}.xml --orig_file=${param_filename}" '>' "${param_filename}.csv" '2>' "${param_filename}.log.txt"
 
@@ -203,7 +230,7 @@ then :
     '$tmp_dir' "$tmp_dir" \
     'going to remove ...' \
     ;
-  rm --verbose -r "${tmp_dir}"
+  rm -v -r "${tmp_dir}"
 else :
   printf 1>&2 "=%03.3d: %s=>{%s} // %s\n" $LINENO \
     '$tmp_dir' "$tmp_dir" \

@@ -2,8 +2,6 @@
 
 # -> README--extracting_timestamps.txt
 
-# $ pdfinfo_options=' -rawdates' ~/bin/pdf-suggest-___.sh *.pdf
-
 # misc/using_timestamps_in_filenames/pdf-suggest-*.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-versioned.sh
@@ -11,24 +9,32 @@
 
 ################################################################################
 
-##pdfinfo 2>/dev/null
-##if test $? -eq 127		# the shell cannot find the utility
-##then :
-##  echo 1>&2 "*** $0: cannot find pdfinfo"
-##  exit 1
-##fi
+# $ env pdfinfo_options=' -rawdates'       ~/bin/pdf-suggest-___.sh *.pdf
+# $ env pdfinfo_options=' -meta -rawdates' ~/bin/pdf-suggest-___.sh *.pdf
+#
+# for finding out, how to call pdfinfo:
+#
+# $ for i in *.pdf; do echo -e "\n*** $i;\n"; pdfinfo -rawdates $i; done
 
-if   test -e /opt/sw/bin/pdfinfo
+################################################################################
+
+##pdfinfo 2>/dev/null
+##if test $? -ne 127		# the shell cannot find the utility
+##then             PDFINFO=pdfinfo
+if false
 then :
-     PDFINFO=/opt/sw/bin/pdfinfo
-elif test -e /sw/bin/pdfinfo
-then :
-     PDFINFO=/sw/bin/pdfinfo
-elif test -e /opt/bin/pdfinfo
-then :
-     PDFINFO=/opt/bin/pdfinfo
+elif test -e  /usr/local/xpdf-tools/bin/pdfinfo
+then  PDFINFO=/usr/local/xpdf-tools/bin/pdfinfo
+elif test -e                /opt/sw/bin/pdfinfo
+then                PDFINFO=/opt/sw/bin/pdfinfo
+elif test -e                    /sw/bin/pdfinfo
+then                    PDFINFO=/sw/bin/pdfinfo
+elif test -e                   /opt/bin/pdfinfo
+then                   PDFINFO=/opt/bin/pdfinfo
+elif test -e                  $HOME/bin/pdfinfo
+then                  PDFINFO=$HOME/bin/pdfinfo
 else
-  echo 1>&2 "*** $0: cannot find pdfinfo at /sw/bin or /opt/bin"
+  echo 1>&2 "*** $0: cannot find pdfinfo on the PATH or at ... or at /opt/sw/bin or /sw/bin or /opt/bin or $HOME/bin"
   exit 1
 fi
 
