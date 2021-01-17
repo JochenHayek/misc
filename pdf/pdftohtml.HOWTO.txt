@@ -1,10 +1,18 @@
 # …
 
-                                     pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
-           /usr/local/xpdf-tools/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
-                            /opt/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
-                         /opt/sw/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
-                               ~/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
+CAVEAT: modern versions of pdfthtml do not support "-xml" any longer.
+
+################################################################################
+
+                                                            pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
+                                  /usr/local/xpdf-tools/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml      # 2021-01-16 : does not support "-xml" (any longer)
+
+                                             /usr/local/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml // brew install poppler
+
+                                                      ~/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml      # 2021-01-16 : MBP: /Applications/calibre.app/Contents/utils.app/Contents/MacOS/pdftohtml
+                                                   /opt/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml      # 2021-01-16 : diskstation003: /opt/bin/pdftohtml AKA /volume1/@entware/opt/bin/pdftohtml does support "-xml"
+                                                /opt/sw/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
+                                                      ~/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
 
 # within Emacs dired-mode leave out the file params:
 
@@ -15,3 +23,50 @@
 # and that's the least effort and hassle all together.
 
 ~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__postprocess.pl
+
+################################################################################
+
+/Applications/calibre.app/Contents/utils.app/Contents/MacOS/pdftohtml
+
+2021-01-16 : 
+
+	pdftohtml version 0.76.1
+	Copyright 2005-2019 The Poppler Developers - http://poppler.freedesktop.org
+	Copyright 1999-2003 Gueorgui Ovtcharov and Rainer Dorsch
+
+################################################################################
+
+[2021-01-17 23:25:14] johayek@Hayek003 $ brew install poppler
+
+[2021-01-17 23:29:47] johayek@Hayek003 $ env DYLD_LIBRARY_PATH=/System/Library/Frameworks/ImageIO.framework/Resources:$DYLD_LIBRARY_PATH /usr/local/bin/pdftohtml 
+pdftohtml version 21.01.0
+Copyright 2005-2021 The Poppler Developers - http://poppler.freedesktop.org
+Copyright 1999-2003 Gueorgui Ovtcharov and Rainer Dorsch
+Copyright 1996-2011 Glyph & Cog, LLC
+
+Usage: pdftohtml [options] <PDF-file> [<html-file> <xml-file>]
+  -f <int>              : first page to convert
+  -l <int>              : last page to convert
+  -q                    : don't print any messages or errors
+  -h                    : print usage information
+  -?                    : print usage information
+  -help                 : print usage information
+  --help                : print usage information
+  -p                    : exchange .pdf links by .html
+  -c                    : generate complex document
+  -s                    : generate single document that includes all pages
+  -i                    : ignore images
+  -noframes             : generate no frames
+  -stdout               : use standard output
+  -zoom <fp>            : zoom the pdf document (default 1.5)
+  -xml                  : output for XML post-processing
+
+
+################################################################################
+
+[2021-01-16 18:02:57] johayek@DiskStation003 $ ~/bin/sl !$
+~/bin/sl /opt/bin/pdftohtml
+
+/opt/bin/pdftohtml:
+/opt -> /volume1/@entware/opt
+/volume1/@entware/opt/bin/pdftohtml
