@@ -2,12 +2,12 @@
 
 # usage:
 #
-#   ~/git-servers/github.com/JochenHayek/misc/perl/fritz-call_list-2-diary.pl ? > $(echo ? ).diary
+#   ~/git-servers/github.com/JochenHayek/misc/perl/fritz-call_list-2-diary--fb_tools.pl ? > $(echo ? ).diary
 #
 # e.g.:
 #
-#   ~/git-servers/github.com/JochenHayek/misc/perl/fritz-call_list-2-diary.pl fritz-call_list-2-diary.t/FRITZ-Box_CallList.csv > fritz-call_list-2-diary.t/FRITZ-Box_CallList.csv.diary
-#   ~/git-servers/github.com/JochenHayek/misc/perl/fritz-call_list-2-diary.pl ~/'diary.FRITZ!Box_CallList.csv' > ~/diary.FB-CallList
+#   ~/git-servers/github.com/JochenHayek/misc/perl/fritz-call_list-2-diary--fb_tools.pl fritz-call_list-2-diary.t/FRITZ-Box_CallList.csv > fritz-call_list-2-diary.t/FRITZ-Box_CallList.csv.diary
+#   ~/git-servers/github.com/JochenHayek/misc/perl/fritz-call_list-2-diary--fb_tools.pl ~/'diary.FRITZ!Box_CallList.csv' > ~/diary.FB-CallList
 
 # sample input data:
 #
