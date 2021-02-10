@@ -107,7 +107,12 @@ our($prefix) = '                     ,            ,            ';
       elsif($. > 2)
 	{
 	##my(@fields) = split(/;/);
-	  my(@fields) = split($main::separator);
+	##my(@fields) = split($main::separator);
+
+	  # 0 ,1                  ,2              ,3         ,4                                           ,5                 ,6
+	  # in,2021-02-10 18:45:00,Michael Thätner,0721758499,FRITZ!App Fon (HUAWEI STK-LX1, Jochen Hayek),Internet: 21479880,0:44
+
+	  my(@fields) = m/^ ([^,]*?) , ([^,]*?) , ([^,]*?) , ([^,]*?) , (.*) , ([^,]*?) , (\S+) \s* $/x;
 
 	  push(@lines, { 'line_no' => $. , 'line' => \@fields } );
 
@@ -215,7 +220,7 @@ sub proc_line
     }
 	    
 
-  printf "%s + %s [_,telecom,phone_call,%s=>%s] From: %s; To: %s; Subject: ...\n\n",
+  printf "%s + %s [_,telecom,phone_call,%s=>%s] From: %s; To: %s; Subject: ...\n",
   ##&dd_mm_YY_HH_MM_2_diary_style( 'day' => $param{line_rec}{line}[ $main::name2pos{ 'Date' } ] ),
     &YYYY_mm_dd_HH_MM_2_diary_style( 'day' => $param{line_rec}{line}[ $main::name2pos{ 'Date' } ] ),
     $param{line_rec}{line}[ $main::name2pos{ 'Duration' } ],
