@@ -222,16 +222,16 @@ sub m_list
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  if(exists($param{list_id}))
+  if(1 || exists($param{list_id}))
     {
       my($list_id_backslashed) = $param{list_id};
 
       $list_id_backslashed =~ s/ ([\.\+]) /\\$1/gx;
 
-      print "##shuttle:\n"; 
-      print "##shuttle: :0\n"; 
-      print '##shuttle: * ^List-ID:.*<',$list_id_backslashed,'>$',"\n";
-      print '##shuttle: ',$param{target_folder__remote},"\n";
+      print "\n"; 
+      print ":0\n"; 
+      print '* ^List-ID:.*<',$list_id_backslashed,'>$',"\n";
+      print $param{target_folder__remote},"\n";
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
