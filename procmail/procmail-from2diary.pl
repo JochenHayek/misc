@@ -802,23 +802,39 @@ sub print_list_id_rule
     {
       $main::all_list_ids{ $param{LIST_ID_captures}{literal} } = 1;
 
-    ##my($descr) = encode("utf8",decode("MIME-Header",$param{LIST_ID_captures}{descr}));
-      my($descr) = decode("MIME-Header",$param{LIST_ID_captures}{descr});
+      my($descr__decoded)   = decode("MIME-Header",$param{LIST_ID_captures}{descr});
+      my($literal__decoded) = decode("MIME-Header",$param{LIST_ID_captures}{literal});
 
-      my($literal) = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{literal} );
+    ##my($descr__backslashed)   = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{descr} );
+    ##my($literal__backslashed) = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{literal} );
+
+      my($descr__backslashed)   = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{descr} );
+      my($literal__backslashed) = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{literal} );
 
       print $main::fh_procmailrc <<EOF;
 
 ##shuttle-macro-begin
-##shuttle-macro: m_list(
+
+##shuttle-macro: m_list_id_by_literal(
 ##shuttle-macro:   orgName => '',
 ##shuttle-macro:   from0 => '$param{from0}',
 ##shuttle-macro:   from1 => '$param{from1}',
-##shuttle-macro:   comment => '$descr',
 ##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
-##shuttle-macro:   list_id => '$param{LIST_ID_captures}{literal}',
+##shuttle-macro:   list_id_literal => '$param{LIST_ID_captures}{literal}',
+##shuttle-macro:   list_id_descr => '$descr__decoded',
 ##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
 ##shuttle-macro:   );
+
+##shuttle-macro: m_list_id_by_descr(
+##shuttle-macro:   orgName => '',
+##shuttle-macro:   from0 => '$param{from0}',
+##shuttle-macro:   from1 => '$param{from1}',
+##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
+##shuttle-macro:   list_id_literal => '$literal__decoded',
+##shuttle-macro:   list_id_descr => '$param{LIST_ID_captures}{descr}',
+##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
+##shuttle-macro:   );
+
 ##shuttle-macro-end
 EOF
 
