@@ -15,3 +15,21 @@
 # and that's the least effort and hassle all together.
 
 ~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__postprocess.pl
+
+================================================================================
+
+on macOS, "brew install poppler" proves a usable and valuable  poppler "pdftohtml" (*with* -xml):
+
+  /usr/local/bin/pdftohtml
+
+also coming with /Applications/calibre.app :
+
+  /Applications/calibre.app/Contents/utils.app/Contents/MacOS/pdftohtml
+
+================================================================================
+
+on my Synology NASs, this is a usable and valuable  poppler "pdftohtml" (*with* -xml):
+
+  /opt/bin/pdftohtml -> /volume1/@entware/opt/bin/pdftohtml
+
+
