@@ -57,7 +57,7 @@ our($creating_local_procmailrc_p)  = 0;
     }
 }
 #
-sub m0
+sub m_e_mail_addresses
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
@@ -165,7 +165,7 @@ sub m0
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
-      &print_rule_m0__high_level(
+      &print_rule_m_e_mail_addresses__high_level(
 	 local_or_remote => 'remote' ,
 	 target_folder => $param{target_folder__remote} ,
 	 list_of_return_path_core_re => \@list_of_return_path_core_re ,
@@ -174,7 +174,7 @@ sub m0
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
-      &print_rule_m0__high_level( 
+      &print_rule_m_e_mail_addresses__high_level( 
 	 local_or_remote => 'local' ,
 	 target_folder => $param{target_folder__local} ,
 	 list_of_return_path_core_re => \@list_of_return_path_core_re ,
@@ -317,7 +317,7 @@ sub m_list_id_by_descr
   return $return_value;
 }
 #
-sub print_rule_m0__high_level
+sub print_rule_m_e_mail_addresses__high_level
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
@@ -336,7 +336,7 @@ sub print_rule_m0__high_level
   if($#{$param{list_of_return_path_core_re}} == 0)
     {
       my($e) = $param{list_of_return_path_core_re}[0];
-      &print_rule_m0__low_level(
+      &print_rule_m_e_mail_addresses__low_level(
 	straight_or_SPFified => 'straight' ,
 	e_mail_address_misc_re => ${e} ,
 	target_folder => $param{target_folder} ,
@@ -346,7 +346,7 @@ sub print_rule_m0__high_level
     {
       my($h0) = join( '|' , @{$param{list_of_return_path_core_re}} );
       my($h1) = '(' . ${h0} . ')';
-      &print_rule_m0__low_level(
+      &print_rule_m_e_mail_addresses__low_level(
 	straight_or_SPFified => 'straight' ,
 	e_mail_address_misc_re => ${h1} ,
 	target_folder => $param{target_folder} ,
@@ -356,7 +356,7 @@ sub print_rule_m0__high_level
   if   ($#{$param{list_SPFified_of_return_path_core_re}} == 0)
     {
       my($e) = $param{list_SPFified_of_return_path_core_re}[0];
-      &print_rule_m0__low_level(
+      &print_rule_m_e_mail_addresses__low_level(
 	straight_or_SPFified => 'SPFified' ,
       ##e_mail_address_misc_re => ".*=${e}\@udag\.de"  ,
 	e_mail_address_misc_re => ".*=${e}\@.*"        ,
@@ -367,7 +367,7 @@ sub print_rule_m0__high_level
     {
       my($h0) = join( '|' , @{$param{list_SPFified_of_return_path_core_re}} );
       my($h1) = '(' . ${h0} . ')';
-      &print_rule_m0__low_level(
+      &print_rule_m_e_mail_addresses__low_level(
 	straight_or_SPFified => 'SPFified' ,
       ##e_mail_address_misc_re => ".*=${h1}\@udag\.de" ,
 	e_mail_address_misc_re => ".*=${h1}\@.*"       ,
@@ -381,7 +381,7 @@ sub print_rule_m0__high_level
   return $return_value;
 }
 #
-sub print_rule_m0__low_level
+sub print_rule_m_e_mail_addresses__low_level
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
