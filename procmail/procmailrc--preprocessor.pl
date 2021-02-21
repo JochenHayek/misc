@@ -397,8 +397,12 @@ sub print_rule_m0__low_level
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  print "\n"; 
-  print "# orgName=>{$param{orgName}}\n";
+  if(exists($param{orgName}))
+    {
+      print "\n"; 
+      print "# orgName=>{$param{orgName}}\n";
+    }
+
   print "\n"; 
   print ":0\n"; 
   print '* ^Return-Path: <',$param{e_mail_address_misc_re},'>$',"\n";
