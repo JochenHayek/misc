@@ -228,6 +228,12 @@ sub m_list
 
       $list_id_backslashed =~ s/ ([\.\+]) /\\$1/gx;
 
+      $param{orgName} = '' if ! exists($param{orgName});
+      $param{comment} = '' if ! exists($param{comment});
+
+      print "\n"; 
+      print "# orgName=>{$param{orgName}}\n";
+      print "# $param{comment}\n";
       print "\n"; 
       print ":0\n"; 
       print '* ^List-ID:.*<',$list_id_backslashed,'>$',"\n";
