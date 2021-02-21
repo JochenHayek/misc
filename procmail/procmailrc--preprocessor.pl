@@ -165,7 +165,7 @@ sub m0
 
   if   ($creating_remote_procmailrc_p && exists($param{target_folder__remote}))
     {
-      &print_rule__high_level(
+      &print_rule_m0__high_level(
 	 local_or_remote => 'remote' ,
 	 target_folder => $param{target_folder__remote} ,
 	 list_of_return_path_core_re => \@list_of_return_path_core_re ,
@@ -174,7 +174,7 @@ sub m0
     }
   elsif($creating_local_procmailrc_p && exists($param{target_folder__local}))
     {
-      &print_rule__high_level( 
+      &print_rule_m0__high_level( 
 	 local_or_remote => 'local' ,
 	 target_folder => $param{target_folder__local} ,
 	 list_of_return_path_core_re => \@list_of_return_path_core_re ,
@@ -188,7 +188,65 @@ sub m0
   return $return_value;
 }
 #
-sub print_rule__high_level
+sub m_list
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  # orgName
+  # comment
+  # my_client_no
+  # my_e_mail_address
+  # my_account
+  # my_password
+  # my_profile
+  # list_id
+  # target_folder__remote
+
+##shuttle-macro: m_list(
+##shuttle-macro:   orgName => 'Hostsharing eG',
+##shuttle-macro:   comment => 'Interne Mailingliste für Diskussionen mit Bezug zur Hostsharing eG für Mitglieder',
+##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
+##shuttle-macro:   list_id => 'members.hostsharing.net',
+##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
+##shuttle-macro:   );
+
+##shuttle:
+##shuttle: :0
+##shuttle: * ^List-ID:.*<members\.hostsharing\.net>$
+##shuttle: .folder-bulk.prio-9/
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(exists($param{list_id}))
+    {
+      my($list_id_backslashed) = $param{list_id};
+
+      $list_id_backslashed =~ s/ ([\.\+]) /\\$1/gx;
+
+      print "##shuttle:\n"; 
+      print "##shuttle: :0\n"; 
+      print '##shuttle: * ^List-ID:.*<',$param{list_id_backslashed},'>$',"\n";
+      print '##shuttle: ',$param{target_folder__remote},"\n";
+    }
+
+  &print_rule_m_list__high_level(
+      target_folder => $param{target_folder__remote} ,
+      list_of_return_path_core_re => \@list_of_return_path_core_re ,
+      list_SPFified_of_return_path_core_re => \@list_SPFified_of_return_path_core_re ,
+    );
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub print_rule_m0__high_level
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
@@ -207,7 +265,7 @@ sub print_rule__high_level
   if($#{$param{list_of_return_path_core_re}} == 0)
     {
       my($e) = $param{list_of_return_path_core_re}[0];
-      &print_rule__low_level(
+      &print_rule_m0__low_level(
 	straight_or_SPFified => 'straight' ,
 	e_mail_address_misc_re => ${e} ,
 	target_folder => $param{target_folder} ,
@@ -217,7 +275,7 @@ sub print_rule__high_level
     {
       my($h0) = join( '|' , @{$param{list_of_return_path_core_re}} );
       my($h1) = '(' . ${h0} . ')';
-      &print_rule__low_level(
+      &print_rule_m0__low_level(
 	straight_or_SPFified => 'straight' ,
 	e_mail_address_misc_re => ${h1} ,
 	target_folder => $param{target_folder} ,
@@ -227,7 +285,7 @@ sub print_rule__high_level
   if   ($#{$param{list_SPFified_of_return_path_core_re}} == 0)
     {
       my($e) = $param{list_SPFified_of_return_path_core_re}[0];
-      &print_rule__low_level(
+      &print_rule_m0__low_level(
 	straight_or_SPFified => 'SPFified' ,
       ##e_mail_address_misc_re => ".*=${e}\@udag\.de"  ,
 	e_mail_address_misc_re => ".*=${e}\@.*"        ,
@@ -238,7 +296,7 @@ sub print_rule__high_level
     {
       my($h0) = join( '|' , @{$param{list_SPFified_of_return_path_core_re}} );
       my($h1) = '(' . ${h0} . ')';
-      &print_rule__low_level(
+      &print_rule_m0__low_level(
 	straight_or_SPFified => 'SPFified' ,
       ##e_mail_address_misc_re => ".*=${h1}\@udag\.de" ,
 	e_mail_address_misc_re => ".*=${h1}\@.*"       ,
@@ -252,7 +310,7 @@ sub print_rule__high_level
   return $return_value;
 }
 #
-sub print_rule__low_level
+sub print_rule_m0__low_level
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
