@@ -213,6 +213,9 @@ sub m_list
 ##shuttle-macro:   );
 
 ##shuttle:
+##shuttle: # orgName=>{$param{orgName}}
+##shuttle: # $param{comment}
+##shuttle:
 ##shuttle: :0
 ##shuttle: * ^List-ID:.*<members\.hostsharing\.net>$
 ##shuttle: .folder-bulk.prio-9/
