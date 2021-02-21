@@ -1,4 +1,4 @@
-f:
+:
 
 # -> README--rename.txt
 
