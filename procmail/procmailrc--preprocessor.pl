@@ -230,7 +230,7 @@ sub m_list
 
       print "##shuttle:\n"; 
       print "##shuttle: :0\n"; 
-      print '##shuttle: * ^List-ID:.*<',$param{list_id_backslashed},'>$',"\n";
+      print '##shuttle: * ^List-ID:.*<',$list_id_backslashed,'>$',"\n";
       print '##shuttle: ',$param{target_folder__remote},"\n";
     }
 
