@@ -760,7 +760,7 @@ sub low_level_high_level_print_entry
       print $main::fh_procmailrc <<EOF;
 
 ##shuttle-macro-begin
-##shuttle-macro: m0(
+##shuttle-macro: m_e_mail_addresses(
 ##shuttle-macro:   orgName => '',
 ##shuttle-macro:   comment => '$param{from}',
 ##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
