@@ -229,12 +229,13 @@ sub m_list_id_by_literal
 
   if(1 || exists($param{list_id}))
     {
-      my($list_id_descr_backslashed) = $param{list_id_descr};
-
-      $list_id_descr_backslashed =~ s/ ([\.\+]) /\\$1/gx;
-
       $param{orgName} = '' if ! exists($param{orgName});
-      $param{comment} = '' if ! exists($param{comment});
+      $param{list_id_descr}   = '' if ! exists($param{list_id_descr});
+      $param{list_id_literal} = '' if ! exists($param{list_id_literal});
+
+      my($list_id_literal_backslashed) = $param{list_id_literal};
+
+      $list_id_literal_backslashed =~ s/ ([\.\+]) /\\$1/gx;
 
       print "\n"; 
       print "# orgName=>{$param{orgName}}\n";
@@ -292,13 +293,13 @@ sub m_list_id_by_descr
 
   if(1 || exists($param{list_id}))
     {
-      my($list_id_literal_backslashed) = $param{list_id_literal_descr};
-
-      $list_id_literal_backslashed =~ s/ ([\.\+]) /\\$1/gx;
-
       $param{orgName} = '' if ! exists($param{orgName});
       $param{list_id_descr}   = '' if ! exists($param{list_id_descr});
       $param{list_id_literal} = '' if ! exists($param{list_id_literal});
+
+      my($list_id_descr_backslashed) = $param{list_id_descr};
+
+      $list_id_descr_backslashed =~ s/ ([\.\+]) /\\$1/gx;
 
       print "\n"; 
       print "# orgName=>{$param{orgName}}\n";
