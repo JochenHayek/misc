@@ -234,12 +234,6 @@ sub m_list
       print '##shuttle: ',$param{target_folder__remote},"\n";
     }
 
-  &print_rule_m_list__high_level(
-      target_folder => $param{target_folder__remote} ,
-      list_of_return_path_core_re => \@list_of_return_path_core_re ,
-      list_SPFified_of_return_path_core_re => \@list_SPFified_of_return_path_core_re ,
-    );
-
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
