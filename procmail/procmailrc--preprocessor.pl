@@ -188,33 +188,35 @@ sub m0
   return $return_value;
 }
 #
-sub m_list
+sub m_list_id_by_literal
 {
   my($package,$filename,$line,$proc_name) = caller(0);
 
   my(%param) = @_;
 
   # orgName
-  # comment
   # my_client_no
   # my_e_mail_address
   # my_account
   # my_password
   # my_profile
-  # list_id
+  # list_id_literal
+  # list_id_descr
   # target_folder__remote
 
-##shuttle-macro: m_list(
+##shuttle-macro: m_list_id_by_literal(
 ##shuttle-macro:   orgName => 'Hostsharing eG',
 ##shuttle-macro:   comment => 'Interne Mailingliste für Diskussionen mit Bezug zur Hostsharing eG für Mitglieder',
 ##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
-##shuttle-macro:   list_id => 'members.hostsharing.net',
+##shuttle-macro:   list_id_literal => 'members.hostsharing.net',
+##shuttle-macro:   list_id_descr => '...',
 ##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
 ##shuttle-macro:   );
 
 ##shuttle:
 ##shuttle: # orgName=>{$param{orgName}}
-##shuttle: # $param{comment}
+##shuttle: # list_id_descr=>{$param{list_id_descr}}
+##shuttle: # list_id_literal=>{$param{list_id_literal}}
 ##shuttle:
 ##shuttle: :0
 ##shuttle: * ^List-ID:.*<members\.hostsharing\.net>$
@@ -227,19 +229,84 @@ sub m_list
 
   if(1 || exists($param{list_id}))
     {
-      my($list_id_backslashed) = $param{list_id};
+      my($list_id_descr_backslashed) = $param{list_id_descr};
 
-      $list_id_backslashed =~ s/ ([\.\+]) /\\$1/gx;
+      $list_id_descr_backslashed =~ s/ ([\.\+]) /\\$1/gx;
 
       $param{orgName} = '' if ! exists($param{orgName});
       $param{comment} = '' if ! exists($param{comment});
 
       print "\n"; 
       print "# orgName=>{$param{orgName}}\n";
-      print "# $param{comment}\n";
+      print "# list_id_descr=>{$param{list_id_descr}}\n";
+      print "# list_id_literal=>{$param{list_id_literal}}\n";
       print "\n"; 
       print ":0\n"; 
-      print '* ^List-ID:.*<',$list_id_backslashed,'>$',"\n";
+      print '* ^List-ID:.*<',$list_id_literal_backslashed,'>$',"\n";
+      print $param{target_folder__remote},"\n";
+    }
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub m_list_id_by_descr
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  # orgName
+  # my_client_no
+  # my_e_mail_address
+  # my_account
+  # my_password
+  # my_profile
+  # list_id_literal
+  # list_id_descr
+  # target_folder__remote
+
+##shuttle-macro: m_list_id_by_descr(
+##shuttle-macro:   orgName => 'Hostsharing eG',
+##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
+##shuttle-macro:   list_id_descr => 'Interne Mailingliste für Diskussionen mit Bezug zur Hostsharing eG für Mitglieder',
+##shuttle-macro:   list_id_literal => 'members.hostsharing.net',
+##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
+##shuttle-macro:   );
+
+##shuttle:
+##shuttle: # orgName=>{$param{orgName}}
+##shuttle: # list_id_descr=>{$param{list_id_descr}}
+##shuttle: # list_id_literal=>{$param{list_id_literal}}
+##shuttle:
+##shuttle: :0
+##shuttle: * ^List-ID:.*<members\.hostsharing\.net>$
+##shuttle: .folder-bulk.prio-9/
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(1 || exists($param{list_id}))
+    {
+      my($list_id_literal_backslashed) = $param{list_id_literal_descr};
+
+      $list_id_literal_backslashed =~ s/ ([\.\+]) /\\$1/gx;
+
+      $param{orgName} = '' if ! exists($param{orgName});
+      $param{list_id_descr}   = '' if ! exists($param{list_id_descr});
+      $param{list_id_literal} = '' if ! exists($param{list_id_literal});
+
+      print "\n"; 
+      print "# orgName=>{$param{orgName}}\n";
+      print "# list_id_descr=>{$param{list_id_descr}}\n";
+      print "# list_id_literal=>{$param{list_id_literal}}\n";
+      print "\n"; 
+      print ":0\n"; 
+      print '* ^List-ID: *',$list_id_descr_backslashed,' <.*>$',"\n";
       print $param{target_folder__remote},"\n";
     }
 
