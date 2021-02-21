@@ -809,14 +809,17 @@ sub print_list_id_rule
 
       print $main::fh_procmailrc <<EOF;
 
-# \$param{from0}=>{$param{from0}}
-# \$param{from1}=>{$param{from1}}
-# \$param{LIST_ID_captures}{descr}=>{$descr}
-
-##shuttle:
-##shuttle: :0
-##shuttle: * ^List-ID:.*<$literal>\$
-##shuttle: .folder-bulk.prio-9/
+##shuttle-macro-begin
+##shuttle-macro: m_list(
+##shuttle-macro:   orgName => '',
+##shuttle-macro:   from0 => '$param{from0}',
+##shuttle-macro:   from1 => '$param{from1}',
+##shuttle-macro:   comment => '$descr',
+##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
+##shuttle-macro:   list_id => '$param{LIST_ID_captures}{literal}',
+##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
+##shuttle-macro:   );
+##shuttle-macro-end
 EOF
 
   }
