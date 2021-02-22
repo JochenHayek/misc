@@ -188,6 +188,59 @@ sub m_e_mail_addresses
   return $return_value;
 }
 #
+sub m_list_id_by_literal_re
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  # orgName
+  # comment
+  # my_client_no,my_e_mail_address,my_account,my_password,my_profile
+  # list_id_literal_re
+  # target_folder__remote
+
+##shuttle-macro: m_list_id_by_literal(
+##shuttle-macro:   orgName => 'Hostsharing eG',
+##shuttle-macro:   comment => 'Interne Mailingliste für Diskussionen mit Bezug zur Hostsharing eG für Mitglieder',
+##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
+##shuttle-macro:   list_id_literal_re => '(members|members-bla).hostsharing.net',
+##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
+##shuttle-macro:   );
+
+##shuttle:
+##shuttle: # orgName=>{$param{orgName}}
+##shuttle: # comment=>{$param{comment}}
+##shuttle:
+##shuttle: :0
+##shuttle: * ^List-ID:.*<members\.hostsharing\.net>$
+##shuttle: .folder-bulk.prio-9/
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if(1 || exists($param{list_id}))
+    {
+      $param{orgName} = '' if ! exists($param{orgName});
+      $param{comment}   = '' if ! exists($param{comment});
+
+      print "\n"; 
+      print "# orgName=>{$param{orgName}}\n";
+      print "# comment=>{$param{comment}}\n";
+      print "\n"; 
+      print ":0\n"; 
+      print '* ^List-ID:.*<',$param{list_id_literal_re},'>$',"\n";
+      print $param{target_folder__remote},"\n";
+    }
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
 sub m_list_id_by_literal
 {
   my($package,$filename,$line,$proc_name) = caller(0);
@@ -195,11 +248,7 @@ sub m_list_id_by_literal
   my(%param) = @_;
 
   # orgName
-  # my_client_no
-  # my_e_mail_address
-  # my_account
-  # my_password
-  # my_profile
+  # my_client_no,my_e_mail_address,my_account,my_password,my_profile
   # list_id_literal
   # list_id_descr
   # target_folder__remote
@@ -260,11 +309,7 @@ sub m_list_id_by_descr
   my(%param) = @_;
 
   # orgName
-  # my_client_no
-  # my_e_mail_address
-  # my_account
-  # my_password
-  # my_profile
+  # my_client_no,my_e_mail_address,my_account,my_password,my_profile
   # list_id_literal
   # list_id_descr
   # target_folder__remote
