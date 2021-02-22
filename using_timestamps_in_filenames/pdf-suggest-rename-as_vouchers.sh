@@ -249,9 +249,8 @@ do
        # CreationDate:   D:20141218091004+01'00'
        # CreationDate:     20190603070456+02'00'	# -rawdates w/o initial "D:"
 
-     ##if( m/ ^ (?<n>.*Date): \s*       D:    (?<v> ( (?<v_less_SS> \d{12}) (?<SS> \d\d) ) (.*) ) $ /x )
-     ##if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v>                 \d{14}                 (.*) ) $ /x )
-       if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v> ( (?<v_less_SS> \d{12}) (?<SS> \d\d) ) (.*) ) $ /x )
+     ##if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v>                            \d{14}                 (.*) ) $ /x )
+       if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v_entire> (?<v> (?<v_less_SS> \d{12}) (?<SS> \d\d) ) (.*) ) $ /x )
 	 {
            my(%plus) = %+;
 
