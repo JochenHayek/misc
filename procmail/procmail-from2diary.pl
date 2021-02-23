@@ -886,13 +886,22 @@ sub print_list_unsubscribe_rule
 
   # $param{LIST_UNSUBSCRIBE_captures}{all}
 
+  my($h) = $param{LIST_UNSUBSCRIBE_captures}{all};
+  $h =~ s/ ([\\\*\?\.\+]) /\\$1/gx;
+
   unless(exists( $main::all_list_unsubscribes{ $param{LIST_UNSUBSCRIBE_captures}{all} } ))
     {
       $main::all_list_unsubscribes{ $param{LIST_UNSUBSCRIBE_captures}{all} } = 1;
 
       print $main::fh_procmailrc <<EOF;
 
-LIST_UNSUBSCRIBE={$param{LIST_UNSUBSCRIBE_captures}{all}}
+# from0 => '$param{from0}',
+# from1 => '$param{from1}',
+#
+##shuttle:
+##shuttle: :0
+##shuttle: * ^List-Unsubscribe: $h
+##shuttle: .folder-bulk.prio-9/
 EOF
 
   }
