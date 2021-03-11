@@ -22,7 +22,7 @@ year=2022
 
 	hh:mm calendar maintenance -- should be VERY, VERY EASY AND STRAIGHT FORWARD using the following recipes:
 
-	  -> www.schulferien.org/Feiertage/feiertage.html // maybe also useful
+	  -> www.schulferien.org/Feiertage/feiertage.html // maybe also be useful
 
 		\(..\)\.\(..\)\.\(....\) -> \3-\2-\1
 
