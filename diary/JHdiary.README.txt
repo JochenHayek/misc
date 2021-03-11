@@ -28,8 +28,8 @@ year=2022
 
 		www.schulferien.org/Berlin/berlin.html
 		www.schulferien.org/deutschland/ferien/winterferien/berlin/               // 2022-01-29 .. 2022-02-05
-		www.schulferien.org/deutschland/ferien/osterferien/berlin/                // 2022-03-07 + 2022-04-11..23
-		www.schulferien.org/deutschland/ferien/pfingstferien/berlin/              // 2022-05-27 + 2022-06-07
+		www.schulferien.org/deutschland/ferien/osterferien/berlin/                // 2022-03-07 +  2022-04-11..23
+		www.schulferien.org/deutschland/ferien/pfingstferien/berlin/              // 2022-05-27 +  2022-06-07
 		www.schulferien.org/deutschland/ferien/sommerferien/berlin/               // 2022-07-07 .. 2022-08-19
 		www.schulferien.org/deutschland/ferien/herbstferien/berlin/               // 2022-10-24 .. 2022-11-05
 		www.schulferien.org/deutschland/ferien/weihnachtsferien/berlin/           // 2022-12-22 .. 2023-01-02
