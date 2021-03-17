@@ -65,7 +65,6 @@ sub m_e_mail_addresses
 
   # comment
   # e_mail_address_list_raw
-  # e_mail_address_single_raw
   # e_mail_address_single_AT_re
   # e_mail_address_misc_re
   # target_folder__remote
@@ -97,24 +96,6 @@ sub m_e_mail_addresses
 
 	      push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
 	    }
-	}
-    }
-
-  if(exists($param{e_mail_address_single_raw}))
-    {
-      my($h1) = $param{e_mail_address_single_raw};
-
-      $h1 =~ s/ ([\.\+]) /\\$1/gx;
-
-      push( @list_of_return_path_core_re , $h1 );
-
-      if($param{e_mail_address_single_raw} =~ m/^ (?<before>.*) \@ (?<after>.*) $/x)
-	{
-	  my($h0) = "$+{after}=$+{before}";
-
-	  $h0 =~ s/ ([\.\+]) /\\$1/gx;
-
-	  push( @list_SPFified_of_return_path_core_re ,     ${h0}      );
 	}
     }
 
@@ -432,7 +413,7 @@ sub print_rule_m_e_mail_addresses__low_level
 
   my(%param) = @_;
 
-  # $param{straight_or_SPFified}
+  # $param{straight_or_SPFified} : 'straight' , 'SPFified'
   # $param{local_or_remote} // unused?!
   # $param{e_mail_address_misc_re}
   # $param{target_folder}
@@ -442,16 +423,34 @@ sub print_rule_m_e_mail_addresses__low_level
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  if(exists($param{orgName}))
+##if(1)
+  if($param{straight_or_SPFified} eq 'straight')
+##if($param{straight_or_SPFified} eq 'SPFified')
     {
-      print "\n"; 
-      print "# orgName=>{$param{orgName}}\n";
-    }
+      # in case we are not only creating code for 'straight',
+      # it makes sense to announce, which case we are dealing with right now.
 
-  print "\n"; 
-  print ":0\n"; 
-  print '* ^Return-Path: <',$param{e_mail_address_misc_re},'>$',"\n";
-  print $param{target_folder},"\n";
+      # if we want to deal with both cases,
+      # use       "if(1)" here,
+      # otherwise "if(0)" here:
+
+      if(0)
+	{
+	  print "\n"; 
+	  print "# straight_or_SPFified=>{$param{straight_or_SPFified}}\n";
+	}
+
+      if(exists($param{orgName}))
+	{
+	  print "\n"; 
+	  print "# orgName=>{$param{orgName}}\n";
+	}
+
+      print "\n"; 
+      print ":0\n"; 
+      print '* ^Return-Path: <',$param{e_mail_address_misc_re},'>$',"\n";
+      print $param{target_folder},"\n";
+    }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
