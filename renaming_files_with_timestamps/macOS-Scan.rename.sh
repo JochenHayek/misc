@@ -2,7 +2,6 @@
 
 # before:
 #
-#   Screen Shot 2014-04-15 at 21.45.17pm.png
 #   Scan.png
 #   Scan 1.png
 #   Scan 10.png
