@@ -84,6 +84,8 @@ $ ~/bin/renumber_duplex_scanned_files.sh 20170614000000--___. 999990-000--201706
 
 # eg.
 
+$ ~/bin/renumber_duplex_scanned_files.sh             20200706000000--___. Scan_*.png
+
 $ ~/bin/renumber_duplex_scanned_files.sh             20200121000000--___. 999990-000--*.png
 
 $ ~/bin/renumber_duplex_scanned_files.sh             20181101000000--___. 999990-000--*.png
