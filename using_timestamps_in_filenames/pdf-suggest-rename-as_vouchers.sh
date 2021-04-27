@@ -2,8 +2,6 @@
 
 # -> README--extracting_timestamps.txt
 
-# $ pdfinfo_options=' -rawdates' ~/bin/pdf-suggest-___.sh *.pdf
-
 # misc/using_timestamps_in_filenames/pdf-suggest-*.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers.sh
 # misc/using_timestamps_in_filenames/pdf-suggest-rename-versioned.sh
@@ -11,21 +9,32 @@
 
 ################################################################################
 
-pdfinfo 2>/dev/null
-if test $? -ne 127		# the shell cannot find the utility
-then             PDFINFO=pdfinfo
-##  echo 1>&2 "*** $0: cannot find pdfinfo"
-##  exit 1
-elif test -e /opt/sw/bin/pdfinfo
-then PDFINFO=/opt/sw/bin/pdfinfo
-elif test -e     /sw/bin/pdfinfo
-then     PDFINFO=/sw/bin/pdfinfo
-elif test -e    /opt/bin/pdfinfo
-then    PDFINFO=/opt/bin/pdfinfo
-elif test -e   $HOME/bin/pdfinfo
-then   PDFINFO=$HOME/bin/pdfinfo
+# $ env pdfinfo_options=' -rawdates'       ~/bin/pdf-suggest-___.sh *.pdf
+# $ env pdfinfo_options=' -meta -rawdates' ~/bin/pdf-suggest-___.sh *.pdf
+#
+# for finding out, how to call pdfinfo:
+#
+# $ for i in *.pdf; do echo -e "\n*** $i;\n"; pdfinfo -rawdates $i; done
+
+################################################################################
+
+##pdfinfo 2>/dev/null
+##if test $? -ne 127		# the shell cannot find the utility
+##then             PDFINFO=pdfinfo
+if false
+then :
+elif test -e  /usr/local/xpdf-tools/bin/pdfinfo
+then  PDFINFO=/usr/local/xpdf-tools/bin/pdfinfo
+elif test -e                /opt/sw/bin/pdfinfo
+then                PDFINFO=/opt/sw/bin/pdfinfo
+elif test -e                    /sw/bin/pdfinfo
+then                    PDFINFO=/sw/bin/pdfinfo
+elif test -e                   /opt/bin/pdfinfo
+then                   PDFINFO=/opt/bin/pdfinfo
+elif test -e                  $HOME/bin/pdfinfo
+then                  PDFINFO=$HOME/bin/pdfinfo
 else
-  echo 1>&2 "*** $0: cannot find pdfinfo on the PATH or at /opt/sw/bin or /sw/bin or /opt/bin or $HOME/bin"
+  echo 1>&2 "*** $0: cannot find pdfinfo on the PATH or at ... or at /opt/sw/bin or /sw/bin or /opt/bin or $HOME/bin"
   exit 1
 fi
 
@@ -115,6 +124,34 @@ do
        my($dirname)  = dirname($filename);
        chomp;
 
+       # "pdfinfo -rawdates" delivers this:
+       #
+       # CreationDate:   2021-02-18T11:23:42+01:00
+
+       if( m/ ^ (?<n>.*Date): \s+ (?<v> (?<YYYY>\w+) - (?<mm>\w+) - (?<dd>\w+) T  (?<HH>\d\d) : (?<MM>\d\d) : (?<SS>\d\d) (\+.*)? ) /x )
+	 {
+           my(%plus) = %+;
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
+
+	   my($ts_YmdHMS)  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
+	   my($ts_YmdHM_S) = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
+	 }
+
        # "pdfinfo" delivers this:
        #
        # CreationDate:   15.03.05,10:29:14+01'00'
@@ -145,6 +182,8 @@ do
 	     );
 	 }
 
+       # "pdfinfo" delivers this:
+       #
        # CreationDate:   21/12/2004 16:24:57
 
        if( m/ ^ (?<n>.*Date): \s+ (?<v> (?<dd>\w+) \/ (?<mm>\w+) \/ (?<YYYY>\w+) \s+  (?<HH>\d\d) : (?<MM>\d\d) : (?<SS>\d\d) ) $ /x )
@@ -210,9 +249,8 @@ do
        # CreationDate:   D:20141218091004+01'00'
        # CreationDate:     20190603070456+02'00'	# -rawdates w/o initial "D:"
 
-     ##if( m/ ^ (?<n>.*Date): \s*       D:    (?<v> ( (?<v_less_SS> \d+) (?<SS> \d\d) ) ) (.*) $ /x )
-     ##if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v>                 \d+)                  (.*) $ /x )
-       if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v> ( (?<v_less_SS> \d+) (?<SS> \d\d) ) ) (.*) $ /x )
+     ##if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v>                            \d{14}                 (.*) ) $ /x )
+       if( m/ ^ (?<n>.*Date): \s* (?<D> D: )? (?<v_entire> (?<v> (?<v_less_SS> \d{12}) (?<SS> \d\d) ) (.*) ) $ /x )
 	 {
            my(%plus) = %+;
 
@@ -242,7 +280,76 @@ do
 
        # <dc:date>2014-07-01T16:45:02+02:00</dc:date>
 
-       if(   m/ ^ \s* < (?<n> \w+ :\w* Date) > (?<v>.*) <\/ (?<n1> \w+ : \w* Date) > /ix 
+       # CAVEAT: occurences on the same line are not properly dealt with (we should deal with them in a loop instead of 3 one by one) , e.g.:
+       #   <xmp:CreateDate>2021-02-18T11:23:42+01:00</xmp:CreateDate><xmp:ModifyDate>2021-02-18T11:23:42+01:00</xmp:ModifyDate>
+
+       if(   m/ < (?<n>xmp:CreateDate) > (?<v>[^<]*) <\/ (?<n1> \w+ : \w* Date) > /ix 
+	 )
+	 {
+           my(%plus) = %+;
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
+
+	   $plus{YYYY} = substr($plus{v}, 0,4);
+	   $plus{mm}   = substr($plus{v}, 5,2);
+	   $plus{dd}   = substr($plus{v}, 8,2);
+	   $plus{HH}   = substr($plus{v},11,2);
+	   $plus{MM}   = substr($plus{v},14,2);
+	   $plus{SS}   = substr($plus{v},17,2);
+
+	   my($ts_YmdHMS)  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
+	   my($ts_YmdHM_S) = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
+	 }
+       if(   m/ < (?<n>xmp:ModifyDate) > (?<v>[^<]*) <\/ (?<n1> \w+ : \w* Date) > /ix 
+	 )
+	 {
+           my(%plus) = %+;
+
+           printf STDERR "# %d: %s=>{%s},%s=>{%s} // %s\n",__LINE__,
+             "\$plus{n}" => $plus{n},
+             "\$plus{v}" => $plus{v},
+             "..."
+             if $display_case_p;
+
+	   $plus{YYYY} = substr($plus{v}, 0,4);
+	   $plus{mm}   = substr($plus{v}, 5,2);
+	   $plus{dd}   = substr($plus{v}, 8,2);
+	   $plus{HH}   = substr($plus{v},11,2);
+	   $plus{MM}   = substr($plus{v},14,2);
+	   $plus{SS}   = substr($plus{v},17,2);
+
+	   my($ts_YmdHMS)  = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}$plus{SS}";
+	   my($ts_YmdHM_S) = "$plus{YYYY}$plus{mm}$plus{dd}$plus{HH}$plus{MM}.$plus{SS}";
+
+	   func(
+	       dirname    => $dirname , 
+	       filename   => $filename ,
+	       basename   => $basename ,
+	       ts_YmdHMS  => $ts_YmdHMS ,
+	       ts_YmdHM_S => $ts_YmdHM_S ,
+	       n 	  => $plus{n} ,
+	       v 	  => $plus{v} ,
+	     );
+	 }
+       if(   m/ < (?<n> \w+ :\w* Date) > (?<v>[^<]*) <\/ (?<n1> \w+ : \w* Date) > /ix 
+
+          && ($+{n} ne "xmp:CreateDate")
+          && ($+{n} ne "xmp:ModifyDate")
+
           && ($+{n} ne "pfDocArc:ARCHIVE_DATE")		# <pfDocArc:ARCHIVE_DATE>20200217</pfDocArc:ARCHIVE_DATE>
           && ($+{n} ne "pfDocArc:ARCHIVE_DEL_DATE")	# <pfDocArc:ARCHIVE_DEL_DATE>20350213</pfDocArc:ARCHIVE_DEL_DATE>
 	 )

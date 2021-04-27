@@ -1,6 +1,11 @@
-f:
+:
 
-# -> README--rename.txt
+# e.g.
+#
+#   IMG_20191103_125035.jpg
+#   VID_20191110_220819.mp4
+
+# Google.rename.sh and android-camera.rename.sh look rather, rather similar.
 
 ################################################################################
 

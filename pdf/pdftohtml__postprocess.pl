@@ -48,6 +48,22 @@ use Fatal;
 
 ################################################################################
 
+# experimenting on files which are almost identical,
+# just that "top" and "height" attributes changed a little.
+
+# possible almost useless for real-life examples
+
+#   <text  top="0092" left="0033" width="0038" height="0013"
+
+# in emacs on a buffer containing some PDFTOHTML XML resp. *region*:
+#
+#   TOP=-3 HEIGHT=9999 ~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__postprocess.pl
+#
+# adds -3 to the "top" attribute,
+# sets the "height" attribute to 9999.
+
+################################################################################
+
 # this is my 1st "s///e",
 # and I am rather astonished, that it worked immediately.
 
@@ -60,21 +76,60 @@ use Fatal;
     {
       s/
 
-         <(?<text_or_image>text|image)
-         \s+    top="(?<top>-?\d+)" 
-         \s+   left="(?<left>-?\d+)" 
-         \s+  width="(?<width>-?\d+)" 
-         \s+ height="(?<height>-?\d+)" 
+	 <(?<text_or_image>text|image)
+	 \s+	top="(?<top>-?\d+)" 
+	 \s+   left="(?<left>-?\d+)" 
+	 \s+  width="(?<width>-?\d+)" 
+	 \s+ height="(?<height>-?\d+)" 
 
        /
 
-         sprintf "<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\"",
-                       $+{text_or_image},
-           'top'    => $+{top},
-           'left'   => $+{left},
-           'width'  => $+{width},
-           'height' => $+{height},
-           ;
+	 sprintf "<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\"",
+		       $+{text_or_image},
+
+	   'top'    =>	 $+{top}    ,
+
+	   'left'   =>	 $+{left}   ,
+
+	   'width'  =>	 $+{width}  ,
+
+	   'height' =>	 $+{height} ,
+	   ;
+
+       /ex;
+
+      print;
+    }
+}
+
+exit 0;
+
+{
+  while(<>)
+    {
+      s/
+
+	 <(?<text_or_image>text|image)
+	 \s+	top="(?<top>-?\d+)" 
+	 \s+   left="(?<left>-?\d+)" 
+	 \s+  width="(?<width>-?\d+)" 
+	 \s+ height="(?<height>-?\d+)" 
+
+       /
+
+	 sprintf "<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\"",
+		       $+{text_or_image},
+
+	 ##'top'    =>	 $+{top}    ,
+	   'top'    => ( $+{top}    + ( exists($ENV{TOP})    ? $ENV{TOP}    : 0		 ) ), # new_top = current_top + $ENV{TOP}
+
+	   'left'   =>	 $+{left}   ,
+
+	   'width'  =>	 $+{width}  ,
+
+	 ##'height' =>	 $+{height} ,
+	   'height'  =>		      ( exists($ENV{HEIGHT}) ? $ENV{HEIGHT} : $+{height} )  , # new_height = $ENV{HEIGHT} resp. current_height
+	   ;
 
        /ex;
 

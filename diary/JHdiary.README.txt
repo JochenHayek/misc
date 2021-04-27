@@ -1,6 +1,7 @@
 # …
 
 -> ~/transfer/000diary/
+-> etc/diary/
 
 year=2022
 
@@ -21,15 +22,17 @@ year=2022
 
 	hh:mm calendar maintenance -- should be VERY, VERY EASY AND STRAIGHT FORWARD using the following recipes:
 
-	  -> www.schulferien.org/Feiertage/feiertage.html // maybe also useful
+	  -> www.schulferien.org/Feiertage/feiertage.html // maybe also be useful
 
-	  www.schulferien.org/Berlin/berlin.html
-	  www.schulferien.org/deutschland/ferien/winterferien/berlin/               // 2021-02-01..06
-	  www.schulferien.org/deutschland/ferien/osterferien/berlin/                // 2021-03-29 .. 2021-04-10
-	  www.schulferien.org/deutschland/ferien/pfingstferien/berlin/              // 2021-05-14
-	  www.schulferien.org/deutschland/ferien/sommerferien/berlin/               // 2021-06-24 .. 2021-08-06
-	  www.schulferien.org/deutschland/ferien/herbstferien/berlin/               // 2021-10-11 .. 2021-10-23
-	  www.schulferien.org/deutschland/ferien/weihnachtsferien/berlin/           // 2021-12-24 .. 2021-12-31
+		\(..\)\.\(..\)\.\(....\) -> \3-\2-\1
+
+		www.schulferien.org/Berlin/berlin.html
+		www.schulferien.org/deutschland/ferien/winterferien/berlin/               // 2022-01-29 .. 2022-02-05
+		www.schulferien.org/deutschland/ferien/osterferien/berlin/                // 2022-03-07 +  2022-04-11..23
+		www.schulferien.org/deutschland/ferien/pfingstferien/berlin/              // 2022-05-27 +  2022-06-07
+		www.schulferien.org/deutschland/ferien/sommerferien/berlin/               // 2022-07-07 .. 2022-08-19
+		www.schulferien.org/deutschland/ferien/herbstferien/berlin/               // 2022-10-24 .. 2022-11-05
+		www.schulferien.org/deutschland/ferien/weihnachtsferien/berlin/           // 2022-12-22 .. 2023-01-02
 
 	  my very special 2012 trick: copy the "Local variables" end from ~/diary to the newly created sniplets before merging them
 

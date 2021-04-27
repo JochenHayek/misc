@@ -11,7 +11,7 @@
 
 # read a procmail LOGFILE
 # * as created by my .procmailrc
-# * with rather special extra lines: DATE:..., FROM:..., MSG_TO=..., SUBJECT=...
+# * with rather special extra lines: DATE:..., FROM:..., MSG_TO=..., SUBJECT=..., LIST_ID=..., LIST_UNSUBSCRIBE=...
 
 # create diary entries on STDOUT
 # create $HOME/var/log/procmailrc
@@ -74,6 +74,8 @@
 use strict;
 ##use warnings FATAL => 'all';	# this creates an immediate exit with 'binmode(STDIN ,":encoding(UTF-8)" );' , when something non-UTF-8 gets encountered
 use warnings;
+
+use MIME::Base64;
 
 ##our $VERSION = '1.36';
 
@@ -199,7 +201,7 @@ sub job_anon
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  my(%DATE_captures,%FROM_captures,%MSG_TO_captures,%SUBJECT_captures,
+  my(%DATE_captures,%FROM_captures,%MSG_TO_captures,%SUBJECT_captures,%LIST_ID_captures,%LIST_UNSUBSCRIBE_captures,
      		    %From_captures,%to_captures,%subject_captures,
      %folder_captures);
 
@@ -220,6 +222,8 @@ sub job_anon
   binmode( STDERR , ":encoding(UTF-8)" );
 
   our(%all_addresses);
+  our(%all_list_ids);
+  our(%all_list_unsubscribes);
   my($HOME_var_log_procmailrc) = "$ENV{HOME}/var/log/procmailrc";
 
   unlink($HOME_var_log_procmailrc);
@@ -231,6 +235,7 @@ sub job_anon
     {
       $main::fh_procmailrc->autoflush(1);
     }
+  binmode( $main::fh_procmailrc , ":encoding(UTF-8)" );
 
   while(<>)			# this is only STDIN, if it's really STDIN; if it's "reading files filter-like from the command-line", it's not STDIN; no idea, what it is then
     {
@@ -246,6 +251,8 @@ sub job_anon
 	  %DATE_captures    = ();
 	  %MSG_TO_captures  = ();
 	  %SUBJECT_captures = ();
+	  %LIST_ID_captures  = ();
+	  %LIST_UNSUBSCRIBE_captures  = ();
 	}
 
       # DATE={ 9 Mar 2015 12:36:39 -0400}
@@ -293,6 +300,41 @@ sub job_anon
 	    if 0;
 
 	  %SUBJECT_captures = %+;
+	}
+      elsif(m/^LIST_ID=\{ \s* (?<descr> [^<]*? ) \s* < (?<literal>[^>]*) > \} $/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options, 
+					   '$+{descr}' => $+{descr},
+					   '$+{literal}' => $+{literal},
+	                                   )
+	    ,'...'
+	    if 0;
+
+	  %LIST_ID_captures = %+;
+	}
+      elsif(m/^LIST_ID=\{ \s* (?<literal>[^>]*) \} $/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options, 
+					   '$+{literal}' => $+{literal},
+	                                   )
+	    ,'...'
+	    if 0;
+
+	  %LIST_ID_captures = %+;
+	  $LIST_ID_captures{descr} = '';
+	}
+      elsif(m/^LIST_UNSUBSCRIBE=\{ \s* (?<all>.*) \} $/x)
+	{
+	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	    , &main::format_key_value_list($main::std_formatting_options, 
+					   '$+{all}' => $+{all},
+	                                   )
+	    ,'...'
+	    if 0;
+
+	  %LIST_UNSUBSCRIBE_captures = %+;
 	}
 
       elsif(m/^From \s+ (?<From>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
@@ -348,21 +390,25 @@ sub job_anon
 	  %folder_captures = %+;
 	  
 	  &high_level_print_entry(
-	    'ref_last_date'    => \$last_date,
-	    'FROM_captures'    => \%FROM_captures,
-	    'MSG_TO_captures'  => \%MSG_TO_captures,
-	    'DATE_captures'    => \%DATE_captures,
-	    'SUBJECT_captures' => \%SUBJECT_captures,
-	    'From_captures'    => \%From_captures,
-	    'to_captures'      => \%to_captures,
-	    'subject_captures' => \%subject_captures,
-	    'folder_captures'  => \%folder_captures,
+	    'ref_last_date'    		=> \$last_date,
+	    'FROM_captures'    		=> \%FROM_captures,
+	    'MSG_TO_captures'  		=> \%MSG_TO_captures,
+	    'DATE_captures'    		=> \%DATE_captures,
+	    'SUBJECT_captures' 		=> \%SUBJECT_captures,
+	    'LIST_ID_captures' 		=> \%LIST_ID_captures,
+	    'LIST_UNSUBSCRIBE_captures' => \%LIST_UNSUBSCRIBE_captures,
+	    'From_captures'    		=> \%From_captures,
+	    'to_captures'      		=> \%to_captures,
+	    'subject_captures' 		=> \%subject_captures,
+	    'folder_captures'  		=> \%folder_captures,
 	    );
 
 	  %FROM_captures    = ();
 	  %MSG_TO_captures  = ();
 	  %DATE_captures    = ();
 	  %SUBJECT_captures = ();
+	  %LIST_ID_captures  = ();
+	  %LIST_UNSUBSCRIBE_captures  = ();
 	  %From_captures    = ();
 	  %to_captures      = ();
 	  %subject_captures = ();
@@ -382,25 +428,29 @@ sub job_anon
 	  %folder_captures = %+;
 	  
 	  &high_level_print_entry(
-	    'ref_last_date'    => \$last_date,
-	    'FROM_captures'    => \%FROM_captures,
-	    'MSG_TO_captures'  => \%MSG_TO_captures,
-	    'DATE_captures'    => \%DATE_captures,
-	    'SUBJECT_captures' => \%SUBJECT_captures,
-	    'From_captures'    => \%From_captures,
-	    'to_captures'      => \%to_captures,
-	    'subject_captures' => \%subject_captures,
-	    'folder_captures'  => \%folder_captures,
+	    'ref_last_date'    		=> \$last_date,
+	    'FROM_captures'    		=> \%FROM_captures,
+	    'MSG_TO_captures'  		=> \%MSG_TO_captures,
+	    'DATE_captures'    		=> \%DATE_captures,
+	    'SUBJECT_captures' 		=> \%SUBJECT_captures,
+	    'LIST_ID_captures'  	=> \%LIST_ID_captures,
+	    'LIST_UNSUBSCRIBE_captures' => \%LIST_UNSUBSCRIBE_captures,
+	    'From_captures'    		=> \%From_captures,
+	    'to_captures'      		=> \%to_captures,
+	    'subject_captures' 		=> \%subject_captures,
+	    'folder_captures'  		=> \%folder_captures,
 	    );
 
-	  %FROM_captures    = ();
-	  %MSG_TO_captures  = ();
-	  %DATE_captures    = ();
-	  %SUBJECT_captures = ();
-	  %From_captures    = ();
-	  %to_captures      = ();
-	  %subject_captures = ();
-	  %folder_captures  = ();
+	  %FROM_captures    	     = ();
+	  %MSG_TO_captures  	     = ();
+	  %DATE_captures    	     = ();
+	  %SUBJECT_captures 	     = ();
+	  %LIST_ID_captures 	     = ();
+	  %LIST_UNSUBSCRIBE_captures = ();
+	  %From_captures    	     = ();
+	  %to_captures      	     = ();
+	  %subject_captures 	     = ();
+	  %folder_captures  	     = ();
 	}
 
       else
@@ -438,6 +488,8 @@ sub high_level_print_entry
   # $param{MSG_TO_captures}
   # $param{DATE_captures}
   # $param{SUBJECT_captures}
+  # $param{LIST_ID_captures}
+  # $param{LIST_UNSUBSCRIBE_captures}
   # $param{From_captures}
   # $param{to_captures}
   # $param{subject_captures}
@@ -642,6 +694,18 @@ sub high_level_print_entry
 	'from0' => $From_captures__From__rewritten,
 	'from1' => $param{FROM_captures}{FROM},
 	);
+
+      &print_list_id_rule(
+	'from0' => $From_captures__From__rewritten,
+	'from1' => $param{FROM_captures}{FROM},
+	'LIST_ID_captures' => $param{LIST_ID_captures},
+	) if exists($param{LIST_ID_captures}{literal}) && ($param{LIST_ID_captures}{literal} ne '');
+
+      &print_list_unsubscribe_rule(
+	'from0' => $From_captures__From__rewritten,
+	'from1' => $param{FROM_captures}{FROM},
+	'LIST_UNSUBSCRIBE_captures' => $param{LIST_UNSUBSCRIBE_captures},
+	) if exists($param{LIST_UNSUBSCRIBE_captures}{all}) && ($param{LIST_UNSUBSCRIBE_captures}{all} ne '');
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
@@ -720,7 +784,7 @@ sub low_level_high_level_print_entry
       print $main::fh_procmailrc <<EOF;
 
 ##shuttle-macro-begin
-##shuttle-macro: m0(
+##shuttle-macro: m_e_mail_addresses(
 ##shuttle-macro:   orgName => '',
 ##shuttle-macro:   comment => '$param{from}',
 ##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
@@ -734,6 +798,113 @@ sub low_level_high_level_print_entry
 ##shuttle-macro-end
 EOF
     }
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub print_list_id_rule
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  # $param{from0}
+  # $param{from1}
+
+  # $param{LIST_ID_captures}{descr}
+  # $param{LIST_ID_captures}{literal}
+
+  unless(exists( $main::all_list_ids{ $param{LIST_ID_captures}{literal} } ))
+    {
+      $main::all_list_ids{ $param{LIST_ID_captures}{literal} } = 1;
+
+      my($descr__decoded)   = decode("MIME-Header",$param{LIST_ID_captures}{descr});
+      my($literal__decoded) = decode("MIME-Header",$param{LIST_ID_captures}{literal});
+
+    ##my($descr__backslashed)   = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{descr} );
+    ##my($literal__backslashed) = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{literal} );
+
+      my($descr__backslashed)   = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{descr} );
+      my($literal__backslashed) = &backslash_e_mail_address( 'address' => $param{LIST_ID_captures}{literal} );
+
+      print $main::fh_procmailrc <<EOF;
+
+##shuttle-macro-begin
+
+##shuttle-macro: m_list_id_by_literal(
+##shuttle-macro:   orgName => '',
+##shuttle-macro:   from0 => '$param{from0}',
+##shuttle-macro:   from1 => '$param{from1}',
+##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
+##shuttle-macro:   list_id_literal => '$param{LIST_ID_captures}{literal}',
+##shuttle-macro:   list_id_descr => '$descr__decoded',
+##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
+##shuttle-macro:   );
+
+##shuttle-macro: m_list_id_by_descr(
+##shuttle-macro:   orgName => '',
+##shuttle-macro:   from0 => '$param{from0}',
+##shuttle-macro:   from1 => '$param{from1}',
+##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
+##shuttle-macro:   list_id_literal => '$literal__decoded',
+##shuttle-macro:   list_id_descr => '$param{LIST_ID_captures}{descr}',
+##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
+##shuttle-macro:   );
+
+##shuttle-macro-end
+EOF
+
+  }
+
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+#
+sub print_list_unsubscribe_rule
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  # $param{from0}
+  # $param{from1}
+
+  # $param{LIST_UNSUBSCRIBE_captures}{all}
+
+  my($h) = $param{LIST_UNSUBSCRIBE_captures}{all};
+  $h =~ s/ ([\\\*\?\.\+]) /\\$1/gx;
+
+  unless(exists( $main::all_list_unsubscribes{ $param{LIST_UNSUBSCRIBE_captures}{all} } ))
+    {
+      $main::all_list_unsubscribes{ $param{LIST_UNSUBSCRIBE_captures}{all} } = 1;
+
+      print $main::fh_procmailrc <<EOF;
+
+# from0 => '$param{from0}',
+# from1 => '$param{from1}',
+#
+##shuttle:
+##shuttle: :0
+##shuttle: * ^List-Unsubscribe: $h
+##shuttle: .folder-bulk.prio-9/
+EOF
+
+  }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
