@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-use Fatal;
+##use Fatal;	# 2021-06-03 : looks like Fatal.pm is outdated
 
 # this filter rewrites especially elements like this:
 #
