@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-use Fatal;
+##use Fatal;
 
 # this filter rewrites especially elements like this:
 #
