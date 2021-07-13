@@ -89,7 +89,9 @@ fi
 
 ################################################################################
 
-shopt -s nullglob
+if test -n "$BASH_VERSINFO"
+then shopt -s nullglob
+fi
 
 ##for filename in "${@}"
 for filename

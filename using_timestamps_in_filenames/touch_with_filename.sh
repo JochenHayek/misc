@@ -11,6 +11,10 @@
 
 bn0=$(basename "$0")
 
+if test -n "$BASH_VERSINFO"
+then shopt -s nullglob
+fi
+
 # on OS X 
 # emacs does not get called with the environment set up by ~/.profile,
 # so for some partial similarity at least:

@@ -29,6 +29,10 @@ fi
 
 ################################################################################
 
+if test -n "$BASH_VERSINFO"
+then shopt -s nullglob
+fi
+
 for dir
 do :
   printf 1>&2 "\n"

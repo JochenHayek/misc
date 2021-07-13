@@ -11,6 +11,10 @@
 
 bn0=$(basename "$0")
 
+if test -n "$BASH_VERSINFO"
+then shopt -s nullglob
+fi
+
 # M-x setenv
 #   PATH
 #   …

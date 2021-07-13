@@ -42,7 +42,7 @@
 # Bash:
 #
 if test -n "$BASH_VERSINFO"
-then shopt -s extglob
+then shopt -s extglob nullglob
 fi
 
 # a simple shell like the BusyBox ash does not have $LINENO,
