@@ -895,6 +895,8 @@ sub print_list_unsubscribe_rule
 
       print $main::fh_procmailrc <<EOF;
 
+# orgName => …'',
+# my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
 # from0 => '$param{from0}',
 # from1 => '$param{from1}',
 #
