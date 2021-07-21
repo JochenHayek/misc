@@ -7,4 +7,3 @@ utilities from different areas:
 * procmail
 * tables within PDF
 * …
-
