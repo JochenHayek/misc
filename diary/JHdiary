@@ -1721,7 +1721,7 @@ sub terminalise
     {
       printf STDERR "=%d: %s=>%04.4d,%s=>%s\n",__LINE__
 	,'$::total_work__min',$::total_work__min
-	,'$::total_work__{hh,mm}' ,&aux::min_2_hhh_mm($::total_work__min)
+	,'$::total_work__{HH:MM}' ,&aux::min_2_hhh_mm($::total_work__min)
 	;
 
       printf $::fh_tbl_roff_mm
