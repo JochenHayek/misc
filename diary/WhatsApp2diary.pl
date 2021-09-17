@@ -9,10 +9,20 @@
 
   while(<>)
     {
+      ## 2021-09-17 .. :
+
+      # [15:25, 17/09/2021] Jochen Hayek: Hi, Gabriel,
+      #         [    15      :    25      ,        17       /    09       /    2021       ]        Jochen Hayek  :        Hi
+
+      if( m/ ^ \[ (?<HH>\d+) : (?<MM>\d+) , \s* (?<dd>\d+) \/ (?<mm>\d+) \/ (?<YYYY>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*) /x )
+
+      ## .. 2021-09-17 :
+
       # [20:06, 3/31/2020] Antje S.: ... Schokolade ...
       #         [    20      :    06      ,         3       /    31       /    2020       ]        Antje S.      :        ... Schokolade ...
 
-      if( m/ ^ \[ (?<HH>\d+) : (?<MM>\d+) , \s* (?<mm>\d+) \/ (?<dd>\d+) \/ (?<YYYY>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*) /x )
+    ##if( m/ ^ \[ (?<HH>\d+) : (?<MM>\d+) , \s* (?<mm>\d+) \/ (?<dd>\d+) \/ (?<YYYY>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*) /x )
+
 	{
 	  my(%plus) = %+;
 
