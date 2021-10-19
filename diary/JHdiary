@@ -410,6 +410,16 @@ sub job_match_timed_tag_with_body
 	    }
 	}
 
+      elsif( m/^ (?<content> \x20 .*) /x )	# content, that should not exist
+	{
+	  chomp;
+
+	  printf STDERR "=%d,%05.5d: %s=>'%s' // %s\n",__LINE__,$.
+	    ,'$+{content}',$+{content}
+	    ,'...'
+	    ;
+	}
+
       elsif( m/^ [^\s] /x )	# content, that should not exist
 	{
 	}
