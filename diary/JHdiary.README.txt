@@ -3,18 +3,24 @@
 -> ~/transfer/000diary/
 -> etc/diary/
 
-year=2022
+year=2023
 
-	HH:MM creating calendar 2022
+	  ----- diary-creation for 2023 proceeded up to here -----
+	  ----- diary-creation for 2023 proceeded up to here -----
+
+	HH:MM creating calendar 2023
 
 	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--jewish-holidays-all.20190927124604.csv.diary.2020
-	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20190927124245.csv.diary.2020
 
-	  ----- diary-creation for 2022 proceeded up to here -----
-	  ----- diary-creation for 2022 proceeded up to here -----
+	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20211025161812.csv.diary.2022
+	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20211025161812.csv.diary.2023
+	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20211025161812.csv.diary.2024
+
+	    $ cd ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/
+	    $ ln -s hebcal--torah-readings-diaspora.20211025161812.csv.diary.2022 diary
 
 	    … merge the yearly events into ~/diary :
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right .../git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/diary > ~/transfer/000diary/diary
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/diary > ~/transfer/000diary/diary
 	    is it alright?
 		diff -c ~/diary ~/transfer/000diary/diary
 	    then replace ...
