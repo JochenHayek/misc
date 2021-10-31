@@ -42,7 +42,7 @@ year=2023
 
 	  my very special 2012 trick: copy the "Local variables" end from ~/diary to the newly created sniplets before merging them
 
-	  IMPORTANT -- TO BE DONE FOR 2030 :
+	  IMPORTANT -- TO BE DONE FOR ${year} ( 2030 .. ) :
 	    generate diary frame for a specific year end ("first year" .. "last year"); append that to ~/diary
 		perl ~/git-servers/github.com/JochenHayek/misc/diary/JHgen_diary_frame.pl > ~/transfer/000diary/diary-${year}-skeleton
 	    afterwards merge the yearly events into ~/diary :
@@ -52,7 +52,7 @@ year=2023
 	    then replace ...
 		mv --verbose ~/transfer/000diary/diary-${year}-skeleton-complete ~/diary
 
-	  IMPORTANT -- TO BE DONE FOR ${year} :
+	  IMPORTANT -- TO BE DONE FOR ${year} ( 2030 .. ) :
 	    yearly events -- generate the calendar with the holidays depending on Easter using Date::Calc
 		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_easter_etc    --this_year=${year} > ~/transfer/000diary/diary-${year}-easter
 	    afterwards merge the yearly events into ~/diary :
@@ -62,13 +62,13 @@ year=2023
 	    then replace ...
 		mv --verbose ~/transfer/000diary/diary-${year}-easter-complete ~/diary
 
-	  IMPORTANT -- TO BE DONE FOR ${year} :
+	  IMPORTANT -- TO BE DONE FOR ${year} ( 2030 .. ) :
 	    yearly events -- generate the calendar with the holidays depending on Advent using Date::Calc
 		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_advent_etc    --this_year=${year} > ~/transfer/000diary/diary-${year}-advent
 	    afterwards merge the yearly events into ~/diary :
 		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-advent > ~/transfer/000diary/diary-${year}-advent-complete
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary-${year}-advent-complete | less
+		diff -c ~/diary ~/transfer/000diary/diary-${year}-advent-complete
 	    then replace ...
 		mv --verbose ~/transfer/000diary/diary-${year}-advent-complete ~/diary
 
@@ -78,7 +78,7 @@ year=2023
 	    afterwards merge the yearly events into ~/diary :
 		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-muttertag > ~/transfer/000diary/diary-${year}-muttertag-complete
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary-${year}-muttertag-complete | less
+		diff -c ~/diary ~/transfer/000diary/diary-${year}-muttertag-complete
 	    then replace ...
 		mv --verbose ~/transfer/000diary/diary-${year}-muttertag-complete ~/diary
 
@@ -104,6 +104,13 @@ year=2023
 		diff -c ~/diary ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete | less
 	    then replace ...
 		mv --verbose ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete ~/diary
+
+	    afterwards merge the *schiurim* events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/schiur.diary > ~/transfer/000diary/diary_incl_schiurim
+	    is it alright?
+		diff -c ~/diary ~/transfer/000diary/diary_incl_schiurim
+	    then replace ...
+		mv --verbose ~/transfer/000diary/diary_incl_schiurim ~/diary
 
 	  www.schulferien.org/Feiertage/feiertage.html // maybe also useful
 
