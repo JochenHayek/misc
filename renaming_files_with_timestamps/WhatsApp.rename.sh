@@ -6,6 +6,8 @@
 # e.g. WhatsApp Audio 2018-12-21 at 12.30.30.mp4
 # e.g. WhatsApp Ptt 2019-06-07 at 10.13.41.ogg
 
+# https://en.wikipedia.org/wiki/12-hour_clock
+
 shopt -s nullglob
 
 set -x
