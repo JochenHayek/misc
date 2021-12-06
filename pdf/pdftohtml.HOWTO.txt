@@ -18,6 +18,10 @@ CAVEAT: modern versions of pdfthtml do not support "-xml" any longer.
 
                                      pdftohtml -xml -i -nomerge -hidden
 
+# >= 2021-12-01 : /usr/local/bin/pdftohtml no more supports "-nomerge" and the content will no longer include the true and well-known content:
+
+                                     pdftohtml -xml -i -nomerge -hidden
+
 # the resulting file will be named FILE.xml than,
 # but we can change that easily,
 # and that's the least effort and hassle all together.
