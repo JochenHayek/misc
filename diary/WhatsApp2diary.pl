@@ -9,16 +9,45 @@
 
   while(<>)
     {
-      ## 2021-09-17 .. :
+      ## 2021-12-dd .. :
 
       # [2:05 pm, 08/10/2021] Jochen Hayek: ach... - danke!
 
-      # …
+      if( m/ ^ \[ (?<HH>\d+) : (?<MM>\d+) \s+ (?<ampm> am|pm ) , \s* (?<dd>\d+) \/ (?<mm>\d+) \/ (?<YYYY>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*) /x )
+
+	{
+	  my(%plus) = %+;
+
+	  printf "%02.2d %s %s\n\t%02.2d:%s [_,%s] %s: %s <%s>; %s\n",
+
+	    $plus{dd},
+	    $short_month_names[ $plus{mm} ],
+
+	    $plus{YYYY},
+
+	    # https://de.wikipedia.org/wiki/2-mal-12-Stunden-Zählung
+	    # https://en.wikipedia.org/wiki/12-hour_clock
+	    #
+	    # actually 00:00 am is 12:00 and not 00:00, but I will only implement / fix this here "a little later".
+
+	    ($plus{ampm} eq 'pm') ? ($plus{HH} + 12) : $plus{HH},
+	    $plus{MM},
+	    ##$plus{ampm},
+
+	    'WhatsApp',
+
+	    'From',
+	    $plus{author},
+	    '@WhatsApp',
+
+	    $plus{text},
+	    ;
+	}
 
       # [15:25, 17/09/2021] Jochen Hayek: Hi, Gabriel,
       #         [    15      :    25      ,        17       /    09       /    2021       ]        Jochen Hayek  :        Hi
 
-      if( m/ ^ \[ (?<HH>\d+) : (?<MM>\d+) , \s* (?<dd>\d+) \/ (?<mm>\d+) \/ (?<YYYY>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*) /x )
+      elsif( m/ ^ \[ (?<HH>\d+) : (?<MM>\d+) , \s* (?<dd>\d+) \/ (?<mm>\d+) \/ (?<YYYY>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*) /x )
 
       ## .. 2021-09-17 :
 
@@ -30,14 +59,17 @@
 	{
 	  my(%plus) = %+;
 
-	  printf "%02.2d %s %s\n\t%s:%s %s: %s <%s>; %s\n",
+	  printf "%02.2d %s %s\n\t%02.2d:%s [_,%s] %s: %s <%s>; %s\n",
 
 	    $plus{dd},
 	    $short_month_names[ $plus{mm} ],
 
 	    $plus{YYYY},
+
 	    $plus{HH},
 	    $plus{MM},
+
+	    'WhatsApp',
 
 	    'From',
 	    $plus{author},
