@@ -1,6 +1,6 @@
 # …
 
--> ~/transfer/000diary/
+-> ~/etc/diary/
 -> etc/diary/
 
 year=2023
@@ -20,11 +20,11 @@ year=2023
 	    $ ln -s hebcal--torah-readings-diaspora.20211025161812.csv.diary.2022 diary
 
 	    … merge the yearly events into ~/diary :
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/diary > ~/transfer/000diary/diary
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/diary > ~/etc/diary/diary
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary
+		diff -c ~/diary ~/etc/diary/diary
 	    then replace ...
-		mv --verbose ~/transfer/000diary/diary ~/diary
+		mv --verbose ~/etc/diary/diary ~/diary
 
 	hh:mm calendar maintenance -- should be VERY, VERY EASY AND STRAIGHT FORWARD using the following recipes:
 
@@ -44,73 +44,73 @@ year=2023
 
 	  IMPORTANT -- TO BE DONE FOR ${year} ( 2030 .. ) :
 	    generate diary frame for a specific year end ("first year" .. "last year"); append that to ~/diary
-		perl ~/git-servers/github.com/JochenHayek/misc/diary/JHgen_diary_frame.pl > ~/transfer/000diary/diary-${year}-skeleton
+		perl ~/git-servers/github.com/JochenHayek/misc/diary/JHgen_diary_frame.pl > ~/etc/diary/diary-${year}-skeleton
 	    afterwards merge the yearly events into ~/diary :
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-skeleton > ~/transfer/000diary/diary-${year}-skeleton-complete
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/diary-${year}-skeleton > ~/etc/diary/diary-${year}-skeleton-complete
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary-${year}-skeleton-complete
+		diff -c ~/diary ~/etc/diary/diary-${year}-skeleton-complete
 	    then replace ...
-		mv --verbose ~/transfer/000diary/diary-${year}-skeleton-complete ~/diary
+		mv --verbose ~/etc/diary/diary-${year}-skeleton-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} ( 2030 .. ) :
 	    yearly events -- generate the calendar with the holidays depending on Easter using Date::Calc
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_easter_etc    --this_year=${year} > ~/transfer/000diary/diary-${year}-easter
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_easter_etc    --this_year=${year} > ~/etc/diary/diary-${year}-easter
 	    afterwards merge the yearly events into ~/diary :
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-easter > ~/transfer/000diary/diary-${year}-easter-complete
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/diary-${year}-easter > ~/etc/diary/diary-${year}-easter-complete
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary-${year}-easter-complete
+		diff -c ~/diary ~/etc/diary/diary-${year}-easter-complete
 	    then replace ...
-		mv --verbose ~/transfer/000diary/diary-${year}-easter-complete ~/diary
+		mv --verbose ~/etc/diary/diary-${year}-easter-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} ( 2030 .. ) :
 	    yearly events -- generate the calendar with the holidays depending on Advent using Date::Calc
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_advent_etc    --this_year=${year} > ~/transfer/000diary/diary-${year}-advent
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_advent_etc    --this_year=${year} > ~/etc/diary/diary-${year}-advent
 	    afterwards merge the yearly events into ~/diary :
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-advent > ~/transfer/000diary/diary-${year}-advent-complete
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/diary-${year}-advent > ~/etc/diary/diary-${year}-advent-complete
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary-${year}-advent-complete
+		diff -c ~/diary ~/etc/diary/diary-${year}-advent-complete
 	    then replace ...
-		mv --verbose ~/transfer/000diary/diary-${year}-advent-complete ~/diary
+		mv --verbose ~/etc/diary/diary-${year}-advent-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} :
 	    yearly events -- generate the calendar with the holidays depending on Muttertag using Date::Calc
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag --this_year=${year} > ~/transfer/000diary/diary-${year}-muttertag
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag --this_year=${year} > ~/etc/diary/diary-${year}-muttertag
 	    afterwards merge the yearly events into ~/diary :
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-muttertag > ~/transfer/000diary/diary-${year}-muttertag-complete
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/diary-${year}-muttertag > ~/etc/diary/diary-${year}-muttertag-complete
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary-${year}-muttertag-complete
+		diff -c ~/diary ~/etc/diary/diary-${year}-muttertag-complete
 	    then replace ...
-		mv --verbose ~/transfer/000diary/diary-${year}-muttertag-complete ~/diary
+		mv --verbose ~/etc/diary/diary-${year}-muttertag-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} :
-	    yearly events -- on the special *region* at the beginning of ~/diary -- write it to ~/transfer/000diary/diary-${year}-holidays-raw beforehand :
+	    yearly events -- on the special *region* at the beginning of ~/diary -- write it to ~/etc/diary/diary-${year}-holidays-raw beforehand :
 	    	# CAVEAT: remove the lines before "01 January"!
-	    	… > ~/transfer/000diary/diary-${year}-holidays-raw
+	    	… > ~/etc/diary/diary-${year}-holidays-raw
 	    …
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_yearly_events --this_year=${year} ~/transfer/000diary/diary-${year}-holidays-raw > ~/transfer/000diary/diary-${year}-holidays
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_yearly_events --this_year=${year} ~/etc/diary/diary-${year}-holidays-raw > ~/etc/diary/diary-${year}-holidays
 	    the output is not necessarily strictly monotonous (i.e. there may be more than one name for a single day), so apply this to it:
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_remove_duplicate_date_lines --operand ~/transfer/000diary/diary-${year}-holidays \
-		    > ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_remove_duplicate_date_lines --operand ~/etc/diary/diary-${year}-holidays \
+		    > ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines
 
-	    *** this might be the right time to look at ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines and verify its content ***
+	    *** this might be the right time to look at ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines and verify its content ***
 
 	    is it alright?
-		diff -c ~/transfer/000diary/diary-${year}-holidays ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines | less
+		diff -c ~/etc/diary/diary-${year}-holidays ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines | less
 
 	    afterwards merge the yearly events into ~/diary :
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines \
-		    > ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines \
+		    > ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete | less
+		diff -c ~/diary ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete | less
 	    then replace ...
-		mv --verbose ~/transfer/000diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete ~/diary
+		mv --verbose ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete ~/diary
 
 	    afterwards merge the *schiurim* events into ~/diary :
-		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/schiur.diary > ~/transfer/000diary/diary_incl_schiurim
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/schiur.diary > ~/etc/diary/diary_incl_schiurim
 	    is it alright?
-		diff -c ~/diary ~/transfer/000diary/diary_incl_schiurim
+		diff -c ~/diary ~/etc/diary/diary_incl_schiurim
 	    then replace ...
-		mv --verbose ~/transfer/000diary/diary_incl_schiurim ~/diary
+		mv --verbose ~/etc/diary/diary_incl_schiurim ~/diary
 
 	  www.schulferien.org/Feiertage/feiertage.html // maybe also useful
 
