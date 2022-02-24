@@ -968,7 +968,8 @@ sub job_easter_etc
   use Date::Calc qw( Easter_Sunday Add_Delta_Days );
 
   my(@table) =
-      ( { offset => -48 , name => 'Carnival Monday = Rosenmontag = Veille du Mardi Gras'                     }
+      ( { offset => -52 , name => 'Fat Thursday = Glombiger Doschdig / Schmotziger Donnerstag / Weiberfastnacht = Jeudi Gras / carnaval des femmes' }
+      , { offset => -48 , name => 'Carnival Monday = Rosenmontag = Veille du Mardi Gras'                     }
       , { offset => -47 , name => 'Mardi Gras = Karnevalsdienstag = Mardi Gras'                              }
       , { offset => -46 , name => 'Ash Wednesday = Aschermittwoch = Mercredi des Cendres'                    }
       , { offset =>  -7 , name => 'Palm Sunday = Palmsonntag = Dimanche des Rameaux'                         }
