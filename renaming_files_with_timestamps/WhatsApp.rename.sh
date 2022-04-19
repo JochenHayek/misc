@@ -14,6 +14,13 @@ set -x
 
 ~/bin/rename -v </dev/null \
   \
+  's/^ WhatsApp \s+ (Image|Video|Audio|Ptt) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..?)\.(?<MM>..)\.(?<SS>..) \.(?<suffix>jpeg|mp4|ogg) 
+     $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
+  \
+  "$@"
+
+~/bin/rename -v </dev/null \
+  \
   's/^ WhatsApp \s+ (Image|Video|Audio|Ptt) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..?)\.(?<MM>..)\.(?<SS>..) ( \s+ (?<ampm>[AP]M) )? \.(?<suffix>jpeg|mp4|ogg) 
      $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}$+{ampm}--___.$+{suffix}/x' \
   \
