@@ -75,6 +75,9 @@ sub main
     $main::options{dry_run}		       	= 0;
     $main::options{version}		       	= 0;
     $main::options{verbose}		       	= 0;
+    $main::options{separator}		       	= ',';				# job_t_mobile_reo (Telekom Mobilfunk) makes use of that.
+										# CSV file for     biz customers uses ',' as separator.
+										# CSV file for non-biz customers uses ';' as separator.
 
     $main::options{job_propertylist_validate}                   = 0;
 
@@ -110,6 +113,8 @@ sub main
 
     ##,'xml_file|propertylist_file|pl_file=s'	# well, I didn't really like this
       ,'xml_file=s'
+
+      ,'separator=s'
 
       ,'create_reference_files_p!'
       ,'remove_output_files_p!'
@@ -330,7 +335,7 @@ header_EOF
 		,'...'
 		if 0 && $main::options{debug};
 
-	      my(@F) = &parse_line(',' , 0 , $_); # keep=>0 !!!!!!!!!
+	      my(@F) = &parse_line($main::options{separator} , 0 , $_); # keep=>0 !!!!!!!!!
 
 	      printf STDERR "=%s,%d,%s: %03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name,$.
 		,'$state' => $state

@@ -53,13 +53,20 @@ do
       {
 	$filename = $+{FileName};
 
-	if   ( $filename =~ m/\.jpg/x )
+	if   ( $filename =~ m/\.jpg$/x )
 	  {
-	    our($basename) = basename($filename,".jpg");
+	    our($basename ) = basename($filename,".jpg");
+	    our($extension) = "jpg";
 	  }
-	elsif( $filename =~ m/\.jpeg/x )
+	elsif( $filename =~ m/\.jpeg$/x )
 	  {
-	    our($basename) = basename($filename,".jpeg");
+	    our($basename ) = basename($filename,".jpeg");
+	    our($extension) = "jpeg";
+	  }
+	elsif( $filename =~ m/\.HEIC$/x )
+	  {
+	    our($basename ) = basename($filename,".HEIC");
+	    our($extension) = "HEIC";
 	  }
 
 	our($dirname)  = dirname($filename);
@@ -98,7 +105,7 @@ do
 
       printf "mv \"%s\" \"%s/%s--%s--%s.%s\" # %20s=>{%s} // %s\n",
 	$param{filename},
-	$param{dirname} , "999990-000" , $param{ts_YmdHMS} , $param{basename} , "jpg" ,
+	$param{dirname} , "999990-000" , $param{ts_YmdHMS} , $param{basename} , $extension ,
 	$param{n} => $param{v},
 	$param{filename},
 	;
@@ -121,7 +128,7 @@ do
 
       printf "mv \"%s\" \"%s/%s.%s.%s\" # %20s=>{%s} // %s\n",
 	$param{filename},
-	$param{dirname} , $param{basename} , $param{ts_YmdHMS} , "jpg" ,
+	$param{dirname} , $param{basename} , $param{ts_YmdHMS} , $extension ,
 	$param{n} => $param{v},
 	$param{filename},
 	;

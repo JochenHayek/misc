@@ -591,7 +591,7 @@ sub func
 		 FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
 		 TO  	  : \s+ (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
-		 Folder : \s+ (?<Folder>\. (topics|topics-computers|topics-finance) \.(?<topic>money)\/\S*)
+		 Folder : \s+ (?<Folder>\. (topics|topics-computers|topics-finance) \.(?<topic>money (-bulk)?)\/\S*)
 
     }{,banking] From: $+{From}; TO: $+{TO}; SUBJECT:$+{SUBJECT};}gix;
 

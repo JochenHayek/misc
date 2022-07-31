@@ -20,7 +20,7 @@
 
 # 2014-11-05 :
 #   eventually created this script,
-#   because it appeared to me, as if had done this job already a couple of times,
+#   because it appeared to me, as if I had done this job already a couple of times,
 #   and it also appeared to me as tedious and errorprone,
 #   so I made this a tiny little programming challenge.
 

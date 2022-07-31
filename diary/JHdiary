@@ -410,6 +410,16 @@ sub job_match_timed_tag_with_body
 	    }
 	}
 
+      elsif( m/^ (?<content> \x20 .*) /x )	# content, that should not exist
+	{
+	  chomp;
+
+	  printf STDERR "=%d,%05.5d: %s=>'%s' // %s\n",__LINE__,$.
+	    ,'$+{content}',$+{content}
+	    ,'...'
+	    ;
+	}
+
       elsif( m/^ [^\s] /x )	# content, that should not exist
 	{
 	}
@@ -958,7 +968,8 @@ sub job_easter_etc
   use Date::Calc qw( Easter_Sunday Add_Delta_Days );
 
   my(@table) =
-      ( { offset => -48 , name => 'Carnival Monday = Rosenmontag = Veille du Mardi Gras'                     }
+      ( { offset => -52 , name => 'Fat Thursday = Glombiger Doschdig / Schmotziger Donnerstag / Weiberfastnacht = Jeudi Gras / carnaval des femmes' }
+      , { offset => -48 , name => 'Carnival Monday = Rosenmontag = Veille du Mardi Gras'                     }
       , { offset => -47 , name => 'Mardi Gras = Karnevalsdienstag = Mardi Gras'                              }
       , { offset => -46 , name => 'Ash Wednesday = Aschermittwoch = Mercredi des Cendres'                    }
       , { offset =>  -7 , name => 'Palm Sunday = Palmsonntag = Dimanche des Rameaux'                         }
@@ -1721,7 +1732,7 @@ sub terminalise
     {
       printf STDERR "=%d: %s=>%04.4d,%s=>%s\n",__LINE__
 	,'$::total_work__min',$::total_work__min
-	,'$::total_work__{hh,mm}' ,&aux::min_2_hhh_mm($::total_work__min)
+	,'$::total_work__{HH:MM}' ,&aux::min_2_hhh_mm($::total_work__min)
 	;
 
       printf $::fh_tbl_roff_mm
