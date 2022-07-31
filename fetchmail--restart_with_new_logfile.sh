@@ -24,6 +24,7 @@ ls --format=long --no-group --time-style="+%F %T" --human-readable "${log_dir}"
 echo "*** maybe you want to archive these log files here occasionally: ${archive_dir}"
 
 diff $HOME/.fetchmailrc- $HOME/.fetchmailrc
+##$ cp --arch $HOME/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles-hostsharing/.fetchmailrc $HOME/.fetchmailrc
 
 touch 			      "${fetchmail_log}"
 fetchmail --verbose --logfile "${fetchmail_log}"		# backgrounding by itself
