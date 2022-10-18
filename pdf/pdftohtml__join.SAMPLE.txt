@@ -1,3 +1,7 @@
     <text  top="0278" left="0160" width="0559" height="0019" font="7">Den Wegfall der Gasbeschaffungsumlage haben wir bei der Reduzierung nur dann </text>
     <text  top="0298" left="0160" width="0577" height="0019" font="7">berücksichtigt, wenn diese in Ihrem letzten Abschlagsbetrag bereits einkalkuliert war. </text>
     <text  top="0318" left="0133" width="0007" height="0019" font="9"></text>
+
+    <text  top="0278" left="0160" width="0559" height="0019" font="7">Den Wegfall der <b>Gasbeschaffungsumlage</b> haben wir bei der Reduzierung nur dann </text>
+    <text  top="0298" left="0160" width="0577" height="0019" font="7">berücksichtigt, wenn diese in Ihrem letzten Abschlagsbetrag bereits einkalkuliert war. </text>
+    <text  top="0318" left="0133" width="0007" height="0019" font="9"></text>
