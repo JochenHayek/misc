@@ -39,7 +39,8 @@ use warnings FATAL => 'all';
 ##binmode( STDOUT , ":encoding(ISO-8859-1)" );
 
 ##while(<>)	# cannot use <>, because "binmode(STDIN,...)" does not apply on it
-  while(<STDIN>)
+##while(<STDIN>)
+  while(<>)
     {
       chomp;
 
