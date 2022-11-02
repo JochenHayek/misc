@@ -27,5 +27,6 @@ bn=$( basename $( readlink "${arg}" ) )
 
 if test "${dn}" = "${PWD}"
 then :
+  rm --verbose             "${arg}"
   ln --verbose -sf "${bn}" "${arg}"
 fi
