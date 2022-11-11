@@ -1,10 +1,25 @@
 #! /usr/bin/perl
 
 {
+  $::encountered_F7 = 0;
+  $::date = '';
+
   while(<>)
     {
       if(m/> (?<dd>\d\d) \. (?<mm>\d\d) \. (?<YYYY>\d\d\d\d) </x)
 	{
+	  if($::date ne '')
+	    {
+	      print $::date,"\n";
+	      printf "\t%s .. %s=%s=... // %s=>%s\n",
+	        $t{KO},
+	        $t{GE},
+	        $t{abgerundete_Istzeit},
+
+	        'F7' => $::encountered_F7,
+	        ;
+	    }
+
 	  $::date = 
 	      sprintf "%02.2d %02.2d %04.4d",
 		$+{dd},
@@ -74,15 +89,19 @@
 	  elsif( $::state eq 'abgerundete_Istzeit' )
 	    {
 	      $::state = '';
-	      $t{$::state} = $::time;
+	      $::encountered_F7 = 0;
 
-	      print $::date,"\n";
-	      printf "\t%s .. %s=%s=...\n",
-	        $t{KO},
-	        $t{GE},
-	        $t{abgerundete_Istzeit},
-	        ;
+	      $t{$::state} = $::time;
 	    }
+	}
+      elsif(m/> (?<w>F7) </x)
+	{
+	  $::encountered_F7 = 1;
+
+	  printf STDERR "=%s,%d,%04.4d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+	    '$+{w}' => $+{w},
+	    '...'
+	    if 1;
 	}
 
       if($::state eq 'KO')
