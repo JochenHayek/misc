@@ -122,4 +122,22 @@
 	  ##printf "\t"
 	}
     }
+
+  if( ($::date ne '') && ($t{KO} ne '') )
+    {
+      print $::date,"\n";
+      printf "\t%s .. %s=%s=%s+%s=... // %s\n",
+	$t{KO} ne '' ? $t{KO} : 'HH:MM',
+	$t{GE} ne '' ? $t{GE} : 'HH:MM',
+	'HH:MM',
+	$t{abgerundete_Istzeit},
+	'HH:MM',
+
+	##'F7' => $::encountered_F7,
+	$::encountered_F7 ? 'F7' : '',
+	;
+      $::encountered_F7 = 0;
+      %t = ();
+      $::state = 'abgerundete_Istzeit';
+    }
 }
