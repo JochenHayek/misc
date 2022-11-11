@@ -1,5 +1,14 @@
 #! /usr/bin/perl
 
+# print web page using ctrl-p and Destination "Save as PDF"
+
+# input (pdftohtml) must be sorted.
+
+# how to call this usitily:
+#
+#   $ ~/git-servers/github.com/JochenHayek/misc/diary/pdftohtml_tritom2diary.pl 202210.pdftohtml.xml > 202210.diary
+#   $ ~/git-servers/github.com/JochenHayek/misc/diary/pdftohtml_tritom2diary.pl 202211.pdftohtml.xml > 202211.diary
+
 {
   $::encountered_F7 = 0;
   $::date = '';
@@ -13,14 +22,16 @@
 	    {
 	      print $::date,"\n";
 	      printf "\t%s .. %s=%s=... // %s\n",
-	        $t{KO},
-	        $t{GE},
+	        $t{KO} ne '' ? $t{KO} : 'HH:MM',
+	        $t{GE} ne '' ? $t{GE} : 'HH:MM',
 	        $t{abgerundete_Istzeit},
 
 	        ##'F7' => $::encountered_F7,
 	        $::encountered_F7 ? 'F7' : '',
 	        ;
 	      $::encountered_F7 = 0;
+	      %t = ();
+	      $::state = 'abgerundete_Istzeit';
 	    }
 
 	  $::date = 
