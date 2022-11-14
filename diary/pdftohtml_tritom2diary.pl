@@ -11,7 +11,7 @@
 
 {
   $::date = '';
-  %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
+  %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_Abwesenheit' => 0 );
   $::state = 'abgerundete_Istzeit';
 
   %month_dd2mon =
@@ -43,11 +43,11 @@
 	        $::t{abgerundete_Istzeit},
 	        'HH:MM',
 
-		$::t{encountered_U}  ? 'off_at_KVBB'  : 'onsite',
+		$::t{encountered_Abwesenheit}  ? $::t{encountered_Abwesenheit}  : 'onsite',
 
 	        $::t{encountered_F7} ? 'F7' : '',
 	        ;
-	      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
+	      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_Abwesenheit' => 0 );
 	      $::state = 'abgerundete_Istzeit';
 	    }
 
@@ -116,9 +116,9 @@
 	    '...'
 	    if 0;
 	}
-      elsif(m/> (?<w>U) </x)
+      elsif(m/> (?<w>(U|K|KA|KR)) </x)
 	{
-	  $::t{encountered_U} = 1;
+	  $::t{encountered_Abwesenheit} = $+{w};
 
 	  printf STDERR "=%s,%d,%04.4d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
 	    '$+{w}' => $+{w},
@@ -142,11 +142,11 @@
 	$::t{abgerundete_Istzeit},
 	'HH:MM',
 
-	$::t{encountered_U}  ? 'off_at_KVBB'  : 'onsite',
+	$::t{encountered_Abwesenheit}  ? $::t{encountered_Abwesenheit}  : 'onsite',
 
 	$::t{encountered_F7} ? 'F7' : '',
 	;
-      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
+      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_Abwesenheit' => 0 );
       $::state = 'abgerundete_Istzeit';
     }
 }
