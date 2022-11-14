@@ -12,7 +12,7 @@
 {
   $::encountered_F7 = 0;
   $::date = '';
-  %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' );
+  %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'encountered_F7' => 0 );
 
   %month_dd2mon =
     ( '01' => 'Jan' ,
@@ -47,7 +47,7 @@
 	        $::encountered_F7 ? 'F7' : '',
 	        ;
 	      $::encountered_F7 = 0;
-	      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' );
+	      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'encountered_F7' => 0 );
 	      $::state = 'abgerundete_Istzeit';
 	    }
 
@@ -137,7 +137,7 @@
 	$::encountered_F7 ? 'F7' : '',
 	;
       $::encountered_F7 = 0;
-      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' );
+      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'encountered_F7' => 0 );
       $::state = 'abgerundete_Istzeit';
     }
 }
