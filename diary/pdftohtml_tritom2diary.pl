@@ -11,7 +11,8 @@
 
 {
   $::date = '';
-  %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
+  %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
+  $::state = 'abgerundete_Istzeit';
 
   %month_dd2mon =
     ( '01' => 'Jan' ,
@@ -32,7 +33,7 @@
     {
       if(m/> (?<dd>\d\d) \. (?<mm>\d\d) \. (?<YYYY>\d\d\d\d) </x)
 	{
-	  if( ($::date ne '') && ($::t{KO} ne '') )
+	  if($::date ne '')
 	    {
 	      print $::date,"\n";
 	      printf "\t%s .. %s=%s=%s+%s--S:999:99(999) [work\@KVBB,%s] // %s\n",
@@ -46,7 +47,7 @@
 
 	        $::t{encountered_F7} ? 'F7' : '',
 	        ;
-	      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
+	      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
 	      $::state = 'abgerundete_Istzeit';
 	    }
 
@@ -131,7 +132,7 @@
 	}
     }
 
-  if( ($::date ne '') && ($::t{KO} ne '') )
+  if($::date ne '')
     {
       print $::date,"\n";
       printf "\t%s .. %s=%s=%s+%s--S:999:99(999) [work\@KVBB,%s] // %s\n",
@@ -145,7 +146,7 @@
 
 	$::t{encountered_F7} ? 'F7' : '',
 	;
-      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
+      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_U' => 0 );
       $::state = 'abgerundete_Istzeit';
     }
 }
