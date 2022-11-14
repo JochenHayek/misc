@@ -12,7 +12,7 @@
 {
   $::encountered_F7 = 0;
   $::date = '';
-  %t = ();
+  %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' );
 
   %month_dd2mon =
     ( '01' => 'Jan' ,
@@ -33,21 +33,21 @@
     {
       if(m/> (?<dd>\d\d) \. (?<mm>\d\d) \. (?<YYYY>\d\d\d\d) </x)
 	{
-	  if( ($::date ne '') && ($t{KO} ne '') )
+	  if( ($::date ne '') && ($::t{KO} ne '') )
 	    {
 	      print $::date,"\n";
 	      printf "\t%s .. %s=%s=%s+%s=... // %s\n",
-	        $t{KO} ne '' ? $t{KO} : 'HH:MM',
-	        $t{GE} ne '' ? $t{GE} : 'HH:MM',
+	        $::t{KO} ne '' ? $::t{KO} : 'HH:MM',
+	        $::t{GE} ne '' ? $::t{GE} : 'HH:MM',
 	        'HH:MM',
-	        $t{abgerundete_Istzeit},
+	        $::t{abgerundete_Istzeit},
 	        'HH:MM',
 
 	        ##'F7' => $::encountered_F7,
 	        $::encountered_F7 ? 'F7' : '',
 	        ;
 	      $::encountered_F7 = 0;
-	      %t = ();
+	      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' );
 	      $::state = 'abgerundete_Istzeit';
 	    }
 
@@ -90,10 +90,10 @@
 	  
 	  if( ($::state eq 'KO') || ($::state eq 'GE')  || ($::state eq 'abgerundete_Istzeit') )
 	    {
-	      $t{$::state} = $::time;
+	      $::t{$::state} = $::time;
 
 	      printf STDERR "=%s,%d: %s=>{%s} // %s\n",__FILE__,__LINE__,
-		"\$t{$::state}" => $t{$::state},
+		"\$::t{$::state}" => $::t{$::state},
 		'...'
 		if 0;
 
@@ -123,21 +123,21 @@
 	}
     }
 
-  if( ($::date ne '') && ($t{KO} ne '') )
+  if( ($::date ne '') && ($::t{KO} ne '') )
     {
       print $::date,"\n";
       printf "\t%s .. %s=%s=%s+%s=... // %s\n",
-	$t{KO} ne '' ? $t{KO} : 'HH:MM',
-	$t{GE} ne '' ? $t{GE} : 'HH:MM',
+	$::t{KO} ne '' ? $::t{KO} : 'HH:MM',
+	$::t{GE} ne '' ? $::t{GE} : 'HH:MM',
 	'HH:MM',
-	$t{abgerundete_Istzeit},
+	$::t{abgerundete_Istzeit},
 	'HH:MM',
 
 	##'F7' => $::encountered_F7,
 	$::encountered_F7 ? 'F7' : '',
 	;
       $::encountered_F7 = 0;
-      %t = ();
+      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' );
       $::state = 'abgerundete_Istzeit';
     }
 }
