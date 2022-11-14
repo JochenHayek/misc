@@ -14,6 +14,21 @@
   $::date = '';
   %t = ();
 
+  %month_dd2mon =
+    ( '01' => 'Jan' ,
+      '02' => 'Feb' ,
+      '03' => 'Mar' ,
+      '04' => 'Apr' ,
+      '05' => 'May' ,
+      '06' => 'Jun' ,
+      '07' => 'Jul' ,
+      '08' => 'Aug' ,
+      '09' => 'Sep' ,
+      '10' => 'Oct' ,
+      '11' => 'Nov' ,
+      '12' => 'Dec' ,
+    );
+
   while(<>)
     {
       if(m/> (?<dd>\d\d) \. (?<mm>\d\d) \. (?<YYYY>\d\d\d\d) </x)
@@ -37,17 +52,11 @@
 	    }
 
 	  $::date = 
-	      sprintf "%02.2d %02.2d %04.4d",
+	      sprintf "%02.2d %s %04.4d",
 		$+{dd},
-		$+{mm},
+		$month_dd2mon{ $+{mm} },
 		$+{YYYY},
 		;
-
-	  printf "%02.2d %02.2d %04.4d\n",
-	    $+{dd},
-	    $+{mm},
-	    $+{YYYY},
-	    if 0;
 
 	  next;
 	}
@@ -112,5 +121,23 @@
 	{
 	  ##printf "\t"
 	}
+    }
+
+  if( ($::date ne '') && ($t{KO} ne '') )
+    {
+      print $::date,"\n";
+      printf "\t%s .. %s=%s=%s+%s=... // %s\n",
+	$t{KO} ne '' ? $t{KO} : 'HH:MM',
+	$t{GE} ne '' ? $t{GE} : 'HH:MM',
+	'HH:MM',
+	$t{abgerundete_Istzeit},
+	'HH:MM',
+
+	##'F7' => $::encountered_F7,
+	$::encountered_F7 ? 'F7' : '',
+	;
+      $::encountered_F7 = 0;
+      %t = ();
+      $::state = 'abgerundete_Istzeit';
     }
 }
