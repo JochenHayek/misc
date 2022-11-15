@@ -6,6 +6,7 @@
 
 # how to call this usitily:
 #
+#   $ cd ~/git-servers/github.com/JochenHayek/misc/diary/pdftohtml_tritom2diary.t/
 #   $ ~/git-servers/github.com/JochenHayek/misc/diary/pdftohtml_tritom2diary.pl 202210.pdftohtml.xml > 202210.diary
 #   $ ~/git-servers/github.com/JochenHayek/misc/diary/pdftohtml_tritom2diary.pl 202211.pdftohtml.xml > 202211.diary
 
