@@ -28,17 +28,17 @@ year=2023
 
 	hh:mm calendar maintenance -- should be VERY, VERY EASY AND STRAIGHT FORWARD using the following recipes:
 
-	  -> www.schulferien.org/Feiertage/feiertage.html // maybe also be useful
+	  -> www.schulferien.org/Feiertage/feiertage.html // may also be useful
 
 		\(..\)\.\(..\)\.\(....\) -> \3-\2-\1
 
 		www.schulferien.org/Berlin/berlin.html
-		www.schulferien.org/deutschland/ferien/winterferien/berlin/               // 2022-01-29 .. 2022-02-05
-		www.schulferien.org/deutschland/ferien/osterferien/berlin/                // 2022-03-07 +  2022-04-11..23
-		www.schulferien.org/deutschland/ferien/pfingstferien/berlin/              // 2022-05-27 +  2022-06-07
-		www.schulferien.org/deutschland/ferien/sommerferien/berlin/               // 2022-07-07 .. 2022-08-19
-		www.schulferien.org/deutschland/ferien/herbstferien/berlin/               // 2022-10-24 .. 2022-11-05
-		www.schulferien.org/deutschland/ferien/weihnachtsferien/berlin/           // 2022-12-22 .. 2023-01-02
+		www.schulferien.org/deutschland/ferien/winter/berlin/                     // 2023-01-30 .. 2023-02-04
+		www.schulferien.org/deutschland/ferien/ostern/berlin/                     // 2023-04-03 .. 2023-04-14
+		www.schulferien.org/deutschland/ferien/pfingsten/berlin/                  // 2023-05-19 +  2023-05-30
+		www.schulferien.org/deutschland/ferien/sommer/berlin/                     // 2023-07-13 .. 2023-08-25
+		www.schulferien.org/deutschland/ferien/herbst/berlin/                     // 2023-10-02 +  2023-10-23..2023-11-04
+		www.schulferien.org/deutschland/ferien/weihnachten/berlin/                // 2023-12-23 .. 2024-05-01
 
 	  my very special 2012 trick: copy the "Local variables" end from ~/diary to the newly created sniplets before merging them
 
@@ -111,8 +111,6 @@ year=2023
 		diff -c ~/diary ~/etc/diary/diary_incl_schiurim
 	    then replace ...
 		mv --verbose ~/etc/diary/diary_incl_schiurim ~/diary
-
-	  www.schulferien.org/Feiertage/feiertage.html // maybe also useful
 
 	  ----- diary-creation for 2017 proceeded up to here -----
 
