@@ -38,7 +38,7 @@ year=2023
 		www.schulferien.org/deutschland/ferien/pfingsten/berlin/                  // 2023-05-19 +  2023-05-30
 		www.schulferien.org/deutschland/ferien/sommer/berlin/                     // 2023-07-13 .. 2023-08-25
 		www.schulferien.org/deutschland/ferien/herbst/berlin/                     // 2023-10-02 +  2023-10-23..2023-11-04
-		www.schulferien.org/deutschland/ferien/weihnachten/berlin/                // 2023-12-23 .. 2024-05-01
+		www.schulferien.org/deutschland/ferien/weihnachten/berlin/                // 2023-12-23 .. 2024-01-05
 
 	  my very special 2012 trick: copy the "Local variables" end from ~/diary to the newly created sniplets before merging them
 
