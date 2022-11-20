@@ -93,7 +93,8 @@ sub main
     $main::options{job_yearly_events}          = 0;
     $main::options{job_easter_etc}             = 0;
     $main::options{job_advent_etc}             = 0;
-    $main::options{job_muttertag}        = 0;
+    $main::options{job_muttertag}              = 0;
+    $main::options{job_american_thanksgiving}  = 0;
     $main::options{job_xdays_around_today}     = 0;
 
     $main::options{echo_the_source_p}		= 1;
@@ -116,6 +117,7 @@ sub main
        ,'job_easter_etc!'
        ,'job_advent_etc!'
        ,'job_muttertag!'
+       ,'job_american_thanksgiving!'
        ,'job_xdays_around_today!'
 
        ,'dry_run!'
@@ -125,7 +127,7 @@ sub main
 
        ,'tag=s'			# used by --job_tag_match, --job_match_timed_tag_with_body
 
-       ,'this_year|year=s'	# used by --job_yearly_events , --job_easter_etc , --job_advent_etc , --job_muttertag , --job_xdays_around_today
+       ,'this_year|year=s'	# used by --job_yearly_events , --job_easter_etc , --job_advent_etc , --job_muttertag , --job_american_thanksgiving , --job_xdays_around_today
 
        ,'what_dow=s'	        # used by 							      --job_xdays_around_today
 
@@ -173,13 +175,15 @@ sub main
   # `--job_yearly_events' may ******only****** be applied to the region within diary,
   # where we find the yearly events;
   #
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_yearly_events --this_year=1997
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_yearly_events         --this_year=1997
   #
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_easter_etc    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_easter_etc            --this_year=2004
   #
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_advent_etc    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_advent_etc            --this_year=2004
   #
-  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag    --this_year=2004
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag             --this_year=2004
+  #
+  # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_american_thanksgiving --this_year=2004
   #
   # ~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_xdays_around_today    --this_year=2004 --what_dow=5
   #
@@ -192,6 +196,7 @@ sub main
   elsif($main::options{job_easter_etc			}) { &job_easter_etc			; }
   elsif($main::options{job_advent_etc			}) { &job_advent_etc			; }
   elsif($main::options{job_muttertag			}) { &job_muttertag			; }
+  elsif($main::options{job_american_thanksgiving	}) { &job_american_thanksgiving		; }
   elsif($main::options{job_xdays_around_today		}) { &job_xdays_around_today		; }
   else
     {
@@ -1039,7 +1044,7 @@ sub job_advent_etc
 
 # I derived my code here from
 #
-#   "man Date::Calc / 9)": How do I calculate the last and the next Saturday for any given date?
+#   "man Date::Calc / 9)" resp. https://man.archlinux.org/man/Date::Calc.3pm.en : How do I calculate the last and the next Saturday for any given date?
 #
 ## ...
 ##use Date::Calc qw( Today Day_of_Week Add_Delta_Days
@@ -1150,12 +1155,119 @@ sub job_muttertag
   #
   #   according to http://de.wikipedia.org/wiki/Muttertag : 
   # 	... 
-  # 	am zweiten Sonntag im Mai (JH: YYYY-05-08..14, the last Sunday before YYYY-05-15, because within -08..14 there MUST be two Sundays)
+  # 	am zweiten Sonntag im Mai (JH: YYYY-05-08..14, the last Sunday before YYYY-05-15)
   # 	...
 
 # I derived my code here from
 #
-#   "man Date::Calc / 9)": How do I calculate the last and the next Saturday for any given date?
+#   "man Date::Calc / 9)" resp. https://man.archlinux.org/man/Date::Calc.3pm.en : How do I calculate the last and the next Saturday for any given date?
+#
+## ...
+##use Date::Calc qw( Today Day_of_Week Add_Delta_Days
+##		     Day_of_Week_to_Text Date_to_Text );
+## ...
+
+  use Date::Calc qw( Day_of_Week Add_Delta_Days
+		     Day_of_Week_to_Text Date_to_Text );
+
+  my($dow_of_Sunday) = 7; # 7 = Sunday
+
+  my(@YYYY_05_15) = ($main::options{this_year},5,15);
+
+  my($dow_of_YYYY_05_15) = Day_of_Week(@YYYY_05_15);
+  my(@prev);
+  my(@next);
+
+  printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+    ,'$dow_of_YYYY_05_15',$dow_of_YYYY_05_15
+    ,'$dow_of_Sunday',$dow_of_Sunday
+    ,'...'
+    if 0 && $main::options{debug};
+
+  if   ($dow_of_YYYY_05_15 == $dow_of_Sunday) # i.e. is this YYYY-11-23 a Sunday
+    {
+      @prev = Add_Delta_Days(@YYYY_05_15,-7);
+      @next = Add_Delta_Days(@YYYY_05_15,+7);
+    }
+  elsif($dow_of_YYYY_05_15  < $dow_of_Sunday)
+    {
+      @next = Add_Delta_Days(@YYYY_05_15,
+			     $dow_of_Sunday - $dow_of_YYYY_05_15);
+      @prev = Add_Delta_Days(@next,-7);
+    }
+  elsif($dow_of_YYYY_05_15  > $dow_of_Sunday)
+    {
+      @prev = Add_Delta_Days(@YYYY_05_15,
+			     $dow_of_Sunday - $dow_of_YYYY_05_15);
+      @next = Add_Delta_Days(@prev,+7);
+    }
+  else
+    {
+      die '...';
+    }
+
+  my(@the_reference_point) = @prev;
+
+  my(@table) =
+      ( { offset =>   0 , name => 'http://de.wikipedia.org/wiki/Muttertag' }
+      );
+
+  foreach my $rec ( @table )
+    {
+      printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+	,'$rec->{offset}',$rec->{offset}
+	if 0 && $main::options{debug};
+
+      my(%date);
+      ($date{year},$date{month},$date{day}) = Add_Delta_Days( @the_reference_point , $rec->{offset} );;
+
+      printf STDERR "=%s,%d,%s: %s=>{%04d-%02d-%02d}\n",__FILE__,__LINE__,$proc_name
+
+	,$rec->{name}
+	,$date{year},$date{month},$date{day}
+
+	if 0 && $main::options{debug};
+
+      printf STDOUT "%02d %s %04d\n\tHH:MM [name_of_day] %s\n"
+	,$date{day}
+	,$::short_month_names[$date{month}]
+	,$date{year}
+        ,$rec->{name}
+	;
+    }
+
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+  printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  return $return_value;
+}
+sub job_american_thanksgiving
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  my($return_value) = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+  printf STDERR "=%s,%d,%s: %s=>{%s}\n",__FILE__,__LINE__,$proc_name
+    ,'$main::options{this_year}',$main::options{this_year}
+    if 0 && $main::options{debug};
+
+  # we are seeking "American Thanksgiving":
+  #
+  #   according to https://en.wikipedia.org/wiki/Thanksgiving_(United_States) : 
+  # 	... 
+  # 	… the fourth Thursday in November … – JH: YYYY-11-22..28, the last Sunday before YYYY-11-29
+  # 	...
+
+# I derived my code here from
+#
+#   "man Date::Calc / 9)" resp. https://man.archlinux.org/man/Date::Calc.3pm.en : How do I calculate the last and the next Saturday for any given date?
 #
 ## ...
 ##use Date::Calc qw( Today Day_of_Week Add_Delta_Days
