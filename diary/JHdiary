@@ -1224,30 +1224,7 @@ sub job_muttertag
       die '...';
     }
 
-  if(0)
-    {
-      my($dow_text_of_Sunday) = Day_of_Week_to_Text($dow_of_Sunday);
-
-      printf STDERR "=%s,%d,%s: %s=>({%s},{%s},{%s}) // %s\n",__FILE__,__LINE__,$proc_name
-	,'@next',$next[0],$next[1],$next[2]
-	,'...'
-	if 1 && $main::options{debug};
-
-      print
-	"YYYY_05_15 is:      " ,
-	' ' x length($dow_text_of_Sunday) ,
-	Date_to_Text(@YYYY_05_15) ,
-	"\n" ;
-      print "Last $dow_text_of_Sunday was:     ", Date_to_Text(@prev),  "\n";
-      print "Next $dow_text_of_Sunday will be: ", Date_to_Text(@next),  "\n";
-
-    ## This will print something like:
-
-    ##   YYYY_05_15 is:              Sun 12-Apr-1998
-    ##   Last Saturday was:     Sat 11-Apr-1998
-    }
-
-  my(@BuB) = @prev;
+  my(@BuB) = @prev;		# where does this name come from? "Buß- und Bettag"? but for "Buß- und Bettag" this abbreviation is not used. so we don't really know.
 
   my(@table) =
       ( { offset =>   0 , name => 'http://de.wikipedia.org/wiki/Muttertag' }
