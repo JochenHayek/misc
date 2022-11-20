@@ -1030,7 +1030,7 @@ sub job_advent_etc
     ,'$main::options{this_year}',$main::options{this_year}
     if 0 && $main::options{debug};
 
-  # we are seeking "Advent#4":
+  # we are seeking "Advent#4":			# the reference point
   #
   #   from http://de.wikipedia.org/wiki/Adventssonntag :
   # 	... 
@@ -1087,30 +1087,7 @@ sub job_advent_etc
       die '...';
     }
 
-  if(0)
-    {
-      my($dow_text_of_Sunday) = Day_of_Week_to_Text($dow_of_Sunday);
-
-      printf STDERR "=%s,%d,%s: %s=>({%s},{%s},{%s}) // %s\n",__FILE__,__LINE__,$proc_name
-	,'@next',$next[0],$next[1],$next[2]
-	,'...'
-	if 1 && $main::options{debug};
-
-      print
-	"YYYY_12_25 is:      " ,
-	' ' x length($dow_text_of_Sunday) ,
-	Date_to_Text(@YYYY_12_25) ,
-	"\n" ;
-      print "Last $dow_text_of_Sunday was:     ", Date_to_Text(@prev),  "\n";
-      print "Next $dow_text_of_Sunday will be: ", Date_to_Text(@next),  "\n";
-
-    ## This will print something like:
-
-    ##   YYYY_12_25 is:              Sun 12-Apr-1998
-    ##   Last Saturday was:     Sat 11-Apr-1998
-    }
-
-  my(@Advent_4) = @prev;
+  my(@the_reference_point) = @prev;
 
   my(@table) =
       ( { offset => -35 , name => 'Advent#-1 -- http://de.wikipedia.org/wiki/Volkstrauertag : ... seit 1952 ... -- Sunday after YYYY-11-11 -> http://de.wikipedia.org/wiki/Waffenstillstand_von_Compiègne' }
@@ -1119,7 +1096,7 @@ sub job_advent_etc
       , { offset => -21 , name => 'Advent#1' }
       , { offset => -14 , name => 'Advent#2' }
       , { offset =>  -7 , name => 'Advent#3' }
-      , { offset =>   0 , name => sprintf 'Advent#4 -- the last Sunday before %s-12-25',$main::options{this_year} }
+      , { offset =>   0 , name => sprintf 'Advent#4 -- the last Sunday before %s-12-25',$main::options{this_year} } # the reference point
       );
 
   foreach my $rec ( @table )
@@ -1129,7 +1106,7 @@ sub job_advent_etc
 	if 0 && $main::options{debug};
 
       my(%date);
-      ($date{year},$date{month},$date{day}) = Add_Delta_Days( @Advent_4 , $rec->{offset} );;
+      ($date{year},$date{month},$date{day}) = Add_Delta_Days( @the_reference_point , $rec->{offset} );;
 
       printf STDERR "=%s,%d,%s: %s=>{%04d-%02d-%02d}\n",__FILE__,__LINE__,$proc_name
 
@@ -1224,7 +1201,7 @@ sub job_muttertag
       die '...';
     }
 
-  my(@BuB) = @prev;		# where does this name come from? "Buß- und Bettag"? but for "Buß- und Bettag" this abbreviation is not used. so we don't really know.
+  my(@the_reference_point) = @prev;
 
   my(@table) =
       ( { offset =>   0 , name => 'http://de.wikipedia.org/wiki/Muttertag' }
@@ -1237,7 +1214,7 @@ sub job_muttertag
 	if 0 && $main::options{debug};
 
       my(%date);
-      ($date{year},$date{month},$date{day}) = Add_Delta_Days( @BuB , $rec->{offset} );;
+      ($date{year},$date{month},$date{day}) = Add_Delta_Days( @the_reference_point , $rec->{offset} );;
 
       printf STDERR "=%s,%d,%s: %s=>{%04d-%02d-%02d}\n",__FILE__,__LINE__,$proc_name
 
