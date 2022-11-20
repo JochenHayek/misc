@@ -73,6 +73,16 @@ year=2023
 		mv --verbose ~/etc/diary/diary-${year}-advent-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} :
+	    yearly events -- generate the calendar with the holidays depending on American Thanksgiving using Date::Calc
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_american_thanksgiving --this_year=${year} > ~/etc/diary/diary-${year}-american_thanksgiving
+	    afterwards merge the yearly events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/diary-${year}-american_thanksgiving > ~/etc/diary/diary-${year}-american_thanksgiving-complete
+	    is it alright?
+		diff -c ~/diary ~/etc/diary/diary-${year}-american_thanksgiving-complete
+	    then replace ...
+		mv --verbose ~/etc/diary/diary-${year}-american_thanksgiving-complete ~/diary
+
+	  IMPORTANT -- TO BE DONE FOR ${year} :
 	    yearly events -- generate the calendar with the holidays depending on Muttertag using Date::Calc
 		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_muttertag --this_year=${year} > ~/etc/diary/diary-${year}-muttertag
 	    afterwards merge the yearly events into ~/diary :
