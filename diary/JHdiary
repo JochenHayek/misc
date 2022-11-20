@@ -1068,7 +1068,7 @@ sub job_advent_etc
     ,'...'
     if 0 && $main::options{debug};
 
-  if   ($dow_of_YYYY_12_25 == $dow_of_Sunday) # i.e. is this YYYY-12-15 a Sunday
+  if   ($dow_of_YYYY_12_25 == $dow_of_Sunday) # i.e. is this YYYY-12-25 a Sunday
     {
       @prev = Add_Delta_Days(@YYYY_12_25,-7);
       @next = Add_Delta_Days(@YYYY_12_25,+7);
@@ -1184,7 +1184,7 @@ sub job_muttertag
     ,'...'
     if 0 && $main::options{debug};
 
-  if   ($dow_of_YYYY_05_15 == $dow_of_Sunday) # i.e. is this YYYY-11-23 a Sunday
+  if   ($dow_of_YYYY_05_15 == $dow_of_Sunday) # i.e. is this YYYY-05-15 a Sunday
     {
       @prev = Add_Delta_Days(@YYYY_05_15,-7);
       @next = Add_Delta_Days(@YYYY_05_15,+7);
@@ -1262,7 +1262,7 @@ sub job_american_thanksgiving
   #
   #   according to https://en.wikipedia.org/wiki/Thanksgiving_(United_States) : 
   # 	... 
-  # 	… the fourth Thursday in November … – JH: YYYY-11-22..28, the last Sunday before YYYY-11-29
+  # 	… the fourth Thursday in November … – JH: YYYY-11-22..28, the last Thursday before YYYY-11-29
   # 	...
 
 # I derived my code here from
@@ -1277,35 +1277,36 @@ sub job_american_thanksgiving
   use Date::Calc qw( Day_of_Week Add_Delta_Days
 		     Day_of_Week_to_Text Date_to_Text );
 
-  my($dow_of_Sunday) = 7; # 7 = Sunday
+##my($dow_of_Sunday) = 7; # 7 = Sunday
+  my($dow_of_Thursday) = 4; # 4 = Thursday
 
-  my(@YYYY_05_15) = ($main::options{this_year},5,15);
+  my(@YYYY_11_29) = ($main::options{this_year},11,29);
 
-  my($dow_of_YYYY_05_15) = Day_of_Week(@YYYY_05_15);
+  my($dow_of_YYYY_11_29) = Day_of_Week(@YYYY_11_29);
   my(@prev);
   my(@next);
 
   printf STDERR "=%s,%d,%s: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
-    ,'$dow_of_YYYY_05_15',$dow_of_YYYY_05_15
-    ,'$dow_of_Sunday',$dow_of_Sunday
+    ,'$dow_of_YYYY_11_29',$dow_of_YYYY_11_29
+    ,'$dow_of_Thursday',$dow_of_Thursday
     ,'...'
     if 0 && $main::options{debug};
 
-  if   ($dow_of_YYYY_05_15 == $dow_of_Sunday) # i.e. is this YYYY-11-23 a Sunday
+  if   ($dow_of_YYYY_11_29 == $dow_of_Thursday) # i.e. is this YYYY-11-29 a Thursday
     {
-      @prev = Add_Delta_Days(@YYYY_05_15,-7);
-      @next = Add_Delta_Days(@YYYY_05_15,+7);
+      @prev = Add_Delta_Days(@YYYY_11_29,-7);
+      @next = Add_Delta_Days(@YYYY_11_29,+7);
     }
-  elsif($dow_of_YYYY_05_15  < $dow_of_Sunday)
+  elsif($dow_of_YYYY_11_29  < $dow_of_Thursday)
     {
-      @next = Add_Delta_Days(@YYYY_05_15,
-			     $dow_of_Sunday - $dow_of_YYYY_05_15);
+      @next = Add_Delta_Days(@YYYY_11_29,
+			     $dow_of_Thursday - $dow_of_YYYY_11_29);
       @prev = Add_Delta_Days(@next,-7);
     }
-  elsif($dow_of_YYYY_05_15  > $dow_of_Sunday)
+  elsif($dow_of_YYYY_11_29  > $dow_of_Thursday)
     {
-      @prev = Add_Delta_Days(@YYYY_05_15,
-			     $dow_of_Sunday - $dow_of_YYYY_05_15);
+      @prev = Add_Delta_Days(@YYYY_11_29,
+			     $dow_of_Thursday - $dow_of_YYYY_11_29);
       @next = Add_Delta_Days(@prev,+7);
     }
   else
@@ -1316,7 +1317,8 @@ sub job_american_thanksgiving
   my(@the_reference_point) = @prev;
 
   my(@table) =
-      ( { offset =>   0 , name => 'http://de.wikipedia.org/wiki/Muttertag' }
+      ( { offset =>   0 , name => 'https://en.wikipedia.org/wiki/Thanksgiving_(United_States)' }
+      , { offset =>  +1 , name => 'https://en.wikipedia.org/wiki/Black_Friday_(shopping)'                            }
       );
 
   foreach my $rec ( @table )
