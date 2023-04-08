@@ -17,7 +17,8 @@ year=2023
 	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20211025161812.csv.diary.2024
 
 	    $ cd ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/
-	    $ ln -s hebcal--torah-readings-diaspora.20211025161812.csv.diary.2022 diary
+	  ##$ ln -s hebcal--torah-readings-diaspora.20230408174548.csv.diary.2023 diary
+	    $ ln -s hebcal--jewish-holidays-all.20230408175835.csv.diary.2023 diary
 
 	    … merge the yearly events into ~/diary :
 		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/diary > ~/etc/diary/diary
