@@ -8,7 +8,8 @@ https://www.hebcal.com/ical/
     Outlook CSV
 ##Hebrew calendar dates (English)
     Outlook CSV
-  Jewish Holidays (all) // diaspora
+##Jewish Holidays (all) // diaspora
+  Jewish Holidays (all holidays) / Without emoji / CSV
     Outlook CSV
 
 # http://www.hebcal.com/sedrot/
