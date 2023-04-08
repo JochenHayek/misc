@@ -1,6 +1,6 @@
 :
 
-if cd ~/Computers/Programming/Languages/Perl/hebcal2diary.t
+if cd ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/
 then :
 else :
   printf 1>&2 "=%03.3d: // %s\n" $LINENO \
