@@ -23,7 +23,11 @@ do :
     hebcal_20*.csv )
       date_format='day-month-year'
       ;;
-    hebcal--torah-readings-diaspora.csv )
+  ##hebcal--torah-readings-diaspora.csv )
+    hebcal--torah-readings-diaspora.*.csv )
+      date_format='month-day-year'
+      ;;
+    hebcal--jewish-holidays-all.*.csv )
       date_format='month-day-year'
       ;;
   esac
