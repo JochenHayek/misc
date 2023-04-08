@@ -3,6 +3,8 @@
 ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.pl -date_format='day-month-year' ? > $(echo ? ).diary
 ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.pl -date_format='month-day-year' ? > $(echo ? ).diary
 
+hebcal.com > Downloads > https://www.hebcal.com/ical/
+
 https://www.hebcal.com/ical/
   Torah Readings (Diaspora)
     Outlook CSV
