@@ -4,19 +4,19 @@
 
 # $ fgrep -v 'empty {Date:} header field, so we are going to use From_captures to extract date+time'
 # $ fgrep -v ' // *** WILL BE REMOVED, BECAUSE'
-# $ env 'current_local_DST_shift=1' ~/git-servers/github.com/JochenHayek/misc/procmail/diary.procmail-from.rewriting.pl
+# $ env 'current_local_TZ_shift=1' ~/git-servers/github.com/JochenHayek/misc/procmail/diary.procmail-from.rewriting.pl
 
 ################################################################################
 
 # all steps at once:
 
-# $ fgrep -v 'empty {Date:} header field, so we are going to use From_captures to extract date+time' | fgrep -v ' // *** WILL BE REMOVED, BECAUSE' | env 'current_local_DST_shift=1' ~/git-servers/github.com/JochenHayek/misc/procmail/diary.procmail-from.rewriting.pl
+# $ fgrep -v 'empty {Date:} header field, so we are going to use From_captures to extract date+time' | fgrep -v ' // *** WILL BE REMOVED, BECAUSE' | env 'current_local_TZ_shift=1' ~/git-servers/github.com/JochenHayek/misc/procmail/diary.procmail-from.rewriting.pl
 
 ################################################################################
 
 # restriction:
 #
-#   current_local_DST_shift can only be a positive 1- or 2-decimal-digits number of hours.
+#   current_local_TZ_shift can only be a positive 1- or 2-decimal-digits number of hours.
 #   avoid leading "0", as this might make Perl consider it an octal number instead of a decimal number.
 #
 #   of course … leading "0" can / will be removed at one stage in order to remove this restriction.
@@ -113,52 +113,52 @@ sub func
     # * either handle this "automatically" (= with enough programmatical intelligence – i.e. by enquiring current difference between the local time zone and UTC)
     # * or pass this in as a command line argument (or so).
 
-    my($current_local_DST_shift);
-    my($formatted_DST_shift);
+    my($current_local_TZ_shift);
+    my($formatted_TZ_shift);
 
-    if   ( $ENV{current_local_DST_shift} =~ m/^ \d\d? $/x ) # actually outdated
+    if   ( $ENV{current_local_TZ_shift} =~ m/^ \d\d? $/x ) # actually outdated
       {
-	$current_local_DST_shift = $ENV{current_local_DST_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
-      ##$current_local_DST_shift = '1';	# winter time in +49 AKA Germany
-      ##$current_local_DST_shift = '2';	# summer time in +49 AKA Germany
+	$current_local_TZ_shift = $ENV{current_local_TZ_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
+      ##$current_local_TZ_shift = '1';	# winter time in +49 AKA Germany
+      ##$current_local_TZ_shift = '2';	# summer time in +49 AKA Germany
 
-      ##$formatted_DST_shift =       sprintf("+0%02.2d00",$current_local_DST_shift);
-	$formatted_DST_shift = '+' . sprintf(  "%02.2d"  ,$current_local_DST_shift) . '00'; # e.g. '1' -> '+0100'
+      ##$formatted_TZ_shift =       sprintf("+0%02.2d00",$current_local_TZ_shift);
+	$formatted_TZ_shift = '+' . sprintf(  "%02.2d"  ,$current_local_TZ_shift) . '00'; # e.g. '1' -> '+0100'
       }
-    elsif( $ENV{current_local_DST_shift} =~ m/^ [\+] 0(?<hours>\d)00 $/x ) # this deals with the subset currently relevant
+    elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] 0(?<hours>\d)00 $/x ) # this deals with the subset currently relevant
       {
 	my(%plus1) = %+;
 
-	$current_local_DST_shift = $plus1{hours};
+	$current_local_TZ_shift = $plus1{hours};
 
-	$formatted_DST_shift = $ENV{current_local_DST_shift};
+	$formatted_TZ_shift = $ENV{current_local_TZ_shift};
       }
-  ##elsif( $ENV{current_local_DST_shift} =~ m/^ [\+] (?<hours>[1-9]\d)00 $/x ) # this deals with the subset currently relevant
-    elsif( $ENV{current_local_DST_shift} =~ m/^ [\+]   (?<hours>\d]\d)00 $/x ) # this deals with the subset currently relevant
+  ##elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] (?<hours>[1-9]\d)00 $/x ) # this deals with the subset currently relevant
+    elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+]   (?<hours>\d]\d)00 $/x ) # this deals with the subset currently relevant
       {
 	my(%plus1) = %+;
 
-	$current_local_DST_shift = $plus1{hours};
+	$current_local_TZ_shift = $plus1{hours};
 
-	$formatted_DST_shift = $ENV{current_local_DST_shift};
+	$formatted_TZ_shift = $ENV{current_local_TZ_shift};
       }
-    elsif( $ENV{current_local_DST_shift} =~ m/^ [\+\-] \d\d\d\d $/x ) # this deals with all possible (and more than that) numeric timezones -> https://linux.die.net/man/3/strftime
+    elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+\-] \d\d\d\d $/x ) # this deals with all possible (and more than that) numeric timezones -> https://linux.die.net/man/3/strftime
       {
-	die "\$ENV{current_local_DST_shift}=>{$ENV{current_local_DST_shift}} // not yet implemented";
+	die "\$ENV{current_local_TZ_shift}=>{$ENV{current_local_TZ_shift}} // not yet implemented";
       }
     else
       {
-	die "\$ENV{current_local_DST_shift}=>{$ENV{current_local_DST_shift}} // must be signless 1- or 2-decimal-digits number of hours";
+	die "\$ENV{current_local_TZ_shift}=>{$ENV{current_local_TZ_shift}} // must be signless 1- or 2-decimal-digits number of hours";
       }
 
-    if($plus{DST} eq ${formatted_DST_shift}) # e.g. '+0100'
+    if($plus{DST} eq ${formatted_TZ_shift}) # e.g. '+0100'
       {}
     else
       {
 	# most simple (resp. far too simple) way of adding timezone difference.
 	# TBD: there should be a subroutine dedicated to this.
 
-	my($new_H) = sprintf "%02.2d", $plus{H} + $current_local_DST_shift - "$plus{DST_sign}$plus{DST_HH}";
+	my($new_H) = sprintf "%02.2d", $plus{H} + $current_local_TZ_shift - "$plus{DST_sign}$plus{DST_HH}";
 
 	my($extended_orig_DST_zone_name) = defined($plus{DST_zone_name}) ? " $plus{DST_zone_name}" : '';
 
