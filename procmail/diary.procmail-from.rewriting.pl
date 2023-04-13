@@ -113,20 +113,43 @@ sub func
     # * either handle this "automatically" (= with enough programmatical intelligence – i.e. by enquiring current difference between the local time zone and UTC)
     # * or pass this in as a command line argument (or so).
 
-    if( $ENV{current_local_DST_shift} =~ m/^\d\d?$/x )
+    my($current_local_DST_shift);
+    my($formatted_DST_shift);
+
+    if   ( $ENV{current_local_DST_shift} =~ m/^ \d\d? $/x ) # actually outdated
       {
+	$current_local_DST_shift = $ENV{current_local_DST_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
+      ##$current_local_DST_shift = '1';	# winter time in +49 AKA Germany
+      ##$current_local_DST_shift = '2';	# summer time in +49 AKA Germany
+
+      ##$formatted_DST_shift =       sprintf("+0%02.2d00",$current_local_DST_shift);
+	$formatted_DST_shift = '+' . sprintf(  "%02.2d"  ,$current_local_DST_shift) . '00'; # e.g. '1' -> '+0100'
+      }
+    elsif( $ENV{current_local_DST_shift} =~ m/^ [\+] 0(?<hours>\d)00 $/x ) # this deals with the subset currently relevant
+      {
+	my(%plus1) = %+;
+
+	$current_local_DST_shift = $plus1{hours};
+
+	$formatted_DST_shift = $ENV{current_local_DST_shift};
+      }
+  ##elsif( $ENV{current_local_DST_shift} =~ m/^ [\+] (?<hours>[1-9]\d)00 $/x ) # this deals with the subset currently relevant
+    elsif( $ENV{current_local_DST_shift} =~ m/^ [\+]   (?<hours>\d]\d)00 $/x ) # this deals with the subset currently relevant
+      {
+	my(%plus1) = %+;
+
+	$current_local_DST_shift = $plus1{hours};
+
+	$formatted_DST_shift = $ENV{current_local_DST_shift};
+      }
+    elsif( $ENV{current_local_DST_shift} =~ m/^ [\+\-] \d\d\d\d $/x ) # this deals with all possible (and more than that) numeric timezones -> https://linux.die.net/man/3/strftime
+      {
+	die "\$ENV{current_local_DST_shift}=>{$ENV{current_local_DST_shift}} // not yet implemented";
       }
     else
       {
 	die "\$ENV{current_local_DST_shift}=>{$ENV{current_local_DST_shift}} // must be signless 1- or 2-decimal-digits number of hours";
       }
-
-    my($current_local_DST_shift) = $ENV{current_local_DST_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
-  ##my($current_local_DST_shift) = '1';	# winter time in +49 AKA Germany
-  ##my($current_local_DST_shift) = '2';	# summer time in +49 AKA Germany
-
-  ##my($formatted_DST_shift) =       sprintf("+0%02.2d00",$current_local_DST_shift);
-    my($formatted_DST_shift) = '+' . sprintf(  "%02.2d"  ,$current_local_DST_shift) . '00'; # e.g. '1' -> '+0100'
 
     if($plus{DST} eq ${formatted_DST_shift}) # e.g. '+0100'
       {}
