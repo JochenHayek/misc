@@ -153,12 +153,17 @@
 
   # I would prefer this within the loop, but something screws up:
 
+  use English;
+  $INPUT_RECORD_SEPARATOR = "\r\n";	# .ics files have this linefeed convention
+
 ##my($current_arg) = $_;
   my($current_arg) = $ARGV[0];
   while(<>)
     {
-      chomp if 0;
-      s/\s*$//;
+      ##chomp if 0;
+      chomp;
+      ##s/\s*$//;
+      ##s/\r\n//;
 
       # DTEND;TZID=Europe/Berlin:20171103T152600
 
