@@ -151,19 +151,19 @@
 
   $::current_line = '';
 
-  # I would prefer this within the loop, but something screws up:
+##use English;
+##$INPUT_RECORD_SEPARATOR = "\r\n";	# .ics files do not have this strict linefeed convention
 
-  use English;
-  $INPUT_RECORD_SEPARATOR = "\r\n";	# .ics files have this linefeed convention
+  # I would prefer this within the loop, but something screws up:
 
 ##my($current_arg) = $_;
   my($current_arg) = $ARGV[0];
   while(<>)
     {
       ##chomp if 0;
-      chomp;
+      ##chomp;
       ##s/\s*$//;
-      ##s/\r\n//;
+      s/\r?\n//;		# some .ics files have "\r\n" linefeeds, some have "\n"
 
       # DTEND;TZID=Europe/Berlin:20171103T152600
 
