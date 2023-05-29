@@ -37,7 +37,7 @@
 * jpg-exiftool-suggest-rename-versioned.sh
 * jpg-exiftool-suggest-rename-as_vouchers.sh
 
-  * JPG files from wherever, e.g. ...
+  * JPG (and also HEIC) files from wherever, e.g. ...
 
   * this script gets called with the targeted files as command line arguments
 
