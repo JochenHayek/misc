@@ -63,6 +63,16 @@ do
 	    our($basename ) = basename($filename,".jpeg");
 	    our($extension) = "jpeg";
 	  }
+	elsif( $filename =~ m/\.JPG$/x )
+	  {
+	    our($basename ) = basename($filename,".JPG");
+	    our($extension) = "JPG";
+	  }
+	elsif( $filename =~ m/\.JPEG$/x )
+	  {
+	    our($basename ) = basename($filename,".JPEG");
+	    our($extension) = "JPEG";
+	  }
 	elsif( $filename =~ m/\.HEIC$/x )
 	  {
 	    our($basename ) = basename($filename,".HEIC");
