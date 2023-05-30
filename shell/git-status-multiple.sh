@@ -20,8 +20,6 @@ for i in \
   git-servers/ber.jochen.hayek.name/johayek/qif2skr03 \
   git-servers/ber.jochen.hayek.name/johayek/renaming_and_processing_various_files \
   git-servers/ber.jochen.hayek.name/johayek/traffic \
-  \
-  git-servers/gitlab.atenekom.eu/devops/disaster-recovery \
   ;
 do :
   if test -d "$HOME/$i"
