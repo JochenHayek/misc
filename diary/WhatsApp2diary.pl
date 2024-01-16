@@ -11,12 +11,41 @@
     {
       ## 2021-12-dd .. :
 
+      # [2023-12-11, 11:50:00] Walter Homolka: ...
+
+      if( m/ ^ \[ (?<YYYY>\d+) - (?<mm>\d+) - (?<dd>\d+) , \s+ (?<HH>\d+) : (?<MM>\d+) : (?<SS>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*?) \s*$ /x )
+
+	{ my(%plus) = %+;
+
+	  printf "%02.2d %s %s\n\t%02.2d:%s:%s [_,%s] %s: %s <%s>; %s\n",
+
+	    $plus{dd},
+	    $short_month_names[ $plus{mm} ],
+
+	    $plus{YYYY},
+
+	    # https://de.wikipedia.org/wiki/2-mal-12-Stunden-Zählung
+	    # https://en.wikipedia.org/wiki/12-hour_clock
+
+	    $plus{HH},
+	    $plus{MM},
+	    $plus{SS},
+
+	    'WhatsApp',
+
+	    'From',
+	    $plus{author},
+	    '@WhatsApp',
+
+	    $plus{text},
+	    ;
+	}
+
       # [2:05 pm, 08/10/2021] Jochen Hayek: ach... - danke!
 
-      if( m/ ^ \[ (?<HH>\d+) : (?<MM>\d+) \s+ (?<ampm> am|pm ) , \s* (?<dd>\d+) \/ (?<mm>\d+) \/ (?<YYYY>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*) /x )
+      elsif( m/ ^ \[ (?<HH>\d+) : (?<MM>\d+) \s+ (?<ampm> am|pm ) , \s* (?<dd>\d+) \/ (?<mm>\d+) \/ (?<YYYY>\d+) \] \s* (?<author>[^:]*) : \s* (?<text>.*) /x )
 
-	{
-	  my(%plus) = %+;
+	{ my(%plus) = %+;
 
 	  printf "%02.2d %s %s\n\t%02.2d:%s [_,%s] %s: %s <%s>; %s\n",
 
