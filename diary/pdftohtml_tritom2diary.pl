@@ -6,13 +6,14 @@
 
 # how to call this usitily:
 #
+#   $ cd ~/git-servers/github.com/JochenHayek/misc/diary/pdftohtml_tritom2diary.t/
 #   $ ~/git-servers/github.com/JochenHayek/misc/diary/pdftohtml_tritom2diary.pl 202210.pdftohtml.xml > 202210.diary
 #   $ ~/git-servers/github.com/JochenHayek/misc/diary/pdftohtml_tritom2diary.pl 202211.pdftohtml.xml > 202211.diary
 
 {
-  $::encountered_F7 = 0;
   $::date = '';
-  %t = ();
+  %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_Abwesenheit' => 0 );
+  $::state = 'abgerundete_Istzeit';
 
   %month_dd2mon =
     ( '01' => 'Jan' ,
@@ -33,23 +34,7 @@
     {
       if(m/> (?<dd>\d\d) \. (?<mm>\d\d) \. (?<YYYY>\d\d\d\d) </x)
 	{
-	  if( ($::date ne '') && ($t{KO} ne '') )
-	    {
-	      print $::date,"\n";
-	      printf "\t%s .. %s=%s=%s+%s=... // %s\n",
-	        $t{KO} ne '' ? $t{KO} : 'HH:MM',
-	        $t{GE} ne '' ? $t{GE} : 'HH:MM',
-	        'HH:MM',
-	        $t{abgerundete_Istzeit},
-	        'HH:MM',
-
-	        ##'F7' => $::encountered_F7,
-	        $::encountered_F7 ? 'F7' : '',
-	        ;
-	      $::encountered_F7 = 0;
-	      %t = ();
-	      $::state = 'abgerundete_Istzeit';
-	    }
+	  &proc_print;
 
 	  $::date = 
 	      sprintf "%02.2d %s %04.4d",
@@ -60,7 +45,7 @@
 
 	  next;
 	}
-      elsif(m/> (?<w>KO|GE) </x)
+      elsif(m/> (?<w>KO|GE|PA|PE) </x)
 	{
 	  $::state = $+{w};
 
@@ -76,28 +61,32 @@
 	  my(%plus) = %+;
 	  if($+{hours} =~ m/^\d$/)
 	    {
-	      $::time = '0' . $plus{hours} . ':' . $plus{MM};
+	      $::time = "0$plus{hours}:$plus{MM}";
 	    }
 	  else
 	    {
 	      $::time = $+{time};
 	    }
-
 	  printf STDERR "=%s,%d: %s=>{%s} // %s\n",__FILE__,__LINE__,
 	    '$::time' => $::time,
 	    '...'
 	    if 0;
 	  
-	  if( ($::state eq 'KO') || ($::state eq 'GE')  || ($::state eq 'abgerundete_Istzeit') )
+	  if( ($::state eq 'KO') || ($::state eq 'GE') || ($::state =~ m/^KO|GE|PA|PE$/) || ($::state eq 'abgerundete_Istzeit') )
 	    {
-	      $t{$::state} = $::time;
+	      $::t{$::state} = $::time;
 
-	      printf STDERR "=%s,%d: %s=>{%s} // %s\n",__FILE__,__LINE__,
-		"\$t{$::state}" => $t{$::state},
+	      printf STDERR "=%s,%d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,
+		'$::date' => $::date,
+		"\$::t{$::state}" => $::t{$::state},
 		'...'
 		if 0;
 
-	      if( ($::state eq 'KO') || ($::state eq 'GE') )
+	      printf STDERR "=%s,%d: %s=>{%s} // %s\n",__FILE__,__LINE__,
+		'$::state' => $::state,
+		'...'
+		if 0;
+	      if($::state =~ m/^KO|GE|PA|PE$/)
 		{
 		  $::state = 'abgerundete_Istzeit';
 		}
@@ -105,11 +94,24 @@
 		{
 		  $::state = '';
 		}
+	      printf STDERR "=%s,%d: %s=>{%s} // %s\n",__FILE__,__LINE__,
+		'$::state' => $::state,
+		'...'
+		if 0;
 	    }
 	}
       elsif(m/> (?<w>F7) </x)
 	{
-	  $::encountered_F7 = 1;
+	  $::t{encountered_F7} = 1;
+
+	  printf STDERR "=%s,%d,%04.4d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+	    '$+{w}' => $+{w},
+	    '...'
+	    if 0;
+	}
+      elsif(m/> (?<w>(U|K|KA|KR|GF)) </x)			# Urlaub / Krank / Krank… / KR=krank am Wochenende / gleitzeitfrei
+	{
+	  $::t{encountered_Abwesenheit} = $+{w};
 
 	  printf STDERR "=%s,%d,%04.4d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
 	    '$+{w}' => $+{w},
@@ -123,21 +125,41 @@
 	}
     }
 
-  if( ($::date ne '') && ($t{KO} ne '') )
+  &proc_print;
+}
+#
+sub proc_print
+{
+  my($package,$filename,$line,$proc_name) = caller(0);
+
+  my(%param) = @_;
+
+  $return_value = 0;
+
+  printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
+    if 0 && $main::options{debug};
+
+  if($::date ne '')
     {
       print $::date,"\n";
-      printf "\t%s .. %s=%s=%s+%s=... // %s\n",
-	$t{KO} ne '' ? $t{KO} : 'HH:MM',
-	$t{GE} ne '' ? $t{GE} : 'HH:MM',
+      printf "\t%s .. %s=%s=%s+%s--S:999:99(999) [work\@KVBB,%s] // %s\n",
+	$::t{KO} ne '' ? $::t{KO} : 'HH:MM',
+	$::t{GE} ne '' ? $::t{GE} : 'HH:MM',
 	'HH:MM',
-	$t{abgerundete_Istzeit},
+	$::t{abgerundete_Istzeit},
 	'HH:MM',
 
-	##'F7' => $::encountered_F7,
-	$::encountered_F7 ? 'F7' : '',
+	$::t{encountered_Abwesenheit}  ? $::t{encountered_Abwesenheit}  : 'onsite',
+
+	$::t{encountered_F7} ? 'F7' : '',
 	;
-      $::encountered_F7 = 0;
-      %t = ();
+      %::t = ( 'KO' => 'HH:MM' , 'GE' => 'HH:MM' , 'abgerundete_Istzeit' => 'HH:MM' , 'encountered_F7' => 0 , 'encountered_Abwesenheit' => 0 );
       $::state = 'abgerundete_Istzeit';
     }
+
+  printf STDERR "<%s,%d,%s: %s=>%d\n",__FILE__,__LINE__,$proc_name
+    ,'$return_value',$return_value
+    if 0 && $main::options{debug};
+
+  return $return_value;
 }

@@ -1,0 +1,167 @@
+== Haftara ==
+{| class="wikitable"
+|-
+! #<br />''a''schk.<br />''s''eph. !! Name !! Stelle !! BHS !! EU !! Buber-Rosenzweig !! Tur-Sinai !! Liss 2011 !! Abweichung
+|-
+| 1a || [[Bereschit (Sidra)]] || Jesaja 42,5–43,10 || {{BB|Jesaja|42|5–25|BHS}};<br />{{BB|Jesaja|43|1–10|BHS}} || {{BB|Jesaja|42|5–25|EU}};<br />{{BB|Jesaja|43|1–10|EU}} || <!--{{BB|Jesaja|42|5–25|BRU}}-->[http://www.obohu.cz/bible?styl=BRU&vs=ano&lang=de&k=Iz&kap=42 42,5–25]<!--BB_end-->;<br /><!--{{BB|Jesaja|43|1–10|BRU}}-->[http://www.obohu.cz/bible?styl=BRU&vs=ano&lang=de&k=Iz&kap=43 43,1–10]<!--BB_end--> || <!--{{BB|Jesaja|42|5–25|NHTS}}-->[http://www.obohu.cz/bible?styl=NHTS&vs=ano&lang=de&k=Iz&kap=42 42,5–25]<!--BB_end-->;<br /><!--{{BB|Jesaja|43|1–10|BHS}}-->[http://www.obohu.cz/bible?styl=NHTS&vs=ano&lang=de&k=Iz&kap=43 43,1–10]<!--BB_end--> || 24 ||
+|-
+| 1s || [[Bereschit (Sidra)]] || {{B|Jesaja|42|5–21|BHS}} || {{BB|Jesaja|42|5–21|BHS}} || {{BB|Jesaja|42|5–21|EU}} || {{BB|Jesaja|42|5–21|BRU}} || {{BB|Jesaja|42|5–21|NHTS}} || 24 ||
+|-
+| 2a || [[Noach (Sidra)]] || Jesaja 54,1–55,5 || {{BB|Jesaja|54||BHS}};<br />{{BB|Jesaja|55|1–5|BHS}} || {{BB|Jesaja|54||EU}};<br />{{BB|Jesaja|55|1–5|EU}} || {{BB|Jesaja|54||BRU}};<br />{{BB|Jesaja|55|1–5|BRU}} || {{BB|Jesaja|54||NHTS}};<br />{{BB|Jesaja|55|1–5|NHTS}} || 27 ||
+|-
+| 2s || [[Noach (Sidra)]] || {{B|Jesaja|54|1–10|BHS}} || {{BB|Jesaja|54|1–10|BHS}} || {{BB|Jesaja|54|1–10|EU}} || {{BB|Jesaja|54|1–10|BRU}} || {{BB|Jesaja|54|1–10|NHTS}} || 27 ||
+|-
+| 3 || [[Lech Lecha]] || Jesaja 40,27–41,16 || {{BB|Jesaja|40|27–31|BHS}};<br />{{BB|Jesaja|41|1–16|BHS}} || {{BB|Jesaja|40|27–31|EU}};<br />{{BB|Jesaja|41|1–16|EU}} || {{BB|Jesaja|40|27-31|BRU}};<br />{{BB|Jesaja|41|1–16|BRU}} || {{BB|Jesaja|40|27–31|NHTS}};<br />{{BB|Jesaja|41|1–16|NHTS}} || 33 ||
+|-
+| 4a || [[Wajera]] || {{B|2 Kön|4|1–37|BHS}} || {{BB|2 Kön|4|1–37|BHS}} || {{BB|2 Kön|4|1–37|EU}} || {{BB|2 Kön|4|1–37|BRU}} || {{BB|2 Kön|4|1–37|NHTS}} || 38 ||
+|-
+| 4s || [[Wajera]] || {{B|2 Kön|4|1–23|BHS}} || {{BB|2 Kön|4|1–23|BHS}} || {{BB|2 Kön|4|1–23|EU}} || {{BB|2 Kön|4|1–23|BRU}} || {{BB|2 Kön|4|1–23|NHTS}} || 38 ||
+|-
+| 5 || [[Chaje Sara]] || {{B|1 Kön|1|1–31|BHS}} || {{BB|1 Kön|1|1–31|BHS}} || {{BB|1 Kön|1|1–31|EU}} || {{BB|1 Kön|1|1–31|BRU}} || {{BB|1 Kön|1|1–31|NHTS}} || 40 ||
+|-
+| 6 || [[Toledot]] || Maleachi 1,1–2,7 || {{BB|Maleachi|1||BHS}};<br />{{BB|Maleachi|2|1–7|BHS}} || {{BB|Maleachi|1||EU}};<br />{{BB|Maleachi|2|1–7|EU}} || {{BB|Maleachi|1||BRU}};<br />{{BB|Maleachi|2|1–7|BRU}} || {{BB|Maleachi|1||NHTS}};<br />{{BB|Maleachi|2|1–7|NHTS}} || 44 ||
+|-
+| 7a || [[Wajeze]] || Hosea 12,13–14,10 || {{BB|Hosea|12|13–15|BHS}};<br />{{BB|Hosea|14|1–10|BHS}} || {{BB|Hosea|12|13–15|EU}};<br />{{BB|Hosea|14|1–10|EU}} || {{BB|Hosea|12|13–15|BRU}};<br />{{BB|Hosea|14|1–10|BRU}} || {{BB|Hosea|12|13–15|NHTS}};<br />{{BB|Hosea|14|1–10|NHTS}} || 49 ||
+|-
+| 7s || [[Wajeze]] || Hosea 11,7–12,12 || {{BB|Hosea|11|7–11|BHS}};<br />{{BB|Hosea|12|1–12|BHS}} || {{BB|Hosea|11|7–11|EU}};<br />{{BB|Hosea|12|1–12|EU}} || {{BB|Hosea|11|7–11|BRU}};<br />{{BB|Hosea|12|1–12|BRU}} || {{BB|Hosea|11|7–11|NHTS}};<br />{{BB|Hosea|12|1–12|NHTS}} || 49 ||
+|-
+| 8a || [[Wajischlach]] || Hosea 11,7–12,12 || {{BB|Hosea|11|7–11|BHS}};<br />{{BB|Hosea|12|1–12|BHS}} || {{BB|Hosea|11|7–11|EU}};<br />{{BB|Hosea|12|1–12|EU}} || {{BB|Hosea|11|7–11|BRU}};<br />{{BB|Hosea|12|1–12|BRU}} || {{BB|Hosea|11|7–11|NHTS}};<br />{{BB|Hosea|12|1–12|NHTS}} || 50 ||
+|-
+| 8s || [[Wajischlach]] || {{B|Obadja|1|1–21|BHS}} || {{BB|Obadja|1|1–21|BHS}} || {{BB|Obadja|1|1–21|EU}} || {{BB|Obadja|1|1–21|BRU}} || {{BB|Obadja|1|1–21|NHTS}} || … ||
+|-
+| 9 || [[Wajeschew]] || Amos 2,6–3,8 || {{BB|Amos|2|6–16|BHS}};<br />{{BB|Amos|3|1–8|BHS}} || {{BB|Amos|2|6–16|EU}};<br />{{BB|Amos|3|1–8|EU}} || {{BB|Amos|2|6–16|BRU}};<br />{{BB|Amos|3|1–8|BRU}} || {{BB|Amos|2|6–16|NHTS}};<br />{{BB|Amos|3|1–8|NHTS}} || 52 ||
+|-
+| 10 || [[Mikez]] || 1 Kön 3,15–4,1 || {{BB|1 Kön|3|15–28|BHS}};<br />{{BB|1 Kön|4|1|BHS}} || {{BB|1 Kön|3|15–28|EU}};<br />{{BB|1 Kön|4|1|EU}} || {{BB|1 Kön|3|15–28|BRU}};<br />{{BB|1 Kön|4|1|BRU}} || {{BB|1 Kön|3|15–28|NHTS}};<br />{{BB|1 Kön|4|1|NHTS}} || 53 || ***
+|-
+| 10 || [[Mikez]] || Sacharja 2,14–4,7 || {{BB|Sacharja|2|14–17|BHS}};<br />{{BB|Sacharja|3||BHS}};<br />{{BB|Sacharja|4|1–7|BHS}} || {{BB|Sacharja|2|14–17|EU}};<br />{{BB|Sacharja|3||EU}};<br />{{BB|Sacharja|4|1–7|EU}} || {{BB|Sacharja|2|14–17|BRU}};<br />{{BB|Sacharja|3||BRU}};<br />{{BB|Sacharja|4|1–7|BRU}} || {{BB|Sacharja|2|14–17|NHTS}};<br />{{BB|Sacharja|3||NHTS}};<br />{{BB|Sacharja|4|1–7|NHTS}} || … || Schabbat Chanukka
+|-
+| 11 || [[Wajigasch]] || {{B|Ezechiel|37|15–28|BHS}} || {{BB|Ezechiel|37|15–28|BHS}} || {{BB|Ezechiel|37|15–28|EU}} || {{BB|Ezechiel|37|15–28|BRU}} || {{BB|Ezechiel|37|15–28|NHTS}} || 54 ||
+|-
+| 12 || [[Wajechi]] || {{B|1 Kön|2|1–12|BHS}} || {{BB|1 Kön|2|1–12|BHS}} || {{BB|1 Kön|2|1–12|EU}} || {{BB|1 Kön|2|1–12|BRU}} || {{BB|1 Kön|2|1–12|NHTS}} || 55 ||
+|-
+| || || || || || || || ||
+|-
+| 13a || [[Schemot (Sidra)]] || Jesaja 27,6–28,13;<br />{{BB|Jesaja|29|22–23|BHS}} || {{BB|Jesaja|27|6–13|BHS}};<br />{{BB|Jesaja|28||BHS}};<br />{{BB|Jesaja|29|22–23|BHS}} || {{BB|Jesaja|27|6–13|EU}};<br />{{BB|Jesaja|28||EU}};<br />{{BB|Jesaja|29|22–23|EU}} || {{BB|Jesaja|27|6–13|BRU}};<br />{{BB|Jesaja|28||BRU}};<br />{{BB|Jesaja|29|22–23|BRU}} || {{BB|Jesaja|27|6–13|NHTS}};<br />{{BB|Jesaja|28||NHTS}};<br />{{BB|Jesaja|29|22–23|NHTS}} || 62 ||
+|-
+| 13s || [[Schemot (Sidra)]] || Jeremia 1,1–2,3 || {{BB|Jeremia|1||BHS}};<br />{{BB|Jeremia|2|1–3|BHS}} || {{BB|Jeremia|1||EU}};<br />{{BB|Jeremia|2|1–3|EU}} || {{BB|Jeremia|1||BRU}};<br />{{BB|Jeremia|2|1–3|BRU}} || {{BB|Jeremia|1||NHTS}};<br />{{BB|Jeremia|2|1–3|NHTS}} || 62 ||
+|-
+| 14 || [[Wa’era]] || Ezechiel 28,25–29,21 || {{BB|Ez|28|25–26|BHS}};<br />{{BB|Ez|29|1–21|BHS}} || {{BB|Ez|28|25–26|EU}};<br />{{BB|Ez|29|1–21|EU}} || {{BB|Ez|28|25–26|BRU}};<br />{{BB|Ez|29|1–21|BRU}} || {{BB|Ez|28|25–26|NHTS}};<br />{{BB|Ez|29|1–21|NHTS}} || 65 ||
+|-
+| 15 || [[Bo (Sidra)]] || {{B|Jeremia|46|13–28|BHS}} || {{BB|Jeremia|46|13–28|BHS}} || {{BB|Jeremia|46|13–28|EU}} || {{BB|Jeremia|46|13–28|BRU}} || {{BB|Jeremia|46|13–28|NHTS}} || 72 ||
+|-
+| 16a || [[Beschalach]] || Richter 4,4–5,31 || {{BB|Richter|4|4–24|BHS}};<br />{{BB|Richter|5||BHS}} || {{BB|Richter|4|4–24|EU}};<br />{{BB|Richter|5||EU}} || {{BB|Richter|4|4–24|BRU}};<br />{{BB|Richter|5||BRU}} || {{BB|Richter|4|4–24|NHTS}};<br />{{BB|Richter|5||NHTS}} || 77 ||
+|-
+| 16s || [[Beschalach]] || {{B|Richter|5||BHS}} || {{BB|Richter|5||BHS}} || {{BB|Richter|5||EU}} || {{BB|Richter|5||BRU}} || {{BB|Richter|5||NHTS}} || 77 ||
+|-
+| 17a || [[Jitro (Sidra)]] || Jesaja 6–7,6; 9,5–6 || {{BB|Jesaja|6||BHS}};<br />{{BB|Jesaja|7|1–6|BHS}};<br />{{BB|Jesaja|9|5–6|BHS}} || {{BB|Jesaja|6||EU}};<br />{{BB|Jesaja|7|1–6|EU}};<br />{{BB|Jesaja|9|5–6|EU}} || {{BB|Jesaja|6||BRU}};<br />{{BB|Jesaja|7|1–6|BRU}};<br />{{BB|Jesaja|9|5–6|BRU}} || {{BB|Jesaja|6||NHTS}};<br />{{BB|Jesaja|7|1–6|NHTS}};<br />{{BB|Jesaja|9|5–6|NHTS}} || 84 ||
+|-
+| 17s || [[Jitro (Sidra)]] || {{B|Jesaja|6||BHS}} || {{BB|Jesaja|6||BHS}} || {{BB|Jesaja|6||EU}} || {{BB|Jesaja|6||BRU}} || {{BB|Jesaja|6||NHTS}} || 84 ||
+|-
+| 18 || [[Mischpatim]] || Jeremia 34,8–22; 33,25–26 || {{BB|Jeremia|34|8–22|BHS}};<br />{{BB|Jeremia|33|25–26|BHS}} || {{BB|Jeremia|34|8–22|EU}};<br />{{BB|Jeremia|33|25–26|EU}} || {{BB|Jeremia|34|8–22|BRU}};<br />{{BB|Jeremia|33|25–26|BRU}} || {{BB|Jeremia|34|8–22|NHTS}};<br />{{BB|Jeremia|33|25–26|NHTS}} || 89 || ***
+|-
+| 18 || [[Mischpatim]] || {{B|2 Kön|12|1–17|BHS}} || {{BB|2 Kön|12|1–17|BHS}} || {{BB|2 Kön|12|1–17|EU}} || {{BB|2 Kön|12|1–17|BRU}} || {{BB|2 Kön|12|1–17|NHTS}} || … || [[Schabbat Schekalim]]
+|-
+| 19 || [[Teruma]] || 1 Kön 5,26–6,13 || {{BB|1 Kön|5|26–32|BHS}};<br />{{BB|1 Kön|6|1–13|BHS}} || {{BB|1 Kön|5|26–32|EU}};<br />{{BB|1 Kön|6|1–13|EU}} || {{BB|1 Kön|5|26–32|BRU}};<br />{{BB|1 Kön|6|1–13|BRU}} || {{BB|1 Kön|5|26–32|NHTS}};<br />{{BB|1 Kön|6|1–13|NHTS}} || 93 ||
+|-
+| 20 || [[Tezawe]] || {{B|Ezechiel|43|10–27|BHS}} || {{BB|Ezechiel|43|10–27|BHS}} || {{BB|Ezechiel|43|10–27|EU}} || {{BB|Ezechiel|43|10–27|BRU}} || {{BB|Ezechiel|43|10–27|NHTS}} || 97 || [[Schabbat Sachor]]
+|-
+| 21a || [[Ki Tissa]] || {{B|1 Kön|18|1–39|BHS}} || {{BB|1 Kön|18|1–39|BHS}} || {{BB|1 Kön|18|1–39|EU}} || {{BB|1 Kön|18|1–39|BRU}} || {{BB|1 Kön|18|1–39|NHTS}} || 103 ||
+|-
+| 21s || [[Ki Tissa]] || {{B|1 Kön|18|20–39|BHS}} || {{BB|1 Kön|18|20–39|BHS}} || {{BB|1 Kön|18|20–39|EU}} || {{BB|1 Kön|18|20–39|BRU}} || {{BB|1 Kön|18|20–39|NHTS}} || 103 ||
+|-
+| 22a || [[Wajakhel]] || {{B|1 Kön|7|40–50|BHS}} || {{BB|1 Kön|7|40–50|BHS}} || {{BB|1 Kön|7|40–50|EU}} || {{BB|1 Kön|7|40–50|BRU}} || {{BB|1 Kön|7|40–50|NHTS}} || … ||
+|-
+| 22s || [[Wajakhel]] || {{B|1 Kön|7|13–26|BHS}} || {{BB|1 Kön|7|13–26|BHS}} || {{BB|1 Kön|7|13–26|EU}} || {{BB|1 Kön|7|13–26|BRU}} || {{BB|1 Kön|7|13–26|NHTS}} || … ||
+|-
+| 23a || ([[Wajakhel]] –) [[Pekude]] || 1 Kön 7,51–8,21 || {{BB|1 Kön|7|51|BHS}};<br />{{BB|1 Kön|8|1–21|BHS}} || {{BB|1 Kön|7|51|EU}};<br />{{BB|1 Kön|8|1–21|EU}} || {{BB|1 Kön|7|51|BRU}};<br />{{BB|1 Kön|8|1–21|BRU}} || {{BB|1 Kön|7|51|NHTS}};<br />{{BB|1 Kön|8|1–21|NHTS}} || 105 ||
+|-
+| 23s || ([[Wajakhel]] –) [[Pekude]] || {{B|1 Kön|7|40–50|BHS}} || {{BB|1 Kön|7|40–50|BHS}} || {{BB|1 Kön|7|40–50|EU}} || {{BB|1 Kön|7|40–50|BRU}} || {{BB|1 Kön|7|40–50|NHTS}} || 105 ||
+|-
+| || || || || || || || ||
+|-
+| 24 || [[Wajikra (Sidra)]] || Jesaja 43,21–44,23 || {{BB|Jesaja|43|21–28|BHS}};<br />{{BB|Jesaja|44|1–23|BHS}} || {{BB|Jesaja|43|21–28|EU}};<br />{{BB|Jesaja|44|1–23|EU}} || {{BB|Jesaja|43|21–28|BRU}};<br />{{BB|Jesaja|44|1–23|BRU}} || {{BB|Jesaja|43|21–28|NHTS}};<br />{{BB|Jesaja|44|1–23|NHTS}} || 109 ||
+|-
+| 25 || [[Zaw]] || Jeremia 7,21–34;<br />8,1–3; 9,22–23 || {{BB|Jeremia|7|21–34|BHS}};<br />{{BB|Jeremia|8|1–3|BHS}};<br />{{BB|Jeremia|9|22–23|BHS}} || {{BB|Jeremia|7|21–34|EU}};<br />{{BB|Jeremia|8|1–3|EU}};<br />{{BB|Jeremia|9|22–23|EU}} || {{BB|Jeremia|7|21–34|BRU}};<br />{{BB|Jeremia|8|1–3|BRU}};<br />{{BB|Jeremia|9|22–23|BRU}} || {{BB|Jeremia|7|21–34|NHTS}};<br />{{BB|Jeremia|8|1–3|NHTS}};<br />{{BB|Jeremia|9|22–23|NHTS}} || 112 ||
+|-
+| 26a || [[Schemini]] || 2 Sam 6–7,17 || {{BB|2 Sam|6||BHS}};<br />{{BB|2 Sam|7|1–17|BHS}} || {{BB|2 Sam|6||EU}};<br />{{BB|2 Sam|7|1–17|EU}} || {{BB|2 Sam|6||BRU}};<br />{{BB|2 Sam|7|1–17|BRU}} || {{BB|2 Sam|6||NHTS}};<br />{{BB|2 Sam|7|1–17|NHTS}} || 114 ||
+|-
+| 26s || [[Schemini]] || {{B|2 Sam|6|1–19|BHS}} || {{BB|2 Sam|6|1–19|BHS}} || {{BB|2 Sam|6|1–19|EU}} || {{BB|2 Sam|6|1–19|BRU}} || {{BB|2 Sam|6|1–19|NHTS}} || 114 ||
+|-
+| 27 || [[Tasria]] || 2 Kön 4,42–5,19 || {{BB|2 Kön|4|42|BHS}};<br />{{BB|2 Kön|5|1–19|BHS}} || {{BB|2 Kön|4|42|EU}};<br />{{BB|2 Kön|5|1–19|EU}} || {{BB|2 Kön|4|42|BRU}};<br />{{BB|2 Kön|5|1–19|BRU}} || {{BB|2 Kön|4|42|NHTS}};<br />{{BB|2 Kön|5|1–19|NHTS}} || 117 ||
+|-
+| 28 || ([[Tasria]] –) [[Mezora]] || {{B|2 Kön|7|3–20|BHS}} || {{BB|2 Kön|7|3–20|BHS}} || {{BB|2 Kön|7|3–20|EU}} || {{BB|2 Kön|7|3–20|BRU}} || {{BB|2 Kön|7|3–20|NHTS}} || 118 ||
+|-
+| 29a || [[Achare Mot]] || {{B|Ezechiel|22|1–19|BHS}} || {{BB|Ezechiel|22|1–19|BHS}} || {{BB|Ezechiel|22|1–19|EU}} || {{BB|Ezechiel|22|1–19|BRU}} || {{BB|Ezechiel|22|1–19|NHTS}} || … ||
+|-
+| 29s || [[Achare Mot]] || {{B|Ezechiel|22|1–16|BHS}} || {{BB|Ezechiel|22|1–16|BHS}} || {{BB|Ezechiel|22|1–16|EU}} || {{BB|Ezechiel|22|1–16|BRU}} || {{BB|Ezechiel|22|1–16|NHTS}} || … ||
+|-
+| 30a || ([[Achare Mot]] –) [[Kedoschim]] || {{B|Amos|9|7–15|BHS}} || {{BB|Amos|9|7–15|BHS}} || {{BB|Amos|9|7–15|EU}} || {{BB|Amos|9|7–15|BRU}} || {{BB|Amos|9|7–15|NHTS}} || 123 ||
+|-
+| 30s || ([[Achare Mot]] –) [[Kedoschim]] || {{B|Ezechiel|20|2–20|BHS}} || {{BB|Ezechiel|20|2–20|BHS}} || {{BB|Ezechiel|20|2–20|EU}} || {{BB|Ezechiel|20|2–20|BRU}} || {{BB|Ezechiel|20|2–20|NHTS}} || 123 ||
+|-
+| 31 || [[Emor]] || {{B|Ezechiel|44|15–31|BHS}} || {{BB|Ezechiel|44|15–31|BHS}} || {{BB|Ezechiel|44|15–31|EU}} || {{BB|Ezechiel|44|15–31|BRU}} || {{BB|Ezechiel|44|15–31|NHTS}} || 128 ||
+|-
+| 32a || [[Behar (Sidra)]] || {{B|Jeremia|32|6–27|BHS}} || {{BB|Jeremia|32|6–27|BHS}} || {{BB|Jeremia|32|6–27|EU}} || {{BB|Jeremia|32|6–27|BRU}} || {{BB|Jeremia|32|6–27|NHTS}} || 131 ||
+|-
+| 32s || [[Behar (Sidra)]] || {{B|Jeremia|32|6–22|BHS}} || {{BB|Jeremia|32|6–22|BHS}} || {{BB|Jeremia|32|6–22|EU}} || {{BB|Jeremia|32|6–22|BRU}} || {{BB|Jeremia|32|6–22|NHTS}} || 131 ||
+|-
+| 33 || ([[Behar (Sidra)]] –) [[Bechukotai]] || Jeremia 16,19–17,14 || {{BB|Jeremia|16|19–21|BHS}};<br />{{BB|Jeremia|17|1–14|BHS}} || {{BB|Jeremia|16|19–21|EU}};<br />{{BB|Jeremia|17|1–14|EU}} || {{BB|Jeremia|16|19–21|BRU}};<br />{{BB|Jeremia|17|1–14|BRU}} || {{BB|Jeremia|16|19–21|NHTS}};<br />{{BB|Jeremia|17|1–14|NHTS}} || 132 ||
+|-
+| || || || || || || || ||
+|-
+| 34 || [[Bemidbar (Sidra)]] || {{B|Hosea|2|1–22|BHS}} || {{BB|Hosea|2|1–22|BHS}} || {{BB|Hosea|2|1–22|EU}} || {{BB|Hosea|2|1–22|BRU}} || {{BB|Hosea|2|1–22|NHTS}} || 136 ||
+|-
+| 35 || [[Nasso]] || {{B|Richter|13|2–25|BHS}} || {{BB|Richter|13|2–25|BHS}} || {{BB|Richter|13|2–25|EU}} || {{BB|Richter|13|2–25|BRU}} || {{BB|Richter|13|2–25|NHTS}} || 141 ||
+|-
+| 36 || [[Beha’alotcha]] || Sacharja 2,14–4,7 || {{BB|Sacharja|2|14–17|BHS}};<br />{{BB|Sacharja|3||BHS}};<br />{{BB|Sacharja|4|1–7|BHS}} || {{BB|Sacharja|2|14–17|EU}};<br />{{BB|Sacharja|3||EU}};<br />{{BB|Sacharja|4|1–7|EU}} || {{BB|Sacharja|2|14–17|BRU}};<br />{{BB|Sacharja|3||BRU}};<br />{{BB|Sacharja|4|1–7|BRU}} || {{BB|Sacharja|2|14–17|NHTS}};<br />{{BB|Sacharja|3||NHTS}};<br />{{BB|Sacharja|4|1–7|NHTS}} || 144 ||
+|-
+| 37 || [[Schelach Lecha]] || {{B|Jos|2||BHS}} || {{BB|Jos|2||BHS}} || {{BB|Jos|2||EU}} || {{BB|Jos|2||BRU}} || {{BB|Jos|2||NHTS}} || 147 ||
+|-
+| 38 || [[Korach (Sidra)]] || 1 Sam 11,14–12,22 || {{BB|1 Sam|11|14–15|BHS}};<br />{{BB|1 Sam|12|1–22|BHS}} || {{BB|1 Sam|11|14–15|EU}};<br />{{BB|1 Sam|12|1–22|EU}} || {{BB|1 Sam|11|14–15|BRU}};<br />{{BB|1 Sam|12|1–22|BRU}} || {{BB|1 Sam|11|14–15|NHTS}};<br />{{BB|1 Sam|12|1–22|NHTS}} || 149 ||
+|-
+| 39 || [[Chukkat]] || {{B|Richter|11|1–33|BHS}} || {{BB|Richter|11|1–33|BHS}} || {{BB|Richter|11|1–33|EU}} || {{BB|Richter|11|1–33|BRU}} || {{BB|Richter|11|1–33|NHTS}} || 152 ||
+|-
+| 40 || ([[Chukkat]] –) [[Balak (Sidra)]] || Micha 5,6–6,8 || {{BB|Micha|5|6–14|BHS}};<br />{{BB|Micha|6|1–8|BHS}} || {{BB|Micha|5|6–14|EU}};<br />{{BB|Micha|6|1–8|EU}} || {{BB|Micha|5|6–14|BRU}};<br />{{BB|Micha|6|1–8|BRU}} || {{BB|Micha|5|6–14|NHTS}};<br />{{BB|Micha|6|1–8|NHTS}} || 154 ||
+|-
+| 41 || [[Pinchas (Parascha)]] || 1 Kön 18,46–19,21 || {{BB|1 Kön|18|46|BHS}};<br />{{BB|1 Kön|19|1–21|BHS}} || {{BB|1 Kön|18|46|EU}};<br />{{BB|1 Kön|19|1–21|EU}} || {{BB|1 Kön|18|46|BRU}};<br />{{BB|1 Kön|19|1–21|BRU}} || {{BB|1 Kön|18|46|NHTS}};<br />{{BB|1 Kön|19|1–21|NHTS}} || 160 || vor dem 17. Tammus
+|-
+| 41 || [[Pinchas (Parascha)]] || Jeremia 1–2,3 || {{BB|Jeremia|1||BHS}};<br />{{BB|Jeremia|2|1–3|BHS}} || {{BB|Jeremia|1||EU}};<br />{{BB|Jeremia|2|1–3|EU}} || {{BB|Jeremia|1||BRU}};<br />{{BB|Jeremia|2|1–3|BRU}} || {{BB|Jeremia|1||NHTS}};<br />{{BB|Jeremia|2|1–3|NHTS}} || 160 || nach dem 17. Tammus: wie Mattot
+|-
+| 42 || [[Mattot]] || Jeremia 1–2,3 || {{BB|Jeremia|1||BHS}};<br />{{BB|Jeremia|2|1–3|BHS}} || {{BB|Jeremia|1||EU}};<br />{{BB|Jeremia|2|1–3|EU}} || {{BB|Jeremia|1||BRU}};<br />{{BB|Jeremia|2|1–3|BRU}} || {{BB|Jeremia|1||NHTS}};<br />{{BB|Jeremia|2|1–3|NHTS}} || 161 ||
+|-
+| 43a || ([[Mattot]] –) [[Masse (Parascha)]] || {{B|Jeremia|2|4–28|BHS}};<br />{{BB|Jeremia|3|4|BHS}} || {{BB|Jeremia|2|4–28|BHS}};<br />{{BB|Jeremia|3|4|BHS}} || {{BB|Jeremia|2|4–28|EU}};<br />{{BB|Jeremia|3|4|EU}} || {{BB|Jeremia|2|4–28|BRU}};<br />{{BB|Jeremia|3|4|BRU}} || {{BB|Jeremia|2|4–28|NHTS}};<br />{{BB|Jeremia|3|4|NHTS}} || 163 ||
+|-
+| 43s || ([[Mattot]] –) [[Masse (Parascha)]] || {{B|Jeremia|2|4–28|BHS}};<br />{{BB|Jeremia|4|1–2|BHS}} || {{BB|Jeremia|2|4–28|BHS}};<br />{{BB|Jeremia|4|1–2|BHS}} || {{BB|Jeremia|2|4–28|EU}};<br />{{BB|Jeremia|4|1–2|EU}} || {{BB|Jeremia|2|4–28|BRU}};<br />{{BB|Jeremia|4|1–2|BRU}} || {{BB|Jeremia|2|4–28|NHTS}};<br />{{BB|Jeremia|4|1–2|NHTS}} || 163 ||
+|-
+| || || || || || || || ||
+|-
+| 44 || [[Dewarim (Parascha)]]<br />Schabbat Chazon || {{B|Jesaja|1|1–27|BHS}} || {{BB|Jesaja|1|1–27|BHS}} || {{BB|Jesaja|1|1–27|EU}} || {{BB|Jesaja|1|1–27|BRU}} || {{BB|Jesaja|1|1–27|NHTS}} || 166 ||
+|-
+| 45 || [[Waetchanan]]<br />Schabbat Nachamu || {{B|Jesaja|40|1–26|BHS}} || {{BB|Jesaja|40|1–26|BHS}} || {{BB|Jesaja|40|1–26|EU}} || {{BB|Jesaja|40|1–26|BRU}} || {{BB|Jesaja|40|1–26|NHTS}} || 172 ||
+|-
+| 46 || [[Ekew]] || Jesaja 49,14–51,3 || {{BB|Jesaja|49|14–26|BHS}};<br />{{BB|Jesaja|50||BHS}};<br />{{BB|Jesaja|51|1–3|BHS}} || {{BB|Jesaja|49|14–26|EU}};<br />{{BB|Jesaja|50||EU}};<br />{{BB|Jesaja|51|1–3|EU}} || {{BB|Jesaja|49|14–26|BRU}};<br />{{BB|Jesaja|50||BRU}};<br />{{BB|Jesaja|51|1–3|BRU}} || {{BB|Jesaja|49|14–26|NHTS}};<br />{{BB|Jesaja|50||NHTS}};<br />{{BB|Jesaja|51|1–3|NHTS}} || 174 ||
+|-
+| 47 || [[Re’eh]] || Jesaja 54,11–55,5 || {{BB|Jesaja|54|11–17|BHS}};<br />{{BB|Jesaja|55|1–5|BHS}} || {{BB|Jesaja|54|11–17|EU}};<br />{{BB|Jesaja|55|1–5|EU}} || {{BB|Jesaja|54|11–17|BRU}};<br />{{BB|Jesaja|55|1–5|BRU}} || {{BB|Jesaja|54|11–17|NHTS}};<br />{{BB|Jesaja|55|1–5|NHTS}} || 178 ||
+|-
+| 48 || [[Schoftim (Parascha)]] || Jesaja 51,12–52,12 || {{BB|Jesaja|51|12–23|BHS}};<br />{{BB|Jesaja|52|1–12|BHS}} || {{BB|Jesaja|51|12–23|EU}};<br />{{BB|Jesaja|52|1–12|EU}} || {{BB|Jesaja|51|12–23|BRU}};<br />{{BB|Jesaja|52|1–12|BRU}} || {{BB|Jesaja|51|12–23|NHTS}};<br />{{BB|Jesaja|52|1–12|NHTS}} || 182 ||
+|-
+| 49 || [[Ki Teze]] || {{B|Jesaja|54|1–10|BHS}} || {{BB|Jesaja|54|1–10|BHS}} || {{BB|Jesaja|54|1–10|EU}} || {{BB|Jesaja|54|1–10|BRU}} || {{BB|Jesaja|54|1–10|NHTS}} || 187 || ***
+|-
+| 49 || [[Ki Teze]] || Jesaja 54,1–55,15 || {{BB|Jesaja|54||BHS}};<br />{{BB|Jesaja|55|1–5|BHS}} || {{BB|Jesaja|54||EU}};<br />{{BB|Jesaja|55|1–5|EU}} || {{BB|Jesaja|54||BRU}};<br />{{BB|Jesaja|55|1–5|BRU}} || {{BB|Jesaja|54||NHTS}};<br />{{BB|Jesaja|55|1–5|NHTS}} || … || Falls die Sidra Re'eh auf Rosch chodesch Elul gefallen ist (???)
+|-
+| 50 || [[Ki Tawo]] || {{B|Jesaja|60||BHS}} || {{BB|Jesaja|60||BHS}} || {{BB|Jesaja|60||EU}} || {{BB|Jesaja|60||BRU}} || {{BB|Jesaja|60||NHTS}} || 188 ||
+|-
+| 51 || [[Nizawim]] (– [[Wajelech]]) || Jesaja 61,10–63,9 || {{BB|Jesaja|61|10–11|BHS}};<br />{{BB|Jesaja|62||BHS}};<br />{{BB|Jesaja|63|1–9|BHS}} || {{BB|Jesaja|61|10–11|EU}};<br />{{BB|Jesaja|62||EU}};<br />{{BB|Jesaja|63|1–9|EU}} || {{BB|Jesaja|61|10–11|BRU}};<br />{{BB|Jesaja|62||BRU}};<br />{{BB|Jesaja|63|1–9|BRU}} || {{BB|Jesaja|61|10–11|NHTS}};<br />{{BB|Jesaja|62||NHTS}};<br />{{BB|Jesaja|63|1–9|NHTS}} || 189 ||
+|-
+| 52 || [[Wajelech]] || … || … || … || … || … || … || …
+|-
+| 53 || [[Ha'asinu]] || {{B|2 Sam|22||BHS}} || {{BB|2 Sam|22||BHS}} || {{BB|2 Sam|22||EU}} || {{BB|2 Sam|22||BRU}} || {{BB|2 Sam|22||NHTS}} || … ||
+|-
+| a || ([[Wajelech]] /<br />[[Ha'asinu]]) || {{B|Hosea|14|2–10|BHS}};<br />{{B|Joel|2|15–27|BHS}} || {{B|Hosea|14|2–10|BHS}};<br />{{B|Joel|2|15–27|BHS}} || {{B|Hosea|14|2–10|EU}};<br />{{B|Joel|2|15–27|EU}} || {{B|Hosea|14|2–10|BRU}};<br />{{B|Joel|2|15–27|BRU}} || {{B|Hosea|14|2–10|NHTS}};<br />{{B|Joel|2|15–27|NHTS}} || … || [[Schabbat Schuwa]]
+|-
+| s || ([[Wajelech]] /<br />[[Ha'asinu]]) || {{B|Hosea|14|2–10|BHS}};<br />{{B|Mi|7|18–20|BHS}} || {{B|Hosea|14|2–10|BHS}};<br />{{B|Mi|7|18–20|BHS}} || {{B|Hosea|14|2–10|EU}};<br />{{B|Mi|7|18–20|EU}} || {{B|Hosea|14|2–10|BRU}};<br />{{B|Mi|7|18–20|BRU}} || {{B|Hosea|14|2–10|NHTS}};<br />{{B|Mi|7|18–20|NHTS}} || … || [[Schabbat Schuwa]]
+|-
+| 54 || [[Wesot Habracha]] || {{B|Jos|1||BHS}} || {{BB|Jos|1||BHS}} || {{BB|Jos|1||EU}} || {{BB|Jos|1||BRU}} || {{BB|Jos|1||NHTS}} || … || [[Simchat Tora]]
+|-
+| … || … || … || … || … || … || … || … || …
+|}

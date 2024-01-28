@@ -85,6 +85,9 @@ use MIME::Base64;
 ##our %mount_points;
 our $std_formatting_options = { 'separator' => ',', 'assign' => '=>', 'quoteLeft' => '{', 'quoteRight' => '}' };
 
+##our $double_tab_indentation = "\t\t ";
+our   $double_tab_indentation = "\t\t";
+
 {
   use Carp;
 ##use English;
@@ -377,7 +380,7 @@ sub job_anon
 	    if 0;
 	}
 
-      elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)
+      elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)				# a folder with all non-space characters
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
 	     &main::format_key_value_list($main::std_formatting_options
@@ -415,7 +418,7 @@ sub job_anon
 	  %folder_captures  = ();
 	}
 
-      elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)
+      elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)			# all other folders, i.e. even ones containing a space character
 	{
 	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
 	     &main::format_key_value_list($main::std_formatting_options
@@ -564,12 +567,17 @@ sub high_level_print_entry
 	}
 
       printf " [_,%s] %s: %s;\n" .
-	"\t\t %s:%s;\n" .
-	"\t\t %s:%s;\n" .
+	"%s%s:%s;\n" .
+	"%s%s:%s;\n" .
 	''
+
 	, $From_captures__From__mangled_p
 	, 'From'    =>                                             $From_captures__From__rewritten
+
+	,$double_tab_indentation
 	, 'FROM'    => exists($param{FROM_captures}{FROM})       ? $param{FROM_captures}{FROM}       : '{!exists(FROM)}'
+
+	,$double_tab_indentation
 	, 'TO'      => exists($param{MSG_TO_captures}{MSG_TO})   ? $param{MSG_TO_captures}{MSG_TO}   : '{!exists(MSG_TO)}'
 	;
 
@@ -590,12 +598,14 @@ sub high_level_print_entry
 		$both_still_to_be_printed_p = 0;
 
 		printf 
-		  "\t\t %s: %s; // %s\n"
+		  "%s%s: %s; // %s\n"
+		  ,$double_tab_indentation
 		  , 'Subject' => $param{subject_captures}{subject}
 		  , '*** WILL BE REMOVED, BECAUSE THE SUBJECTS ARE THE SAME ***'
 		  ;
 		  printf 
-		    "\t\t %s:%s;\n"
+		    "%s%s:%s;\n"
+		    ,$double_tab_indentation
 		    , 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
 		    ;
 	      }
@@ -624,12 +634,14 @@ sub high_level_print_entry
 		  $both_still_to_be_printed_p = 0;
 
 		  printf 
-		    "\t\t %s: %s; // %s\n"
+		    "%s%s: %s; // %s\n"
+		    ,$double_tab_indentation
 		    , 'Subject' => $param{subject_captures}{subject}
 		    , '*** WILL BE REMOVED, BECAUSE IT IS A SUBSTRING ***'
 		    if 1;
 		  printf 
-		    "\t\t %s:%s;\n"
+		    "%s%s:%s;\n"
+		    ,$double_tab_indentation
 		    , 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
 		    ;
 		}
@@ -642,20 +654,23 @@ sub high_level_print_entry
 		  $both_still_to_be_printed_p = 0;
 
 		  printf 
-		    "\t\t %s: %s; // %s=>{%s},%s=>{%s} // %s\n"
+		    "%s%s: %s; // %s=>{%s},%s=>{%s} // %s\n"
+		    ,$double_tab_indentation
 		    , 'Subject' => $param{subject_captures}{subject}
 		    , 'encoding' => $+{encoding}
 		    , '$subject_captures__subject__decoded' => $subject_captures__subject__decoded
 		    , '*** WILL BE REMOVED, BECAUSE IT IS ENCODED ***'
 		    if 0;
 		  printf 
-		    "\t\t %s: %s; // %s=>{%s} // %s\n"
+		    "%s%s: %s; // %s=>{%s} // %s\n"
+		    ,$double_tab_indentation
 		    , 'Subject' => $param{subject_captures}{subject}
 		    , 'encoding' => $+{encoding}
 		    , '*** WILL BE REMOVED, BECAUSE IT IS ENCODED ***'
 		    if 1;
 		  printf 
-		    "\t\t %s:%s;\n"
+		    "%s%s:%s;\n"
+		    ,$double_tab_indentation
 		    , 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
 		    ;
 		}
@@ -664,11 +679,13 @@ sub high_level_print_entry
 	  if($both_still_to_be_printed_p)
 	    {
 	      printf 
-		"\t\t %s: %s;\n"
+		"%s%s: %s;\n"
+		,$double_tab_indentation
 		, 'Subject' => $param{subject_captures}{subject}
 		;
 	      printf 
-		"\t\t %s:%s;\n"
+		"%s%s:%s;\n"
+		,$double_tab_indentation
 		, 'SUBJECT' => $param{SUBJECT_captures}{SUBJECT}
 		;
 	    }
@@ -676,17 +693,20 @@ sub high_level_print_entry
       else
 	{
 	  printf 
-	    "\t\t %s: %s;\n"
+	    "%s%s: %s;\n"
+	    ,$double_tab_indentation
 	    , 'Subject' => exists($param{subject_captures}{subject}) ? $param{subject_captures}{subject} : '{!exists(subject)}'
 	    ;
 
 	  printf 
-	    "\t\t %s:%s;\n"
+	    "%s%s:%s;\n"
+	    ,$double_tab_indentation
 	    , 'SUBJECT' => exists($param{SUBJECT_captures}{SUBJECT}) ? $param{SUBJECT_captures}{SUBJECT} : '{!exists(SUBJECT)}'
 	    ;
 	}
 
-      printf "\t\t %s: %s\n"
+      printf "%s%s: %s\n"
+	,$double_tab_indentation
 	, 'Folder'  =>                                             $param{folder_captures}{folder}
 	;
 

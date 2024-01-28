@@ -3,12 +3,15 @@
 ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.pl -date_format='day-month-year' ? > $(echo ? ).diary
 ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.pl -date_format='month-day-year' ? > $(echo ? ).diary
 
+hebcal.com > Downloads > https://www.hebcal.com/ical/
+
 https://www.hebcal.com/ical/
   Torah Readings (Diaspora)
     Outlook CSV
 ##Hebrew calendar dates (English)
     Outlook CSV
-  Jewish Holidays (all) // diaspora
+##Jewish Holidays (all) // diaspora
+  Jewish Holidays (all holidays) / Without emoji / CSV
     Outlook CSV
 
 # http://www.hebcal.com/sedrot/

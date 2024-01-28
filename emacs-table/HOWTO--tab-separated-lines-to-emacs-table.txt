@@ -1,0 +1,14 @@
+# …
+
+table-capture can be invoked from the menu: Tools → Table → Capture Region
+
+(table-capture BEG END &optional COL-DELIM-REGEXP ROW-DELIM-REGEXP
+JUSTIFY MIN-CELL-WIDTH COLUMNS)
+
+COL-DELIM-REGEXP : \|
+ROW-DELIM-REGEXP : // use a quoted newline
+
+================================================================================
+
+$ perl -pe 's/\t/ \| /g'
+$ perl -pe 's/(.*)/\| $1 \|/'

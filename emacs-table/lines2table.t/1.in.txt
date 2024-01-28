@@ -1,0 +1,12 @@
+# …
+
+##JH: this table is with tabs between the columns – good example for a table to be converted to an emacs table through
+##JH: ~/git-servers/github.com/JochenHayek/misc/emacs-table/lines2table.pl
+
+Nummer	Datum	Betrag	Status	Aktion
+594565	15.01.2023	86,00 €	Nicht bezahlt	 Herunterladen
+576396	16.01.2022	86,00 €	Bezahlt	 Herunterladen
+557942	17.01.2021	81,00 €	Bezahlt	 Herunterladen
+539709	14.01.2020	81,00 €	Bezahlt	 Herunterladen
+521554	14.01.2019	79,00 €	Bezahlt	 Herunterladen
+504365	08.01.2018	79,00 €	Bezahlt	 Herunterladen

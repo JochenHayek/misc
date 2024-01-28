@@ -4,6 +4,22 @@ CAVEAT: modern versions of pdfthtml do not support "-xml" any longer.
 
 ################################################################################
 
+/usr/local/Cellar/poppler/21.05.0/bin/pdftohtml seems to deal with "-xml"
+and better /Applications/calibre.app/Contents/utils.app/Contents/MacOS/pdftohtml :
+
+	[2023-12-15 13:06:46] johayek@Hayek003 $ /usr/local/Cellar/poppler/21.05.0/bin/pdftohtml -xml -i -nomerge -hidden 20231215034058--Rahmenvertrag_fuer_Pro.pdf 
+	Page-1
+	Page-2
+	Page-3
+	Page-4
+	Page-5
+	Page-6
+	Page-7
+	…
+
+
+################################################################################
+
                                                             pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml
                                   /usr/local/xpdf-tools/bin/pdftohtml -xml -i -nomerge -hidden FILE.pdf FILE.pdftohtml.xml      # 2021-01-16 : does not support "-xml" (any longer)
 

@@ -17,7 +17,8 @@ year=2023
 	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20211025161812.csv.diary.2024
 
 	    $ cd ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/
-	    $ ln -s hebcal--torah-readings-diaspora.20211025161812.csv.diary.2022 diary
+	  ##$ ln -s hebcal--torah-readings-diaspora.20230408174548.csv.diary.2023 diary
+	    $ ln -s hebcal--jewish-holidays-all.20230408175835.csv.diary.2023 diary
 
 	    … merge the yearly events into ~/diary :
 		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/diary > ~/etc/diary/diary
@@ -28,17 +29,17 @@ year=2023
 
 	hh:mm calendar maintenance -- should be VERY, VERY EASY AND STRAIGHT FORWARD using the following recipes:
 
-	  -> www.schulferien.org/Feiertage/feiertage.html // maybe also be useful
+	  -> www.schulferien.org/Feiertage/feiertage.html // may also be useful
 
 		\(..\)\.\(..\)\.\(....\) -> \3-\2-\1
 
 		www.schulferien.org/Berlin/berlin.html
-		www.schulferien.org/deutschland/ferien/winterferien/berlin/               // 2022-01-29 .. 2022-02-05
-		www.schulferien.org/deutschland/ferien/osterferien/berlin/                // 2022-03-07 +  2022-04-11..23
-		www.schulferien.org/deutschland/ferien/pfingstferien/berlin/              // 2022-05-27 +  2022-06-07
-		www.schulferien.org/deutschland/ferien/sommerferien/berlin/               // 2022-07-07 .. 2022-08-19
-		www.schulferien.org/deutschland/ferien/herbstferien/berlin/               // 2022-10-24 .. 2022-11-05
-		www.schulferien.org/deutschland/ferien/weihnachtsferien/berlin/           // 2022-12-22 .. 2023-01-02
+		www.schulferien.org/deutschland/ferien/winter/berlin/                     // 2023-01-30 .. 2023-02-04
+		www.schulferien.org/deutschland/ferien/ostern/berlin/                     // 2023-04-03 .. 2023-04-14
+		www.schulferien.org/deutschland/ferien/pfingsten/berlin/                  // 2023-05-19 +  2023-05-30
+		www.schulferien.org/deutschland/ferien/sommer/berlin/                     // 2023-07-13 .. 2023-08-25
+		www.schulferien.org/deutschland/ferien/herbst/berlin/                     // 2023-10-02 +  2023-10-23..2023-11-04
+		www.schulferien.org/deutschland/ferien/weihnachten/berlin/                // 2023-12-23 .. 2024-01-05
 
 	  my very special 2012 trick: copy the "Local variables" end from ~/diary to the newly created sniplets before merging them
 
@@ -71,6 +72,16 @@ year=2023
 		diff -c ~/diary ~/etc/diary/diary-${year}-advent-complete
 	    then replace ...
 		mv --verbose ~/etc/diary/diary-${year}-advent-complete ~/diary
+
+	  IMPORTANT -- TO BE DONE FOR ${year} :
+	    yearly events -- generate the calendar with the holidays depending on American Thanksgiving using Date::Calc
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary --job_american_thanksgiving --this_year=${year} > ~/etc/diary/diary-${year}-american_thanksgiving
+	    afterwards merge the yearly events into ~/diary :
+		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/diary-${year}-american_thanksgiving > ~/etc/diary/diary-${year}-american_thanksgiving-complete
+	    is it alright?
+		diff -c ~/diary ~/etc/diary/diary-${year}-american_thanksgiving-complete
+	    then replace ...
+		mv --verbose ~/etc/diary/diary-${year}-american_thanksgiving-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} :
 	    yearly events -- generate the calendar with the holidays depending on Muttertag using Date::Calc
@@ -111,8 +122,6 @@ year=2023
 		diff -c ~/diary ~/etc/diary/diary_incl_schiurim
 	    then replace ...
 		mv --verbose ~/etc/diary/diary_incl_schiurim ~/diary
-
-	  www.schulferien.org/Feiertage/feiertage.html // maybe also useful
 
 	  ----- diary-creation for 2017 proceeded up to here -----
 

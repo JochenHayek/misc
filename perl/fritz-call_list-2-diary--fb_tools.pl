@@ -70,11 +70,18 @@ our($prefix) = '                     ,            ,            ';
     ##chomp;
       s/\s+$//;
 
+      # e.g.:
+      #   sep=,
+
       if   ($. == 1)
 	{
 	  my(@fields) = split(/=/);
 	  $main::separator = $fields[1];
 	}
+
+      # e.g.:
+      #   Type,Date,Name,telephone number,Extension,Telephone Number,Duration
+
       elsif($. == 2)
 	{
 	##my(@fields) = split(/;/);
@@ -102,6 +109,19 @@ our($prefix) = '                     ,            ,            ';
 	  for (my $i=0;$i<=$#main::names;$i++)
 	    {
 	      $main::name2pos{ $main::names[$i] } = $i;
+	    }
+
+	  # Type,Date,Name,telephone number,Extension,Telephone Number,Duration
+
+	  foreach my $i ('Type', 'Date', 'Name', 'telephone number', 'Extension', 'Telephone Number', 'Duration')
+	    {
+	      if(exists( $main::name2pos{ $i } ))
+		{
+		}
+	      else
+		{
+		  die "!exists(\$main::name2pos{ '$i' })";
+		}
 	    }
 	}
       elsif($. > 2)
@@ -204,13 +224,13 @@ sub proc_line
   if        ($param{line_rec}{line}[ $main::name2pos{ 'Type' } ] eq 'out') # outgoing
     {
       $From = '"' . $param{line_rec}{line}[ $main::name2pos{ 'Extension' } ] . '" <' . $param{line_rec}{line}[ $main::name2pos{ 'Telephone Number' } ] . '@fon>';
-      $To   = '"' . $param{line_rec}{line}[ $main::name2pos{ 'Name'      } ] . '" <' . $param{line_rec}{line}[ $main::name2pos{ 'Telephone number' } ] . '@fon>';
+      $To   = '"' . $param{line_rec}{line}[ $main::name2pos{ 'Name'      } ] . '" <' . $param{line_rec}{line}[ $main::name2pos{ 'telephone number' } ] . '@fon>';
     }
   elsif(    ($param{line_rec}{line}[ $main::name2pos{ 'Type' } ] eq 'in') # incoming …
 	 || ($param{line_rec}{line}[ $main::name2pos{ 'Type' } ] eq 'ring') # incoming …
        )
     {
-      $From = '"' . $param{line_rec}{line}[ $main::name2pos{ 'Name'      } ] . '" <' . $param{line_rec}{line}[ $main::name2pos{ 'Telephone number' } ] . '@fon>';
+      $From = '"' . $param{line_rec}{line}[ $main::name2pos{ 'Name'      } ] . '" <' . $param{line_rec}{line}[ $main::name2pos{ 'telephone number' } ] . '@fon>';
       $To   = '"' . $param{line_rec}{line}[ $main::name2pos{ 'Extension' } ] . '" <' . $param{line_rec}{line}[ $main::name2pos{ 'Telephone Number' } ] . '@fon>';
     }
   else
