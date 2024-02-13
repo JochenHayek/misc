@@ -3,12 +3,11 @@
 -> ~/etc/diary/
 -> etc/diary/
 
-year=2023
+year=2025
 
-	  ----- diary-creation for 2023 proceeded up to here -----
-	  ----- diary-creation for 2023 proceeded up to here -----
+	  ----- diary-creation for 2025 proceeded up to here -----
 
-	HH:MM creating calendar 2023
+	HH:MM creating calendar 2025
 
 	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--jewish-holidays-all.20190927124604.csv.diary.2020
 
@@ -25,7 +24,7 @@ year=2023
 	    is it alright?
 		diff -c ~/diary ~/etc/diary/diary
 	    then replace ...
-		mv --verbose ~/etc/diary/diary ~/diary
+		mv -v ~/etc/diary/diary ~/diary
 
 	hh:mm calendar maintenance -- should be VERY, VERY EASY AND STRAIGHT FORWARD using the following recipes:
 
@@ -34,12 +33,13 @@ year=2023
 		\(..\)\.\(..\)\.\(....\) -> \3-\2-\1
 
 		www.schulferien.org/Berlin/berlin.html
-		www.schulferien.org/deutschland/ferien/winter/berlin/                     // 2023-01-30 .. 2023-02-04
-		www.schulferien.org/deutschland/ferien/ostern/berlin/                     // 2023-04-03 .. 2023-04-14
-		www.schulferien.org/deutschland/ferien/pfingsten/berlin/                  // 2023-05-19 +  2023-05-30
-		www.schulferien.org/deutschland/ferien/sommer/berlin/                     // 2023-07-13 .. 2023-08-25
-		www.schulferien.org/deutschland/ferien/herbst/berlin/                     // 2023-10-02 +  2023-10-23..2023-11-04
-		www.schulferien.org/deutschland/ferien/weihnachten/berlin/                // 2023-12-23 .. 2024-01-05
+		www.schulferien.org/deutschland/ferien/winter/berlin/                     // 2024-01-dd .. 2024-02-dd
+		www.schulferien.org/deutschland/ferien/ostern/berlin/                     // 2024-03-25 .. 2024-04-05
+		www.schulferien.org/deutschland/ferien/pfingsten/berlin/                  // 2024-05-10
+		www.schulferien.org/deutschland/ferien/sommer/berlin/                     // 2024-07-18 .. 2024-08-30
+		www.schulferien.org/deutschland/ferien/herbst/berlin/                     // 2024-10-04 +  2024-10-21 .. 2024-11-02
+		www.schulferien.org/deutschland/ferien/weihnachten/berlin/                // 2024-12-23 .. 2024-12-31
+		www.schulferien.org/deutschland/ferien/winter/berlin/                     // 2025-02-03 .. 2025-02-08
 
 	  my very special 2012 trick: copy the "Local variables" end from ~/diary to the newly created sniplets before merging them
 
@@ -51,7 +51,7 @@ year=2023
 	    is it alright?
 		diff -c ~/diary ~/etc/diary/diary-${year}-skeleton-complete
 	    then replace ...
-		mv --verbose ~/etc/diary/diary-${year}-skeleton-complete ~/diary
+		mv -v ~/etc/diary/diary-${year}-skeleton-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} ( 2030 .. ) :
 	    yearly events -- generate the calendar with the holidays depending on Easter using Date::Calc
@@ -61,7 +61,7 @@ year=2023
 	    is it alright?
 		diff -c ~/diary ~/etc/diary/diary-${year}-easter-complete
 	    then replace ...
-		mv --verbose ~/etc/diary/diary-${year}-easter-complete ~/diary
+		mv -v ~/etc/diary/diary-${year}-easter-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} ( 2030 .. ) :
 	    yearly events -- generate the calendar with the holidays depending on Advent using Date::Calc
@@ -71,7 +71,7 @@ year=2023
 	    is it alright?
 		diff -c ~/diary ~/etc/diary/diary-${year}-advent-complete
 	    then replace ...
-		mv --verbose ~/etc/diary/diary-${year}-advent-complete ~/diary
+		mv -v ~/etc/diary/diary-${year}-advent-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} :
 	    yearly events -- generate the calendar with the holidays depending on American Thanksgiving using Date::Calc
@@ -81,7 +81,7 @@ year=2023
 	    is it alright?
 		diff -c ~/diary ~/etc/diary/diary-${year}-american_thanksgiving-complete
 	    then replace ...
-		mv --verbose ~/etc/diary/diary-${year}-american_thanksgiving-complete ~/diary
+		mv -v ~/etc/diary/diary-${year}-american_thanksgiving-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} :
 	    yearly events -- generate the calendar with the holidays depending on Muttertag using Date::Calc
@@ -91,7 +91,7 @@ year=2023
 	    is it alright?
 		diff -c ~/diary ~/etc/diary/diary-${year}-muttertag-complete
 	    then replace ...
-		mv --verbose ~/etc/diary/diary-${year}-muttertag-complete ~/diary
+		mv -v ~/etc/diary/diary-${year}-muttertag-complete ~/diary
 
 	  IMPORTANT -- TO BE DONE FOR ${year} :
 	    yearly events -- on the special *region* at the beginning of ~/diary -- write it to ~/etc/diary/diary-${year}-holidays-raw beforehand :
@@ -114,16 +114,14 @@ year=2023
 	    is it alright?
 		diff -c ~/diary ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete | less
 	    then replace ...
-		mv --verbose ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete ~/diary
+		mv -v ~/etc/diary/diary-${year}-holidays-w_o-duplicate-date-lines-complete ~/diary
 
 	    afterwards merge the *schiurim* events into ~/diary :
 		~/git-servers/github.com/JochenHayek/misc/diary/JHdiary-utils2 --job_merge --left ~/diary --right ~/etc/diary/schiur.diary > ~/etc/diary/diary_incl_schiurim
 	    is it alright?
 		diff -c ~/diary ~/etc/diary/diary_incl_schiurim
 	    then replace ...
-		mv --verbose ~/etc/diary/diary_incl_schiurim ~/diary
-
-	  ----- diary-creation for 2017 proceeded up to here -----
+		mv -v ~/etc/diary/diary_incl_schiurim ~/diary
 
 	HH:MM [biz,travel,hotel,JuHe@City.MUC] Reservierungen …
 	HH:MM more bookings: biz,travel,hotel – KW __-__ (01.01.-31.06. / 2017/Q1+Q2) // details to be adapted
