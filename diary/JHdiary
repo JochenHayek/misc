@@ -985,7 +985,7 @@ sub job_easter_etc
       , { offset => +39 , name => 'Ascension Day = Christi Himmelfahrt (= Vatertag) = Ascension'             }
       , { offset => +49 , name => 'Whitsunday = Pfingstsonntag = Dimanche de Pentecote -- Karneval-Berlin.de'                      }
       , { offset => +50 , name => 'Whitmonday = Pfingstmontag = Lundi de Pentecote'                          }
-      , { offset => +60 , name => 'Corpus Christi Day = Fronleichnam = Fete-Dieu -- arbeitsfreier Tag für Permies in Bayern, Hessen, ... (nicht Berlin, Sachsen), aber ...' }
+      , { offset => +60 , name => 'Corpus Christi Day = Fronleichnam = Fete-Dieu -- arbeitsfreier Tag für Permies in Bayern, Hessen, ... (nicht Berlin, Brandenburg, Sachsen), aber ...' }
       );
 
   foreach my $rec ( @table )
