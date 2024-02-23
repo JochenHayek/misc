@@ -202,7 +202,7 @@ sub m_list_id_by_literal_re
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  if(1 || exists($param{list_id}))
+  if(exists($param{list_id_literal_re}))
     {
       $param{orgName} = '' if ! exists($param{orgName});
       $param{comment}   = '' if ! exists($param{comment});
@@ -210,7 +210,7 @@ sub m_list_id_by_literal_re
       print "\n"; 
       print "# orgName=>{$param{orgName}}\n";
       print "# comment=>{$param{comment}}\n";
-      print "# list_id_descr_re=>{$param{list_id_descr_re}}\n";
+      print "# list_id_literal_re=>{$param{list_id_literal_re}}\n";
       print "\n"; 
       print ":0\n"; 
       print '* ^List-ID:.*<',$param{list_id_literal_re},'>$',"\n";
@@ -258,7 +258,7 @@ sub m_list_id_by_literal
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  if(1 || exists($param{list_id}))
+  if(exists($param{list_id_literal}))
     {
       $param{orgName} = '' if ! exists($param{orgName});
       $param{list_id_descr}   = '' if ! exists($param{list_id_descr});
@@ -319,7 +319,7 @@ sub m_list_id_by_descr
   printf STDERR ">%s,%d,%s\n",__FILE__,__LINE__,$proc_name
     if 0 && $main::options{debug};
 
-  if(1 || exists($param{list_id}))
+  if(exists($param{list_id_descr}))
     {
       $param{orgName} = '' if ! exists($param{orgName});
       $param{list_id_descr}   = '' if ! exists($param{list_id_descr});
