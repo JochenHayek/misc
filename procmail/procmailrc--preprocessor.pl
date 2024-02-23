@@ -181,7 +181,7 @@ sub m_list_id_by_literal_re
   # list_id_literal_re
   # target_folder__remote
 
-##shuttle-macro: m_list_id_by_literal(
+##shuttle-macro: m_list_id_by_literal_re(
 ##shuttle-macro:   orgName => 'Hostsharing eG',
 ##shuttle-macro:   comment => 'Interne Mailingliste für Diskussionen mit Bezug zur Hostsharing eG für Mitglieder',
 ##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
@@ -210,6 +210,7 @@ sub m_list_id_by_literal_re
       print "\n"; 
       print "# orgName=>{$param{orgName}}\n";
       print "# comment=>{$param{comment}}\n";
+      print "# list_id_descr_re=>{$param{list_id_descr_re}}\n";
       print "\n"; 
       print ":0\n"; 
       print '* ^List-ID:.*<',$param{list_id_literal_re},'>$',"\n";
@@ -269,6 +270,7 @@ sub m_list_id_by_literal
 
       print "\n"; 
       print "# orgName=>{$param{orgName}}\n";
+      print "# comment=>{$param{comment}}\n";
       print "# list_id_descr=>{$param{list_id_descr}}\n";
       print "# list_id_literal=>{$param{list_id_literal}}\n";
       print "\n"; 
