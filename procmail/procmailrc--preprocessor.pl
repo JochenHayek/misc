@@ -208,8 +208,8 @@ sub m_list_id_by_literal_re
       $param{comment}   = '' if ! exists($param{comment});
 
       print "\n"; 
-      print "# orgName=>{$param{orgName}}\n";
-      print "# comment=>{$param{comment}}\n";
+      print "# orgName=>{$param{orgName}}\n" if exists($param{orgName});
+      print "# comment=>{$param{comment}}\n" if exists($param{comment});
       print "# list_id_literal_re=>{$param{list_id_literal_re}}\n";
       print "\n"; 
       print ":0\n"; 
@@ -269,8 +269,8 @@ sub m_list_id_by_literal
       $list_id_literal_backslashed =~ s/ ([\.\+]) /\\$1/gx;
 
       print "\n"; 
-      print "# orgName=>{$param{orgName}}\n";
-      print "# comment=>{$param{comment}}\n";
+      print "# orgName=>{$param{orgName}}\n" if exists($param{orgName});
+      print "# comment=>{$param{comment}}\n" if exists($param{comment});
       print "# list_id_descr=>{$param{list_id_descr}}\n";
       print "# list_id_literal=>{$param{list_id_literal}}\n";
       print "\n"; 
@@ -330,7 +330,8 @@ sub m_list_id_by_descr
       $list_id_descr_backslashed =~ s/ ([\.\+]) /\\$1/gx;
 
       print "\n"; 
-      print "# orgName=>{$param{orgName}}\n";
+      print "# orgName=>{$param{orgName}}\n" if exists($param{orgName});
+      print "# comment=>{$param{comment}}\n" if exists($param{comment});
       print "# list_id_descr=>{$param{list_id_descr}}\n";
       print "# list_id_literal=>{$param{list_id_literal}}\n";
       print "\n"; 
