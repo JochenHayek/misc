@@ -571,7 +571,7 @@ sub func
                  \] \s+
             	 From	  : \s+ (?<From>             support\@jewish-singles\.de ); \s+
                  FROM	  : \s+ (?<FROM>[^<]*       <support\@jewish-singles\.de>);? \s+
-		 TO  	  : \s+ (?<TO>.*); \s+
+		 TO  	  : \s* (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*?); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
@@ -586,7 +586,7 @@ sub func
                  \] \s+
             	 From	  : \s+ (?<From>             bounces.*\@.*\.oknotify2\.com ); \s+
                  FROM	  : \s+ (?<FROM>[^<]*       <bounces.*\@.*\.oknotify2\.com>); \s+
-		 TO  	  : \s+ (?<TO>.*); \s+
+		 TO  	  : \s* (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.* Jochen, \s+ (?<okcupid_account>.*) \s+ likes \s+ you \s+ back !); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
@@ -597,7 +597,7 @@ sub func
                  \] \s+
             	 From	  : \s+ (?<From>             bounces.*\@.*\.oknotify2\.com ); \s+
                  FROM	  : \s+ (?<FROM>[^<]*       <bounces.*\@.*\.oknotify2\.com>); \s+
-		 TO  	  : \s+ (?<TO>.*); \s+
+		 TO  	  : \s* (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.* new \s+ message \s+ from \s+ (?<okcupid_account>.*) ); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
@@ -612,7 +612,7 @@ sub func
 	         \] \s+
 	    	 From	  : \s+ (?<From>direkt\@postbank\.de); \s+
 		 FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
-		 TO  	  : \s+ (?<TO>.*); \s+
+		 TO  	  : \s* (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
 		 Folder : \s+ (?<Folder>\. (topics|topics-computers|topics-finance) \.(?<topic>money (-bulk)?)\/\S*)
 
@@ -623,7 +623,7 @@ sub func
 	         \] \s+
 	    	 From	  : \s+ (?<From>direkt\@postbank\.de); \s+
 		 FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
-		 TO  	  : \s+ (?<TO>.*); \s+
+		 TO  	  : \s* (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
 		 Folder : \s+ (?<Folder>\.folder.*\/\S*)
 
@@ -631,18 +631,37 @@ sub func
 
   ################################################################################
 
-  # using topics.$+{topic} as tag
+  # using topics-FOO.$+{subtopic} as tag
 
   $param{rec} =~ s{
 
 	         \] \s+
 	    	 From	  : \s+ (?<From>[^;]*); \s+
 		 FROM	  : \s+ (?<FROM>[^;]*); \s+
-		 TO  	  : \s+ (?<TO>.*); \s+
+		 TO  	  : \s* (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
-		 Folder : \s+ (?<Folder>\. (topics|topics-computers|topics-finance) \.(?<topic>[^\/]*)\/\S*)
+		 Folder : \s+ (?<Folder>\. (folder|topics) - (?<topic>[^\.]+) \.(?<subtopic>[^\/]*)\/\S*)
 
-    }{,$+{topic}] From: $+{From};
+    }{,$+{topic},$+{subtopic}] From: $+{From};
+\t\tFROM: $+{FROM};
+\t\tTO: $+{TO};
+\t\tSUBJECT:$+{SUBJECT};
+\t\tFolder: $+{Folder};}gix;
+
+  ################################################################################
+
+  # using topics.$+{subtopic} as tag
+
+  $param{rec} =~ s{
+
+	         \] \s+
+	    	 From	  : \s+ (?<From>[^;]*); \s+
+		 FROM	  : \s+ (?<FROM>[^;]*); \s+
+		 TO  	  : \s* (?<TO>.*); \s+
+		 SUBJECT:     (?<SUBJECT>.*); \s+
+		 Folder : \s+ (?<Folder>\. topics \.(?<subtopic>[^\/]*)\/\S*)
+
+    }{,$+{subtopic}] From: $+{From};
 \t\tFROM: $+{FROM};
 \t\tTO: $+{TO};
 \t\tSUBJECT:$+{SUBJECT};
@@ -657,7 +676,7 @@ sub func
 	         \] \s+
 	    	 From	  : \s+ (?<From>[^;]*); \s+
 		 FROM	  : \s+ (?<FROM>[^;]*); \s+
-		 TO  	  : \s+ (?<TO>.*); \s+
+		 TO  	  : \s* (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
 		 Folder : \s+ (?<Folder>\.persons\.(?<topic>[^\/]*)\/\S*)
 
