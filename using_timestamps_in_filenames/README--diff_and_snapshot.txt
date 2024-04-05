@@ -1,6 +1,6 @@
 # ...
 
-# $Id: README--diff_and_snapshot.txt 1.3 2017/01/16 17:19:25 johayek Exp johayek $
+# git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames/README--diff_and_snapshot.txt
 
 ################################################################################
 ################################################################################
