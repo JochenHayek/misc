@@ -59,7 +59,7 @@ $ ~/bin/list_snapshot_diffs.sh a.txt
 
 ################################################################################
 
-  ~/Computers/Software/Operating_Systems/Unix/Shell:
+  git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames :
   wildcard *snapshot*
   -rwxr-xr-x 1 johayek 501 3672 Dec 21 11:59 create_snapshot.sh
   drwxr-sr-x 2 johayek 501 4096 Feb 26  2015 create_snapshot.t
