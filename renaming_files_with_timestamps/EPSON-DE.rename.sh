@@ -6,18 +6,25 @@
 
 shopt -s nullglob
 
-set -x
+: set -x
 
-~/bin/rename -v </dev/null \
-  \
-  's/^ Epson_ (?<dd>..) (?<mm>..) (?<YYYY>....) (?<HH>..) (?<MM>..)(?<SS>..)                 \.(?<suffix>jpg|pdf) 
-     $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
-  \
-  "$@"
+for i
+do :
 
-~/bin/rename -v </dev/null \
-  \
-  's/^ Epson_ (?<dd>..) (?<mm>..) (?<YYYY>....) (?<HH>..) (?<MM>..)(?<SS>..) \((?<no>\d+)\)                \.(?<suffix>jpg|pdf) 
-     $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{no}.$+{suffix}/x' \
-  \
-  "$@"
+	test -f "${i}" &&
+	~/bin/rename -v </dev/null \
+		\
+		's/^ Epson_ (?<dd>..) (?<mm>..) (?<YYYY>....) (?<HH>..) (?<MM>..)(?<SS>..)                 \.(?<suffix>jpg|pdf) 
+		   $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
+		\
+		"${i}"
+
+	test -f "${i}" &&
+	~/bin/rename -v </dev/null \
+		\
+		's/^ Epson_ (?<dd>..) (?<mm>..) (?<YYYY>....) (?<HH>..) (?<MM>..)(?<SS>..) \((?<no>\d+)\)                \.(?<suffix>jpg|pdf) 
+		   $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{no}.$+{suffix}/x' \
+		\
+		"${i}"
+
+done
