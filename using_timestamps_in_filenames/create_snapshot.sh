@@ -84,8 +84,19 @@ do :
   # * gmtime
   # * localtime
 
-##date=$( "${PERL}" -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
-  date=$( ls -l --time-style=+%Y%m%d%H%M%S "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)/x && print "$5\n"' )
+  # "ls --full-time" is available in a busybox shell.
+  #
+  # if "ls --full-time" is not available,
+  # let's hope, we have some perl with File::stat and POSIX etc.
+
+  if ls --full-time /dev/null 2>/dev/null 1>/dev/null
+  then :
+    LS=ls
+  ##date=$( "${LS}" -l --time-style=+%Y%m%d%H%M%S "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)/x && print "$5\n"' )
+    date=$( "${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${5}${6}${7}${8}${9}${10}\n"' )
+  else :
+    date=$( "${PERL}" -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
+  fi
 
   ################################################################################
 
