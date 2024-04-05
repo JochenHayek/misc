@@ -85,6 +85,10 @@ do :
   # * localtime
 
   # "ls --full-time" is available in a busybox shell.
+  # even in a busybox environnment, we may have a tinyperl.
+  #
+  # in case we will be in a busybox w/o tinyperl,
+  # we will have to replace the perl command line with some "sed" or "awk".
   #
   # if "ls --full-time" is not available,
   # let's hope, we have some perl with File::stat and POSIX etc.
