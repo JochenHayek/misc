@@ -1,0 +1,5 @@
+# …
+
+cd ...
+
+~/git-servers/github.com/JochenHayek/misc/renaming_files_with_timestamps/EPSON-DE.rename.sh Epson_*.jpg Epson_*.pdf
