@@ -15,11 +15,6 @@
 
 ################################################################################
 
-##PERL='c:/Program Files/Git/usr/bin/perl.exe'
-  PERL=perl
-##PERL=/bin/perl
-##PERL=/usr/bin/perl
-
 ##xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
 ##xmlstarlet=$USERPROFILE/opt/xmlstarlet-1.6.1/xml
 ##xmlstarlet=/sw/bin/xml
@@ -92,6 +87,16 @@ do :
   #
   # if "ls --full-time" is not available,
   # let's hope, we have some perl with File::stat and POSIX etc.
+
+##PERL='c:/Program Files/Git/usr/bin/perl.exe'
+  PERL=perl
+##PERL=/bin/perl
+##PERL=/usr/bin/perl
+
+  if test -f /opt/tinyperl/tinyperl.exe
+  then :
+    PERL=/opt/tinyperl/tinyperl.exe
+  fi
 
   if ls --full-time /dev/null 2>/dev/null 1>/dev/null
   then :
