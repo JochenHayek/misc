@@ -91,10 +91,10 @@ do :
   # * gmtime
   # * localtime
 
-  # "ls --full-time" is available in a busybox shell.
-  # even in a busybox environnment, we may have a tinyperl.
+  # "ls --full-time" is available in a BusyBox shell.
+  # even in a BusyBox environnment, we may have a tinyperl.
   #
-  # in case we will be in a busybox w/o tinyperl,
+  # in case we will be in a BusyBox w/o tinyperl,
   # we will have to replace the perl command line with some "sed" or "awk".
   #
   # if "ls --full-time" is not available,
@@ -142,7 +142,7 @@ do :
 
   case "$i" in
 
-# w/o "shopt -s extglob", e.g. for the busybox shell:
+# w/o "shopt -s extglob", e.g. for the BusyBox shell:
 
   ##      *.~[0-9]~  |       *.~[0-9][0-9]~  |       *.~[0-9][0-9][0-9]~  | \
   ##*.~[0-9].[0-9]~  | *[0-9]..~[0-9][0-9]~  | *[0-9]..~[0-9][0-9][0-9]~  | \
