@@ -105,9 +105,9 @@ do :
 ##PERL=/bin/perl
 ##PERL=/usr/bin/perl
 
-  if test -f /opt/tinyperl/tinyperl.exe
+  if test -f 'c:/opt/tinyperl/tinyperl.exe'
   then :
-    PERL=/opt/tinyperl/tinyperl.exe
+    PERL='c:/opt/tinyperl/tinyperl.exe'
   fi
 
   if ls --full-time /dev/null 2>/dev/null 1>/dev/null
