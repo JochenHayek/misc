@@ -40,13 +40,18 @@
 
 ################################################################################
 
-##SEVENz=/usr/local/bin/7z
+if test -f 'C:/Program Files/7-Zip/7z.exe'
+then :
+  SEVENz='C:/Program Files/7-Zip/7z.exe'
+else :
   SEVENz=7z
+##SEVENz=/usr/local/bin/7z
+fi
 
 if test -f 'c:/opt/tinyperl/tinyperl.exe'
 then :
   PERL='c:/opt/tinyperl/tinyperl.exe'
-if test -f 'c:/Program Files/Git/usr/bin/perl.exe'
+elif test -f 'c:/Program Files/Git/usr/bin/perl.exe'
 then :
   PERL='c:/Program Files/Git/usr/bin/perl.exe'
 else :
@@ -105,7 +110,8 @@ do :
 
   # 2024-04-18 09:07:40             203940        33554  2 files
 
-  date=$( "${SEVENz}" l "$i" | tail -1 | "${PERL}" -ne 'm/^(?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d)\s(?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d)/ && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+##date=$( "${SEVENz}" l "$i" | tail -1 | "${PERL}" -ne 'm/^(?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d)\s(?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d)/ && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+  date=$( "${SEVENz}" l "$i" | tail -1 | "${PERL}" -ne 'm/^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)/ && print "${1}${2}${3}${4}${5}${6}\n"' )
 
   : printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
     '$i' "$i" \
@@ -119,9 +125,9 @@ do :
 
 # w/o "shopt -s extglob", e.g. for the busybox shell:
 
-  ##      *.~[0-9]~  |       *.~[0-9][0-9]~  |       *.~[0-9][0-9][0-9]~  | \
-  ##*.~[0-9].[0-9]~  | *[0-9]..~[0-9][0-9]~  | *[0-9]..~[0-9][0-9][0-9]~  | \
-  ##*.~[0-9].[0-9].~ | *[0-9]..~[0-9][0-9].~ | *[0-9]..~[0-9][0-9][0-9].~ )
+####      *.~[0-9]~  |       *.~[0-9][0-9]~  |       *.~[0-9][0-9][0-9]~  | \
+####*.~[0-9].[0-9]~  | *[0-9]..~[0-9][0-9]~  | *[0-9]..~[0-9][0-9][0-9]~  | \
+####*.~[0-9].[0-9].~ | *[0-9]..~[0-9][0-9].~ | *[0-9]..~[0-9][0-9][0-9].~ )
 
 ####*.~+([0-9])~ | *.~+([0-9]).+([0-9])~ | *.~+([0-9]).+([0-9]).~ )
     *.~+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]]).~ )
