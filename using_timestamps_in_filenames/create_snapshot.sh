@@ -15,7 +15,7 @@
 #
 # * within emacs's dired on Windows with busybox-w...:
 #
-#   ! c:/opt/busybox/busybox64 bash %APPDATA%/bin/create_snapshot.sh 
+#   ! c:/opt/busybox/busybox64 bash $APPDATA/bin/create_snapshot.sh 
 
 ################################################################################
 
@@ -27,20 +27,52 @@
 
 ################################################################################
 
-##xmlstarlet=~jhayek/opt/xmlstarlet-1.6.1/xml
-##xmlstarlet=$USERPROFILE/opt/xmlstarlet-1.6.1/xml
-##xmlstarlet=/sw/bin/xml
+CP=cp
+MV=mv
+LS=ls
 
-##xmlstarlet 2>/dev/null
-##if test $? -eq 2
-##then xmlstarlet=xmlstarlet
-##else xmlstarlet=xml
-##fi
+################################################################################
 
-##CP=/cygdrive/c/cygwin64/bin/cp
-  CP=cp
-##MV=/cygdrive/c/cygwin64/bin/mv
-  MV=mv
+# use the OS mtime AKA "modification time" (stamp):
+
+# you may want to use either of them:
+# * gmtime
+# * localtime
+
+# "ls --full-time" is available in a BusyBox shell.
+# even in a BusyBox environnment, we may have a tinyperl.
+#
+# in case we will be in a BusyBox w/o tinyperl,
+# we will have to replace the perl command line with some "sed" or "awk".
+#
+# if "ls --full-time" is not available,
+# let's hope, we have some perl with File::stat and POSIX etc.
+
+if test -f 'c:/opt/tinyperl/tinyperl.exe'
+then :
+  PERL='c:/opt/tinyperl/tinyperl.exe'
+elif test -f 'c:/Program Files/Git/usr/bin/perl.exe'
+then :
+  PERL='c:/Program Files/Git/usr/bin/perl.exe'
+else :
+  PERL=perl
+##PERL=/bin/perl
+##PERL=/usr/bin/perl
+fi
+
+if "${LS}" --full-time /dev/null 2>/dev/null 1>/dev/null
+then :
+  extract_date()
+  {
+  ##"${LS}" -l --time-style=+%Y%m%d%H%M%S "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)/x && print "$5\n"'
+    "${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${5}${6}${7}${8}${9}${10}\n"';
+  }
+else :
+  extract_date()
+  {
+    "${PERL}" -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i"
+  }
+fi
 
 ################################################################################
 
@@ -82,60 +114,7 @@ do :
     '$i' "$i" \
     '...'
 
-  ################################################################################
-  ################################################################################
-
-  # use the OS mtime AKA "modification time" (stamp):
-
-  # you may want to use either of them:
-  # * gmtime
-  # * localtime
-
-  # "ls --full-time" is available in a BusyBox shell.
-  # even in a BusyBox environnment, we may have a tinyperl.
-  #
-  # in case we will be in a BusyBox w/o tinyperl,
-  # we will have to replace the perl command line with some "sed" or "awk".
-  #
-  # if "ls --full-time" is not available,
-  # let's hope, we have some perl with File::stat and POSIX etc.
-
-##PERL='c:/Program Files/Git/usr/bin/perl.exe'
-  PERL=perl
-##PERL=/bin/perl
-##PERL=/usr/bin/perl
-
-  if test -f 'c:/opt/tinyperl/tinyperl.exe'
-  then :
-    PERL='c:/opt/tinyperl/tinyperl.exe'
-  fi
-
-  if ls --full-time /dev/null 2>/dev/null 1>/dev/null
-  then :
-    LS=ls
-  ##date=$( "${LS}" -l --time-style=+%Y%m%d%H%M%S "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)/x && print "$5\n"' )
-    date=$( "${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${5}${6}${7}${8}${9}${10}\n"' )
-  else :
-    date=$( "${PERL}" -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
-  fi
-
-  ################################################################################
-
-  # https://en.wikipedia.org/wiki/Office_Open_XML_file_formats – "OOXML" – used by Microsoft Office (.xslx, .docx, .vsdx, …)
-
-  # use an OOXML file's "modified" timestamp:
-
-##date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:modified | tr -d ':TZ-' )
-## date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" sel --template --value-of cp:coreProperties/dcterms:created  | tr -d ':TZ-' )
-##date=...
-
-  ################################################################################
-
-  # https://en.wikipedia.org/wiki/OpenDocument – "ODF" – used by OpenOffice (.odt, .ods, …)
-
-  # use an ODF file's "modified" timestamp:
-
-##date=$( unzip -p "$i" meta.xml | "${xmlstarlet}" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
+  date=$( extract_date "$i"; )
 
   ################################################################################
   ################################################################################
