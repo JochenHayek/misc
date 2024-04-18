@@ -3,7 +3,7 @@
 #! /bin/ksh
 #! /usr/bin/ksh
 
-# misc/using_timestamps_in_filenames/create_snapshot_from_ODF.sh
+# misc/using_timestamps_in_filenames/create_snapshot_from_zip_using_7z.sh
 
 ################################################################################
 
