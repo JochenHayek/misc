@@ -7,6 +7,20 @@
 
 ################################################################################
 
+# preferred scenarios:
+#
+# * within emacs's dired:
+#
+#   ! ~/bin/create_snapshot_from_zip_using_7z.sh
+#
+# * within emacs's dired on Windows with busybox-w...:
+#
+#   ! c:/opt/busybox/busybox64 bash $APPDATA/bin/create_snapshot_from_zip_using_7z.sh 
+
+################################################################################
+
+################################################################################
+
 # wishlist:
 # * accept files from STDIN, if none are on the command list
 
@@ -29,13 +43,20 @@
 ##SEVENz=/usr/local/bin/7z
   SEVENz=7z
 
-##PERL='c:/Program Files/Git/usr/bin/perl.exe'
+if test -f 'c:/opt/tinyperl/tinyperl.exe'
+then :
+  PERL='c:/opt/tinyperl/tinyperl.exe'
+if test -f 'c:/Program Files/Git/usr/bin/perl.exe'
+then :
+  PERL='c:/Program Files/Git/usr/bin/perl.exe'
+else :
   PERL=perl
+##PERL=/bin/perl
+##PERL=/usr/bin/perl
+fi
 
-##CP=/cygdrive/c/cygwin64/bin/cp
-  CP=cp
-##MV=/cygdrive/c/cygwin64/bin/mv
-  MV=mv
+CP=cp
+MV=mv
 
 ################################################################################
 
@@ -80,21 +101,11 @@ do :
   ################################################################################
   ################################################################################
 
-  # use the OS mtime AKA "modification time" (stamp):
-
-  # you may want to use either of them:
-  # * gmtime
-  # * localtime
-
-##date=$( "${PERL}" -MFile::stat -MPOSIX -e 'printf "%s\n",( strftime "%Y%m%d%H%M%S",localtime(stat($ARGV[0])->mtime) )' "$i" )
-
-  ################################################################################
-
   # use ...  timestamp:
 
   # 2024-04-18 09:07:40             203940        33554  2 files
 
-  date=$( "${SEVENz}" l "$i" | tail -1 | perl -ne 'm/^(?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d)\s(?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d)/ && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+  date=$( "${SEVENz}" l "$i" | tail -1 | "${PERL}" -ne 'm/^(?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d)\s(?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d)/ && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
 
   : printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
     '$i' "$i" \
