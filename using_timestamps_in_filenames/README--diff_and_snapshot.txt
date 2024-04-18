@@ -59,12 +59,17 @@ $ ~/bin/list_snapshot_diffs.sh a.txt
 
 ################################################################################
 
-  git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames :
+  git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames:
   wildcard *snapshot*
-  -rwxr-xr-x 1 johayek 501 3672 Dec 21 11:59 create_snapshot.sh
-  drwxr-sr-x 2 johayek 501 4096 Feb 26  2015 create_snapshot.t
-  -rwxr-xr-x 1 johayek 501 1008 Jan  1  2016 create_snapshots_recursively.sh
-  -rwxr-xr-x 1 johayek 501  407 Jan  1  2016 list_snapshot_diffs.sh
-  -rwxr-xr-x 1 johayek 501  635 Jan  1  2016 purge_snapshots.sh
+  -rw-r--r--  1 johayek _lpoperator 2753 04-05 20:05 README--diff_and_snapshot.txt
+  -rwxr-xr-x  1 johayek _lpoperator 7304 04-15 08:40 create_snapshot.sh
+  drwxr-xr-x  4 johayek _lpoperator  128 2018-01-18  create_snapshot.t
+  -rwxr-xr-x  1 johayek _lpoperator 6451 2021-07-13  create_snapshot_from_ODF.sh
+  -rwxr-xr-x  1 johayek _lpoperator 7715 2021-07-13  create_snapshot_from_OOXML.sh
+  drwxr-xr-x  6 johayek _lpoperator  192 2020-04-27  create_snapshot_from_OOXML.t
+  -rwxr-xr-x  1 johayek _lpoperator 5952 04-18 12:13 create_snapshot_from_zip_using_7z.sh
+  -rwxr-xr-x  1 johayek _lpoperator  737 2018-06-04  list_snapshot_diffs.sh
+  -rwxr-xr-x  1 johayek _lpoperator 1620 2021-07-13  purge_snapshots.sh
+  -rwxr-xr-x  1 johayek _lpoperator 1485 2019-01-22  snapshots2git.sh
 
 ################################################################################
