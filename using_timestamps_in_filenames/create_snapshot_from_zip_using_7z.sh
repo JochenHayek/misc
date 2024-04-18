@@ -11,7 +11,7 @@
 # * accept files from STDIN, if none are on the command list
 
 # related tools:
-# -> ~/Computers/Software/Operating_Systems/Unix/Shell/README--diff_and_snapshot.txt
+# -> git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames/README--diff_and_snapshot.txt
 
 ################################################################################
 #
