@@ -33,6 +33,9 @@ fi
 ##MV=/cygdrive/c/cygwin64/bin/mv
   MV=mv
 
+##unzip_MINp="unzip -p"
+  unzip_MINp="7z e -so"
+
 ################################################################################
 
 # CAVEAT: which shell is it?
@@ -92,8 +95,7 @@ do :
 
   # use an OOXML file's "modified" timestamp:
 
-##if unzip -p "$i" docProps/core.xml 2> /dev/null > /dev/null
-  if 7z e -so "$i" docProps/core.xml 2> /dev/null > /dev/null
+  if ${unzip_MINp} "$i" docProps/core.xml 2> /dev/null > /dev/null
   then :
   else :
     printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
@@ -104,11 +106,11 @@ do :
 
   ################################################################################
 
-  cp_date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of cp:coreProperties/dcterms:modified | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
-   cp_date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of cp:coreProperties/dcterms:created  | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+  cp_date_modified=$( ${unzip_MINp} "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of cp:coreProperties/dcterms:modified | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+   cp_date_created=$( ${unzip_MINp} "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of cp:coreProperties/dcterms:created  | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
 
-     date_modified=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of                 //dcterms:modified | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
-      date_created=$( unzip -p "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of                 //dcterms:created  | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+     date_modified=$( ${unzip_MINp} "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of                 //dcterms:modified | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
+      date_created=$( ${unzip_MINp} "$i" docProps/core.xml | "${xmlstarlet}" select --template --value-of                 //dcterms:created  | perl -ne 'm/ ^ (?<YYYY>\d\d\d\d)-(?<mm>\d\d)-(?<dd>\d\d) T (?<HH>\d\d):(?<MM>\d\d):(?<SS>\d\d) /x && print "$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}\n"' )
 
   : printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
     '$i' "$i" \
@@ -132,7 +134,7 @@ do :
 
   # use an ODF file's "modified" timestamp:
 
-##date=$( unzip -p "$i" meta.xml | "${xmlstarlet}" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
+##date=$( ${unzip_MINp} "$i" meta.xml | "${xmlstarlet}" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
 
   ################################################################################
   ################################################################################
