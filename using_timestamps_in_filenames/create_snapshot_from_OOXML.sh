@@ -92,8 +92,8 @@ do :
 
   # use an OOXML file's "modified" timestamp:
 
-##if unzip -p  "$i" docProps/core.xml 2> /dev/null > /dev/null
-  if 7z -e -so "$i" docProps/core.xml 2> /dev/null > /dev/null
+##if unzip -p "$i" docProps/core.xml 2> /dev/null > /dev/null
+  if 7z e -so "$i" docProps/core.xml 2> /dev/null > /dev/null
   then :
   else :
     printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
