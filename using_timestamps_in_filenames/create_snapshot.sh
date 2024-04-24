@@ -65,7 +65,10 @@ then :
   extract_date()
   {
   ##"${LS}" -l --time-style=+%Y%m%d%H%M%S "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)/x && print "$5\n"'
-    "${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${5}${6}${7}${8}${9}${10}\n"';
+
+    # -r--r--r-- 1 johayek users 277 2008-01-29 13:42:39.000000000 +0100 diary
+
+    "${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\S+) \s+ (\S+) \s+ (\d+) \s+ (\d+)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${5}${6}${7}${8}${9}${10}\n"';
   }
 else :
   extract_date()
