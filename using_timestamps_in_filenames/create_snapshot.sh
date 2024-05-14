@@ -64,11 +64,15 @@ if "${LS}" --full-time /dev/null 2>/dev/null 1>/dev/null
 then :
   extract_date()
   {
+    # -rw-r--r--. 1 foobar foobar 18 2022-06-20 13:31:04.000000000 +0200 .bash_logout
+    # -rw-r--r--. 1 foobar foobar 18 2022-06-20 13:31:04.000000000 +0200 .bash_logout
+
+    # group with space characters ... – use 4-digit-year-number as safe part to recognise!
+    #
+    # -rw-------. 1 foobar@bla domain users@bla 18 2024-05-14 09:43:20.435726504 +0200 .bash_logout
+
   ##"${LS}" -l --time-style=+%Y%m%d%H%M%S "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)/x && print "$5\n"'
-
-    # -r--r--r-- 1 johayek users 277 2008-01-29 13:42:39.000000000 +0100 diary
-
-    "${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\S+) \s+ (\S+) \s+ (\d+) \s+ (\d+)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${5}${6}${7}${8}${9}${10}\n"';
+    "${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^\S+ \s+ (\d+) \s+ (.+) \s+ (\d+) \s+ (\d\d\d\d)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${4}${5}${6}${7}${8}${9}\n"';
   }
 else :
   extract_date()
