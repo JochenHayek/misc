@@ -48,16 +48,19 @@ LS=ls
 # if "ls --full-time" is not available,
 # let's hope, we have some perl with File::stat and POSIX etc.
 
-if test -f 'c:/opt/tinyperl/tinyperl.exe'
+if false # no perl available
 then :
-  PERL='c:/opt/tinyperl/tinyperl.exe'
-elif test -f 'c:/Program Files/Git/usr/bin/perl.exe'
-then :
-  PERL='c:/Program Files/Git/usr/bin/perl.exe'
-else :
-  PERL=perl
-##PERL=/bin/perl
-##PERL=/usr/bin/perl
+  if test -f 'c:/opt/tinyperl/tinyperl.exe'
+  then :
+    PERL='c:/opt/tinyperl/tinyperl.exe'
+  elif test -f 'c:/Program Files/Git/usr/bin/perl.exe'
+  then :
+    PERL='c:/Program Files/Git/usr/bin/perl.exe'
+  else :
+    PERL=perl
+  ##PERL=/bin/perl
+  ##PERL=/usr/bin/perl
+  fi
 fi
 
 if "${LS}" --full-time /dev/null 2>/dev/null 1>/dev/null
@@ -72,7 +75,9 @@ then :
     # -rw-------. 1 foobar@bla domain users@bla 18 2024-05-14 09:43:20.435726504 +0200 .bash_logout
 
   ##"${LS}" -l --time-style=+%Y%m%d%H%M%S "$i" | "${PERL}" -ne 'm/^.......... \s+ (\d+) \s+ (\w+) \s+ (\w+) \s+ (\d+) \s+ (\d+)/x && print "$5\n"'
-    "${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^\S+ \s+ (\d+) \s+ (.+) \s+ (\d+) \s+ (\d\d\d\d)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${4}${5}${6}${7}${8}${9}\n"';
+  ##"${LS}" -l --full-time "$i" | "${PERL}" -ne 'm/^\S+ \s+ (\d+) \s+ (.+) \s+ (\d+) \s+ (\d\d\d\d)-(\d+)-(\d+) \s+ (\d+):(\d+):(\d+)/x && print "${4}${5}${6}${7}${8}${9}\n"';
+
+    "${LS}" -l --full-time "$i" | sed 's/.*\([0-9][0-9][0-9][0-9]\)-\([0-9][0-9]\)-\([0-9][0-9]\) \([0-9][0-9]\):\([0-9][0-9]\):\([0-9][0-9]\).*/\1\2\3\4\5\6/'
   }
 else :
   extract_date()
@@ -138,7 +143,8 @@ do :
     *.~+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]])~ | *.~+([[:digit:]]).+([[:digit:]]).~ )
 
       dn=$( dirname  "$i" )
-      bn=$( basename "$i" | "${PERL}" -ne 's/^(.*)(\.~[\.\d]+\.?~)$/$1/ && print $1,"\n"' )
+    ##bn=$( basename "$i" | "${PERL}" -ne 's/^(.*)(\.~[\.\d]+\.?~)$/$1/ && print $1,"\n"' )
+      bn=$( basename "$i" | sed 's/^\(.*\)\.~[.0-9][.0-9]*~$/\1/' )
       if test -e "$dn/$bn.$date"
       then :
 	: printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
