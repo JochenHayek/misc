@@ -69,7 +69,9 @@ do :
       if cmp  -s      "$old" "$i"
       then :
 
-	printf 1>&2 "=%s,%d: %s=>{%s} // %s\n" $0 $LINENO \
+	printf 1>&2 "=%s,%d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n" $0 $LINENO \
+	  '$dir' "$dir" \
+	  '$f' "$f" \
 	  '$i' "$i" \
 	  'going to rm'
 
