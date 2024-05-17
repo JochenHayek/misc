@@ -1,7 +1,7 @@
 :
 #! /bin/sh
 
-# misc/using_timestamps_in_filenames/purge_snapshots.sh
+# git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames/purge_snapshots.sh
 
 # $ ~/bin/purge_snapshots.sh DIR ...
 
