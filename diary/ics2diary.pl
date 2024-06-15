@@ -279,6 +279,8 @@
 	    # then there is something to rename. // $ mv * 20240116072100--___.x.ics // "x.ics" is from the original file name
 	    # else there is nothing   to rename. // -
 
+	    # context: UEFA_EURO_2024 and Fussball-EM – events/000Fussball-EM/000Fussball-EM.README.txt
+
 	    if defined($current_arg);
 
 	  delete($::table{DTSTART});
