@@ -140,6 +140,11 @@
 # * …
 
 {
+  %main::options = ();
+  $main::options{debug} = 1;
+
+  my($proc_name) = '(main)';
+
   %::table = ();
   $::within_VEVENT = 0;
 
@@ -160,6 +165,12 @@
   my($current_arg) = $ARGV[0];
   while(<>)
     {
+      printf STDERR "=%s,%d,%s: %s=>%d,%s=>{%s} // %s\n",__FILE__,__LINE__,$proc_name
+	,'$#ARGV',$#ARGV
+	,'$ARGV[0]',$ARGV[0]
+	,'$#ARGV >= 1 ?!?'
+	if 0 && $main::options{debug};
+
       ##chomp if 0;
       ##chomp;
       ##s/\s*$//;
@@ -230,6 +241,11 @@
 	    exists($::table{DTEND}{Z} )   ? $::table{DTEND}{Z}    : ''     ,
 	    ;
 
+	  printf STDERR "=%s,%d,%s: %s=>%d // %s\n",__FILE__,__LINE__,$proc_name
+	    ,'defined($current_arg)', defined($current_arg) ? 1 : 0
+	    ,'...'
+	    if 0 && $main::options{debug};
+
 	  printf STDERR "mv %s %s%s%s%s%s%s--___.%s\n",
 
 	    ################################################################################
@@ -251,7 +267,11 @@
 
 	    defined($current_arg) ? $current_arg : '___',
 
-	    ;
+	    # if the utility gets called with with an argument,
+	    # then there is something to rename. // $ mv * 20240116072100--___.x.ics // "x.ics" is from the original file name
+	    # else there is nothing   to rename. // -
+
+	    if defined($current_arg);
 
 	  delete($::table{DTSTART});
 	  delete($::table{DTEND});
