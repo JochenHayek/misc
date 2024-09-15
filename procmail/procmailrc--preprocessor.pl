@@ -252,6 +252,10 @@ sub m_list_id_by_literal
 ##shuttle: :0
 ##shuttle: * ^List-ID:.*<members\.hostsharing\.net>$
 ##shuttle: .folder-bulk.prio-9/
+##shuttle:
+##shuttle: :0
+##shuttle: * ^List-ID: members\.hostsharing\.net$
+##shuttle: .folder-bulk.prio-9/
 
   my($return_value) = 0;
 
@@ -276,6 +280,10 @@ sub m_list_id_by_literal
       print "\n"; 
       print ":0\n"; 
       print '* ^List-ID:.*<',$list_id_literal_backslashed,'>$',"\n";
+      print $param{target_folder__remote},"\n";
+      print "\n"; 
+      print ":0\n"; 
+      print '* ^List-ID: ',$list_id_literal_backslashed,'$',"\n";
       print $param{target_folder__remote},"\n";
     }
 
