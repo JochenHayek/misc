@@ -33,6 +33,14 @@
 
 # =======================
 
+# [_,UEFA_EURO_2024,Fussball-EM] :
+#
+#	/scp:ber.jochen.hayek.name:events/000Fussball-EM/000Fussball-EM.README.txt
+#
+#	using the utility in a pipeline with a few "fgrep -v '...'" in before.
+
+# =======================
+
 # Berlinale:
 
 #   renaming "blabla (99).ics" to blabla.99.ics :
@@ -270,6 +278,8 @@
 	    # if the utility gets called with with an argument,
 	    # then there is something to rename. // $ mv * 20240116072100--___.x.ics // "x.ics" is from the original file name
 	    # else there is nothing   to rename. // -
+
+	    # context: UEFA_EURO_2024 and Fussball-EM – events/000Fussball-EM/000Fussball-EM.README.txt
 
 	    if defined($current_arg);
 
