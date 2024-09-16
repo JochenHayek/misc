@@ -277,14 +277,20 @@ sub m_list_id_by_literal
       print "# comment=>{$param{comment}}\n" if exists($param{comment});
       print "# list_id_descr=>{$param{list_id_descr}}\n";
       print "# list_id_literal=>{$param{list_id_literal}}\n";
+
       print "\n"; 
       print ":0\n"; 
-      print '* ^List-ID:.*<',$list_id_literal_backslashed,'>$',"\n";
+      print '* ^List-ID:(.*<',$list_id_literal_backslashed,'>| ',$list_id_literal_backslashed,')$',"\n";
       print $param{target_folder__remote},"\n";
-      print "\n"; 
-      print ":0\n"; 
-      print '* ^List-ID: ',$list_id_literal_backslashed,'$',"\n";
-      print $param{target_folder__remote},"\n";
+
+      if(0)
+	{
+	  print "\n"; 
+	  print ":0\n"; 
+	  print '* ^List-ID: ',$list_id_literal_backslashed,'$',"\n";
+	  print $param{target_folder__remote},"\n";
+	}
+
     }
 
   printf STDERR "<%s,%d,%s\n",__FILE__,__LINE__,$proc_name
