@@ -6,7 +6,7 @@
 #
 # to be called within emacs dired-mode like this
 #
-#   ~/git-servers/github.com/JochenHayek/misc/ics2diary.pl ? > $(echo ? ).diary
+#   ~/git-servers/github.com/JochenHayek/misc/ics2diary.pl ? > `?`.diary
 
 ################################################################################
 
