@@ -152,6 +152,7 @@
   $main::options{debug} = 1;
 
   my($proc_name) = '(main)';
+  my(%plus_train_target);
 
   %::table = ();
   $::within_VEVENT = 0;
@@ -359,16 +360,52 @@
 		      if   (0)
 			{
 			}
-		    ##elsif($d =~ m/^ (?<name> departure | arrival ) \s+ (?<dd>\d\d)\/(?<mm>\d\d)\/(?<YYYY>\d\d\d\d)\\, \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*) $/x) # ÖPNV Navigator
-		      elsif(0) # ÖPNV Navigator
+
+		      # ÖPNV Navigator: {7 minutes (336 m) footpath to U Birkenstr.}
+
+		      elsif($d =~ m/^ (?<footpath_minutes> .*) \s+ minutes \s+ \( (?<footpath_meters>\d*) \s+ m \) \s+ footpath \s+ to \s+ (?<footpath_target>.*) $/x) # ÖPNV Navigator
 			{
+			  %plus_train_target = %+;
+
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			    "\$plus_train_target{footpath_minutes}" => $plus_train_target{footpath_minutes},
+			    "\$plus_train_target{footpath_meters}"  => $plus_train_target{footpath_meters},
+			    "\$plus_train_target{footpath_target}"  => $plus_train_target{footpath_target},
+			    '...'
+			    if 0;
+
+			  $plus_train_target{footpath_target} =~ s/\\,/,/g;
+
+			  printf "\t%s .. %s (%d minutes) [%s,%s] %s -> %s\n",
+			    'HH:MM',
+			    'HH:MM',
+			    $plus_train_target{footpath_minutes},
+
+			    'travel',
+			    'footpath',
+			    
+			    '…',
+			    $plus_train_target{footpath_target};
 			}
+
+		      # ÖPNV Navigator: {U9 → Osloer Str.}
+
+		      elsif($d =~ m/^ (?<train> .*) \s+ → \s+ (?<target>.*) $/x) # ÖPNV Navigator
+			{
+			  %plus_train_target = %+;
+
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			    "\$plus_train_target{train}"  => $plus_train_target{train},
+			    "\$plus_train_target{target}" => $plus_train_target{target},
+			    '...'
+			    if 0;
+			}
+
 		      elsif($d =~ m/^ (?<name> departure | arrival ) \s+ (?<dd>\d\d)\/(?<mm>\d\d)\/(?<YYYY>\d\d\d\d)\\, \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*) $/x) # ÖPNV Navigator
 			{
 			  my(%plus) = %+;
 
 			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
-			  ##"\$plus{dd_mm_YYYY}" => $plus{dd_mm_YYYY},
 			    "\$plus{YYYY}" => $plus{YYYY},
 			    "\$plus{mm}" => $plus{mm},
 			    "\$plus{dd}" => $plus{dd_mm},
@@ -393,11 +430,13 @@
 			    {
 			      if(exists($current_slot{departure}{time}))
 				{
-				  printf "\t%s .. %s [%s] %s -> %s\n",
+				  printf "\t%s .. %s [%s,%s (→ %s)] %s -> %s\n",
 				    $current_slot{departure}{time},
 				    $current_slot{arrival}{time},
 
 				    'travel',
+				    $plus_train_target{train},
+				    $plus_train_target{target},
 
 				    ##$current_slot{departure}{train},
 
@@ -405,6 +444,7 @@
 				    $current_slot{arrival}{value},
 				    ;
 				}
+			      %plus_train_target = ();
 			    }
 			}
 		      elsif($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?) ( \s+ \( (?<train>[^(]*) \) )? $/x) # Deutsche Bahn
