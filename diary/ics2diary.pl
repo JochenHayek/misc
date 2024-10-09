@@ -356,8 +356,58 @@
 		      printf "\t\t\t{%s}\n",$d
 			if 0;
 
-		      if($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?) ( \s+ \( (?<train>[^(]*) \) )? $/x)
-			##if($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?)			               $/x)
+		      if   (0)
+			{
+			}
+		    ##elsif($d =~ m/^ (?<name> departure | arrival ) \s+ (?<dd>\d\d)\/(?<mm>\d\d)\/(?<YYYY>\d\d\d\d)\\, \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*) $/x) # ÖPNV Navigator
+		      elsif(0) # ÖPNV Navigator
+			{
+			}
+		      elsif($d =~ m/^ (?<name> departure | arrival ) \s+ (?<dd>\d\d)\/(?<mm>\d\d)\/(?<YYYY>\d\d\d\d)\\, \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*) $/x) # ÖPNV Navigator
+			{
+			  my(%plus) = %+;
+
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			  ##"\$plus{dd_mm_YYYY}" => $plus{dd_mm_YYYY},
+			    "\$plus{YYYY}" => $plus{YYYY},
+			    "\$plus{mm}" => $plus{mm},
+			    "\$plus{dd}" => $plus{dd_mm},
+			    "\$plus{HH_MM}" => $plus{HH_MM},
+			    "\$plus{value}" => $plus{value},
+			    '...'
+			    if 0;
+
+			  $plus{time} = "$plus{YYYY}-$plus{mm}-$plus{dd} $plus{HH_MM}";
+
+			  $current_slot{ $plus{name} } = \%plus;
+
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			    "\$current_slot{ $plus{name} }{time}" => $current_slot{ $plus{name} }{time},
+			    '...'
+			    if 0;
+
+			  if   ($plus{name} eq 'departure')
+			    {
+			    }
+			  elsif($plus{name} eq 'arrival')
+			    {
+			      if(exists($current_slot{departure}{time}))
+				{
+				  printf "\t%s .. %s [%s] %s -> %s\n",
+				    $current_slot{departure}{time},
+				    $current_slot{arrival}{time},
+
+				    'travel',
+
+				    ##$current_slot{departure}{train},
+
+				    $current_slot{departure}{value},
+				    $current_slot{arrival}{value},
+				    ;
+				}
+			    }
+			}
+		      elsif($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?) ( \s+ \( (?<train>[^(]*) \) )? $/x) # Deutsche Bahn
 			{
 			  my(%plus) = %+;
 
@@ -366,7 +416,7 @@
 			  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
 			    "\$current_slot{ $plus{name} }{HH_MM}" => $current_slot{ $plus{name} }{HH_MM},
 			    '...'
-			    if 0;
+			    if 1;
 
 			  if   ($plus{name} eq 'ab')
 			    {
