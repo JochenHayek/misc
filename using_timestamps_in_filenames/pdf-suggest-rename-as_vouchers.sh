@@ -54,6 +54,8 @@ case $("${PDFINFO}" -help 2>&1) in
 
 esac
 
+##pdfinfo_options=' -upw volltext@jochen.hayek.name'
+
 ################################################################################
 
 if test -z "${pdfinfo_options}"
