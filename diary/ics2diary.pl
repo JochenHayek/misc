@@ -291,12 +291,14 @@
 	    {
 	      foreach my $a (@{ $::table{ $i } })
 		{
+		  $a->{value} =~ s/\\,/,/g;
+
 		  printf " %s=>{%s}",
 		    $i => $a->{value},
 		    ;
 		}
 
-	      if(exists($::table{ $i }))
+	      if(($i ne 'LOCATION') && exists($::table{ $i })) # skip this for LOCATION, because I am going to use it for "ÖPNV Navigator" and its source of initial footpath
 		{
 		  delete($::table{ $i });
 		}
@@ -350,6 +352,11 @@
 		  printf "\n\t\t}\n\n",
 		    ;
 
+		  # ÖPNV Navigator: // start
+		  my($footpath_source) = $::table{ LOCATION }[0]{value};
+
+		  # ÖPNV Navigator: // end
+
 		  my(%current_slot);
 
 		  foreach my $d (@list)
@@ -361,7 +368,7 @@
 			{
 			}
 
-		      # ÖPNV Navigator: {7 minutes (336 m) footpath to U Birkenstr.}
+		      # ÖPNV Navigator: e.g. {7 minutes (336 m) footpath to U Birkenstr.}
 
 		      elsif($d =~ m/^ (?<footpath_minutes> .*) \s+ minutes \s+ \( (?<footpath_meters>\d*) \s+ m \) \s+ footpath \s+ to \s+ (?<footpath_target>.*) $/x) # ÖPNV Navigator
 			{
@@ -384,8 +391,10 @@
 			    'travel',
 			    'footpath',
 			    
-			    '…',
-			    $plus_train_target{footpath_target};
+			    ##'…',							# start of footpath
+			    $footpath_source,						# start of footpath
+
+			    $plus_train_target{footpath_target};			# end of footpath
 			}
 
 		      # ÖPNV Navigator: {U9 → Osloer Str.}
@@ -430,6 +439,8 @@
 			    {
 			      if(exists($current_slot{departure}{time}))
 				{
+				  $footpath_source = $current_slot{arrival}{value};
+				  
 				  printf "\t%s .. %s [%s,%s (→ %s)] %s -> %s\n",
 				    $current_slot{departure}{time},
 				    $current_slot{arrival}{time},
