@@ -410,20 +410,27 @@
 			    if 0;
 			}
 
-		      elsif($d =~ m/^ (?<name> departure | arrival ) \s+ (?<dd>\d\d)\/(?<mm>\d\d)\/(?<YYYY>\d\d\d\d)\\, \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*) $/x) # ÖPNV Navigator
+		      elsif($d =~ m/^ (?<name> departure | arrival ) \s+ (?<dd>\d\d)\/(?<mm>\d\d)\/(?<YYYY>\d\d\d\d)\\, \s+ (?<HH>\d+):(?<MM>\d\d) \s+ (?<value>.*) $/x) # ÖPNV Navigator
 			{
 			  my(%plus) = %+;
 
-			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
 			    "\$plus{YYYY}" => $plus{YYYY},
 			    "\$plus{mm}" => $plus{mm},
 			    "\$plus{dd}" => $plus{dd_mm},
-			    "\$plus{HH_MM}" => $plus{HH_MM},
+			    "\$plus{HH}" => $plus{HH},
+			    "\$plus{MM}" => $plus{MM},
 			    "\$plus{value}" => $plus{value},
 			    '...'
 			    if 0;
 
-			  $plus{time} = "$plus{YYYY}-$plus{mm}-$plus{dd} $plus{HH_MM}";
+			  ##$plus{time} = "$plus{YYYY}-$plus{mm}-$plus{dd} $plus{HH}:$plus{MM}";
+			  $plus{time} = sprintf "%s-%s-%s %02.2d:%s",
+			    $plus{YYYY},
+			    $plus{mm},
+			    $plus{dd},
+			    $plus{HH},
+			    $plus{MM};
 
 			  $current_slot{ $plus{name} } = \%plus;
 
