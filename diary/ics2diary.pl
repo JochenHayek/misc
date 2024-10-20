@@ -424,13 +424,26 @@
 			    '...'
 			    if 0;
 
-			  ##$plus{time} = "$plus{YYYY}-$plus{mm}-$plus{dd} $plus{HH}:$plus{MM}";
-			  $plus{time} = sprintf "%s-%s-%s %02.2d:%s",
-			    $plus{YYYY},
-			    $plus{mm},
-			    $plus{dd},
-			    $plus{HH},
-			    $plus{MM};
+			  if(0)
+			    {
+			    }
+			  elsif(0)
+			    {
+			      ##$plus{time} = "$plus{YYYY}-$plus{mm}-$plus{dd} $plus{HH}:$plus{MM}";
+			      $plus{time} = sprintf "%s-%s-%s %02.2d:%s",
+				$plus{YYYY},
+				$plus{mm},
+				$plus{dd},
+				$plus{HH},
+				$plus{MM};
+			    }
+			  elsif(1)
+			    {
+			      ##$plus{time} = "$plus{YYYY}-$plus{mm}-$plus{dd} $plus{HH}:$plus{MM}";
+			      $plus{time} = sprintf "%02.2d:%s",
+				$plus{HH},
+				$plus{MM};
+			    }
 
 			  $current_slot{ $plus{name} } = \%plus;
 
