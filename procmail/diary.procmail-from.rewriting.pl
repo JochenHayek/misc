@@ -451,7 +451,7 @@ sub func
                  FROM   : [^<]* < (?<FROM> jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
 		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (topics|topics-computers|topics-finance|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-([^\.]*)|.*) \.(?<subtopic>admin|.*)\/\S*)
 
       }gix
     ) 
@@ -468,7 +468,7 @@ sub func
                  FROM   : [^<]* < (?<FROM> jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
 		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (topics|topics-computers|topics-finance|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-([^\.]*)|.*) \.(?<subtopic>admin|.*)\/\S*)
 
 	}{[$plus{tags},Synology_DSM_Alert] $plus{SUBJECT}}gix;
     }
@@ -481,7 +481,7 @@ sub func
                  FROM   : [^<]* < (?<FROM> noreply\@synologynotification\.com                 ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\+diskstation\d{3}-push-service\@hayek\.name ) >; \s+
                  SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (topics|topics-computers|topics-finance|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-([^\.]*)|.*) \.(?<subtopic>admin|.*)\/\S*)
 
       }gix
     ) 
@@ -499,7 +499,7 @@ sub func
                  FROM   : [^<]* < (?<FROM> noreply\@synologynotification\.com                 ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\+diskstation\d{3}-push-service\@hayek\.name ) >; \s+
                  SUBJECT: \s*     (?<SUBJECT> [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (topics|topics-computers|topics-finance|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-([^\.]*)|.*) \.(?<subtopic>admin|.*)\/\S*)
 
 	}{[$plus{tags},Synology] $plus{SUBJECT}}gix;
     }
@@ -518,7 +518,7 @@ sub func
 		 FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
 		 TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
 		 SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-		 Folder: \s+ (?<Folder>\. (topics|topics-computers|topics-finance|.*) \.(?<subtopic>admin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-([^\.]*)|.*) \.(?<subtopic>admin|.*)\/\S*)
 
       }gix
     ) 
@@ -536,7 +536,7 @@ sub func
 		 FROM   : \s+ (?<FROM>info\@gigaset-elements\.com); \s+
 		 TO     : \s+ (?<TO>jochenPLUS(gigaset-elements-001)\@hayek\.name); \s+
 		 SUBJECT:     (?<SUBJECT> \s* (?<SUBJECT_gigaset_home>[^:]*) : \s* (?<SUBJECT_rem>[^;]*) ); \s+
-		 Folder: \s+ (?<Folder>\. (topics|topics-computers|topics-finance|.*) \.(?<topic>subadmin|.*)\/\S*)
+		 Folder: \s+ (?<Folder>\. (topics|topics-([^\.]*)|.*) \.(?<topic>subadmin|.*)\/\S*)
 
 	}{[${home},$plus{SUBJECT_rem}]}gix;
 
@@ -614,7 +614,7 @@ sub func
 		 FROM	  : \s+ (?<FROM>direkt\@postbank\.de); \s+
 		 TO  	  : \s* (?<TO>.*); \s+
 		 SUBJECT:     (?<SUBJECT>.*); \s+
-		 Folder : \s+ (?<Folder>\. (topics|topics-computers|topics-finance) \.(?<topic>money (-bulk)?)\/\S*)
+		 Folder : \s+ (?<Folder>\. (topics|topics-([^\.]*)) \.(?<topic>money (-bulk)?)\/\S*)
 
     }{,banking] From: $+{From}; TO: $+{TO}; SUBJECT:$+{SUBJECT};}gix;
 
