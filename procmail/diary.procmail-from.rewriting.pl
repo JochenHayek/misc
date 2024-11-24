@@ -447,36 +447,6 @@ sub func
     $param{rec} =~ m{
 
                  \[(?<tags>[^\]]*?)] \s+
-                 From   : \s+     (?<From> jochen\.hayek\@hayek\.b\.shuttle\.de )  ; \s+
-                 FROM   : [^<]* < (?<FROM> jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
-                 TO     : [^<]* < (?<TO>   jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
-		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (topics|topics-([^\.]*)|.*) \.(?<subtopic>admin|.*)\/\S*)
-
-      }gix
-    ) 
-    {
-      warn "I am here"
-	if 0;
-
-      my(%plus) = %+;
-
-      $param{rec} =~ s{
-
-                 \[(?<tags>[^\]]*?)] \s+
-                 From   : \s+     (?<From> jochen\.hayek\@hayek\.b\.shuttle\.de )  ; \s+
-                 FROM   : [^<]* < (?<FROM> jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
-                 TO     : [^<]* < (?<TO>   jochen\.hayek\@hayek\.b\.shuttle\.de ) >; \s+
-		 SUBJECT: \s*     (?<SUBJECT> Synology \s+ DSM \s+ Alert: \s+ [^;]* ); \s+
-		 Folder: \s+ (?<Folder>\. (topics|topics-([^\.]*)|.*) \.(?<subtopic>admin|.*)\/\S*)
-
-	}{[$plus{tags},Synology_DSM_Alert] $plus{SUBJECT}}gix;
-    }
-
-  if(
-    $param{rec} =~ m{
-
-                 \[(?<tags>[^\]]*?)] \s+
                  From   : \s+     (?<From> noreply\@synologynotification\.com                 )  ; \s+
                  FROM   : [^<]* < (?<FROM> noreply\@synologynotification\.com                 ) >; \s+
                  TO     : [^<]* < (?<TO>   jochen\+diskstation\d{3}-push-service\@hayek\.name ) >; \s+
