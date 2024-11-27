@@ -9,6 +9,9 @@ Usage: pdftohtml [options] <PDF-file> [<html-file> <xml-file>]
   -upw <string>         : user password (for encrypted files)
   …
 
+see ~/git-servers/github.com/JochenHayek/misc/using_timestamps_in_filenames/pdf-suggest-rename-as_vouchers--with_password.sh ,
+it shows a relevant example.
+
 ################################################################################
 
 /usr/local/Cellar/poppler/21.05.0/bin/pdftohtml seems to deal with "-xml"
