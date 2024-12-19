@@ -130,6 +130,7 @@
 #
 # * Google calendar exports
 # * "Deutsche Bahn" traveling schedules
+# * "Navigator" auf iOS
 # * …
 
 # common rewrites:
@@ -478,7 +479,94 @@
 			      %plus_train_target = ();
 			    }
 			}
-		      elsif($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?) ( \s+ \( (?<train>[^(]*) \) )? $/x) # Deutsche Bahn
+
+		      # Deutsche Bahn 2024 … – sample:
+		      # 
+		      # {Köln Hbf ➞ Dortmund Hbf}
+		      # {ICE 516 (3320)}
+		      # {● ab 18:11 Köln Hbf ▷ Gleis 4}
+		      # {○ an 19:21 Dortmund Hbf ▷ Gleis 10}
+
+		      elsif($d =~ m/^ (?<from> .* ) \s+ ➞ \s+ (?<to> .* ) $/x) # Deutsche Bahn 2024 …
+			{
+			  my(%plus) = %+;
+
+			  $current_slot{ from_to } = \%plus;
+
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			    "\$current_slot{ from_to }{from}" => $current_slot{ from_to }{from},
+			    "\$current_slot{ from_to }{to}" => $current_slot{ from_to }{to},
+			    '...'
+			    if 0;
+			}
+
+		      # Deutsche Bahn 2024 … – sample:
+		      # 
+		      # {ICE 516 (3320)}
+
+		      elsif($d =~ m/^ (?<train_kind> \w+ ) \s+ (?<train_line> \w+ ) \s+ \( (?<train_no> \w+ ) \) /x) # Deutsche Bahn 2024 …
+			{
+			  my(%plus) = %+;
+
+			  $current_slot{ train } = \%plus;
+
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			    "\$current_slot{ train }{train_kind}" => $current_slot{ train }{train_kind},
+			    "\$current_slot{ train }{train_line}" => $current_slot{ train }{train_line},
+			    "\$current_slot{ train }{train_no}" => $current_slot{ train }{train_no},
+			    '...'
+			    if 0;
+			}
+
+		      # Deutsche Bahn 2024 … – sample:
+		      # 
+		      # {● ab 18:11 Köln Hbf ▷ Gleis 4}
+		      # {○ an 19:21 Dortmund Hbf ▷ Gleis 10}
+
+		      elsif($d =~ m/^ .+ \s (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<location>.*) \s ▷ \s (?<platform> Gleis \s \d+ ) $/x) # Deutsche Bahn 2024 …
+			{
+			  my(%plus) = %+;
+
+			  $current_slot{ $plus{name} } = \%plus;
+
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			    "\$current_slot{ $plus{name} }{HH_MM}" => $current_slot{ $plus{name} }{HH_MM},
+			    '...'
+			    if 0;
+
+			  if   ($plus{name} eq 'ab')
+			    {
+			    }
+			  elsif($plus{name} eq 'an')
+			    {
+			      if(exists($current_slot{ab}{HH_MM}))
+				{
+				  printf "\t%s .. %s [%s,%s %s (%s)] %s (%s) -> %s (%s)\n",
+				    $current_slot{ab}{HH_MM},
+				    $current_slot{an}{HH_MM},
+
+				    'biz,travel,train,Auftrag=______',
+
+				    $current_slot{train}{train_kind},
+				    $current_slot{train}{train_line},
+				    $current_slot{train}{train_no},
+
+				    $current_slot{ab}{location},
+				    $current_slot{ab}{platform},
+
+				    $current_slot{an}{location},
+				    $current_slot{an}{platform},
+				    ;
+				}
+			    }
+			}
+
+		      # Deutsche Bahn < 2024 – sample:
+		      #
+		      # {ab 07:30 Berlin Hbf (tief) - Gleis 2 (ICE 1005)}
+		      # {an 08:39 Halle(Saale)Hbf }
+
+		      elsif($d =~ m/^ (?<name> ab | an ) \s+ (?<HH_MM>\d\d:\d\d) \s+ (?<value>.*?) ( \s+ \( (?<train>[^(]*) \) )? $/x) # Deutsche Bahn < 2024
 			{
 			  my(%plus) = %+;
 
