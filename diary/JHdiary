@@ -575,6 +575,7 @@ sub job_match_timed_tag_with_body
 	      #
 	      #  paymorrow
 	      #
+	      #   SUBJECT: Mobil bezahlt & gepunktet am 26.05.2020 18:58 @ dm-drogerie markt;
 	      #   SUBJECT: Mobil bezahlt & gepunktet am 26.05.2020 18:58 bei dm-drogerie markt;
 
 	      elsif(m/^\t\tSUBJECT: Mobil bezahlt . gepunktet am (?<dd>..)\.(?<mm>..)\.(?<YYYY>....) (?<HH_MM>..:..) (bei|\@) (?<payee>[^;]+)/)
