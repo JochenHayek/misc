@@ -621,7 +621,7 @@
 		  else
 		    {
 		      printf "\t\t%s=>{%s}\n",
-			$k => $a->{value},
+			$k => defined($a->{value}) ? $a->{value} : "(!defined(\$a->{value}))",
 			;
 		    }
 		}
