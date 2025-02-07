@@ -3,11 +3,11 @@
 -> ~/etc/diary/
 -> etc/diary/
 
-year=2025
+year=2026
 
-	  ----- diary-creation for 2025 proceeded up to here -----
+	----- diary-creation for 2026 proceeded up to here -----
 
-	HH:MM creating calendar 2025
+	HH:MM creating calendar 2026
 
 	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--jewish-holidays-all.20190927124604.csv.diary.2020
 
@@ -33,13 +33,13 @@ year=2025
 		\(..\)\.\(..\)\.\(....\) -> \3-\2-\1
 
 		www.schulferien.org/Berlin/berlin.html
-		www.schulferien.org/deutschland/ferien/winter/berlin/                     // 2024-01-dd .. 2024-02-dd
-		www.schulferien.org/deutschland/ferien/ostern/berlin/                     // 2024-03-25 .. 2024-04-05
-		www.schulferien.org/deutschland/ferien/pfingsten/berlin/                  // 2024-05-10
-		www.schulferien.org/deutschland/ferien/sommer/berlin/                     // 2024-07-18 .. 2024-08-30
-		www.schulferien.org/deutschland/ferien/herbst/berlin/                     // 2024-10-04 +  2024-10-21 .. 2024-11-02
-		www.schulferien.org/deutschland/ferien/weihnachten/berlin/                // 2024-12-23 .. 2024-12-31
 		www.schulferien.org/deutschland/ferien/winter/berlin/                     // 2025-02-03 .. 2025-02-08
+		www.schulferien.org/deutschland/ferien/ostern/berlin/                     // 2025-04-14 .. 2025-04-25 + 2025-05-02 + 2025-05-30
+		www.schulferien.org/deutschland/ferien/pfingsten/berlin/                  // 2025-06-10
+		www.schulferien.org/deutschland/ferien/sommer/berlin/                     // 2025-07-24 .. 2025-09-06
+		www.schulferien.org/deutschland/ferien/herbst/berlin/                     // 2025-10-20 .. 2025-11-01
+		www.schulferien.org/deutschland/ferien/weihnachten/berlin/                // 2025-12-22 .. 2026-01-02
+		www.schulferien.org/deutschland/ferien/winter/berlin/                     // 2026-02-02 .. 2026-02-07
 
 	  my very special 2012 trick: copy the "Local variables" end from ~/diary to the newly created sniplets before merging them
 
