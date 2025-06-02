@@ -39,5 +39,5 @@ else :
      set -x
      diff $HOME/.fetchmailrc- $HOME/.fetchmailrc
      echo '***' cp --arch $HOME/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles-hostsharing/.fetchmailrc $HOME/.fetchmailrc
-     echo '***' chmod g-rwx $HOME/.fetchmailrc
+     echo '***' chmod go-rwx $HOME/.fetchmailrc
 fi
