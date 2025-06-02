@@ -504,8 +504,10 @@
 		      # 
 		      # {ICE 516 (3320)}
 		      # {ICE 516}
+		      # {ICE 535 / ICE 585}
+		      # {ag RB17 (84331)}
 
-		      elsif($d =~ m/^ (?<train_kind_etc> (?<train_kind> ICE ) \s+ .* ) $/x) # Deutsche Bahn 2024 …
+		      elsif($d =~ m/^ (?<train_kind_etc> (?<train_kind> ICE | ag ) \s+ .* ) $/x) # Deutsche Bahn 2024 …
 			{
 			  my(%plus) = %+;
 
@@ -546,7 +548,7 @@
 
 				    'biz,travel,train,Auftrag=______',
 
-				    $current_slot{train}{train_kind_etc},
+				    defined($current_slot{train}{train_kind_etc}) ? $current_slot{train}{train_kind_etc} : '(train_kind_etc:undef)',
 
 				    $current_slot{ab}{location},
 				    $current_slot{ab}{platform},
