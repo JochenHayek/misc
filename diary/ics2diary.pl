@@ -503,17 +503,16 @@
 		      # Deutsche Bahn 2024 … – sample:
 		      # 
 		      # {ICE 516 (3320)}
+		      # {ICE 516}
 
-		      elsif($d =~ m/^ (?<train_kind> \w+ ) \s+ (?<train_line> \w+ ) \s+ \( (?<train_no> \w+ ) \) /x) # Deutsche Bahn 2024 …
+		      elsif($d =~ m/^ (?<train_kind_etc> (?<train_kind> ICE ) \s+ .* ) $/x) # Deutsche Bahn 2024 …
 			{
 			  my(%plus) = %+;
 
 			  $current_slot{ train } = \%plus;
 
-			  printf "=%s,%03.3d,%03.3d: %s=>{%s},%s=>{%s},%s=>{%s} // %s\n",__FILE__,__LINE__,$.,
-			    "\$current_slot{ train }{train_kind}" => $current_slot{ train }{train_kind},
-			    "\$current_slot{ train }{train_line}" => $current_slot{ train }{train_line},
-			    "\$current_slot{ train }{train_no}" => $current_slot{ train }{train_no},
+			  printf "=%s,%03.3d,%03.3d: %s=>{%s} // %s\n",__FILE__,__LINE__,$.,
+			    "\$current_slot{ train }{train_kind_etc}" => $current_slot{ train }{train_kind_etc},
 			    '...'
 			    if 0;
 			}
@@ -541,15 +540,13 @@
 			    {
 			      if(exists($current_slot{ab}{HH_MM}))
 				{
-				  printf "\t%s .. %s [%s,%s %s (%s)] %s (%s) -> %s (%s)\n",
+				  printf "\t%s .. %s [%s,%s] %s (%s) -> %s (%s)\n",
 				    $current_slot{ab}{HH_MM},
 				    $current_slot{an}{HH_MM},
 
 				    'biz,travel,train,Auftrag=______',
 
-				    $current_slot{train}{train_kind},
-				    $current_slot{train}{train_line},
-				    $current_slot{train}{train_no},
+				    $current_slot{train}{train_kind_etc},
 
 				    $current_slot{ab}{location},
 				    $current_slot{ab}{platform},
@@ -557,6 +554,8 @@
 				    $current_slot{an}{location},
 				    $current_slot{an}{platform},
 				    ;
+
+				  %current_slot = ();
 				}
 			    }
 			}
