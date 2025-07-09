@@ -1,0 +1,50 @@
+02 Jul 2025
+	16:00:00 Z .. 18:00:00 Z SUMMARY=>{Iceland vs Finland} LOCATION=>{Stockhorn Arena, Thun}
+02 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Switzerland vs Norway} LOCATION=>{St. Jakob-Park, Basel}
+03 Jul 2025
+	16:00:00 Z .. 18:00:00 Z SUMMARY=>{Belgium vs Italy} LOCATION=>{Stade de Tourbillon, Sion}
+03 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Spain vs Portugal} LOCATION=>{Stadion Wankdorf, Bern}
+04 Jul 2025
+	16:00:00 Z .. 18:00:00 Z SUMMARY=>{Denmark vs Sweden} LOCATION=>{Stade de Genève, Lancy}
+04 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Germany vs Poland} LOCATION=>{kybunpark, St. Gallen}
+05 Jul 2025
+	16:00:00 Z .. 18:00:00 Z SUMMARY=>{Wales vs Netherlands} LOCATION=>{swissporarena, Luzern}
+05 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{France vs England} LOCATION=>{Stadion Letzigrund, Zürich}
+06 Jul 2025
+	16:00:00 Z .. 18:00:00 Z SUMMARY=>{Norway vs Finland} LOCATION=>{Stade de Tourbillon, Sion}
+06 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Switzerland vs Iceland} LOCATION=>{Stadion Wankdorf, Bern}
+07 Jul 2025
+	16:00:00 Z .. 18:00:00 Z SUMMARY=>{Spain vs Belgium} LOCATION=>{Stockhorn Arena, Thun}
+07 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Portugal vs Italy} LOCATION=>{Stade de Genève, Lancy}
+08 Jul 2025
+	16:00:00 Z .. 18:00:00 Z SUMMARY=>{Germany vs Denmark} LOCATION=>{St. Jakob-Park, Basel}
+08 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Poland vs Sweden} LOCATION=>{swissporarena, Luzern}
+09 Jul 2025
+	16:00:00 Z .. 18:00:00 Z SUMMARY=>{England vs Netherlands} LOCATION=>{Stadion Letzigrund, Zürich}
+09 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{France vs Wales} LOCATION=>{kybunpark, St. Gallen}
+10 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Norway vs Iceland} LOCATION=>{Stockhorn Arena, Thun}
+10 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Finland vs Switzerland} LOCATION=>{Stade de Genève, Lancy}
+11 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Italy vs Spain} LOCATION=>{Stadion Wankdorf, Bern}
+11 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Portugal vs Belgium} LOCATION=>{Stade de Tourbillon, Sion}
+12 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Sweden vs Germany} LOCATION=>{Stadion Letzigrund, Zürich}
+12 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Poland vs Denmark} LOCATION=>{swissporarena, Luzern}
+13 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{England vs Wales} LOCATION=>{kybunpark, St. Gallen}
+13 Jul 2025
+	19:00:00 Z .. 21:00:00 Z SUMMARY=>{Netherlands vs France} LOCATION=>{St. Jakob-Park, Basel}
+
+
