@@ -164,7 +164,14 @@ sub func
       }
 
     if($plus{DST} eq ${formatted_TZ_shift}) # e.g. '+0100'
-      {}
+      {
+
+	# if the TZ given on the commandline
+	# and the TZ given in the date+time string
+	# are the same,
+	# there is nothing to do here.
+
+      }
     else
       {
 	# most simple (resp. far too simple) way of adding timezone difference.
