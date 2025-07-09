@@ -77,6 +77,64 @@ sub func
 
   ################################################################################
 
+  # dealing with timezone (difference).
+
+  # wishlist:
+  # * either handle this "automatically" (= with enough programmatical intelligence – i.e. by enquiring current difference between the local time zone and UTC)
+  # * or pass this in as a command line argument (or so).
+
+  my($current_local_TZ_shift);
+  my($formatted_TZ_shift);
+
+  # sample: …
+
+  if   ( $ENV{current_local_TZ_shift} =~ m/^ \d\d? $/x ) # actually outdated
+    {
+      $current_local_TZ_shift = $ENV{current_local_TZ_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
+    ##$current_local_TZ_shift = '1';	# winter time in +49 AKA Germany
+    ##$current_local_TZ_shift = '2';	# summer time in +49 AKA Germany
+
+    ##$formatted_TZ_shift =       sprintf("+0%02.2d00",$current_local_TZ_shift);
+      $formatted_TZ_shift = '+' . sprintf(  "%02.2d"  ,$current_local_TZ_shift) . '00'; # e.g. '1' -> '+0100'
+    }
+
+  # sample: +0200
+
+  elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] 0(?<hours>\d)00 $/x ) # this deals with the subset currently relevant
+    {
+      my(%plus1) = %+;
+
+      $current_local_TZ_shift = $plus1{hours};
+
+      $formatted_TZ_shift = $ENV{current_local_TZ_shift};
+    }
+
+  # sample: +0200
+
+##elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] (?<hours>[1-9]\d)00 $/x ) # this deals with the subset currently relevant
+  elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+]   (?<hours>\d]\d)00 $/x ) # this deals with the subset currently relevant
+    {
+      my(%plus1) = %+;
+
+      $current_local_TZ_shift = $plus1{hours};
+
+      $formatted_TZ_shift = $ENV{current_local_TZ_shift};
+    }
+
+  # sample: +0200
+
+  elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+\-] \d\d\d\d $/x ) # this deals with all possible (and more than that) numeric timezones -> https://linux.die.net/man/3/strftime
+    {
+      die "\$ENV{current_local_TZ_shift}=>{$ENV{current_local_TZ_shift}} // not yet implemented";
+    }
+
+  else
+    {
+      die "\$ENV{current_local_TZ_shift}=>{$ENV{current_local_TZ_shift}} // must be signless 1- or 2-decimal-digits number of hours";
+    }
+
+  ################################################################################
+
   # 05 Sep 2020
   # 	10:48:15 -0700 [_,not_SPF_mangled,paypal] From: service@paypal.de;
   # 		FROM: "service@paypal.de" <service@paypal.de>;
@@ -92,7 +150,6 @@ sub func
   # 		TO: Jochen Hayek <Jochen+paypal@Hayek.name>;
   # 		SUBJECT: Your payment to PRIMARK BERLIN ZOOM for 17,55 EUR;
   # 		Folder: .topics-finance.paypal/new/1599328100.9506_1.h20;
-  #
 
   if( $param{rec} =~ m{
 
@@ -108,60 +165,6 @@ sub func
     my(%plus) = %+;
 
     # dealing with timezone (difference).
-
-    # wishlist:
-    # * either handle this "automatically" (= with enough programmatical intelligence – i.e. by enquiring current difference between the local time zone and UTC)
-    # * or pass this in as a command line argument (or so).
-
-    my($current_local_TZ_shift);
-    my($formatted_TZ_shift);
-
-    # sample: …
-
-    if   ( $ENV{current_local_TZ_shift} =~ m/^ \d\d? $/x ) # actually outdated
-      {
-	$current_local_TZ_shift = $ENV{current_local_TZ_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
-      ##$current_local_TZ_shift = '1';	# winter time in +49 AKA Germany
-      ##$current_local_TZ_shift = '2';	# summer time in +49 AKA Germany
-
-      ##$formatted_TZ_shift =       sprintf("+0%02.2d00",$current_local_TZ_shift);
-	$formatted_TZ_shift = '+' . sprintf(  "%02.2d"  ,$current_local_TZ_shift) . '00'; # e.g. '1' -> '+0100'
-      }
-
-    # sample: +0200
-
-    elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] 0(?<hours>\d)00 $/x ) # this deals with the subset currently relevant
-      {
-	my(%plus1) = %+;
-
-	$current_local_TZ_shift = $plus1{hours};
-
-	$formatted_TZ_shift = $ENV{current_local_TZ_shift};
-      }
-
-    # sample: +0200
-
-  ##elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] (?<hours>[1-9]\d)00 $/x ) # this deals with the subset currently relevant
-    elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+]   (?<hours>\d]\d)00 $/x ) # this deals with the subset currently relevant
-      {
-	my(%plus1) = %+;
-
-	$current_local_TZ_shift = $plus1{hours};
-
-	$formatted_TZ_shift = $ENV{current_local_TZ_shift};
-      }
-
-    # sample: +0200
-
-    elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+\-] \d\d\d\d $/x ) # this deals with all possible (and more than that) numeric timezones -> https://linux.die.net/man/3/strftime
-      {
-	die "\$ENV{current_local_TZ_shift}=>{$ENV{current_local_TZ_shift}} // not yet implemented";
-      }
-
-    else
-      {
-	die "\$ENV{current_local_TZ_shift}=>{$ENV{current_local_TZ_shift}} // must be signless 1- or 2-decimal-digits number of hours";
-      }
 
     if($plus{DST} eq ${formatted_TZ_shift}) # e.g. '+0100'
       {
@@ -197,6 +200,58 @@ sub func
 
 	  }{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_H}:$+{M}:$+{S} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
       }
+  }
+
+  ################################################################################
+
+  # 02 Jul 2025
+  #	16:00:00 Z .. 18:00:00 Z SUMMARY=>{Iceland vs Finland} LOCATION=>{Stockhorn Arena, Thun}
+  #
+  # ->
+  #
+  # 02 Jul 2025
+  #	18:00:00 (16:00:00 Z) .. 20:00:00 (18:00:00 Z) SUMMARY=>{Iceland vs Finland} LOCATION=>{Stockhorn Arena, Thun}
+
+  if( $param{rec} =~ m{
+
+		     (?<d>\d\d) \s (?<b>[A-Za-z][a-z][a-z]) \s (?<Y>\d\d\d\d) (?<between_date_and_time>\s+)
+
+		     (?<H0>\d\d):(?<M0>\d\d):(?<S0>\d\d) \s Z
+
+		     \s \.\. \s
+
+		     (?<H1>\d\d):(?<M1>\d\d):(?<S1>\d\d) \s Z
+
+		     \s
+
+	}gix
+    )
+  {
+    my(%plus) = %+;
+
+    # dealing with timezone (difference).
+
+    # most simple (resp. far too simple) way of adding timezone difference.
+    # TBD: there should be a subroutine dedicated to this.
+
+    my($new_H0) = sprintf "%02.2d", $plus{H0} + $current_local_TZ_shift;
+    my($new_H1) = sprintf "%02.2d", $plus{H1} + $current_local_TZ_shift;
+
+    # ...
+
+    $param{rec} =~ s{
+
+		   (?<d>\d\d) \s (?<b>[A-Za-z][a-z][a-z]) \s (?<Y>\d\d\d\d) (?<between_date_and_time>\s+)
+
+		   (?<H0>\d\d):(?<M0>\d\d):(?<S0>\d\d) \s Z
+
+		   \s \.\. \s
+
+		   (?<H1>\d\d):(?<M1>\d\d):(?<S1>\d\d) \s Z
+
+		   \s
+
+      }{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_H0}:$+{M0}:$+{S0} ($+{H0}:$+{M0}:$+{S0} Z) .. ${new_H1}:$+{M1}:$+{S1} ($+{H1}:$+{M1}:$+{S1} Z) }gix if 1;
   }
 
   ################################################################################
