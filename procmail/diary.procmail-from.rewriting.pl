@@ -116,6 +116,8 @@ sub func
     my($current_local_TZ_shift);
     my($formatted_TZ_shift);
 
+    # sample: …
+
     if   ( $ENV{current_local_TZ_shift} =~ m/^ \d\d? $/x ) # actually outdated
       {
 	$current_local_TZ_shift = $ENV{current_local_TZ_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
@@ -125,6 +127,9 @@ sub func
       ##$formatted_TZ_shift =       sprintf("+0%02.2d00",$current_local_TZ_shift);
 	$formatted_TZ_shift = '+' . sprintf(  "%02.2d"  ,$current_local_TZ_shift) . '00'; # e.g. '1' -> '+0100'
       }
+
+    # sample: +0200
+
     elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] 0(?<hours>\d)00 $/x ) # this deals with the subset currently relevant
       {
 	my(%plus1) = %+;
@@ -133,6 +138,9 @@ sub func
 
 	$formatted_TZ_shift = $ENV{current_local_TZ_shift};
       }
+
+    # sample: +0200
+
   ##elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] (?<hours>[1-9]\d)00 $/x ) # this deals with the subset currently relevant
     elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+]   (?<hours>\d]\d)00 $/x ) # this deals with the subset currently relevant
       {
@@ -142,10 +150,14 @@ sub func
 
 	$formatted_TZ_shift = $ENV{current_local_TZ_shift};
       }
+
+    # sample: +0200
+
     elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+\-] \d\d\d\d $/x ) # this deals with all possible (and more than that) numeric timezones -> https://linux.die.net/man/3/strftime
       {
 	die "\$ENV{current_local_TZ_shift}=>{$ENV{current_local_TZ_shift}} // not yet implemented";
       }
+
     else
       {
 	die "\$ENV{current_local_TZ_shift}=>{$ENV{current_local_TZ_shift}} // must be signless 1- or 2-decimal-digits number of hours";
