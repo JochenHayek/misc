@@ -2,6 +2,14 @@
 
 # git-servers/github.com/JochenHayek/misc/fetchmail--restart_with_new_logfile.sh
 
+################################################################################
+#
+# how to be run:
+#
+# $ ssh -A jhk00-domains@jhk00.hostsharing.net var/log/fetchmail--restart_with_new_logfile.sh
+#
+################################################################################
+
 # * supposed to be run on jhk00-domains@jhk00.hostsharing.net
                                                         log_dir=$HOME/var/log
 # * log files  "live"  on jhk00-domains@jhk00.hostsharing.net :
@@ -31,5 +39,5 @@ else :
      set -x
      diff $HOME/.fetchmailrc- $HOME/.fetchmailrc
      echo '***' cp --arch $HOME/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles-hostsharing/.fetchmailrc $HOME/.fetchmailrc
-     echo '***' chmod g-rwx $HOME/.fetchmailrc
+     echo '***' chmod go-rwx $HOME/.fetchmailrc
 fi
