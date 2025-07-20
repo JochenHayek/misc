@@ -245,7 +245,7 @@ sub job_anon
 
       if(m/^FROM=\{(?<FROM>.*)\}$/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options, '$+{FROM}' => $+{FROM} )
 	    ,'...'
 	    if 0;
@@ -267,14 +267,14 @@ sub job_anon
 	{
 	  chomp;
 
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
 	    ,'empty {Date:} header field, so we are going to use From_captures to extract date+time'
 	    if 1;
 	}
       elsif(m/^DATE=\{ \s*  ( (?<wday>\w+) , \s+ )? (?<mday>\w+) \s+ (?<month>\w+) \s+ (?<year>\d+) \s+ (?<time>[\d:\.]+) \s+ (?<DST>.*) \}$/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options
 					   ,'$+{mday}' => $+{mday}
 					   ,'$+{month}' => $+{month}
@@ -288,7 +288,7 @@ sub job_anon
 	}
       elsif(m/^MSG_TO=\{(?<MSG_TO>.*)\}$/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options, '$+{MSG_TO}' => $+{MSG_TO} )
 	    ,'...'
 	    if 0;
@@ -297,7 +297,7 @@ sub job_anon
 	}
       elsif(m/^SUBJECT=\{(?<SUBJECT>.*)\}$/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options, '$+{SUBJECT}' => $+{SUBJECT} )
 	    ,'...'
 	    if 0;
@@ -306,7 +306,7 @@ sub job_anon
 	}
       elsif(m/^LIST_ID=\{ \s* (?<descr> [^<]*? ) \s* < (?<literal>[^>]*) > \} $/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options, 
 					   '$+{descr}' => $+{descr},
 					   '$+{literal}' => $+{literal},
@@ -318,7 +318,7 @@ sub job_anon
 	}
       elsif(m/^LIST_ID=\{ \s* (?<literal>[^>]*) \} $/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options, 
 					   '$+{literal}' => $+{literal},
 	                                   )
@@ -330,7 +330,7 @@ sub job_anon
 	}
       elsif(m/^LIST_UNSUBSCRIBE=\{ \s* (?<all>.*) \} $/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options, 
 					   '$+{all}' => $+{all},
 	                                   )
@@ -342,7 +342,7 @@ sub job_anon
 
       elsif(m/^From \s+ (?<From>\S+) \s+ (?<wday>\w+) \s+ (?<month>\w+) \s+ (?<mday>\w+) \s+ (?<time>[\d:]+) \s+ (?<year>\d+)$/x)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options
 					   ,'$+{From}' => $+{From}
 					   ,'$+{wday}' => $+{wday}
@@ -360,7 +360,7 @@ sub job_anon
 
       elsif(m/^ \s+ Subject: \s* (?<subject>.*) $/ix)
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	    , &main::format_key_value_list($main::std_formatting_options
 					   ,'$+{subject}' => $+{subject}
 					   ,'$From_captures{From}' => $From_captures{From}
@@ -382,7 +382,7 @@ sub job_anon
 
       elsif(m/^ \s+ Folder: \s+ (?<folder>\S+) \s+ (?<size>\d+) $/x)				# a folder with all non-space characters
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	     &main::format_key_value_list($main::std_formatting_options
 					  ,'$+{folder}' => $+{folder}
 					  ,'$+{size}' => $+{size}
@@ -420,7 +420,7 @@ sub job_anon
 
       elsif(m/^ \s+ Folder: \s+ (?<strange_folder>.*) \s+ (?<size>\d+) $/x)			# all other folders, i.e. even ones containing a space character
 	{
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	     &main::format_key_value_list($main::std_formatting_options
 					  ,'$+{strange_folder}' => $+{strange_folder}
 					  ,'$+{size}' => $+{size}
@@ -460,9 +460,9 @@ sub job_anon
 	{
 	  chomp;
 
-	  printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
-	    ,'...'
+	    ,'unexpected format'
 	    if 1;
 	}
     }
@@ -620,7 +620,7 @@ sub high_level_print_entry
 	      $subject =~ s/;$//;
 	      my($length_of_subject) = length($subject);
 
-	      printf STDERR "=%03.3d,%05.5d: %s // %s\n",__LINE__,$.
+	      printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 		 ,&main::format_key_value_list($main::std_formatting_options, 
 					       '$SUBJECT' => $SUBJECT ,
 					       '$subject' => $subject ,
