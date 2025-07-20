@@ -14,6 +14,9 @@ year=2026
 	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20211025161812.csv.diary.2022
 	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20211025161812.csv.diary.2023
 	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20211025161812.csv.diary.2024
+	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20230408174548.csv.diary.2025
+	…
+	HH:MM ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/hebcal--torah-readings-diaspora.20230408174548.csv.diary.2027
 
 	    $ cd ~/git-servers/github.com/JochenHayek/misc/perl/hebcal2diary.t/
 	  ##$ ln -s hebcal--torah-readings-diaspora.20230408174548.csv.diary.2023 diary
