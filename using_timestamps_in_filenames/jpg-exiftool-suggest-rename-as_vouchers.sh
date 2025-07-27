@@ -78,6 +78,16 @@ do
 	    our($basename ) = basename($filename,".HEIC");
 	    our($extension) = "HEIC";
 	  }
+	elsif( $filename =~ m/\.MP4$/x )
+	  {
+	    our($basename ) = basename($filename,".MP4");
+	    our($extension) = "MP4";
+	  }
+	elsif( $filename =~ m/\.MOV$/x )
+	  {
+	    our($basename ) = basename($filename,".MOV");
+	    our($extension) = "MOV";
+	  }
 
 	our($dirname)  = dirname($filename);
       }
