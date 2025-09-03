@@ -84,39 +84,41 @@ sub func
   # * or pass this in as a command line argument (or so).
 
   my($current_local_TZ_shift);
+  my($current_local_TZ_shift_in_seconds);
   my($formatted_TZ_shift);
 
   # sample: …
 
-  if   ( $ENV{current_local_TZ_shift} =~ m/^ \d\d? $/x ) # actually outdated
-    {
-      $current_local_TZ_shift = $ENV{current_local_TZ_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
-    ##$current_local_TZ_shift = '1';	# winter time in +49 AKA Germany
-    ##$current_local_TZ_shift = '2';	# summer time in +49 AKA Germany
+##if   ( $ENV{current_local_TZ_shift} =~ m/^ \d\d? $/x ) # actually outdated
+##  {
+##    $current_local_TZ_shift = $ENV{current_local_TZ_shift}; # restriction: right now this can only be a positive 1- or 2-decimal-digits number of hours
+##  ##$current_local_TZ_shift = '1';	# winter time in +49 AKA Germany
+##  ##$current_local_TZ_shift = '2';	# summer time in +49 AKA Germany
 
-    ##$formatted_TZ_shift =       sprintf("+0%02.2d00",$current_local_TZ_shift);
-      $formatted_TZ_shift = '+' . sprintf(  "%02.2d"  ,$current_local_TZ_shift) . '00'; # e.g. '1' -> '+0100'
-    }
+##  ##$formatted_TZ_shift =       sprintf("+0%02.2d00",$current_local_TZ_shift);
+##    $formatted_TZ_shift = '+' . sprintf(  "%02.2d"  ,$current_local_TZ_shift) . '00'; # e.g. '1' -> '+0100'
+##  }
 
   # sample: +0200
 
-  elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] 0(?<hours>\d)00 $/x ) # this deals with the subset currently relevant
+  if   ( $ENV{current_local_TZ_shift} =~ m/^ [\+] 0(?<hours>\d)(?<minutes>\d\d) $/x ) # this deals with the subset currently relevant
     {
       my(%plus1) = %+;
 
-      $current_local_TZ_shift = $plus1{hours};
+      $current_local_TZ_shift            = $plus1{hours};
+      $current_local_TZ_shift_in_seconds = ( $plus1{hours} * 60 + $plus1{minutes} ) * 60; # timezones do not have seconds
 
       $formatted_TZ_shift = $ENV{current_local_TZ_shift};
     }
 
-  # sample: +0200
+  # sample: +1200
 
-##elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] (?<hours>[1-9]\d)00 $/x ) # this deals with the subset currently relevant
-  elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+]   (?<hours>\d]\d)00 $/x ) # this deals with the subset currently relevant
+  elsif( $ENV{current_local_TZ_shift} =~ m/^ [\+] (?<hours>[1-9]\d)(?<minutes>\d\d) $/x ) # this deals with the subset currently relevant
     {
       my(%plus1) = %+;
 
-      $current_local_TZ_shift = $plus1{hours};
+      $current_local_TZ_shift            = $plus1{hours};
+      $current_local_TZ_shift_in_seconds = ( $plus1{hours} * 60 + $plus1{minutes} ) * 60; # timezones do not have seconds
 
       $formatted_TZ_shift = $ENV{current_local_TZ_shift};
     }
@@ -182,6 +184,34 @@ sub func
 
 	my($new_H) = sprintf "%02.2d", $plus{H} + $current_local_TZ_shift - "$plus{DST_sign}$plus{DST_HH}";
 
+	my($new_seconds) =
+	    ( ( $plus{H} * 60 + $plus{M} ) * 60 + $plus{S} )
+	  + $current_local_TZ_shift_in_seconds
+	  - ( $plus{DST_sign} . ( ( $plus{DST_HH} * 60 + $plus{DST_MM} ) * 60 ) )
+	  ;
+
+	my($new_sign) = '';
+	if($new_seconds < 0)
+	  {
+	    $new_seconds = - $new_seconds;
+	    $new_sign = '-';
+	  }
+
+	my($new_HH_MM_SS);
+	{
+	  my($new_seconds_only)  = $new_seconds % 60;
+	  $new_seconds          -= $new_seconds_only;
+
+	  my($new_minutes)       = $new_seconds / 60;
+
+	  my($new_minutes_only)  = $new_minutes % 60;
+	  $new_minutes          -= $new_minutes_only;
+	  
+	  my($new_hours)         = $new_minutes / 60;
+
+	  $new_HH_MM_SS = sprintf "%02d:%02d:%02d",$new_hours,$new_minutes_only,$new_seconds_only;
+	}
+
 	my($extended_orig_DST_zone_name) = defined($plus{DST_zone_name}) ? " $plus{DST_zone_name}" : '';
 
 	# temporarily prepend this to the time string during development, if needed:
@@ -198,7 +228,10 @@ sub func
 		       ( \s+ (?<DST_zone_name> \( [a-z][a-z][a-z] \) ) )? 
 		       \s \[
 
-	  }{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_H}:$+{M}:$+{S} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
+	  }{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_sign}${new_HH_MM_SS} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
+
+	##}{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_H}:$+{M}:$+{S} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
+
       }
   }
 
