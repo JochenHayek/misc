@@ -2,6 +2,8 @@ default namespace = ""
 
 start =
   element pdf2xml {
+    attribute producer { xsd:NCName },
+    attribute version { xsd:NMTOKEN },
     element page {
       attribute height { xsd:integer },
       attribute left { xsd:integer },
@@ -22,9 +24,10 @@ start =
         attribute top { xsd:integer },
         attribute width { xsd:integer },
         (text
-         | b
-         | element i { (text | b)+ })+
-      }*
+         | element a {
+             attribute href { xsd:anyURI },
+             text
+           })+
+      }+
     }+
   }
-b = element b { text }

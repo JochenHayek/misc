@@ -1,0 +1,27 @@
+# …
+
+03 Sep 2025
+	03:17:33 +0530 [_,not_SPF_mangled,computers,e-mail-techniques] From: info-gnus-english-bounces+jochen+lists.gnu.org=hayek.name@gnu.org;
+		FROM: James Thomas <jimjoe@gmx.net>;
+		TO: Colin Baxter <m43cap@yandex.com>;
+		SUBJECT: Re: gnus-group-compact-group, Re: gnus-group-compact-group;
+		Folder: .topics-computers.e-mail-techniques/new/1756849880.3723831_1;
+
+# if the resulting time get considered as yesterday after adjusting the timezone shift,
+# then decrement the day.
+# for the time being: don't mind, if the resulting day will be "00 Month 2099"! #to_be_fixed_one_way
+
+04 Sep 2025
+	01:54:48 +0530 [_,not_SPF_mangled] From: info-gnus-english-bounces+jochen+lists.gnu.org=hayek.name@gnu.org;
+		FROM: James Thomas <jimjoe@gmx.net>;
+		TO: Colin Baxter <m43cap@yandex.com>;
+		Subject: Re: gnus-group-compact-group, Re: gnus-group-compact-group; // *** WILL BE REMOVED, BECAUSE THE SUBJECTS ARE THE SAME ***
+		SUBJECT: Re: gnus-group-compact-group, Re: gnus-group-compact-group;
+		Folder: .topics-computers.e-mail-techniques/new/1756931320.1361049_1
+04 Sep 2025
+	03:54:48 +0530 [_,not_SPF_mangled] From: info-gnus-english-bounces+jochen+lists.gnu.org=hayek.name@gnu.org;
+		FROM: James Thomas <jimjoe@gmx.net>;
+		TO: Colin Baxter <m43cap@yandex.com>;
+		Subject: Re: gnus-group-compact-group, Re: gnus-group-compact-group; // *** WILL BE REMOVED, BECAUSE THE SUBJECTS ARE THE SAME ***
+		SUBJECT: Re: gnus-group-compact-group, Re: gnus-group-compact-group;
+		Folder: .topics-computers.e-mail-techniques/new/1756931320.1361049_1

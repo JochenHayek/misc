@@ -30,6 +30,9 @@
 
 # $ trang -I xml -O rnc ~/usr/src/pdf2table/test_data_out/pdf_form_sample/KSK-form.without_dtd.xml pdf2xml.from_sample_xml_without_dtd.rnc
 
+# $ java -jar /usr/local/trang-20091111/trang.jar -I xml -O rnc 012319-000--20250506195405--rosebikes--order-105830707.pdftohtml.xml pdf2xml.from_sample_xml_with_href.rnc
+# $ java -jar /usr/local/trang-20091111/trang.jar -I xml -O rnc 012319-000--20250508132502--rosebikes--order-105830707--invoice-203722611.pdftohtml.xml pdf2xml.from_sample_xml_with_href.rnc
+
 # ### remove the DOCTYPE... before running trang!
 
 # $ trang -I xml -O rnc ___.xml ___.rnc
@@ -74,9 +77,17 @@ start =
         attribute top { xsd:integer },
         attribute width { xsd:integer },
         (text
-         | b
-         | element i { (text | b)+ })+
+
+	 # thers are (deliberate) various possible combinations of <b> and <i> and …
+
+         | element b { text }
+         | element i { text }
+
+         | element a {
+             attribute href { xsd:anyURI },
+             text
+           })+
       }*
     }+
   }
-b = element b { text }
+##b = element b { text }
