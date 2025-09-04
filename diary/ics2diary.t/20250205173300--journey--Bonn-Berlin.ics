@@ -1,0 +1,153 @@
+BEGIN:VCALENDAR
+PRODID:https://www.bahn.de
+VERSION:2.0
+CALSCALE:GREGORIAN
+X-LOTUS-CHARSET:UTF-8
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+LAST-MODIFIED:20240422T053450Z
+TZURL:https://www.tzurl.org/zoneinfo/Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+X-PROLEPTIC-TZNAME:LMT
+BEGIN:STANDARD
+TZNAME:CET
+TZOFFSETFROM:+005328
+TZOFFSETTO:+0100
+DTSTART:18930401T000000
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:CEST
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+DTSTART:19160430T230000
+RDATE:19400401T020000
+RDATE:19430329T020000
+RDATE:19460414T020000
+RDATE:19470406T030000
+RDATE:19480418T020000
+RDATE:19490410T020000
+RDATE:19800406T020000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:CET
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+DTSTART:19161001T010000
+RDATE:19421102T030000
+RDATE:19431004T030000
+RDATE:19441002T030000
+RDATE:19451118T030000
+RDATE:19461007T030000
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:CEST
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+DTSTART:19170416T020000
+RRULE:FREQ=YEARLY;UNTIL=19180415T010000Z;BYMONTH=4;BYDAY=3MO
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:CET
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+DTSTART:19170917T030000
+RRULE:FREQ=YEARLY;UNTIL=19180916T010000Z;BYMONTH=9;BYDAY=3MO
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:CEST
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+DTSTART:19440403T020000
+RRULE:FREQ=YEARLY;UNTIL=19450402T010000Z;BYMONTH=4;BYDAY=1MO
+END:DAYLIGHT
+BEGIN:DAYLIGHT
+TZNAME:CEMT
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0300
+DTSTART:19450524T020000
+RDATE:19470511T030000
+END:DAYLIGHT
+BEGIN:DAYLIGHT
+TZNAME:CEST
+TZOFFSETFROM:+0300
+TZOFFSETTO:+0200
+DTSTART:19450924T030000
+RDATE:19470629T030000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:CET
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0100
+DTSTART:19460101T000000
+RDATE:19800101T000000
+END:STANDARD
+BEGIN:STANDARD
+TZNAME:CET
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+DTSTART:19471005T030000
+RRULE:FREQ=YEARLY;UNTIL=19491002T010000Z;BYMONTH=10;BYDAY=1SU
+END:STANDARD
+BEGIN:STANDARD
+TZNAME:CET
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+DTSTART:19800928T030000
+RRULE:FREQ=YEARLY;UNTIL=19950924T010000Z;BYMONTH=9;BYDAY=-1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:CEST
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+DTSTART:19810329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:CET
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+DTSTART:19961027T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:9d9405a9-9b1e-45a8-ad4b-2eeb8c501048@bahn.de
+SUMMARY:Bonn Hbf ➞ Berlin Hbf
+CLASS:PUBLIC
+LOCATION:Bonn Hbf
+DESCRIPTION:Bonn Hbf ➞ Berlin Hbf\nDatum: 05.02.2025\n\n\nBonn Hbf ➞ Köln
+  Hbf\nRB 26 (0767)\n● ab 17:33 Bonn Hbf ▷ Gleis 1\n○ an 18:02 Köln Hbf ▷
+  Gleis 1\n\nKöln Hbf ➞ Dortmund Hbf\nICE 516 (3320)\n● ab 18:11 Köln Hbf
+  ▷ Gleis 4\n○ an 19:21 Dortmund Hbf ▷ Gleis 10\n\nDortmund Hbf ➞ Berlin 
+ Hbf\nICE 645 (1289)\n● ab 19:47 Dortmund Hbf ▷ Gleis 10\n○ an 23:17 Berl
+ in Hbf ▷ Gleis 11\n\nDauer: 5h 44min\n————\nReisen Sie entspannt und ohn
+ e Ticketkontrolle. Nutzen Sie den Komfort Check-in sobald Sie Ihren Sitz
+ platz erreicht haben. Einfach und schnell unter <a href="https://www.bah
+ n.de/buchung/jetzt-einchecken" title="Jetzt Einchecken">https://www.bahn
+ .de/buchung/jetzt-einchecken</a>\n————\nAlle Angaben ohne Gewähr. Fahrpl
+ anänderungen vorbehalten. Bitte prüfen Sie kurz vor der Reise den aktuel
+ len Fahrplan unter: www.bahn.de
+DTSTART:20250205T173300
+DTEND:20250205T231700
+DTSTAMP:20241218T180746Z
+X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml
+ " xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas
+ -microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office
+ /2004/ 12/omml" xmlns="http://www.w3.org/TR/REC-html40"><head></head><bo
+ dy lang=DE><div class=WordSection1><p class=MsoNormal>Bonn Hbf ➞ Berlin 
+ Hbf<br>Datum: 05.02.2025<br><br><br>Bonn Hbf ➞ Köln Hbf<br>RB 26 (0767)<
+ br>● ab 17:33 Bonn Hbf ▷ Gleis 1<br>○ an 18:02 Köln Hbf ▷ Gleis 1<br><br
+ >Köln Hbf ➞ Dortmund Hbf<br>ICE 516 (3320)<br>● ab 18:11 Köln Hbf ▷ Glei
+ s 4<br>○ an 19:21 Dortmund Hbf ▷ Gleis 10<br><br>Dortmund Hbf ➞ Berlin H
+ bf<br>ICE 645 (1289)<br>● ab 19:47 Dortmund Hbf ▷ Gleis 10<br>○ an 23:17
+  Berlin Hbf ▷ Gleis 11<br><br>Dauer: 5h 44min<br>————<br>Reisen Sie ents
+ pannt und ohne Ticketkontrolle. Nutzen Sie den Komfort Check-in sobald S
+ ie Ihren Sitzplatz erreicht haben. Einfach und schnell unter <a href="ht
+ tps://www.bahn.de/buchung/jetzt-einchecken" title="Jetzt Einchecken">htt
+ ps://www.bahn.de/buchung/jetzt-einchecken</a><br>————<br>Alle Angaben oh
+ ne Gewähr. Fahrplanänderungen vorbehalten. Bitte prüfen Sie kurz vor der
+  Reise den aktuellen Fahrplan unter: www.bahn.de</p></div></body></html>
+ 
+END:VEVENT
+END:VCALENDAR

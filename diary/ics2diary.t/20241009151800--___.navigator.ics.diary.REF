@@ -1,0 +1,44 @@
+09 Oct 2024
+	15:18:00  .. 16:04:00  SUMMARY=>{Wittestraße 30P, Tegel, 13509 Berlin, Germany → Wiclefstraße 9, Moabit, 10551 Berlin, Germany} LOCATION=>{Wittestraße 30P, Tegel, 13509 Berlin, Germany}
+
+		ORGANIZER=>{mailto:7qttjrsh6f8lhbuhb2eokl9tn4@group.calendar.google.com} – attributes: {CN=travel}
+		ATTENDEE=>{mailto:7qttjrsh6f8lhbuhb2eokl9tn4@group.calendar.google.com} – attributes: {CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE;CN=travel;X-NUM-GUESTS=0}
+		ATTENDEE=>{mailto:calendar@jochen.hayek.name} – attributes: {CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=calendar@jochen.hayek.name;X-NUM-GUESTS=0}
+
+		DESCRIPTION=>{
+
+			{5 minutes (356 m) footpath to U Borsigwerke}
+			{}
+			{U6 → Ersatzverkehr U Kurt-Schumacher-Platz}
+			{departure 09/10/2024\, 15:23 U Borsigwerke}
+			{arrival 09/10/2024\, 15:36 U Kurt-Schumacher-Platz}
+			{}
+			{U6 → Alt-Mariendorf}
+			{departure 09/10/2024\, 15:41 U Kurt-Schumacher-Platz (platform 1)}
+			{arrival 09/10/2024\, 15:47 U Leopoldplatz (platform 1 (U6))}
+			{}
+			{U9 → Rathaus Steglitz}
+			{departure 09/10/2024\, 15:53 U Leopoldplatz (platform 1 (U9))}
+			{arrival 09/10/2024\, 15:57 U Birkenstr. (platform 1)}
+			{}
+			{7 minutes (336 m) footpath to Wiclefstraße 9\, Moabit\, 10551 Berlin\, Germany}
+
+		}
+
+	HH:MM .. HH:MM (5 minutes) [travel,footpath] Wittestraße 30P, Tegel, 13509 Berlin, Germany -> U Borsigwerke
+	15:23 .. 15:36 [travel,U6 (→ Ersatzverkehr U Kurt-Schumacher-Platz)] U Borsigwerke -> U Kurt-Schumacher-Platz
+	15:41 .. 15:47 [travel,U6 (→ Alt-Mariendorf)] U Kurt-Schumacher-Platz (platform 1) -> U Leopoldplatz (platform 1 (U6))
+	15:53 .. 15:57 [travel,U9 (→ Rathaus Steglitz)] U Leopoldplatz (platform 1 (U9)) -> U Birkenstr. (platform 1)
+	HH:MM .. HH:MM (7 minutes) [travel,footpath] U Birkenstr. (platform 1) -> Wiclefstraße 9, Moabit, 10551 Berlin, Germany
+		CREATED=>{20241009T135917Z}
+		DTSTAMP=>{20241009T135919Z}
+		LAST-MODIFIED=>{20241009T135917Z}
+		LOCATION=>{Wittestraße 30P, Tegel, 13509 Berlin, Germany}
+		SEQUENCE=>{0}
+		STATUS=>{CONFIRMED}
+		TRANSP=>{OPAQUE}
+		UID=>{7D1632FC-AB1C-47BD-8C08-13B723B9C11F}
+		X-APPLE-CREATOR-IDENTITY=>{de.albrs.Navigator}
+		X-APPLE-CREATOR-TEAM-IDENTITY=>{WXV3RC5BLX}
+		X-APPLE-STRUCTURED-LOCATION=>{geo:52.580478,13.294622} – attributes: {VALUE=URI;X-APPLE-REFERENCEFRAME=0;X-TITLE="Wittestraße 30P, Tegel, 13509 Berlin, Germany"}
+		X-MICROSOFT-CDO-OWNERAPPTID=>{1744868374}

@@ -1,0 +1,39 @@
+17 Oct 2024
+	07:31:00  .. 07:59:00  SUMMARY=>{Brandenburgische Straße 70, Wilmersdorf, 10713 Berlin, Germany → Wiclefstraße 9, Moabit, 10551 Berlin, Germany} LOCATION=>{Brandenburgische Straße 70, Wilmersdorf, 10713 Berlin, Germany}
+
+		ORGANIZER=>{mailto:7qttjrsh6f8lhbuhb2eokl9tn4@group.calendar.google.com} – attributes: {CN=travel}
+		ATTENDEE=>{mailto:7qttjrsh6f8lhbuhb2eokl9tn4@group.calendar.google.com} – attributes: {CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE;CN=travel;X-NUM-GUESTS=0}
+		ATTENDEE=>{mailto:calendar@jochen.hayek.name} – attributes: {CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=calendar@jochen.hayek.name;X-NUM-GUESTS=0}
+
+		DESCRIPTION=>{
+
+			{6 minutes (208 m) footpath to U Fehrbelliner Platz}
+			{}
+			{U3 → Warschauer Straße}
+			{departure 17/10/2024\, 7:37 U Fehrbelliner Platz (platform 2 (U3))}
+			{arrival 17/10/2024\, 7:40 U Spichernstr. (platform 2 (U3))}
+			{}
+			{U9 → Osloer Str.}
+			{departure 17/10/2024\, 7:45 U Spichernstr. (platform 2 (U9))}
+			{arrival 17/10/2024\, 7:52 U Birkenstr. (platform 2)}
+			{}
+			{7 minutes (336 m) footpath to Wiclefstraße 9\, Moabit\, 10551 Berlin\, Germany}
+
+		}
+
+	HH:MM .. HH:MM (6 minutes) [travel,footpath] Brandenburgische Straße 70, Wilmersdorf, 10713 Berlin, Germany -> U Fehrbelliner Platz
+	07:37 .. 07:40 [travel,U3 (→ Warschauer Straße)] U Fehrbelliner Platz (platform 2 (U3)) -> U Spichernstr. (platform 2 (U3))
+	07:45 .. 07:52 [travel,U9 (→ Osloer Str.)] U Spichernstr. (platform 2 (U9)) -> U Birkenstr. (platform 2)
+	HH:MM .. HH:MM (7 minutes) [travel,footpath] U Birkenstr. (platform 2) -> Wiclefstraße 9, Moabit, 10551 Berlin, Germany
+		CREATED=>{20241017T054330Z}
+		DTSTAMP=>{20241017T054331Z}
+		LAST-MODIFIED=>{20241017T054330Z}
+		LOCATION=>{Brandenburgische Straße 70, Wilmersdorf, 10713 Berlin, Germany}
+		SEQUENCE=>{0}
+		STATUS=>{CONFIRMED}
+		TRANSP=>{OPAQUE}
+		UID=>{F31B91EC-3164-4492-8B4E-2D2809066BFB}
+		X-APPLE-CREATOR-IDENTITY=>{de.albrs.Navigator}
+		X-APPLE-CREATOR-TEAM-IDENTITY=>{WXV3RC5BLX}
+		X-APPLE-STRUCTURED-LOCATION=>{geo:52.488679,13.316333} – attributes: {VALUE=URI;X-APPLE-REFERENCEFRAME=0;X-TITLE="Brandenburgische Straße 70, Wilmersdorf, 10713 Berlin, Germany"}
+		X-MICROSOFT-CDO-OWNERAPPTID=>{890567810}

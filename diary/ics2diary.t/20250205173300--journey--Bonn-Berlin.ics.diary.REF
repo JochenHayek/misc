@@ -1,0 +1,41 @@
+05 Feb 2025
+	17:33:00  .. 23:17:00  SUMMARY=>{Bonn Hbf ➞ Berlin Hbf} LOCATION=>{Bonn Hbf}
+
+
+		DESCRIPTION=>{
+
+			{Bonn Hbf ➞ Berlin Hbf}
+			{Datum: 05.02.2025}
+			{}
+			{}
+			{Bonn Hbf ➞ Köln Hbf}
+			{RB 26 (0767)}
+			{● ab 17:33 Bonn Hbf ▷ Gleis 1}
+			{○ an 18:02 Köln Hbf ▷ Gleis 1}
+			{}
+			{Köln Hbf ➞ Dortmund Hbf}
+			{ICE 516 (3320)}
+			{● ab 18:11 Köln Hbf ▷ Gleis 4}
+			{○ an 19:21 Dortmund Hbf ▷ Gleis 10}
+			{}
+			{Dortmund Hbf ➞ Berlin Hbf}
+			{ICE 645 (1289)}
+			{● ab 19:47 Dortmund Hbf ▷ Gleis 10}
+			{○ an 23:17 Berlin Hbf ▷ Gleis 11}
+			{}
+			{Dauer: 5h 44min}
+			{————}
+			{Reisen Sie entspannt und ohne Ticketkontrolle. Nutzen Sie den Komfort Check-in sobald Sie Ihren Sitzplatz erreicht haben. Einfach und schnell unter <a href="https://www.bahn.de/buchung/jetzt-einchecken" title="Jetzt Einchecken">https://www.bahn.de/buchung/jetzt-einchecken</a>}
+			{————}
+			{Alle Angaben ohne Gewähr. Fahrplanänderungen vorbehalten. Bitte prüfen Sie kurz vor der Reise den aktuellen Fahrplan unter: www.bahn.de}
+
+		}
+
+	17:33 .. 18:02 [biz,travel,train,Auftrag=______,RB 26 (0767)] Bonn Hbf (Gleis 1) -> Köln Hbf (Gleis 1)
+	18:11 .. 19:21 [biz,travel,train,Auftrag=______,ICE 516 (3320)] Köln Hbf (Gleis 4) -> Dortmund Hbf (Gleis 10)
+	19:47 .. 23:17 [biz,travel,train,Auftrag=______,ICE 645 (1289)] Dortmund Hbf (Gleis 10) -> Berlin Hbf (Gleis 11)
+		CLASS=>{PUBLIC}
+		DTSTAMP=>{20241218T180746Z}
+		LOCATION=>{Bonn Hbf}
+		UID=>{9d9405a9-9b1e-45a8-ad4b-2eeb8c501048@bahn.de}
+		X-ALT-DESC=>{<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office/2004/ 12/omml" xmlns="http://www.w3.org/TR/REC-html40"><head></head><body lang=DE><div class=WordSection1><p class=MsoNormal>Bonn Hbf ➞ Berlin Hbf<br>Datum: 05.02.2025<br><br><br>Bonn Hbf ➞ Köln Hbf<br>RB 26 (0767)<br>● ab 17:33 Bonn Hbf ▷ Gleis 1<br>○ an 18:02 Köln Hbf ▷ Gleis 1<br><br>Köln Hbf ➞ Dortmund Hbf<br>ICE 516 (3320)<br>● ab 18:11 Köln Hbf ▷ Gleis 4<br>○ an 19:21 Dortmund Hbf ▷ Gleis 10<br><br>Dortmund Hbf ➞ Berlin Hbf<br>ICE 645 (1289)<br>● ab 19:47 Dortmund Hbf ▷ Gleis 10<br>○ an 23:17 Berlin Hbf ▷ Gleis 11<br><br>Dauer: 5h 44min<br>————<br>Reisen Sie entspannt und ohne Ticketkontrolle. Nutzen Sie den Komfort Check-in sobald Sie Ihren Sitzplatz erreicht haben. Einfach und schnell unter <a href="https://www.bahn.de/buchung/jetzt-einchecken" title="Jetzt Einchecken">https://www.bahn.de/buchung/jetzt-einchecken</a><br>————<br>Alle Angaben ohne Gewähr. Fahrplanänderungen vorbehalten. Bitte prüfen Sie kurz vor der Reise den aktuellen Fahrplan unter: www.bahn.de</p></div></body></html>} – attributes: {FMTTYPE=text/html}

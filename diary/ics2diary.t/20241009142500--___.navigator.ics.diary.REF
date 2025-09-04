@@ -1,0 +1,44 @@
+09 Oct 2024
+	14:25:00  .. 15:11:00  SUMMARY=>{Wiclefstraße 9, Moabit, 10551 Berlin, Germany → Wittestraße 30P, Tegel, 13509 Berlin, Germany} LOCATION=>{Wiclefstraße 9, Moabit, 10551 Berlin, Germany}
+
+		ORGANIZER=>{mailto:7qttjrsh6f8lhbuhb2eokl9tn4@group.calendar.google.com} – attributes: {CN=travel}
+		ATTENDEE=>{mailto:7qttjrsh6f8lhbuhb2eokl9tn4@group.calendar.google.com} – attributes: {CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE;CN=travel;X-NUM-GUESTS=0}
+		ATTENDEE=>{mailto:calendar@jochen.hayek.name} – attributes: {CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=calendar@jochen.hayek.name;X-NUM-GUESTS=0}
+
+		DESCRIPTION=>{
+
+			{7 minutes (336 m) footpath to U Birkenstr.}
+			{}
+			{U9 → Osloer Str.}
+			{departure 09/10/2024\, 14:32 U Birkenstr. (platform 2)}
+			{arrival 09/10/2024\, 14:36 U Leopoldplatz (platform 2 (U9))}
+			{}
+			{U6 → Kurt-Schumacher-Platz}
+			{departure 09/10/2024\, 14:42 U Leopoldplatz (platform 2 (U6))}
+			{arrival 09/10/2024\, 14:48 U Kurt-Schumacher-Platz (platform 2)}
+			{}
+			{U6 → Ersatzverkehr U Alt-Tegel}
+			{departure 09/10/2024\, 14:52 U Kurt-Schumacher-Platz}
+			{arrival 09/10/2024\, 15:06 U Borsigwerke}
+			{}
+			{5 minutes (356 m) footpath to Wittestraße 30P\, Tegel\, 13509 Berlin\, Germany}
+
+		}
+
+	HH:MM .. HH:MM (7 minutes) [travel,footpath] Wiclefstraße 9, Moabit, 10551 Berlin, Germany -> U Birkenstr.
+	14:32 .. 14:36 [travel,U9 (→ Osloer Str.)] U Birkenstr. (platform 2) -> U Leopoldplatz (platform 2 (U9))
+	14:42 .. 14:48 [travel,U6 (→ Kurt-Schumacher-Platz)] U Leopoldplatz (platform 2 (U6)) -> U Kurt-Schumacher-Platz (platform 2)
+	14:52 .. 15:06 [travel,U6 (→ Ersatzverkehr U Alt-Tegel)] U Kurt-Schumacher-Platz -> U Borsigwerke
+	HH:MM .. HH:MM (5 minutes) [travel,footpath] U Borsigwerke -> Wittestraße 30P, Tegel, 13509 Berlin, Germany
+		CREATED=>{20241009T135823Z}
+		DTSTAMP=>{20241009T135825Z}
+		LAST-MODIFIED=>{20241009T135823Z}
+		LOCATION=>{Wiclefstraße 9, Moabit, 10551 Berlin, Germany}
+		SEQUENCE=>{0}
+		STATUS=>{CONFIRMED}
+		TRANSP=>{OPAQUE}
+		UID=>{E261C6D8-55B3-4577-B28D-CE37237C204B}
+		X-APPLE-CREATOR-IDENTITY=>{de.albrs.Navigator}
+		X-APPLE-CREATOR-TEAM-IDENTITY=>{WXV3RC5BLX}
+		X-APPLE-STRUCTURED-LOCATION=>{geo:52.530400,13.337524} – attributes: {VALUE=URI;X-APPLE-REFERENCEFRAME=0;X-TITLE="Wiclefstraße 9, Moabit, 10551 Berlin, Germany"}
+		X-MICROSOFT-CDO-OWNERAPPTID=>{-1528953783}
