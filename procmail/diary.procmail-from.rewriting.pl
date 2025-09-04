@@ -184,6 +184,8 @@ sub func
 
 	my($new_H) = sprintf "%02.2d", $plus{H} + $current_local_TZ_shift - "$plus{DST_sign}$plus{DST_HH}";
 
+	my($new_d) = $plus{d};
+
 	my($new_seconds) =
 	    ( ( $plus{H} * 60 + $plus{M} ) * 60 + $plus{S} )
 	  + $current_local_TZ_shift_in_seconds
@@ -191,11 +193,21 @@ sub func
 	  ;
 
 	my($new_sign) = '';
-	if($new_seconds < 0)
+	my($is_negative) = 0;
+	if   ($new_seconds < 0)
+	  {
+	    $new_seconds = 24*60*60 + $new_seconds;
+	    $new_sign = '-'
+	      if 0;
+	    $is_negative = 1;
+	    $new_d -= 1;
+	  }
+	elsif($new_seconds < 0)	# old, outdated approach
 	  {
 	    $new_seconds = - $new_seconds;
 	    $new_sign = '-';
 	  }
+	my($new_d_as_string) = sprintf "%02d",$new_d;
 
 	my($new_HH_MM_SS);
 	{
@@ -228,7 +240,7 @@ sub func
 		       ( \s+ (?<DST_zone_name> \( [a-z][a-z][a-z] \) ) )? 
 		       \s \[
 
-	  }{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_sign}${new_HH_MM_SS} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
+	  }{${new_d_as_string} $+{b} $+{Y}$+{between_date_and_time}${new_sign}${new_HH_MM_SS} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
 
 	##}{$+{d} $+{b} $+{Y}$+{between_date_and_time}${new_H}:$+{M}:$+{S} ($+{H}:$+{M}:$+{S} $+{DST_sign}$+{DST_HH}$+{DST_MM}${extended_orig_DST_zone_name}) [}gix if 1;
 
