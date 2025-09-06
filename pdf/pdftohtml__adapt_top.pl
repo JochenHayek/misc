@@ -2,6 +2,12 @@
 
 # adapted from pdftohtml__postprocess.pl
 
+# USAGE within emacs:
+#
+#   C-u shell-command-on-region
+#
+#     ~/bin/pdftohtml__adapt_top.pl | sort
+
 ################################################################################
 
 {
