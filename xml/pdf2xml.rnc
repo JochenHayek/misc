@@ -81,7 +81,10 @@ start =
 	 # thers are (deliberate) various possible combinations of <b> and <i> and …
 
          | element b { text }
+       	 | element b { element i { text } }
+
          | element i { text }
+         | element i { element b { text } }
 
          | element a {
              attribute href { xsd:anyURI },
