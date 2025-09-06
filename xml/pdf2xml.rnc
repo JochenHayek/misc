@@ -36,6 +36,7 @@
 # ### remove the DOCTYPE... before running trang!
 
 # $ trang -I xml -O rnc ___.xml ___.rnc
+# $ java -jar /usr/local/trang-20091111/trang.jar -I xml -O rnc ___.xml ___.rnc
 
 # problems: ...
 
@@ -60,6 +61,7 @@ start =
       ##attribute family { xsd:NCName },
         attribute family { text },
         attribute id { xsd:integer },
+        attribute opacity { xsd:decimal }?,
         attribute size { xsd:integer }
       }*,
       element image {
@@ -78,18 +80,14 @@ start =
         attribute width { xsd:integer },
         (text
 
-	 # thers are (deliberate) various possible combinations of <b> and <i> and …
+         | element i { (text | b)+ }
+	 )+
 
-         | element b { text }
-       	 | element b { element i { text } }
-
-         | element i { text }
-         | element i { element b { text } }
-
-         | element a {
+   	 | element a {
              attribute href { xsd:anyURI },
-             text
-           })+
+             (text | b)+
+    	     }
+	 )+
       }*
     }+
   }
