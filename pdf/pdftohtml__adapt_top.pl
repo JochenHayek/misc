@@ -13,6 +13,9 @@
 {
   my($last_top) = 0;
 
+##my($THE_delta) = 1;
+  my($THE_delta) = 4;
+
   while(<>)
     {
       if(m/^  (?<leading_space>\s*)
@@ -30,7 +33,7 @@
 	  $current_top = $plus{top};
 	  $current_top =~ s/^\s*//;
 
-	  if($current_top - $last_top <= 1)		# maybe it should be 2 or 3 instead of 1
+	  if($current_top - $last_top <= $THE_delta)		# maybe it should be 2 or 3 instead of 1
 	    {
 	      $current_top = $last_top;
 	    }
