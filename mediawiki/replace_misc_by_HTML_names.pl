@@ -2,4 +2,4 @@
 
 s/\[/\&lbrack;/g;
 s/\]/\&rbrack;/g;
-s/#/\&#23;/g;		# any nicer replacement?
+s/#/\&#35;/g;		# any nicer replacement?
