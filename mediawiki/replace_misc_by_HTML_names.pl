@@ -3,3 +3,4 @@
 s/\[/\&lbrack;/g;
 s/\]/\&rbrack;/g;
 s/#/\&#35;/g;		# any nicer replacement?
+s/\|/{{!}}/g;
