@@ -1,17 +1,17 @@
 #! /usr/bin/perl -w
 
-# adapted from pdftohtml__postprocess.pl
+# adapted from pdftohtml__adapt_top.pl
 
 # USAGE within emacs:
 #
 #   C-u shell-command-on-region
 #
-#     ~/bin/pdftohtml__adapt_top.pl | sort
+#     sort --key 1.29,1.33 --key 1.17,1.21 | ~/bin/pdftohtml__adapt_left.pl | sort --key 1.29,1.33 --key 1.17,1.21
 
 ################################################################################
 
 {
-  my($last_top) = 0;
+  my($last_left) = 0;
 
 ##my($THE_delta) = 1;
   my($THE_delta) = 4;
@@ -21,7 +21,7 @@
       if(m/^  (?<leading_space>\s*)
 
 	    <   (?<text_or_image>text|image)
-	    \s+	top="(?<top>-?\d+)" 
+	    \s+	   top="(?<top>-?\d+)" 
 	    \s+   left="(?<left>-?\d+)" 
 	    \s+  width="(?<width>-?\d+)" 
 	    \s+ height="(?<height>-?\d+)" 
@@ -30,18 +30,18 @@
 	{
 	  my(%plus) = %+;
 
-	  $current_top = $plus{top};
-	  $current_top =~ s/^\s*//;
+	  $current_left = $plus{left};
+	  $current_left =~ s/^\s*//;
 
-	  if($current_top - $last_top <= $THE_delta)		# maybe it should be 2 or 3 instead of 1
+	  if($current_left - $last_left <= $THE_delta)		# maybe it should be 2 or 3 instead of 1
 	    {
-	      $current_top = $last_top;
+	      $current_left = $last_left;
 	    }
 
 	  s/^  (?<leading_space>\s*)
 
 	     <   (?<text_or_image>text|image)
-	     \s+	top="(?<top>-?\d+)" 
+	     \s+    top="(?<top>-?\d+)" 
 	     \s+   left="(?<left>-?\d+)" 
 	     \s+  width="(?<width>-?\d+)" 
 	     \s+ height="(?<height>-?\d+)" 
@@ -54,9 +54,9 @@
 
 			     $plus{text_or_image},
 
-	       'top'    =>	 $current_top    ,
+	       'top'    =>	 $plus{top}   ,
 
-	       'left'   =>	 $plus{left}   ,
+	       'left'   =>	 $current_left    ,
 
 	       'width'  =>	 $plus{width}  ,
 
@@ -67,7 +67,7 @@
 
 	  print;
 
-	  $last_top = $current_top;
+	  $last_left = $current_left;
 
 	}
       else
