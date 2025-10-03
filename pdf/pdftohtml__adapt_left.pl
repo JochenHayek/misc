@@ -14,7 +14,7 @@
   my($last_left) = 0;
 
 ##my($THE_delta) = 1;
-  my($THE_delta) = 4;
+  my($THE_delta) = 5;
 
   while(<>)
     {

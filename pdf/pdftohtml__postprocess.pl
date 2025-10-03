@@ -74,9 +74,9 @@
 {
   while(<>)
     {
-      s/
+      s/^  (?<leading_space>\s*)
 
-	 <(?<text_or_image>text|image)
+	 <   (?<text_or_image>text|image)
 	 \s+	top="(?<top>-?\d+)" 
 	 \s+   left="(?<left>-?\d+)" 
 	 \s+  width="(?<width>-?\d+)" 
@@ -84,8 +84,11 @@
 
        /
 
-	 sprintf "<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\"",
-		       $+{text_or_image},
+	 sprintf "%s<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\"",
+
+	   		 $+{leading_space} ,
+
+		         $+{text_or_image},
 
 	   'top'    =>	 $+{top}    ,
 
