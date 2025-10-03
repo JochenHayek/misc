@@ -1,0 +1,46 @@
+default namespace = ""
+
+start =
+  element pdf2xml {
+    attribute producer { xsd:NCName },
+    attribute version { xsd:NMTOKEN },
+    element page {
+      attribute height { xsd:integer },
+      attribute left { xsd:integer },
+      attribute number { xsd:integer },
+      attribute position { xsd:NCName },
+      attribute top { xsd:integer },
+      attribute width { xsd:integer },
+      element fontspec {
+        attribute color { text },
+        attribute family { text },
+        attribute id { xsd:integer },
+        attribute opacity { xsd:decimal }?,
+        attribute size { xsd:integer }
+      }*,
+      element text {
+        attribute font { xsd:integer },
+        attribute height { xsd:integer },
+        attribute left { xsd:integer },
+        attribute top { xsd:integer },
+        attribute width { xsd:integer },
+        (text
+         | b
+         | element a {
+             attribute href { text },
+             (text | b)+
+           }
+         | element i { (text | b)+ })+
+      }*
+    }+,
+    outline
+  }
+b = element b { text }
+outline =
+  element outline {
+    (outline
+     | element item {
+         attribute page { xsd:integer },
+         text
+       })+
+  }
