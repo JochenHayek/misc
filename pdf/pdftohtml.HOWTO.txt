@@ -134,6 +134,10 @@ within the Emacs buffer with "C-x h M-x indent-region":
 
 	sort --key 1.29,1.33 --key 1.17,1.21
 
+	sort --key 1.29,1.33 --key 1.17,1.21 | ~/bin/pdftohtml__adapt_left.pl | sort --key 1.29,1.33 --key 1.17,1.21
+
+	~/bin/pdftohtml__adapt_top.pl | sort
+
 …
 
 	…
