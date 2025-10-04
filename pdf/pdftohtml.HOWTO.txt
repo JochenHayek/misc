@@ -100,3 +100,44 @@ Usage: pdftohtml [options] <PDF-file> [<html-file> <xml-file>]
 /opt/bin/pdftohtml:
 /opt -> /volume1/@entware/opt
 /volume1/@entware/opt/bin/pdftohtml
+
+================================================================================
+
+in the shell on Rechnung.pdf
+
+	~/bin/pdf-suggest-rename-as_vouchers.sh [a-zA-Z]*.pdf
+
+in Emacs dired-mode on ___.pdf :
+
+	~/bin/pdftohtml -xml -i -nomerge -hidden
+
+in Emacs dired-mode on the *.xml :
+
+	~/bin/rename 's/xml$/pdftohtml.xml/'
+
+within the Emacs buffer with "C-x h C-u M-x shell-command-on-region":
+
+	~/bin/pdftohtml__postprocess.pl
+
+within the Emacs buffer with "C-x h M-x indent-region":
+
+	indent-region
+…
+
+	sort-lines
+
+…
+
+	~/git-servers/ber.jochen.hayek.name/johayek/renaming_and_processing_various_files/___.annotating_with_CAVEAT.pl
+
+…
+
+	sort --key 1.29,1.33 --key 1.17,1.21
+
+…
+
+	…
+
+…
+
+	~/git-servers/ber.jochen.hayek.name/johayek/renaming_and_processing_various_files/___.create_bank_transaction_details.sh
