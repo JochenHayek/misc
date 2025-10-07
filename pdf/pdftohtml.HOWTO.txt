@@ -128,7 +128,13 @@ within the Emacs buffer with "C-x h M-x indent-region":
 
 …
 
+	sort | ~/bin/pdftohtml__adapt_top.pl | sort
+
+…
+
 	~/git-servers/ber.jochen.hayek.name/johayek/renaming_and_processing_various_files/___.annotating_with_CAVEAT.pl
+
+		<!-- CAVEAT: {}=>{} -->
 
 …
 
