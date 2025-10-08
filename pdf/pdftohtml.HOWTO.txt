@@ -151,3 +151,18 @@ within the Emacs buffer with "C-x h M-x indent-region":
 …
 
 	~/git-servers/ber.jochen.hayek.name/johayek/renaming_and_processing_various_files/___.create_bank_transaction_details.sh
+
+================================================================================
+
+~/.emacs.d/init.el :
+
+(defalias 'pdftohtml-join
+   (kmacro "C-u <escape> | ~ / b i n / p d f t o h t m l _ _ j o i n . p l <return>"))
+
+;;sort --key 1.29,1.33 --key 1.17,1.21
+;;kmacro-edit-macro
+
+(defalias 'pdftohtml-sort-by-column
+   (kmacro "C-u M-| s o r t SPC - - k e y SPC 1 . 2 9 , 1 . 3 3 SPC - - k e y SPC 1 . 1 7 , 1 . 2 1 RET"))
+
+================================================================================
