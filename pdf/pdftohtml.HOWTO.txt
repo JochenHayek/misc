@@ -158,7 +158,11 @@ within the Emacs buffer with "C-x h M-x indent-region":
 
 ================================================================================
 
-~/.emacs.d/init.el :
+~/.emacs.d/gnu-emacs ->
+~/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles/.emacs.d/gnu-emacs :
+
+;;~/bin/pdftohtml__join.pl
+;;kmacro-edit-macro
 
 (defalias 'pdftohtml-join
    (kmacro "C-u <escape> | ~ / b i n / p d f t o h t m l _ _ j o i n . p l <return>"))
@@ -175,8 +179,6 @@ within the Emacs buffer with "C-x h M-x indent-region":
    (kmacro "C-u M-| ~ / b i n / p d f t o h t m l _ _ a d a p t _ t o p . p l SPC | SPC s o r t RET"))
 
 ;;sort --key 1.29,1.33 --key 1.17,1.21 | ~/bin/pdftohtml__adapt_left.pl | sort --key 1.29,1.33 --key 1.17,1.21
-
-;;;; not yet verified
 
 (defalias 'pdftohtml-adapt-left
    (kmacro "C-u M-| s o r t SPC - - k e y SPC 1 . 2 9 , 1 . 3 3 SPC - - k e y SPC 1 . 1 7 , 1 . 2 1 SPC | SPC ~ / b i n / p d f t o h t m l _ _ a d a p t _ l e f t . p l SPC | SPC s o r t SPC - - k e y SPC 1 . 2 9 , 1 . 3 3 SPC - - k e y SPC 1 . 1 7 , 1 . 2 1 RET"))
