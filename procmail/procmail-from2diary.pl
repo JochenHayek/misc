@@ -801,6 +801,9 @@ sub low_level_high_level_print_entry
     {
       $main::all_addresses{ $param{e_mail_address} } = 1;
 
+      $param{e_mail_address__domain_name} = $param{e_mail_address};
+      $param{e_mail_address__domain_name} =~ s/^ (?<before>.*) \@ (?<after>.*) $/$+{after}/x;
+
       print $main::fh_procmailrc <<EOF;
 
 ##shuttle-macro-begin
@@ -809,8 +812,8 @@ sub low_level_high_level_print_entry
 ##shuttle-macro:   comment => '$param{from}',
 ##shuttle-macro:   my_client_no => '', my_e_mail_address => '', my_account => '', my_password => '', my_profile => '',
 ####shuttle-macro: e_mail_address_misc_re => '.*@(|.*\.)___\.',
-####shuttle-macro: e_mail_address_list_of_domains_with_possible_wildcard_subdomain => [ '$param{e_mail_address}' ],
-####shuttle-macro: e_mail_address_list_of_simple_domains => [ '$param{e_mail_address}' ],
+####shuttle-macro: e_mail_address_list_of_domains_with_possible_wildcard_subdomain => [ '$param{e_mail_address__domain_name}' ],
+####shuttle-macro: e_mail_address_list_of_simple_domains => [ '$param{e_mail_address__domain_name}' ],
 ##shuttle-macro:   e_mail_address_list_raw => [ '$param{e_mail_address}' ],
 ##shuttle-macro:   target_folder__remote => '.folder-bulk.prio-9/',
 ####shuttle-macro: target_folder__local  => 'foo',
