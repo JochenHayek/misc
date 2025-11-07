@@ -183,4 +183,14 @@ within the Emacs buffer with "C-x h M-x indent-region":
 (defalias 'pdftohtml-adapt-left
    (kmacro "C-u M-| s o r t SPC - - k e y SPC 1 . 2 9 , 1 . 3 3 SPC - - k e y SPC 1 . 1 7 , 1 . 2 1 SPC | SPC ~ / b i n / p d f t o h t m l _ _ a d a p t _ l e f t . p l SPC | SPC s o r t SPC - - k e y SPC 1 . 2 9 , 1 . 3 3 SPC - - k e y SPC 1 . 1 7 , 1 . 2 1 RET"))
 
+;;~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__annotating_with_CAVEAT__lvalue.pl
+
+(defalias 'pdftohtml-annotating-with-CAVEAT-lvalue
+   (kmacro "C-u M-| ~ / b i n / p d f t o h t m l _ _ a n n o t a t i n g _ w i t h _ C A V E A T _ _ l v a l u e . p l RET"))
+
+;;~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__annotating_with_CAVEAT__rvalue.pl
+
+(defalias 'pdftohtml-annotating-with-CAVEAT-rvalue
+   (kmacro "C-u M-| ~ / b i n / p d f t o h t m l _ _ a n n o t a t i n g _ w i t h _ C A V E A T _ _ r v a l u e . p l RET"))
+
 ================================================================================
