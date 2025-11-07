@@ -17,6 +17,11 @@
 # $ cd ~/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles-hostsharing/
 # $ git pull
 #
+# and perhaps:
+# $ ssh -A jhk00@jhk00.hostsharing.net
+# $ cd git-servers/github.com/JochenHayek/misc/
+# $ git pull
+#
 # $ ssh -A jhk00-domains@jhk00.hostsharing.net var/log/fetchmail--restart_with_new_logfile.sh
 #
 ################################################################################
