@@ -6,6 +6,17 @@
 #
 # how to be run:
 #
+# in the IMAP folder topics-computers/admin-hostsharing/
+# from the cron mail message matching "extract_fingerprints.pl"
+# get the new fingerprint for the mail host!
+#
+# update ~/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles-hostsharing/.fetchmailrc
+# with the new fingerprint
+#
+# $ ssh -A jhk00@jhk00.hostsharing.net
+# $ cd ~/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles-hostsharing/
+# $ git pull
+#
 # $ ssh -A jhk00-domains@jhk00.hostsharing.net var/log/fetchmail--restart_with_new_logfile.sh
 #
 ################################################################################
