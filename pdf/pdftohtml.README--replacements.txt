@@ -2,7 +2,8 @@
 
 remove a weird <a> tag around silly text:
 
-  <a href="[^"]*">\([^<]*\)</a> → \1
+  <a href="\([^"]*\)">\([^<]*\)</a> → \1
+  <a href="\([^"]*\)">\([^<]*\)</a> → \2
 
   <a href="[^"]*">\(<i>[^<]*</i>\)</a> → \1
 
