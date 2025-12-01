@@ -12,15 +12,15 @@ remove "empty lines":
 
 remove a weird <a> tag around silly text:
 
-	replace by "content" of the tag:
+	replace by "href" of the tag:
 
 		<a href="\([^"]*\)">\([^<]*\)</a> → \1
 
-	replace by "href" of the tag:
+	replace by "content" of the tag:
 
 		<a href="\([^"]*\)">\([^<]*\)</a> → \2
 
-	replace by content of the tag (which is enclosed in <i>...</i>):
+	replace by "content" of the tag (which is enclosed in <i>...</i>):
 
 		<a href="\([^"]*\)">\(<i>[^<]*</i>\)</a> → \2
 
