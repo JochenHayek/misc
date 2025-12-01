@@ -188,6 +188,11 @@ within the Emacs buffer with "C-x h M-x indent-region":
 (defalias 'pdftohtml-annotating-with-CAVEAT-lvalue
    (kmacro "C-u M-| ~ / b i n / p d f t o h t m l _ _ a n n o t a t i n g _ w i t h _ C A V E A T _ _ l v a l u e . p l RET"))
 
+;;~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__annotating_with_CAVEAT__lvalue_only.pl
+
+(defalias 'pdftohtml-annotating-with-CAVEAT-lvalue-only
+   (kmacro "C-u M-| ~ / b i n / p d f t o h t m l _ _ a n n o t a t i n g _ w i t h _ C A V E A T _ _ l v a l u e _ o n l y . p l RET"))
+
 ;;~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__annotating_with_CAVEAT__rvalue.pl
 
 (defalias 'pdftohtml-annotating-with-CAVEAT-rvalue
