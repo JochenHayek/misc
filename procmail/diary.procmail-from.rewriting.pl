@@ -303,15 +303,17 @@ sub func
 
   # de.wikipedia.org
 
-  # sample:
+  # samples:
   #
   #   SUBJECT: Wikipedia-Seite Morris Wintschewski wurde von Nutzloses Wissen geändert;
+  #   SUBJECT: Wikipedia-Seite Diskussion:Tatort: Siebenschläfer wurde von temporärer Benutzer ~2025-39343-90 erstellt;
 
   #   30 Dec 2019
   #   	18:22:56 +0100 [_,not_SPF_mangled] From: ych2277a+caf_=jochen+ych2277a=hayek.name@gmail.com;
   #   		 FROM: "Wikipedia" <wiki@wikimedia.org>;
   #   		 TO: "YCH2277" <ych2277a@gmail.com>;
   #   		 SUBJECT: Wikipedia-Seite Dietmar Till wurde von Tammany2012 geändert;
+  #              SUBJECT: Wikipedia-Seite Diskussion:Tatort: Siebenschläfer wurde von temporärer Benutzer ~2025-39343-90 erstellt;
   #   		 Folder: .topics.social_networking/new/1577726579.17503_1.h20
 
   $param{rec} =~ s{
@@ -320,7 +322,7 @@ sub func
             	 From	  : \s+ (?<From>.*); \s*
                  FROM	  : \s+ (?<FROM>[^<]* .* ); \s+
                  TO       : \s* "? (?<TO_name> [^<]*? ) "? \s* < (?<TO_address>   .* ) >; \s+
-		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia-Seite \s+ (?<article>.*) \s+ wurde \s+ von \s+ (?<author>.*) \s+ ge.*ndert); \s+
+		 SUBJECT:   \s+ (?<SUBJECT>Wikipedia-Seite \s+ (?<article>.*) \s+ wurde \s+ von \s+ (?<author>.*) \s+ ( ge.*ndert | erstellt )); \s+
 		 Folder : \s+ (?<Folder>[^/]*\/\S*)
 
     }{,de.wikipedia.org,change] // wikipedia_account=>{$+{TO_name}},author=>{$+{author}},article=>{https://de.wikipedia.org/wiki/$+{article}};}gix;
