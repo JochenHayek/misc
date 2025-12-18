@@ -5,8 +5,11 @@ remove "empty lines":
 	sample:
 
 		<text  top="0842" left="0103" width="0001" height="0002" font="2"> </text>
+    		<text  top="0472" left="0446" width="0004" height="0017" font="1"><b> </b></text>
 
 	^ *<text +[^>]*> +</text>$
+
+	^ *<text +[^>]*><b> +</b></text>$
 
 ================================================================================
 
