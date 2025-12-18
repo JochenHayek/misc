@@ -6,7 +6,9 @@ s/\]/\&rbrack;/g;		# "]"
 ##s/\{/\&lcubk;/g;		# "{"
 ##s/\}/\&rcub;/g;		# "}"
 
-##s/#/\&#35;/g;		# any nicer replacement?
-s/#/\&num;/g;
+s/\</\&lt;/g;			# "<"
+s/\>/\&gt;/g;			# ">"
+
+s/#/\&num;/g;			# "#"
 
 s/\|/{{!}}/g;

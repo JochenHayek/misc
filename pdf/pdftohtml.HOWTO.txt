@@ -161,11 +161,24 @@ within the Emacs buffer with "C-x h M-x indent-region":
 ~/.emacs.d/gnu-emacs ->
 ~/git-servers/ber.jochen.hayek.name/johayek/misc/DOTfiles/.emacs.d/gnu-emacs :
 
-;;~/bin/pdftohtml__join.pl
+;; ==========
+
+;; https://emacsdocs.org/docs/emacs/Keyboard-Macros
+;; https://emacsdocs.org/docs/emacs/Save-Keyboard-Macro
+
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Keyboard-Macros.html
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Edit-Keyboard-Macro.html
+
 ;;kmacro-edit-macro
+
+;; ==========
+
+;;~/bin/pdftohtml__join.pl
 
 (defalias 'pdftohtml-join
    (kmacro "C-u <escape> | ~ / b i n / p d f t o h t m l _ _ j o i n . p l <return>"))
+
+;; ==========
 
 ;;sort --key 1.29,1.33 --key 1.17,1.21
 ;;kmacro-edit-macro
@@ -173,25 +186,35 @@ within the Emacs buffer with "C-x h M-x indent-region":
 (defalias 'pdftohtml-sort-by-column
    (kmacro "C-u M-| s o r t SPC - - k e y SPC 1 . 2 9 , 1 . 3 3 SPC - - k e y SPC 1 . 1 7 , 1 . 2 1 RET"))
 
+;; ==========
+
 ;;~/bin/pdftohtml__adapt_top.pl | sort
 
 (defalias 'pdftohtml-adapt-top
    (kmacro "C-u M-| ~ / b i n / p d f t o h t m l _ _ a d a p t _ t o p . p l SPC | SPC s o r t RET"))
+
+;; ==========
 
 ;;sort --key 1.29,1.33 --key 1.17,1.21 | ~/bin/pdftohtml__adapt_left.pl | sort --key 1.29,1.33 --key 1.17,1.21
 
 (defalias 'pdftohtml-adapt-left
    (kmacro "C-u M-| s o r t SPC - - k e y SPC 1 . 2 9 , 1 . 3 3 SPC - - k e y SPC 1 . 1 7 , 1 . 2 1 SPC | SPC ~ / b i n / p d f t o h t m l _ _ a d a p t _ l e f t . p l SPC | SPC s o r t SPC - - k e y SPC 1 . 2 9 , 1 . 3 3 SPC - - k e y SPC 1 . 1 7 , 1 . 2 1 RET"))
 
+;; ==========
+
 ;;~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__annotating_with_CAVEAT__lvalue.pl
 
 (defalias 'pdftohtml-annotating-with-CAVEAT-lvalue
    (kmacro "C-u M-| ~ / b i n / p d f t o h t m l _ _ a n n o t a t i n g _ w i t h _ C A V E A T _ _ l v a l u e . p l RET"))
 
+;; ==========
+
 ;;~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__annotating_with_CAVEAT__lvalue_only.pl
 
 (defalias 'pdftohtml-annotating-with-CAVEAT-lvalue-only
    (kmacro "C-u M-| ~ / b i n / p d f t o h t m l _ _ a n n o t a t i n g _ w i t h _ C A V E A T _ _ l v a l u e _ o n l y . p l RET"))
+
+;; ==========
 
 ;;~/git-servers/github.com/JochenHayek/misc/pdf/pdftohtml__annotating_with_CAVEAT__rvalue.pl
 
