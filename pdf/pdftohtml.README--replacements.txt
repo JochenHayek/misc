@@ -13,6 +13,22 @@ remove "empty lines":
 
 ================================================================================
 
+remove trailing space:
+
+	sample:
+
+		<text  top="0242" left="0103" width="0037" height="0018" font="3">Herrn </text>
+
+	lhs
+
+		 +</
+
+	rhs
+
+		</
+
+================================================================================
+
 remove a weird <a> tag around silly text:
 
 	replace by "href" of the tag:
@@ -37,4 +53,12 @@ sample:
 
 how to remove those CAVEAT annotations?
 
-	"	*<!-- caveat:.*-->"
+	lhs:
+
+		</text>[ 	]+<!-- CAVEAT:.*-->$
+
+	rhs:
+
+		</text>
+
+================================================================================
