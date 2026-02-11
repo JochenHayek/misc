@@ -132,16 +132,6 @@ within the Emacs buffer with "C-x h M-x indent-region":
 
 …
 
-	~/git-servers/ber.jochen.hayek.name/johayek/renaming_and_processing_various_files/___.annotating_with_CAVEAT.pl
-
-		<!-- CAVEAT: {}=>{} -->
-
-	how to remove those CAVEAT annotations?
-
-		"	*<!-- caveat:.*-->"
-
-…
-
 	pdftohtml-sort-by-column
 	sort --key 1.29,1.33 --key 1.17,1.21
 
