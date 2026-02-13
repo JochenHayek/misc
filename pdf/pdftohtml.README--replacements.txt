@@ -13,6 +13,18 @@ remove "empty lines":
 
 ================================================================================
 
+remove these "almost empty" lines:
+
+	sample:
+
+		<text  top="0137" left="0660" width="0005" height="0007" font="3">—</text>
+		<text  top="0426" left="0050" width="0000" height="0001" font="6"> </text>
+
+	^ *<text +[^>]*>—</text>$
+	^ *<text +[^>]*> </text>$
+
+================================================================================
+
 remove trailing space:
 
 	sample:
