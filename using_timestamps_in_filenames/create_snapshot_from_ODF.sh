@@ -109,7 +109,8 @@ do :
     exit 1
   fi
 
-  date=$( unzip -p "$i" meta.xml | "${xmlstarlet}" sel --template --value-of office:document-meta/office:meta/dc:date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
+##date=$( unzip -p "$i" meta.xml | "${xmlstarlet}" sel --template --value-of office:document-meta/office:meta/dc:date            | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
+  date=$( unzip -p "$i" meta.xml | "${xmlstarlet}" sel --template --value-of office:document-meta/office:meta/meta:creation-date | tr -d ':TZ-' | "${PERL}" -pe 's/^(.*)\..*$/$1/' )
 
   if test -z "$date"
   then :
