@@ -43,19 +43,50 @@ remove trailing space:
 
 remove a weird <a> tag around silly text:
 
-	replace by "href" of the tag:
+	<a href="…"><b>…</b></a>
 
-		<a href="\([^"]*\)">\([^<]*\)</a> → \1
+		replace by "href" of the tag:
 
-	replace by "content" of the tag:
+			<a href="\([^"]*\)">\(<b>[^<]*</b>\)</a> → \1
 
-		<a href="\([^"]*\)">\([^<]*\)</a> → \2
+		replace by "content" of the tag:
 
-	replace by "content" of the tag (which is enclosed in <i>...</i>):
+			<a href="\([^"]*\)">\(<b>[^<]*</b>\)</a> → \2
 
-		<a href="\([^"]*\)">\(<i>[^<]*</i>\)</a> → \2
+	==========
 
-	</i><i> → 
+	<a href="…"><i>…</i></a>
+
+		replace by "href" of the tag:
+
+			<a href="\([^"]*\)">\(<i>[^<]*</i>\)</a> → \1
+
+		replace by "content" of the tag:
+
+			<a href="\([^"]*\)">\(<i>[^<]*</i>\)</a> → \2
+
+	==========
+
+	<a href="…">…</a>
+
+		replace by "href" of the tag:
+
+			<a href="\([^"]*\)">\([^<]*\)</a> → \1
+
+			<a href="\([^"]*\)">\(.*\)</a> → \1
+
+				this deals well with markup within the "content",
+				but what, if there is more markuup after the "<a …>…</a>".
+
+				I assume, emacs regexps do not deal with "…*?" (i.e. the "?") for minimalisation of the regexp it gets applied to.
+
+		replace by "content" of the tag:
+
+			<a href="\([^"]*\)">\([^<]*\)</a> → \2
+
+			<a href="\([^"]*\)">\(.*\)</a> → \2
+
+				(see above!)
 
 ================================================================================
 
