@@ -13,7 +13,7 @@
 
       if(
 
-	      s/^( .*> <b> (?<lvalue>
+	      s/^( .*> \s* <b> (?<lvalue>
 
 		[^:<]*
 
@@ -29,7 +29,7 @@
 
       elsif(
 
-	      s/^( .*> (?<lvalue>
+	      s/^( .*> \s* (?<lvalue>
 
 		[^:<]*?
 
@@ -45,7 +45,7 @@
 
       elsif(
 
-	      s/^( .*> (?<lvalue>
+	      s/^( .*> \s* (?<lvalue>
 
 		\S+
 
@@ -64,7 +64,7 @@
 
       elsif(
 
-	      s/^( .*> <b> (?<lvalue>
+	      s/^( .*> \s* <b> (?<lvalue>
 
 		[^:<]*
 
@@ -73,7 +73,7 @@
 	{}
       elsif(
 
-	      s/^( .*> (?<lvalue>
+	      s/^( .*> \s* (?<lvalue>
 
 		[^:<]*
 
