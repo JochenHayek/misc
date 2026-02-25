@@ -81,10 +81,11 @@
 	 \s+   left="(?<left>-?\d+)" 
 	 \s+  width="(?<width>-?\d+)" 
 	 \s+ height="(?<height>-?\d+)" 
+	 \s+   font="(?<font>-?\d+)" 
 
        /
 
-	 sprintf "%s<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\"",
+	 sprintf "%s<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%02.2d\"",
 
 	   		 $+{leading_space} ,
 
@@ -97,6 +98,8 @@
 	   'width'  =>	 $+{width}  ,
 
 	   'height' =>	 $+{height} ,
+
+	   'font'  =>	 $+{font}  ,
 	   ;
 
        /ex;
@@ -135,10 +138,11 @@ exit 0;
 	 \s+   left="(?<left>-?\d+)" 
 	 \s+  width="(?<width>-?\d+)" 
 	 \s+ height="(?<height>-?\d+)" 
+	 \s+   font="(?<font>-?\d+)" 
 
        /
 
-	 sprintf "<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\"",
+	 sprintf "<%-5s %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%04.4d\" %s=\"%02.2d\"",
 		       $+{text_or_image},
 
 	 ##'top'    =>	 $+{top}    ,
@@ -150,6 +154,8 @@ exit 0;
 
 	 ##'height' =>	 $+{height} ,
 	   'height'  =>		      ( exists($ENV{HEIGHT}) ? $ENV{HEIGHT} : $+{height} )  , # new_height = $ENV{HEIGHT} resp. current_height
+
+	   'font'  =>	 $+{font}  ,
 	   ;
 
        /ex;
