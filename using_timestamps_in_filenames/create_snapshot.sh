@@ -50,6 +50,7 @@ LS=ls
 
 if false # no perl available
 then :
+else :
   if test -f 'c:/opt/tinyperl/tinyperl.exe'
   then :
     PERL='c:/opt/tinyperl/tinyperl.exe'
