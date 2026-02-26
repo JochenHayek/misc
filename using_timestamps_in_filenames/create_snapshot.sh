@@ -56,10 +56,14 @@ then :
   elif test -f 'c:/Program Files/Git/usr/bin/perl.exe'
   then :
     PERL='c:/Program Files/Git/usr/bin/perl.exe'
+  elif test -f '/usr/bin/perl'
+  then :
+    PERL=/usr/bin/perl
+  elif test -f '/bin/perl'
+  then :
+    PERL=/bin/perl
   else :
     PERL=perl
-  ##PERL=/bin/perl
-  ##PERL=/usr/bin/perl
   fi
 fi
 
