@@ -110,9 +110,11 @@
       #
       #   ^ *<text +[^>]*> *</text>$
       #   ^ *<text +[^>]*><b> *</b></text>$
+      #   ^ *<text +[^>]*><i> *</i></text>$
 
       s,^ *<text +[^>]*> *</text>$,,;
       s,^ *<text +[^>]*><b> *</b></text>$,,;
+      s,^ *<text +[^>]*><i> *</i></text>$,,;
 
       # remove trailing space:
       #
