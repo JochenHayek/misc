@@ -1,5 +1,7 @@
 :
 
+# e.g. WhatsApp Audio 2026-03-12 at 11.07.50.opus
+
 # e.g. WhatsApp_Image_2021-10-23 at 4.38.44 PM.jpeg
 
 # e.g. WhatsApp Audio 2018-12-21 at 12.30.30.mp4
@@ -13,6 +15,13 @@
 shopt -s nullglob
 
 set -x
+
+~/bin/rename -v </dev/null \
+  \
+  's/^ WhatsApp \s+ (Audio|Image|Ptt|Unknown|Video) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..?)\.(?<MM>..)\.(?<SS>..) \.(?<suffix>jpeg|mp4|ogg|opus|pdf)
+     $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
+  \
+  "$@"
 
 ~/bin/rename -v </dev/null \
   \
