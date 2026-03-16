@@ -19,11 +19,13 @@ do :
 		\
 		"${i}"
 
+	# I would really love to "sprintf" "no", so it has always 3 digits.
+
 	test -f "${i}" &&
 	~/bin/rename -v </dev/null \
 		\
 		's/^ Epson_ (?<dd>..) (?<mm>..) (?<YYYY>....) (?<HH>..) (?<MM>..)(?<SS>..) \((?<no>\d+)\)                \.(?<suffix>jpg|pdf) 
-		   $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{no}.$+{suffix}/x' \
+		   $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.00$+{no}.$+{suffix}/x' \
 		\
 		"${i}"
 
