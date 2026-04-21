@@ -3,9 +3,10 @@
 # e.g. WhatsApp Audio 2026-03-12 at 11.07.50.opus
 
 # e.g. WhatsApp_Image_2021-10-23 at 4.38.44 PM.jpeg
+# e.g. WhatsApp_Image_2016-12-21_at_13.40.40.jpeg
+# e.g. WhatsApp Image 2026-04-21 at 07.44.56.jpeg
 
 # e.g. WhatsApp Audio 2018-12-21 at 12.30.30.mp4
-# e.g. WhatsApp_Image_2016-12-21_at_13.40.40.jpeg
 # e.g. WhatsApp Ptt 2019-06-07 at 10.13.41.ogg
 # e.g. WhatsApp Unknown 2023-08-30 at 11.47.56.pdf
 # e.g. WhatsApp Video 2018-11-17 at 18.51.30.mp4
@@ -19,13 +20,6 @@ set -x
 ~/bin/rename -v </dev/null \
   \
   's/^ WhatsApp \s+ (Audio|Image|Ptt|Unknown|Video) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..?)\.(?<MM>..)\.(?<SS>..) \.(?<suffix>jpeg|mp4|ogg|opus|pdf)
-     $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
-  \
-  "$@"
-
-~/bin/rename -v </dev/null \
-  \
-  's/^ WhatsApp \s+ (Audio|Image|Ptt|Unknown|Video) \s+ (?<YYYY>....)-(?<mm>..)-(?<dd>..) \s+ at \s+ (?<HH>..?)\.(?<MM>..)\.(?<SS>..) \.(?<suffix>jpeg|mp4|ogg|pdf)
      $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
   \
   "$@"
