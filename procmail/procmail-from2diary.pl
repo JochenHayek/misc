@@ -566,7 +566,7 @@ sub high_level_print_entry
 	    ;
 	}
 
-      printf " [_,%s] %s: %s;\n" .
+      printf " [_,important,%s] %s: %s;\n" .
 	"%s%s:%s;\n" .
 	"%s%s:%s;\n" .
 	''
