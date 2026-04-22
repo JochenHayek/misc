@@ -1,6 +1,7 @@
 :
 
 # e.g.
+# signal-2026-04-20-193625_002.webp
 # signal-2021-10-20-210143.png
 # signal-2020-06-16-221716.jpeg
 # signal-2019-12-28-010316_001.mp4
@@ -13,14 +14,14 @@ set -x
 
 ~/bin/rename -v </dev/null \
   \
-  's/^ signal - (attachment-)? (?<YYYY>....)-(?<mm>..)-(?<dd>..)-(?<HH>..)(?<MM>..)(?<SS>..)                  \.(?<suffix>png|jpeg|mp4) 
+  's/^ signal - (attachment-)? (?<YYYY>....)-(?<mm>..)-(?<dd>..)-(?<HH>..)(?<MM>..)(?<SS>..)                  \.(?<suffix>png|jpeg|mp4|webp) 
      $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{suffix}/x' \
   \
   "$@"
 
 ~/bin/rename -v </dev/null \
   \
-  's/^ signal - (attachment-)? (?<YYYY>....)-(?<mm>..)-(?<dd>..)-(?<HH>..)(?<MM>..)(?<SS>..) ( _ (?<no>\d+) )?                 \.(?<suffix>png|jpeg|mp4) 
+  's/^ signal - (attachment-)? (?<YYYY>....)-(?<mm>..)-(?<dd>..)-(?<HH>..)(?<MM>..)(?<SS>..) ( _ (?<no>\d+) )?                 \.(?<suffix>png|jpeg|mp4|webp) 
      $/999990-000--$+{YYYY}$+{mm}$+{dd}$+{HH}$+{MM}$+{SS}--___.$+{no}.$+{suffix}/x' \
   \
   "$@"
