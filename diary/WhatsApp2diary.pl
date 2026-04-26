@@ -1,5 +1,9 @@
 #! /usr/bin/perl -w
 
+# e.g.:
+#
+# $ ~/bin/WhatsApp2diary.pl * > 0.diary
+
 {
   my(@short_month_names) =
     ( 'Jan','Feb','Mar','Apr','May','Jun'
