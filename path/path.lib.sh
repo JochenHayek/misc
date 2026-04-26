@@ -51,6 +51,7 @@ path_prepend()
   esac
 
   export                PATH=${dir}bin:$PATH
+  export                PATH=${dir}libexec/gnubin:$PATH
   export             MANPATH=${dir}man:${dir}share/man:$MANPATH
   export            INFOPATH=${dir}info:$INFOPATH
   export     LD_LIBRARY_PATH=${dir}lib:$LD_LIBRARY_PATH
