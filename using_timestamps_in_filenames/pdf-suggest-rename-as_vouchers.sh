@@ -25,6 +25,8 @@ if false
 then :
 elif test -e  /usr/local/xpdf-tools/bin/pdfinfo
 then  PDFINFO=/usr/local/xpdf-tools/bin/pdfinfo
+elif test -e             /opt/local/bin/pdfinfo
+then             PDFINFO=/opt/local/bin/pdfinfo
 elif test -e                /opt/sw/bin/pdfinfo
 then                PDFINFO=/opt/sw/bin/pdfinfo
 elif test -e                    /sw/bin/pdfinfo
