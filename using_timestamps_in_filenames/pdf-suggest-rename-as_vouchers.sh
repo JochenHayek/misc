@@ -74,7 +74,8 @@ then :
   "${PDFINFO}" -rawdates 1> /dev/null 2> /dev/null
   if test $? -eq 99		# if the option is available, 99 gets returned as exit code -- yes, 99 truely means, this option *is* available
   then :
-    pdfinfo_options="${pdfinfo_options} -rawdates"
+  ##pdfinfo_options="${pdfinfo_options} -rawdates"
+    pdfinfo_options="-rawdates"
   fi
   #
   # CreationDate:   D:20121116141348+01'00'
