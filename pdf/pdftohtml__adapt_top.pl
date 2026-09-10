@@ -14,7 +14,7 @@
   my($last_top) = 0;
 
 ##my($THE_delta) = 1;
-  my($THE_delta) = 12;
+  my($THE_delta) = 100;		# CAVEAT: cells can be terribly misaligned – simply use this utility in a very responsible way!
 
   while(<>)
     {
