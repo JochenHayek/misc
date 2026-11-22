@@ -456,35 +456,111 @@ sub job_anon
 	  %folder_captures  	     = ();
 	}
 
+      # procmail error output
+
+      elsif(m/^procmail: Exceeded LINEBUF$/)			# procmail: Exceeded LINEBUF
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping "Exceeded LINEBUF"'
+	    if 1;
+	}
+
+      # procmail logging output on VERBOSE=ON
+
+      elsif(m/^procmail: (Locking|Unlocking) ".+"$/)			# procmail: Unlocking "/home/pacs/jhk00/users/domains/.lockmail"
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping "Locking ..." resp. "Unlocking ..."'
+	    if 1;
+	}
+
       elsif(m/^procmail: Assigning ".+=.*"$/)			# procmail: Assigning "LOCKFILE=/home/pacs/jhk00/users/domains/.lockmail"
 	{
 	  chomp;
 
 	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
-	    ,'skipping'
+	    ,'skipping "Assigning"'
 	    if 1;
 	}
 
-      elsif(m/^procmail: Locking ".+"$/)			# procmail: Locking "/home/pacs/jhk00/users/domains/.lockmail"
+      elsif(m/^procmail: Assigning ".+=.*$/)			# procmail: Assigning "LOCKFILE=/home/pacs/jhk00/users/domains/.lockmail	// missing trailing doublequote – the trailing doublequote will come on the next line
 	{
 	  chomp;
 
 	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
-	    ,'skipping'
+	    ,'skipping "Assigning ..." / missing trailing doublequote'
 	    if 1;
 	}
 
-      elsif(m/^procmail: Executing ".+"$/)			# Executing "formail,-c,-xDate:"
+      elsif(m/^procmail: Executing ".+"$/)			# procmail: Executing "formail,-c,-xDate:"
 	{
 	  chomp;
 
 	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
-	    ,'skipping'
+	    ,'skipping "Executing ..."'
 	    if 1;
 	}
+
+      elsif(m/^procmail: No match on ".*"$/)			# procmail: No match on …
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping "No match on ..."'
+	    if 1;
+	}
+
+      elsif(m/^procmail: Match on ".*"$/)			# procmail: Match on …
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping "Match on ..."'
+	    if 1;
+	}
+
+      elsif(m/^procmail: Notified comsat: ".*"$/)			# procmail: Notified comsat: …
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping "Notified comsat: ..."'
+	    if 1;
+	}
+
+      elsif(m/^procmail: /)			# procmail: …
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping / catch all'
+	    if 1;
+	}
+
+      elsif(m/^"$/)			# left over doublequote
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping left over doublequote'
+	    if 1;
+	}
+
+      # procmail logging output on VERBOSE=ON
 
       else
 	{
