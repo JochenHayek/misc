@@ -456,6 +456,36 @@ sub job_anon
 	  %folder_captures  	     = ();
 	}
 
+      elsif(m/^procmail: Assigning ".+=.*"$/)			# procmail: Assigning "LOCKFILE=/home/pacs/jhk00/users/domains/.lockmail"
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping'
+	    if 1;
+	}
+
+      elsif(m/^procmail: Locking ".+"$/)			# procmail: Locking "/home/pacs/jhk00/users/domains/.lockmail"
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping'
+	    if 1;
+	}
+
+      elsif(m/^procmail: Executing ".+"$/)			# Executing "formail,-c,-xDate:"
+	{
+	  chomp;
+
+	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
+	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
+	    ,'skipping'
+	    if 1;
+	}
+
       else
 	{
 	  chomp;
