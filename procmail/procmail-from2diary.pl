@@ -560,7 +560,7 @@ sub job_anon
 	    if 1;
 	}
 
-      # procmail logging output on VERBOSE=ON
+      # ??? – maybe something to be taken care of individually
 
       else
 	{
@@ -568,7 +568,7 @@ sub job_anon
 
 	  printf STDERR "=%s,%03.3d,%05.5d: %s // %s\n",__FILE__,__LINE__,$.
 	     ,&main::format_key_value_list($main::std_formatting_options, '$_' => $_ )
-	    ,'unexpected format'
+	    ,'unexpected output from procmail'
 	    if 1;
 	}
     }
